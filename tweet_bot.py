@@ -18,6 +18,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from google import genai
+import requests
 import tweepy
 
 # Load environment variables from .env file in script directory
@@ -124,6 +125,49 @@ Write a short Markdown analysis (3-5 bullet points) covering:
 Keep it concise and practical. Use bullet points."""
 
 
+POLYMARKET_API_BASE = "https://gamma-api.polymarket.com/markets"
+
+CLOSING_SOON_PROMPT = """You are a prediction markets analyst. Based on the following Polymarket markets that close within 48 hours, write a single engaging tweet.
+
+Markets data:
+{markets}
+
+Tweet rules:
+- First-person voice ("I'm watching...", "These markets close soon...", "Last chance to bet on...")
+- Highlight the most interesting market and its current odds
+- Mention the urgency (closing soon)
+- Max {max_chars} characters (strictly enforced)
+- English only
+- 1-2 hashtags at the end (e.g. #Polymarket #PredictionMarkets)
+- Output only the tweet text"""
+
+TRENDING_PROMPT = """You are a prediction markets analyst. Based on today's highest-volume Polymarket markets, write a single engaging tweet.
+
+Markets data:
+{markets}
+
+Tweet rules:
+- First-person voice ("What the market is pricing in...", "Traders are piling into...", "Volume is spiking on...")
+- Highlight what's driving activity and current odds on 1-2 top markets
+- Max {max_chars} characters (strictly enforced)
+- English only
+- 1-2 hashtags at the end (e.g. #Polymarket #PredictionMarkets)
+- Output only the tweet text"""
+
+SMART_MONEY_PROMPT = """You are a prediction markets analyst. Based on Polymarket markets with significant price moves today, write a single engaging tweet signaling where smart money is moving.
+
+Markets data:
+{markets}
+
+Tweet rules:
+- First-person voice ("Smart money just moved on...", "Big price shift on Polymarket...", "Odds just shifted significantly...")
+- Explain the price move direction and magnitude
+- Max {max_chars} characters (strictly enforced)
+- English only
+- 1-2 hashtags at the end (e.g. #Polymarket #SmartMoney)
+- Output only the tweet text"""
+
+
 def call_gemini(prompt: str) -> str:
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
@@ -181,6 +225,54 @@ def load_tweet_ids() -> list[dict]:
     except (json.JSONDecodeError, OSError) as e:
         logger.warning("Could not load tweet_ids.json: %s", e)
         return []
+
+
+def fetch_polymarket_markets(params: dict) -> list[dict]:
+    """Fetch markets from Polymarket Gamma API."""
+    try:
+        resp = requests.get(POLYMARKET_API_BASE, params=params, timeout=15)
+        resp.raise_for_status()
+        return resp.json()
+    except Exception as e:
+        logger.error("Failed to fetch Polymarket data: %s", e)
+        sys.exit(1)
+
+
+def _format_market_for_prompt(market: dict) -> str:
+    """Format a single market dict into a human-readable string for prompts."""
+    question = market.get("question", "Unknown")
+
+    # Parse outcomePrices — may be a JSON string or already a list
+    raw_prices = market.get("outcomePrices", "[]")
+    if isinstance(raw_prices, str):
+        try:
+            prices = json.loads(raw_prices)
+        except (json.JSONDecodeError, ValueError):
+            prices = []
+    else:
+        prices = raw_prices
+
+    if len(prices) >= 2:
+        try:
+            yes_pct = round(float(prices[0]) * 100, 1)
+            no_pct = round(float(prices[1]) * 100, 1)
+            odds_str = f"YES {yes_pct}% / NO {no_pct}%"
+        except (ValueError, TypeError):
+            odds_str = "N/A"
+    else:
+        odds_str = "N/A"
+
+    volume = market.get("volume24hr", 0) or 0
+    price_change = market.get("oneDayPriceChange", 0) or 0
+    end_date = market.get("endDate", "Unknown")
+    if end_date and end_date != "Unknown":
+        end_date = end_date[:10]  # keep YYYY-MM-DD only
+
+    return (
+        f"- {question}\n"
+        f"  Odds: {odds_str} | 24h Volume: ${volume:,.0f} | "
+        f"Price Change: {price_change:+.1%} | Closes: {end_date}"
+    )
 
 
 def generate_tweet() -> tuple[str, str | None]:
@@ -413,6 +505,116 @@ def generate_report() -> str:
     return str(report_path)
 
 
+def post_closing_soon() -> str:
+    """Fetch markets closing within 48h with >$100k volume and post a tweet."""
+    logger.info("Fetching closing-soon markets from Polymarket...")
+    markets = fetch_polymarket_markets({
+        "closed": "false",
+        "order": "endDate",
+        "ascending": "true",
+        "limit": 20,
+    })
+
+    now = datetime.now(timezone.utc)
+    cutoff = now + timedelta(hours=48)
+
+    filtered = []
+    for m in markets:
+        end_raw = m.get("endDate", "")
+        if not end_raw:
+            continue
+        # Normalize timezone suffix: "Z" → "+00:00"
+        if end_raw.endswith("Z"):
+            end_raw = end_raw[:-1] + "+00:00"
+        try:
+            end_dt = datetime.fromisoformat(end_raw)
+        except ValueError:
+            continue
+        volume = m.get("volume24hr", 0) or 0
+        if end_dt <= cutoff and volume > 100_000:
+            filtered.append(m)
+
+    if not filtered:
+        logger.info("No closing-soon markets meeting criteria; exiting.")
+        sys.exit(0)
+
+    # Take top 3 by volume24hr
+    top3 = sorted(filtered, key=lambda m: m.get("volume24hr", 0), reverse=True)[:3]
+    markets_text = "\n".join(_format_market_for_prompt(m) for m in top3)
+
+    prompt = CLOSING_SOON_PROMPT.format(markets=markets_text, max_chars=TWEET_MAX_CHARS)
+    tweet_text = call_gemini(prompt)
+    if len(tweet_text) > TWEET_MAX_CHARS:
+        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+
+    logger.info("Posting closing-soon tweet (%d chars): %s", len(tweet_text), tweet_text)
+    tweet_id = post_tweet(tweet_text)
+    logger.info("SUCCESS — Closing-soon tweet posted (ID: %s)", tweet_id)
+    return tweet_id
+
+
+def post_trending() -> str:
+    """Fetch today's highest-volume markets and post a tweet."""
+    logger.info("Fetching trending markets from Polymarket...")
+    markets = fetch_polymarket_markets({
+        "closed": "false",
+        "order": "volume24hr",
+        "ascending": "false",
+        "limit": 10,
+    })
+
+    if not markets:
+        logger.info("No trending markets returned; exiting.")
+        sys.exit(0)
+
+    top5 = markets[:5]
+    markets_text = "\n".join(_format_market_for_prompt(m) for m in top5)
+
+    prompt = TRENDING_PROMPT.format(markets=markets_text, max_chars=TWEET_MAX_CHARS)
+    tweet_text = call_gemini(prompt)
+    if len(tweet_text) > TWEET_MAX_CHARS:
+        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+
+    logger.info("Posting trending tweet (%d chars): %s", len(tweet_text), tweet_text)
+    tweet_id = post_tweet(tweet_text)
+    logger.info("SUCCESS — Trending tweet posted (ID: %s)", tweet_id)
+    return tweet_id
+
+
+def post_smart_money() -> str:
+    """Fetch high-volume markets with >5% price change and post a tweet."""
+    logger.info("Fetching smart-money markets from Polymarket...")
+    markets = fetch_polymarket_markets({
+        "closed": "false",
+        "order": "volume24hr",
+        "ascending": "false",
+        "limit": 50,
+    })
+
+    filtered = [
+        m for m in markets
+        if abs(m.get("oneDayPriceChange", 0) or 0) > 0.05
+    ]
+
+    if not filtered:
+        logger.info("No smart-money markets with >5%% price change; exiting.")
+        sys.exit(0)
+
+    # Top 3 by absolute price change
+    top3 = sorted(filtered, key=lambda m: abs(m.get("oneDayPriceChange", 0) or 0), reverse=True)[:3]
+    markets_text = "\n".join(_format_market_for_prompt(m) for m in top3)
+
+    prompt = SMART_MONEY_PROMPT.format(markets=markets_text, max_chars=TWEET_MAX_CHARS)
+    tweet_text = call_gemini(prompt)
+    if len(tweet_text) > TWEET_MAX_CHARS:
+        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+
+    logger.info("Posting smart-money tweet (%d chars): %s", len(tweet_text), tweet_text)
+    tweet_id = post_tweet(tweet_text)
+    logger.info("SUCCESS — Smart-money tweet posted (ID: %s)", tweet_id)
+    return tweet_id
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
@@ -423,6 +625,12 @@ def main():
                        help="Generate and post a weekly crypto/prediction markets poll")
     group.add_argument("--report", action="store_true",
                        help="Generate weekly engagement report from tweet metrics")
+    group.add_argument("--closing-soon", action="store_true",
+                       help="Post about Polymarket markets closing within 48h with >$100k volume")
+    group.add_argument("--trending", action="store_true",
+                       help="Post about today's highest-volume Polymarket markets")
+    group.add_argument("--smart-money", action="store_true",
+                       help="Post about Polymarket markets with >5%% price change (smart money signal)")
     args = parser.parse_args()
 
     logger.info("=== Tweet Bot Starting ===")
@@ -441,6 +649,33 @@ def main():
                 logger.info("Report generated: %s", report_path)
         except Exception as e:
             logger.error("Failed to generate report: %s", e)
+            sys.exit(1)
+
+    elif args.closing_soon:
+        try:
+            post_closing_soon()
+        except SystemExit:
+            raise
+        except Exception as e:
+            logger.error("Failed to post closing-soon tweet: %s", e)
+            sys.exit(1)
+
+    elif args.trending:
+        try:
+            post_trending()
+        except SystemExit:
+            raise
+        except Exception as e:
+            logger.error("Failed to post trending tweet: %s", e)
+            sys.exit(1)
+
+    elif args.smart_money:
+        try:
+            post_smart_money()
+        except SystemExit:
+            raise
+        except Exception as e:
+            logger.error("Failed to post smart-money tweet: %s", e)
             sys.exit(1)
 
     else:
