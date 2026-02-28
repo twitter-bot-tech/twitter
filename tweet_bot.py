@@ -531,7 +531,7 @@ def post_closing_soon() -> str:
         except ValueError:
             continue
         volume = m.get("volume24hr", 0) or 0
-        if end_dt <= cutoff and volume > 100_000:
+        if end_dt <= cutoff and volume > 1_000:
             filtered.append(m)
 
     if not filtered:
