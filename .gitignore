@@ -1,0 +1,5 @@
+.env
+chart.png
+logs/
+__pycache__/
+*.pyc
