@@ -238,6 +238,25 @@ def fetch_polymarket_markets(params: dict) -> list[dict]:
         sys.exit(1)
 
 
+def download_market_image(market: dict) -> str | None:
+    """Download the market image to a temp file. Returns local path or None."""
+    url = market.get("image", "")
+    if not url:
+        return None
+    try:
+        ext = ".jpg" if url.lower().endswith(".jpg") else ".png"
+        local_path = str(script_dir / f"market_image{ext}")
+        resp = requests.get(url, timeout=15)
+        resp.raise_for_status()
+        with open(local_path, "wb") as f:
+            f.write(resp.content)
+        logger.info("Downloaded market image: %s", url)
+        return local_path
+    except Exception as e:
+        logger.warning("Could not download market image: %s", e)
+        return None
+
+
 def _format_market_for_prompt(market: dict) -> str:
     """Format a single market dict into a human-readable string for prompts."""
     question = market.get("question", "Unknown")
@@ -547,8 +566,9 @@ def post_closing_soon() -> str:
     if len(tweet_text) > TWEET_MAX_CHARS:
         tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
 
+    image_path = download_market_image(top3[0])
     logger.info("Posting closing-soon tweet (%d chars): %s", len(tweet_text), tweet_text)
-    tweet_id = post_tweet(tweet_text)
+    tweet_id = post_tweet(tweet_text, image_path)
     logger.info("SUCCESS — Closing-soon tweet posted (ID: %s)", tweet_id)
     return tweet_id
 
@@ -575,8 +595,9 @@ def post_trending() -> str:
     if len(tweet_text) > TWEET_MAX_CHARS:
         tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
 
+    image_path = download_market_image(top5[0])
     logger.info("Posting trending tweet (%d chars): %s", len(tweet_text), tweet_text)
-    tweet_id = post_tweet(tweet_text)
+    tweet_id = post_tweet(tweet_text, image_path)
     logger.info("SUCCESS — Trending tweet posted (ID: %s)", tweet_id)
     return tweet_id
 
@@ -609,8 +630,9 @@ def post_smart_money() -> str:
     if len(tweet_text) > TWEET_MAX_CHARS:
         tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
 
+    image_path = download_market_image(top3[0])
     logger.info("Posting smart-money tweet (%d chars): %s", len(tweet_text), tweet_text)
-    tweet_id = post_tweet(tweet_text)
+    tweet_id = post_tweet(tweet_text, image_path)
     logger.info("SUCCESS — Smart-money tweet posted (ID: %s)", tweet_id)
     return tweet_id
 
