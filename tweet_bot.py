@@ -13,9 +13,11 @@ import logging
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.dates
 from dotenv import load_dotenv
 from google import genai
 import requests
@@ -238,23 +240,154 @@ def fetch_polymarket_markets(params: dict) -> list[dict]:
         sys.exit(1)
 
 
-def download_market_image(market: dict) -> str | None:
-    """Download the market image to a temp file. Returns local path or None."""
-    url = market.get("image", "")
-    if not url:
-        return None
+def create_market_chart(market: dict) -> str | None:
+    """Create a Polymarket-style betting card (thumbnail + gauge + YES/NO buttons)."""
+    import io
+    from matplotlib.patches import FancyBboxPatch, Wedge
+    from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+
+    # Parse YES probability
+    raw_prices = market.get("outcomePrices", "[]")
+    if isinstance(raw_prices, str):
+        try:
+            prices = json.loads(raw_prices)
+        except Exception:
+            prices = []
+    else:
+        prices = raw_prices
     try:
-        ext = ".jpg" if url.lower().endswith(".jpg") else ".png"
-        local_path = str(script_dir / f"market_image{ext}")
-        resp = requests.get(url, timeout=15)
-        resp.raise_for_status()
-        with open(local_path, "wb") as f:
-            f.write(resp.content)
-        logger.info("Downloaded market image: %s", url)
-        return local_path
-    except Exception as e:
-        logger.warning("Could not download market image: %s", e)
-        return None
+        yes_pct = round(float(prices[0]) * 100, 1) if prices else 50.0
+    except (ValueError, TypeError):
+        yes_pct = 50.0
+
+    volume = market.get("volume24hr", 0) or 0
+    question = market.get("question", "")
+    image_url = market.get("image", "")
+
+    # Volume string
+    if volume >= 1_000_000:
+        vol_str = f"${volume / 1_000_000:.1f}M"
+    elif volume >= 1_000:
+        vol_str = f"${volume / 1_000:.0f}K"
+    else:
+        vol_str = f"${volume:.0f}"
+
+    # Download market thumbnail
+    thumb_img = None
+    if image_url:
+        try:
+            r = requests.get(image_url, timeout=10)
+            r.raise_for_status()
+            ext = "jpg" if image_url.lower().endswith(".jpg") else "png"
+            tmp = str(script_dir / f"_thumb.{ext}")
+            with open(tmp, "wb") as f:
+                f.write(r.content)
+            thumb_img = plt.imread(tmp)
+        except Exception as e:
+            logger.warning("Could not download thumbnail: %s", e)
+
+    # Colors
+    OUTER_BG = "#F5F5F7"
+    CARD_BG   = "white"
+    GREEN     = "#4CAF50"
+    RED_BG    = "#FFEBEE"
+    RED_TEXT  = "#E53935"
+    GOLD      = "#F5A623"
+    TEXT_DARK = "#111111"
+    TEXT_GRAY = "#999999"
+    GAUGE_BG  = "#E8E8E8"
+    gauge_color = GREEN if yes_pct >= 50 else RED_TEXT
+
+    fig = plt.figure(figsize=(8, 4.0), facecolor=OUTER_BG)
+    ax = fig.add_axes([0.025, 0.04, 0.95, 0.93])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis("off")
+
+    # Card background
+    ax.add_patch(FancyBboxPatch(
+        (0, 0), 10, 6, boxstyle="round,pad=0.05",
+        facecolor=CARD_BG, edgecolor="#DDDDDD", linewidth=1.5, zorder=0,
+    ))
+
+    # Thumbnail (small square, top-left)
+    if thumb_img is not None:
+        imagebox = OffsetImage(thumb_img, zoom=0.22)
+        ab = AnnotationBbox(
+            imagebox, (0.85, 4.7), frameon=True, pad=0.04,
+            bboxprops=dict(edgecolor="#DDDDDD", facecolor="white",
+                           linewidth=0.5, boxstyle="round,pad=0.04"),
+            zorder=2,
+        )
+        ax.add_artist(ab)
+
+    # Question text (word-wrap ~38 chars per line, max 3 lines)
+    words = question.split()
+    lines, current = [], ""
+    for word in words:
+        test = (current + " " + word).strip()
+        if len(test) > 38:
+            if current:
+                lines.append(current)
+            current = word
+        else:
+            current = test
+    if current:
+        lines.append(current)
+    y_q = 5.25
+    for line in lines[:3]:
+        ax.text(2.1, y_q, line, fontsize=10.5, fontweight="bold",
+                color=TEXT_DARK, va="top", zorder=3)
+        y_q -= 0.75
+
+    # Gauge semicircle
+    gx, gy = 8.4, 4.1
+    gr_out, gr_in = 1.05, 0.68
+
+    # Background arc
+    ax.add_patch(Wedge((gx, gy), gr_out, 0, 180,
+                       width=gr_out - gr_in, facecolor=GAUGE_BG, edgecolor="none", zorder=1))
+    # YES colored arc (fills from left at 180° proportionally right)
+    if yes_pct > 0:
+        end_angle = 180 - (yes_pct / 100) * 180
+        ax.add_patch(Wedge((gx, gy), gr_out, end_angle, 180,
+                           width=gr_out - gr_in, facecolor=gauge_color, edgecolor="none", zorder=2))
+    ax.text(gx, gy - 0.15, f"{yes_pct:.0f}%",
+            fontsize=13, fontweight="bold", color=gauge_color,
+            ha="center", va="center", zorder=3)
+    ax.text(gx, gy - 0.72, "YES",
+            fontsize=8.5, color=TEXT_GRAY, ha="center", va="center", zorder=3)
+
+    # Divider
+    ax.plot([0.3, 9.7], [2.55, 2.55], color="#EEEEEE", linewidth=1, zorder=1)
+
+    # YES button
+    ax.add_patch(FancyBboxPatch(
+        (0.3, 1.55), 4.35, 0.88, boxstyle="round,pad=0.1",
+        facecolor=GREEN, edgecolor="none", zorder=2,
+    ))
+    ax.text(2.475, 1.99, "YES", fontsize=12, fontweight="bold",
+            color="white", ha="center", va="center", zorder=3)
+
+    # NO button
+    ax.add_patch(FancyBboxPatch(
+        (5.35, 1.55), 4.35, 0.88, boxstyle="round,pad=0.1",
+        facecolor=RED_BG, edgecolor="none", zorder=2,
+    ))
+    ax.text(7.525, 1.99, "NO", fontsize=12, fontweight="bold",
+            color=RED_TEXT, ha="center", va="center", zorder=3)
+
+    # Bottom bar
+    ax.text(0.4, 0.82, f"\u2736 Latest  \u00b7  {vol_str} Volume",
+            fontsize=8.5, color=GOLD, va="center", zorder=3)
+    ax.text(9.6, 0.82, "polymarket.com",
+            fontsize=8, color=TEXT_GRAY, ha="right", va="center", style="italic", zorder=3)
+
+    chart_path = str(script_dir / "market_chart.png")
+    plt.savefig(chart_path, dpi=150, bbox_inches="tight", facecolor=OUTER_BG)
+    plt.close()
+    logger.info("Market card saved: %s", chart_path)
+    return chart_path
 
 
 def _format_market_for_prompt(market: dict) -> str:
@@ -566,7 +699,7 @@ def post_closing_soon() -> str:
     if len(tweet_text) > TWEET_MAX_CHARS:
         tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
 
-    image_path = download_market_image(top3[0])
+    image_path = create_market_chart(top3[0])
     logger.info("Posting closing-soon tweet (%d chars): %s", len(tweet_text), tweet_text)
     tweet_id = post_tweet(tweet_text, image_path)
     logger.info("SUCCESS — Closing-soon tweet posted (ID: %s)", tweet_id)
@@ -595,7 +728,7 @@ def post_trending() -> str:
     if len(tweet_text) > TWEET_MAX_CHARS:
         tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
 
-    image_path = download_market_image(top5[0])
+    image_path = create_market_chart(top5[0])
     logger.info("Posting trending tweet (%d chars): %s", len(tweet_text), tweet_text)
     tweet_id = post_tweet(tweet_text, image_path)
     logger.info("SUCCESS — Trending tweet posted (ID: %s)", tweet_id)
@@ -630,7 +763,7 @@ def post_smart_money() -> str:
     if len(tweet_text) > TWEET_MAX_CHARS:
         tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
 
-    image_path = download_market_image(top3[0])
+    image_path = create_market_chart(top3[0])
     logger.info("Posting smart-money tweet (%d chars): %s", len(tweet_text), tweet_text)
     tweet_id = post_tweet(tweet_text, image_path)
     logger.info("SUCCESS — Smart-money tweet posted (ID: %s)", tweet_id)
