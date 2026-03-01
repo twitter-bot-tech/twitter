@@ -36,7 +36,6 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
         logging.FileHandler(log_file),
-        logging.StreamHandler(sys.stdout),
     ],
 )
 logger = logging.getLogger(__name__)
@@ -298,35 +297,36 @@ def create_market_chart(market: dict) -> str | None:
     GAUGE_BG  = "#E8E8E8"
     gauge_color = GREEN if yes_pct >= 50 else RED_TEXT
 
-    fig = plt.figure(figsize=(8, 4.0), facecolor=OUTER_BG)
-    ax = fig.add_axes([0.025, 0.04, 0.95, 0.93])
+    # Fixed pixel output: 1200×628 (Twitter-friendly 1.91:1)
+    fig = plt.figure(figsize=(8, 4.187), facecolor=OUTER_BG)
+    ax = fig.add_axes([0.02, 0.03, 0.96, 0.94])
     ax.set_xlim(0, 10)
-    ax.set_ylim(0, 6)
+    ax.set_ylim(0, 5.5)
     ax.axis("off")
 
     # Card background
     ax.add_patch(FancyBboxPatch(
-        (0, 0), 10, 6, boxstyle="round,pad=0.05",
+        (0, 0), 10, 5.5, boxstyle="round,pad=0.05",
         facecolor=CARD_BG, edgecolor="#DDDDDD", linewidth=1.5, zorder=0,
     ))
 
-    # Thumbnail (small square, top-left)
+    # Thumbnail
     if thumb_img is not None:
-        imagebox = OffsetImage(thumb_img, zoom=0.22)
+        imagebox = OffsetImage(thumb_img, zoom=0.17)
         ab = AnnotationBbox(
-            imagebox, (0.85, 4.7), frameon=True, pad=0.04,
+            imagebox, (0.85, 4.2), frameon=True, pad=0.04,
             bboxprops=dict(edgecolor="#DDDDDD", facecolor="white",
                            linewidth=0.5, boxstyle="round,pad=0.04"),
             zorder=2,
         )
         ax.add_artist(ab)
 
-    # Question text (word-wrap ~38 chars per line, max 3 lines)
+    # Question text (word-wrap ~42 chars per line, max 3 lines)
     words = question.split()
     lines, current = [], ""
     for word in words:
         test = (current + " " + word).strip()
-        if len(test) > 38:
+        if len(test) > 42:
             if current:
                 lines.append(current)
             current = word
@@ -334,54 +334,52 @@ def create_market_chart(market: dict) -> str | None:
             current = test
     if current:
         lines.append(current)
-    y_q = 5.25
+    y_q = 4.9
     for line in lines[:3]:
         ax.text(2.1, y_q, line, fontsize=10.5, fontweight="bold",
                 color=TEXT_DARK, va="top", zorder=3)
-        y_q -= 0.75
+        y_q -= 0.46
 
-    # Gauge semicircle
-    gx, gy = 8.4, 4.1
-    gr_out, gr_in = 1.05, 0.68
+    # Gauge semicircle (right side, vertically centered with text)
+    gx, gy = 8.4, 4.2
+    gr_out, gr_in = 0.85, 0.53
 
-    # Background arc
     ax.add_patch(Wedge((gx, gy), gr_out, 0, 180,
                        width=gr_out - gr_in, facecolor=GAUGE_BG, edgecolor="none", zorder=1))
-    # YES colored arc (fills from left at 180° proportionally right)
     if yes_pct > 0:
         end_angle = 180 - (yes_pct / 100) * 180
         ax.add_patch(Wedge((gx, gy), gr_out, end_angle, 180,
                            width=gr_out - gr_in, facecolor=gauge_color, edgecolor="none", zorder=2))
-    ax.text(gx, gy - 0.15, f"{yes_pct:.0f}%",
+    ax.text(gx, gy - 0.18, f"{yes_pct:.0f}%",
             fontsize=13, fontweight="bold", color=gauge_color,
             ha="center", va="center", zorder=3)
-    ax.text(gx, gy - 0.72, "YES",
-            fontsize=8.5, color=TEXT_GRAY, ha="center", va="center", zorder=3)
+    ax.text(gx, gy - 0.62, "YES",
+            fontsize=9, color=TEXT_GRAY, ha="center", va="center", zorder=3)
 
-    # Divider
-    ax.plot([0.3, 9.7], [2.55, 2.55], color="#EEEEEE", linewidth=1, zorder=1)
+    # Divider (just below gauge bottom and text)
+    ax.plot([0.3, 9.7], [3.15, 3.15], color="#EEEEEE", linewidth=1, zorder=1)
 
     # YES button
     ax.add_patch(FancyBboxPatch(
-        (0.3, 1.55), 4.35, 0.88, boxstyle="round,pad=0.1",
+        (0.3, 2.0), 4.35, 0.95, boxstyle="round,pad=0.1",
         facecolor=GREEN, edgecolor="none", zorder=2,
     ))
-    ax.text(2.475, 1.99, "YES", fontsize=12, fontweight="bold",
+    ax.text(2.475, 2.47, "YES", fontsize=12, fontweight="bold",
             color="white", ha="center", va="center", zorder=3)
 
     # NO button
     ax.add_patch(FancyBboxPatch(
-        (5.35, 1.55), 4.35, 0.88, boxstyle="round,pad=0.1",
+        (5.35, 2.0), 4.35, 0.95, boxstyle="round,pad=0.1",
         facecolor=RED_BG, edgecolor="none", zorder=2,
     ))
-    ax.text(7.525, 1.99, "NO", fontsize=12, fontweight="bold",
+    ax.text(7.525, 2.47, "NO", fontsize=12, fontweight="bold",
             color=RED_TEXT, ha="center", va="center", zorder=3)
 
     # Bottom bar
-    ax.text(0.4, 0.82, f"\u2736 Latest  \u00b7  {vol_str} Volume",
-            fontsize=8.5, color=GOLD, va="center", zorder=3)
-    ax.text(9.6, 0.82, "polymarket.com",
-            fontsize=8, color=TEXT_GRAY, ha="right", va="center", style="italic", zorder=3)
+    ax.text(0.4, 0.85, f"\u2736 Latest  \u00b7  {vol_str} Volume",
+            fontsize=9, color=GOLD, va="center", zorder=3)
+    ax.text(9.6, 0.85, "polymarket.com",
+            fontsize=8.5, color=TEXT_GRAY, ha="right", va="center", style="italic", zorder=3)
 
     chart_path = str(script_dir / "market_chart.png")
     plt.savefig(chart_path, dpi=150, bbox_inches="tight", facecolor=OUTER_BG)
