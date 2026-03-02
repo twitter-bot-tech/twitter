@@ -7,6 +7,7 @@ Supports weekly polls and weekly analytics reports.
 from __future__ import annotations
 
 import os
+import re
 import sys
 import json
 import logging
@@ -67,7 +68,13 @@ Style rules:
 - Start with "I", "Been thinking", "Hot take:", "IMO", "One thing I keep coming back to", etc.
 - Maximum {max_chars} characters (strictly enforced)
 - English only
-- 1-2 hashtags max, placed naturally at the end
+- 1-2 hashtags max on the last line
+- Use line breaks to separate ideas. Format:
+  Line 1: Hook or main point
+  (blank line)
+  Line 2-3: Supporting detail or context
+  (blank line)
+  Last line: hashtags
 - Output only the tweet text""".format(max_chars=TWEET_MAX_CHARS)
 
 COMPARISON_PROMPT = """Generate a prediction market platform comparison tweet WITH chart data.
@@ -75,7 +82,7 @@ Write the tweet from a first-person researcher/participant perspective.
 
 Return ONLY valid JSON in this exact format (no markdown, no extra text):
 {{
-  "tweet": "Tweet text here (max {max_chars} chars, first-person sharing voice, 1-2 hashtags at end)",
+  "tweet": "Tweet text here (max {max_chars} chars, first-person sharing voice, use \\n for line breaks, 1-2 hashtags on last line)",
   "chart_title": "Short chart title",
   "metric": "The metric being compared (e.g. Monthly Volume, Active Markets, User Base)",
   "platforms": ["Polymarket", "Kalshi", "Manifold", "PredictIt"],
@@ -139,7 +146,12 @@ Tweet rules:
 - Mention the urgency (closing soon)
 - Max {max_chars} characters (strictly enforced)
 - English only
-- 1-2 hashtags at the end (e.g. #Polymarket #PredictionMarkets)
+- Use line breaks to separate ideas. Format:
+  Line 1: Hook — urgency or most interesting market
+  (blank line)
+  Line 2-3: Odds and key details
+  (blank line)
+  Last line: 1-2 hashtags (e.g. #Polymarket #PredictionMarkets)
 - Output only the tweet text"""
 
 TRENDING_PROMPT = """You are a prediction markets analyst. Based on today's highest-volume Polymarket markets, write a single engaging tweet.
@@ -152,7 +164,12 @@ Tweet rules:
 - Highlight what's driving activity and current odds on 1-2 top markets
 - Max {max_chars} characters (strictly enforced)
 - English only
-- 1-2 hashtags at the end (e.g. #Polymarket #PredictionMarkets)
+- Use line breaks to separate ideas. Format:
+  Line 1: Hook — what's trending or driving volume
+  (blank line)
+  Line 2-3: Key odds and market details
+  (blank line)
+  Last line: 1-2 hashtags (e.g. #Polymarket #PredictionMarkets)
 - Output only the tweet text"""
 
 SMART_MONEY_PROMPT = """You are a prediction markets analyst. Based on Polymarket markets with significant price moves today, write a single engaging tweet signaling where smart money is moving.
@@ -165,8 +182,31 @@ Tweet rules:
 - Explain the price move direction and magnitude
 - Max {max_chars} characters (strictly enforced)
 - English only
-- 1-2 hashtags at the end (e.g. #Polymarket #SmartMoney)
+- Use line breaks to separate ideas. Format:
+  Line 1: Hook — the signal or price move
+  (blank line)
+  Line 2-3: Which market, direction, magnitude
+  (blank line)
+  Last line: 1-2 hashtags (e.g. #Polymarket #SmartMoney)
 - Output only the tweet text"""
+
+
+def _ensure_line_breaks(text: str) -> str:
+    """若推文没有换行符，在句子边界自动插入换行。"""
+    if '\n' in text:
+        return re.sub(r'\n{3,}', '\n\n', text).strip()
+    text = re.sub(r'([.!?])\s+([A-Z#"\'$])', r'\1\n\2', text)
+    return text.strip()
+
+
+def _truncate_tweet(text: str, max_chars: int = TWEET_MAX_CHARS) -> str:
+    """截断推文，优先在换行处截断保留完整的行。"""
+    if len(text) <= max_chars:
+        return text
+    truncated = text[:max_chars].rsplit('\n', 1)[0]
+    if len(truncated) > 10:
+        return truncated.strip()
+    return text[:max_chars].rsplit(' ', 1)[0].strip()
 
 
 def call_gemini(prompt: str) -> str:
@@ -239,13 +279,47 @@ def fetch_polymarket_markets(params: dict) -> list[dict]:
         sys.exit(1)
 
 
-def create_market_chart(market: dict) -> str | None:
-    """Create a Polymarket-style betting card (thumbnail + gauge + YES/NO buttons)."""
-    import io
-    from matplotlib.patches import FancyBboxPatch, Wedge
-    from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+def _fetch_price_history(market: dict, days: int = 14) -> list[dict]:
+    """Fetch YES price history from Polymarket CLOB API (max 14 days, hourly).
+    Returns list of {t: unix_ts, p: 0-1 price} or [] on failure.
+    """
+    clob_ids_raw = market.get("clobTokenIds", "[]") or "[]"
+    if isinstance(clob_ids_raw, str):
+        try:
+            clob_ids = json.loads(clob_ids_raw)
+        except Exception:
+            clob_ids = []
+    else:
+        clob_ids = list(clob_ids_raw)
 
-    # Parse YES probability
+    token_id = clob_ids[0] if clob_ids else ""
+    if not token_id:
+        return []
+
+    import time as _time
+    now = int(_time.time())
+    start = now - days * 24 * 3600
+    try:
+        resp = requests.get(
+            "https://clob.polymarket.com/prices-history",
+            params={"market": token_id, "startTs": start, "endTs": now, "fidelity": 60},
+            timeout=12,
+        )
+        if resp.status_code == 200:
+            pts = resp.json().get("history", [])
+            logger.info("Fetched %d price history points for market", len(pts))
+            return pts
+    except Exception as exc:
+        logger.warning("Price history fetch failed: %s", exc)
+    return []
+
+
+def create_market_chart(market: dict) -> str | None:
+    """Create a Probable.Markets-style card: header + big probability + line chart."""
+    from matplotlib.patches import FancyBboxPatch
+    import matplotlib.dates as mdates
+
+    # ── Parse market data ─────────────────────────────────────────────────────
     raw_prices = market.get("outcomePrices", "[]")
     if isinstance(raw_prices, str):
         try:
@@ -260,18 +334,17 @@ def create_market_chart(market: dict) -> str | None:
         yes_pct = 50.0
 
     volume = market.get("volume24hr", 0) or 0
-    question = market.get("question", "")
-    image_url = market.get("image", "")
-
-    # Volume string
     if volume >= 1_000_000:
-        vol_str = f"${volume / 1_000_000:.1f}M"
+        vol_str = f"${volume / 1_000_000:.2f}M"
     elif volume >= 1_000:
         vol_str = f"${volume / 1_000:.0f}K"
     else:
         vol_str = f"${volume:.0f}"
 
-    # Download market thumbnail
+    question = market.get("question", "")
+    image_url = market.get("image", "")
+
+    # ── Download thumbnail ────────────────────────────────────────────────────
     thumb_img = None
     if image_url:
         try:
@@ -283,104 +356,113 @@ def create_market_chart(market: dict) -> str | None:
                 f.write(r.content)
             thumb_img = plt.imread(tmp)
         except Exception as e:
-            logger.warning("Could not download thumbnail: %s", e)
+            logger.warning("Thumbnail download failed: %s", e)
 
-    # Colors
-    OUTER_BG = "#F5F5F7"
-    CARD_BG   = "white"
-    GREEN     = "#4CAF50"
-    RED_BG    = "#FFEBEE"
-    RED_TEXT  = "#E53935"
-    GOLD      = "#F5A623"
-    TEXT_DARK = "#111111"
-    TEXT_GRAY = "#999999"
-    GAUGE_BG  = "#E8E8E8"
-    gauge_color = GREEN if yes_pct >= 50 else RED_TEXT
+    # ── Fetch price history ───────────────────────────────────────────────────
+    history_pts = _fetch_price_history(market)
 
-    # Fixed pixel output: 1200×628 (Twitter-friendly 1.91:1)
+    # ── Colors (Probable.Markets inspired) ───────────────────────────────────
+    OUTER_BG  = "#F0F0F8"
+    CARD_BG   = "#FFFFFF"
+    HEADER_BG = "#F6F6FB"
+    INDIGO    = "#4C47D6"
+    TEXT_DARK = "#0D0D1A"
+    TEXT_MID  = "#44446A"
+    TEXT_GRAY = "#AAAACC"
+    GRID_CLR  = "#EFEFEF"
+
+    # ── Figure ───────────────────────────────────────────────────────────────
     fig = plt.figure(figsize=(8, 4.187), facecolor=OUTER_BG)
-    ax = fig.add_axes([0.02, 0.03, 0.96, 0.94])
+    ax = fig.add_axes([0.025, 0.04, 0.95, 0.92])
     ax.set_xlim(0, 10)
-    ax.set_ylim(0, 5.5)
+    ax.set_ylim(0, 6)
     ax.axis("off")
 
     # Card background
     ax.add_patch(FancyBboxPatch(
-        (0, 0), 10, 5.5, boxstyle="round,pad=0.05",
-        facecolor=CARD_BG, edgecolor="#DDDDDD", linewidth=1.5, zorder=0,
+        (0, 0), 10, 6, boxstyle="round,pad=0.08",
+        facecolor=CARD_BG, edgecolor="#DDDDF0", linewidth=1.2, zorder=0,
     ))
 
-    # Thumbnail
+    # ── Top header bar ────────────────────────────────────────────────────────
+    ax.add_patch(FancyBboxPatch(
+        (0.2, 5.05), 9.6, 0.82, boxstyle="round,pad=0.06",
+        facecolor=HEADER_BG, edgecolor="#E4E4F0", linewidth=0.8, zorder=1,
+    ))
+
+    # Thumbnail in header (small, fixed-size inset)
     if thumb_img is not None:
-        imagebox = OffsetImage(thumb_img, zoom=0.17)
-        ab = AnnotationBbox(
-            imagebox, (0.85, 4.2), frameon=True, pad=0.04,
-            bboxprops=dict(edgecolor="#DDDDDD", facecolor="white",
-                           linewidth=0.5, boxstyle="round,pad=0.04"),
-            zorder=2,
-        )
-        ax.add_artist(ab)
+        ax_t = ax.inset_axes([0.04, 0.873, 0.072, 0.118])
+        ax_t.imshow(thumb_img, aspect="auto")
+        ax_t.axis("off")
 
-    # Question text (word-wrap ~42 chars per line, max 3 lines)
-    words = question.split()
-    lines, current = [], ""
-    for word in words:
-        test = (current + " " + word).strip()
-        if len(test) > 42:
-            if current:
-                lines.append(current)
-            current = word
-        else:
-            current = test
-    if current:
-        lines.append(current)
-    y_q = 4.9
-    for line in lines[:3]:
-        ax.text(2.1, y_q, line, fontsize=10.5, fontweight="bold",
-                color=TEXT_DARK, va="top", zorder=3)
-        y_q -= 0.46
+    # Question text
+    q_short = (question[:62] + "…") if len(question) > 62 else question
+    ax.text(1.25, 5.46, q_short, fontsize=8.5, fontweight="bold",
+            color=TEXT_DARK, va="center", zorder=2)
 
-    # Gauge semicircle (right side, vertically centered with text)
-    gx, gy = 8.4, 4.2
-    gr_out, gr_in = 0.85, 0.53
+    # Link icon
+    ax.text(9.55, 5.46, "⊞", fontsize=10, color=TEXT_GRAY,
+            ha="right", va="center", zorder=2)
 
-    ax.add_patch(Wedge((gx, gy), gr_out, 0, 180,
-                       width=gr_out - gr_in, facecolor=GAUGE_BG, edgecolor="none", zorder=1))
-    if yes_pct > 0:
-        end_angle = 180 - (yes_pct / 100) * 180
-        ax.add_patch(Wedge((gx, gy), gr_out, end_angle, 180,
-                           width=gr_out - gr_in, facecolor=gauge_color, edgecolor="none", zorder=2))
-    ax.text(gx, gy - 0.18, f"{yes_pct:.0f}%",
-            fontsize=13, fontweight="bold", color=gauge_color,
-            ha="center", va="center", zorder=3)
-    ax.text(gx, gy - 0.62, "YES",
-            fontsize=9, color=TEXT_GRAY, ha="center", va="center", zorder=3)
+    # ── Probability headline ──────────────────────────────────────────────────
+    ax.text(0.45, 4.55, f"{yes_pct:.1f}%", fontsize=26, fontweight="bold",
+            color=TEXT_DARK, va="center", zorder=2)
+    ax.text(3.05, 4.55, "Probability", fontsize=10.5,
+            color=TEXT_MID, va="center", style="italic", zorder=2)
 
-    # Divider (just below gauge bottom and text)
-    ax.plot([0.3, 9.7], [3.15, 3.15], color="#EEEEEE", linewidth=1, zorder=1)
+    # Volume + watermark
+    ax.text(0.45, 4.05, f"{vol_str} VOL", fontsize=8.5,
+            color=TEXT_GRAY, va="center", zorder=2)
+    ax.text(3.5, 4.05, "◎  Polymarket", fontsize=8,
+            color="#CCCCDD", va="center", style="italic", zorder=2)
 
-    # YES button
-    ax.add_patch(FancyBboxPatch(
-        (0.3, 2.0), 4.35, 0.95, boxstyle="round,pad=0.1",
-        facecolor=GREEN, edgecolor="none", zorder=2,
-    ))
-    ax.text(2.475, 2.47, "YES", fontsize=12, fontweight="bold",
-            color="white", ha="center", va="center", zorder=3)
+    # ── Line chart (inset axes) ───────────────────────────────────────────────
+    ax_chart = ax.inset_axes([0.04, 0.155, 0.92, 0.49])
+    ax_chart.set_facecolor(CARD_BG)
+    for spine in ax_chart.spines.values():
+        spine.set_visible(False)
 
-    # NO button
-    ax.add_patch(FancyBboxPatch(
-        (5.35, 2.0), 4.35, 0.95, boxstyle="round,pad=0.1",
-        facecolor=RED_BG, edgecolor="none", zorder=2,
-    ))
-    ax.text(7.525, 2.47, "NO", fontsize=12, fontweight="bold",
-            color=RED_TEXT, ha="center", va="center", zorder=3)
+    if history_pts:
+        xs = [datetime.fromtimestamp(p["t"], tz=timezone.utc) for p in history_pts]
+        ys = [float(p["p"]) * 100 for p in history_pts]
+    else:
+        # Flat line at current probability when no history is available
+        now_dt = datetime.now(timezone.utc)
+        xs = [now_dt - timedelta(days=14), now_dt]
+        ys = [yes_pct, yes_pct]
 
-    # Bottom bar
-    ax.text(0.4, 0.85, f"\u2736 Latest  \u00b7  {vol_str} Volume",
-            fontsize=9, color=GOLD, va="center", zorder=3)
-    ax.text(9.6, 0.85, "polymarket.com",
-            fontsize=8.5, color=TEXT_GRAY, ha="right", va="center", style="italic", zorder=3)
+    ax_chart.plot(xs, ys, color=INDIGO, linewidth=2.2,
+                  solid_capstyle="round", solid_joinstyle="round")
+    ax_chart.fill_between(xs, ys, alpha=0.07, color=INDIGO)
 
+    ax_chart.set_ylim(-5, 115)
+    ax_chart.yaxis.set_label_position("right")
+    ax_chart.yaxis.tick_right()
+    ax_chart.set_yticks([0, 25, 50, 75, 100])
+    ax_chart.set_yticklabels(["0%", "25%", "50%", "75%", "100%"],
+                              fontsize=7.5, color=TEXT_GRAY)
+    ax_chart.tick_params(axis="y", length=0, pad=4)
+
+    ax_chart.xaxis.set_major_formatter(mdates.DateFormatter("%-m/%-d"))
+    ax_chart.xaxis.set_major_locator(mdates.AutoDateLocator())
+    ax_chart.tick_params(axis="x", labelsize=7.5, colors=TEXT_GRAY, length=0, pad=4)
+
+    ax_chart.yaxis.grid(True, color=GRID_CLR, linewidth=0.7, linestyle="-")
+    ax_chart.set_axisbelow(True)
+
+    # ── Bottom time-period tabs ───────────────────────────────────────────────
+    for i, label in enumerate(["1H", "6H", "1D", "1W", "1M", "All"]):
+        x = 0.9 + i * 1.45
+        active = (label == "All")
+        ax.text(x, 0.48, label, fontsize=8, ha="center", va="center",
+                color=INDIGO if active else TEXT_GRAY,
+                fontweight="bold" if active else "normal", zorder=2)
+        if active:
+            ax.plot([x - 0.32, x + 0.32], [0.22, 0.22],
+                    color=INDIGO, linewidth=1.8, solid_capstyle="round", zorder=2)
+
+    # ── Save ─────────────────────────────────────────────────────────────────
     chart_path = str(script_dir / "market_chart.png")
     plt.savefig(chart_path, dpi=150, bbox_inches="tight", facecolor=OUTER_BG)
     plt.close()
@@ -428,8 +510,8 @@ def _format_market_for_prompt(market: dict) -> str:
 def generate_tweet() -> tuple[str, str | None]:
     """Generate tweet text only. Returns (tweet_text, None)."""
     text = call_gemini(TEXT_ONLY_PROMPT)
-    if len(text) > TWEET_MAX_CHARS:
-        text = text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+    text = _ensure_line_breaks(text)
+    text = _truncate_tweet(text)
     return text, None
 
 
@@ -446,9 +528,8 @@ def generate_comparison_tweet() -> tuple[str, str]:
     raw = raw.strip()
 
     data = json.loads(raw)
-    tweet_text = data["tweet"]
-    if len(tweet_text) > TWEET_MAX_CHARS:
-        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+    tweet_text = _ensure_line_breaks(data["tweet"])
+    tweet_text = _truncate_tweet(tweet_text)
 
     image_path = create_comparison_chart(
         title=data["chart_title"],
@@ -693,9 +774,8 @@ def post_closing_soon() -> str:
     markets_text = "\n".join(_format_market_for_prompt(m) for m in top3)
 
     prompt = CLOSING_SOON_PROMPT.format(markets=markets_text, max_chars=TWEET_MAX_CHARS)
-    tweet_text = call_gemini(prompt)
-    if len(tweet_text) > TWEET_MAX_CHARS:
-        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+    tweet_text = _ensure_line_breaks(call_gemini(prompt))
+    tweet_text = _truncate_tweet(tweet_text)
 
     image_path = create_market_chart(top3[0])
     logger.info("Posting closing-soon tweet (%d chars): %s", len(tweet_text), tweet_text)
@@ -722,9 +802,8 @@ def post_trending() -> str:
     markets_text = "\n".join(_format_market_for_prompt(m) for m in top5)
 
     prompt = TRENDING_PROMPT.format(markets=markets_text, max_chars=TWEET_MAX_CHARS)
-    tweet_text = call_gemini(prompt)
-    if len(tweet_text) > TWEET_MAX_CHARS:
-        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+    tweet_text = _ensure_line_breaks(call_gemini(prompt))
+    tweet_text = _truncate_tweet(tweet_text)
 
     image_path = create_market_chart(top5[0])
     logger.info("Posting trending tweet (%d chars): %s", len(tweet_text), tweet_text)
@@ -757,9 +836,8 @@ def post_smart_money() -> str:
     markets_text = "\n".join(_format_market_for_prompt(m) for m in top3)
 
     prompt = SMART_MONEY_PROMPT.format(markets=markets_text, max_chars=TWEET_MAX_CHARS)
-    tweet_text = call_gemini(prompt)
-    if len(tweet_text) > TWEET_MAX_CHARS:
-        tweet_text = tweet_text[:TWEET_MAX_CHARS].rsplit(" ", 1)[0]
+    tweet_text = _ensure_line_breaks(call_gemini(prompt))
+    tweet_text = _truncate_tweet(tweet_text)
 
     image_path = create_market_chart(top3[0])
     logger.info("Posting smart-money tweet (%d chars): %s", len(tweet_text), tweet_text)
