@@ -20,7 +20,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates
 from dotenv import load_dotenv
-from google import genai
+from anthropic import Anthropic
 import requests
 import tweepy
 
@@ -82,7 +82,7 @@ Write the tweet from a first-person researcher/participant perspective.
 
 Return ONLY valid JSON in this exact format (no markdown, no extra text):
 {{
-  "tweet": "Tweet text here (max {max_chars} chars, first-person sharing voice, use \\n for line breaks, 1-2 hashtags on last line)",
+  "tweet": "Tweet text here (max {max_chars} chars, first-person sharing voice, use \\n\\n between paragraphs for blank lines, 1-2 hashtags on last line)",
   "chart_title": "Short chart title",
   "metric": "The metric being compared (e.g. Monthly Volume, Active Markets, User Base)",
   "platforms": ["Polymarket", "Kalshi", "Manifold", "PredictIt"],
@@ -192,10 +192,22 @@ Tweet rules:
 
 
 def _ensure_line_breaks(text: str) -> str:
-    """若推文没有换行符，在句子边界自动插入换行。"""
+    """确保推文段落之间有空行（\\n\\n），Twitter 才会渲染出视觉间隔。"""
+    # 先压缩超过两个的连续换行
+    text = re.sub(r'\n{3,}', '\n\n', text).strip()
+
+    # 已有空行，格式正确
+    if '\n\n' in text:
+        return text
+
+    # 只有单个换行（无空行）→ 全部升级为空行
     if '\n' in text:
-        return re.sub(r'\n{3,}', '\n\n', text).strip()
-    text = re.sub(r'([.!?])\s+([A-Z#"\'$])', r'\1\n\2', text)
+        text = re.sub(r'\n(?!\n)', '\n\n', text)
+        return text.strip()
+
+    # 完全没有换行 → 在句子边界和 hashtag 前插入空行
+    text = re.sub(r'\s+(#\w)', r'\n\n\1', text)
+    text = re.sub(r'([.!?])\s+([A-Z"\'$])', r'\1\n\n\2', text)
     return text.strip()
 
 
@@ -210,15 +222,17 @@ def _truncate_tweet(text: str, max_chars: int = TWEET_MAX_CHARS) -> str:
 
 
 def call_gemini(prompt: str) -> str:
-    api_key = os.getenv("GOOGLE_API_KEY")
+    api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not set in environment")
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model="models/gemini-2.5-flash-lite",
-        contents=SYSTEM_PROMPT + "\n\n" + prompt,
+        raise ValueError("ANTHROPIC_API_KEY not set in environment")
+    client = Anthropic(api_key=api_key)
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": prompt}],
     )
-    return response.text.strip()
+    return message.content[0].text.strip()
 
 
 def get_twitter_client() -> tweepy.Client:
@@ -271,12 +285,12 @@ def load_tweet_ids() -> list[dict]:
 def fetch_polymarket_markets(params: dict) -> list[dict]:
     """Fetch markets from Polymarket Gamma API."""
     try:
-        resp = requests.get(POLYMARKET_API_BASE, params=params, timeout=15)
+        resp = requests.get(POLYMARKET_API_BASE, params=params, timeout=(5, 15))
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
         logger.error("Failed to fetch Polymarket data: %s", e)
-        sys.exit(1)
+        raise
 
 
 def _fetch_price_history(market: dict, days: int = 14) -> list[dict]:
@@ -630,7 +644,7 @@ def generate_poll() -> tuple[str, list[str], int]:
     duration_minutes = int(data.get("duration_minutes", 1440))
 
     # Enforce Twitter poll constraints
-    options = options[:4]  # max 4 options
+    options = [o[:25] for o in options[:4]]  # max 4 options, each max 25 chars
     duration_minutes = max(5, min(duration_minutes, 10080))  # 5 min to 7 days
 
     return tweet_text, options, duration_minutes
@@ -739,12 +753,19 @@ def generate_report() -> str:
 def post_closing_soon() -> str:
     """Fetch markets closing within 48h with >$100k volume and post a tweet."""
     logger.info("Fetching closing-soon markets from Polymarket...")
-    markets = fetch_polymarket_markets({
-        "closed": "false",
-        "order": "endDate",
-        "ascending": "true",
-        "limit": 20,
-    })
+    try:
+        markets = fetch_polymarket_markets({
+            "closed": "false",
+            "order": "endDate",
+            "ascending": "true",
+            "limit": 20,
+        })
+    except Exception:
+        logger.warning("Polymarket unavailable, falling back to generic tweet.")
+        tweet_text, _ = generate_tweet()
+        tweet_id = post_tweet(tweet_text)
+        logger.info("SUCCESS — Fallback tweet posted (ID: %s)", tweet_id)
+        return tweet_id
 
     now = datetime.now(timezone.utc)
     cutoff = now + timedelta(hours=48)
@@ -787,12 +808,19 @@ def post_closing_soon() -> str:
 def post_trending() -> str:
     """Fetch today's highest-volume markets and post a tweet."""
     logger.info("Fetching trending markets from Polymarket...")
-    markets = fetch_polymarket_markets({
-        "closed": "false",
-        "order": "volume24hr",
-        "ascending": "false",
-        "limit": 10,
-    })
+    try:
+        markets = fetch_polymarket_markets({
+            "closed": "false",
+            "order": "volume24hr",
+            "ascending": "false",
+            "limit": 10,
+        })
+    except Exception:
+        logger.warning("Polymarket unavailable, falling back to generic tweet.")
+        tweet_text, _ = generate_tweet()
+        tweet_id = post_tweet(tweet_text)
+        logger.info("SUCCESS — Fallback tweet posted (ID: %s)", tweet_id)
+        return tweet_id
 
     if not markets:
         logger.info("No trending markets returned; exiting.")
@@ -815,12 +843,19 @@ def post_trending() -> str:
 def post_smart_money() -> str:
     """Fetch high-volume markets with >5% price change and post a tweet."""
     logger.info("Fetching smart-money markets from Polymarket...")
-    markets = fetch_polymarket_markets({
-        "closed": "false",
-        "order": "volume24hr",
-        "ascending": "false",
-        "limit": 50,
-    })
+    try:
+        markets = fetch_polymarket_markets({
+            "closed": "false",
+            "order": "volume24hr",
+            "ascending": "false",
+            "limit": 50,
+        })
+    except Exception:
+        logger.warning("Polymarket unavailable, falling back to generic tweet.")
+        tweet_text, _ = generate_tweet()
+        tweet_id = post_tweet(tweet_text)
+        logger.info("SUCCESS — Fallback tweet posted (ID: %s)", tweet_id)
+        return tweet_id
 
     filtered = [
         m for m in markets
