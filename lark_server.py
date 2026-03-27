@@ -2807,42 +2807,21 @@ def crm_kols():
             return f"{diff}天前"
         except: return "—"
 
-    rows_html = []
-    for k in kols:
-        name   = k.get("name") or "?"
-        status = k.get("status") or "未知"
-        tier   = k.get("tier") or ""
-        plat   = k.get("platform") or "—"
-        sc     = STATUS_COLORS.get(status, "#64748B")
-        tc     = TIER_COLORS.get(tier, "#94A3B8")
-        av     = _avatar_c(name)
-        subs   = _subs(k.get("subscribers"))
-        last   = _days_ago(k.get("last_activity"))
-        kid    = k["id"]
-        rows_html.append(f"""<tr data-id="{kid}" data-status="{status}" data-platform="{plat}" data-name="{name.lower()}" onclick="openDrawer({kid})" style="cursor:pointer">
-  <td><div style="display:flex;align-items:center;gap:10px">
-    <div style="width:32px;height:32px;border-radius:50%;background:{av};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;flex-shrink:0">{name[:2].upper()}</div>
-    <div>
-      <div style="font-weight:600;color:#E2E8F0;font-size:13px">{name}</div>
-      <div style="font-size:11px;color:#64748B">{plat}</div>
-    </div>
-  </div></td>
-  <td><span style="background:{sc}20;color:{sc};padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">{status}</span></td>
-  <td><span style="background:{tc}20;color:{tc};padding:2px 8px;border-radius:12px;font-size:11px">{tier or "—"}</span></td>
-  <td style="color:#94A3B8;font-size:12px">{subs}</td>
-  <td style="color:#64748B;font-size:12px">{last}</td>
-</tr>""")
-
     all_statuses = sorted(set(k.get("status") or "未知" for k in kols))
     all_platforms = sorted(set(k.get("platform") or "" for k in kols if k.get("platform")))
     status_opts  = "".join(f'<option value="{s}">{s}</option>' for s in all_statuses)
     platform_opts = "".join(f'<option value="{p}">{p}</option>' for p in all_platforms)
+
+    STATUS_COLORS_JS = _json.dumps(STATUS_COLORS)
+    TIER_COLORS_JS   = _json.dumps(TIER_COLORS)
+    AVATAR_COLORS_JS = _json.dumps(AVATAR_COLORS)
 
     kols_json = _json.dumps([{
         "id": k["id"], "name": k.get("name",""), "status": k.get("status",""),
         "platform": k.get("platform",""), "tier": k.get("tier",""),
         "subscribers": k.get("subscribers",0), "email": k.get("email",""),
         "tg_handle": k.get("tg_handle",""), "channel_url": k.get("channel_url",""),
+        "last_activity": k.get("last_activity",""),
     } for k in kols], ensure_ascii=False)
 
     topbar = _crm_topbar("/crm/kols", counts)
@@ -2908,10 +2887,9 @@ td{{padding:12px}}
         <th>最近动作</th>
       </tr>
     </thead>
-    <tbody>
-      {"".join(rows_html)}
-    </tbody>
+    <tbody id="kolTableBody"></tbody>
   </table>
+  <div id="pagination" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:20px 0;flex-wrap:wrap"></div>
 </div>
 
 <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
@@ -2926,23 +2904,95 @@ td{{padding:12px}}
 <script>
 const KOLS = {kols_json};
 const kolMap = Object.fromEntries(KOLS.map(k => [k.id, k]));
+const STATUS_COLORS = {STATUS_COLORS_JS};
+const TIER_COLORS   = {TIER_COLORS_JS};
+const AVATAR_COLORS = {AVATAR_COLORS_JS};
+const PAGE_SIZE = 50;
+let currentPage = 1;
+let filteredKols = KOLS.slice();
+
+function avatarColor(name) {{
+  return AVATAR_COLORS[Array.from(name||'?').reduce((s,c)=>s+c.charCodeAt(0),0) % AVATAR_COLORS.length];
+}}
+function fmtSubs(n) {{
+  n = parseInt(n||0);
+  if (n>=1000000) return (n/1000000).toFixed(1)+'M';
+  if (n>=10000)   return Math.floor(n/10000)+'万';
+  return n ? String(n) : '—';
+}}
+function daysAgo(ts) {{
+  if (!ts) return '—';
+  try {{
+    const d = new Date(ts.slice(0,10));
+    const diff = Math.floor((Date.now()-d)/86400000);
+    if (diff===0) return '今天';
+    if (diff===1) return '昨天';
+    return diff+'天前';
+  }} catch(e) {{ return '—'; }}
+}}
+
+function renderPage(page) {{
+  currentPage = page;
+  const start = (page-1)*PAGE_SIZE;
+  const slice = filteredKols.slice(start, start+PAGE_SIZE);
+  const tbody = document.getElementById('kolTableBody');
+  tbody.innerHTML = slice.map(k => {{
+    const name   = k.name || '?';
+    const status = k.status || '未知';
+    const tier   = k.tier || '';
+    const plat   = k.platform || '—';
+    const sc     = STATUS_COLORS[status] || '#64748B';
+    const tc     = TIER_COLORS[tier]     || '#94A3B8';
+    const av     = avatarColor(name);
+    const subs   = fmtSubs(k.subscribers);
+    const last   = daysAgo(k.last_activity);
+    const init   = name.slice(0,2).toUpperCase();
+    return `<tr data-id="${{k.id}}" onclick="openDrawer(${{k.id}})" style="cursor:pointer;border-bottom:1px solid #1E293B20;transition:.1s" onmouseover="this.style.background='#1E293B'" onmouseout="this.style.background=''">
+  <td style="padding:12px"><div style="display:flex;align-items:center;gap:10px">
+    <div style="width:32px;height:32px;border-radius:50%;background:${{av}};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;flex-shrink:0">${{init}}</div>
+    <div>
+      <div style="font-weight:600;color:#E2E8F0;font-size:13px">${{name}}</div>
+      <div style="font-size:11px;color:#64748B">${{plat}}</div>
+    </div>
+  </div></td>
+  <td style="padding:12px"><span style="background:${{sc}}20;color:${{sc}};padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">${{status}}</span></td>
+  <td style="padding:12px"><span style="background:${{tc}}20;color:${{tc}};padding:2px 8px;border-radius:12px;font-size:11px">${{tier||'—'}}</span></td>
+  <td style="padding:12px;color:#94A3B8;font-size:12px">${{subs}}</td>
+  <td style="padding:12px;color:#64748B;font-size:12px">${{last}}</td>
+</tr>`;
+  }}).join('');
+  renderPagination();
+  document.getElementById('countBadge').textContent = `显示 ${{filteredKols.length}} / {len(kols)} 个 KOL`;
+}}
+
+function renderPagination() {{
+  const total = Math.ceil(filteredKols.length / PAGE_SIZE);
+  const pg = document.getElementById('pagination');
+  if (total <= 1) {{ pg.innerHTML=''; return; }}
+  const btnStyle = (active) => `style="background:${{active?'#FF6B00':'#1E293B'}};color:${{active?'#fff':'#94A3B8'}};border:1px solid ${{active?'#FF6B00':'#334155'}};border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer"`;
+  let html = `<button ${{btnStyle(false)}} onclick="renderPage(${{currentPage-1}})" ${{currentPage===1?'disabled':''}} style="background:#1E293B;color:#94A3B8;border:1px solid #334155;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;opacity:${{currentPage===1?0.4:1}}">← 上一页</button>`;
+  const range = [], delta = 2;
+  for (let i=Math.max(1,currentPage-delta); i<=Math.min(total,currentPage+delta); i++) range.push(i);
+  if (range[0]>1) {{ html+=`<button ${{btnStyle(false)}} onclick="renderPage(1)" style="background:#1E293B;color:#94A3B8;border:1px solid #334155;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer">1</button>`; if(range[0]>2) html+=`<span style="color:#64748B;padding:0 4px">…</span>`; }}
+  range.forEach(i => {{ html+=`<button onclick="renderPage(${{i}})" style="background:${{i===currentPage?'#FF6B00':'#1E293B'}};color:${{i===currentPage?'#fff':'#94A3B8'}};border:1px solid ${{i===currentPage?'#FF6B00':'#334155'}};border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer">${{i}}</button>`; }});
+  if (range[range.length-1]<total) {{ if(range[range.length-1]<total-1) html+=`<span style="color:#64748B;padding:0 4px">…</span>`; html+=`<button onclick="renderPage(${{total}})" style="background:#1E293B;color:#94A3B8;border:1px solid #334155;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer">${{total}}</button>`; }}
+  html+=`<button onclick="renderPage(${{currentPage+1}})" ${{currentPage===total?'disabled':''}} style="background:#1E293B;color:#94A3B8;border:1px solid #334155;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;opacity:${{currentPage===total?0.4:1}}">下一页 →</button>`;
+  pg.innerHTML = html;
+}}
 
 function filterTable() {{
   const q      = document.getElementById('searchInput').value.toLowerCase();
   const status = document.getElementById('statusFilter').value;
   const plat   = document.getElementById('platformFilter').value;
-  const rows   = document.querySelectorAll('#kolTable tbody tr');
-  let visible  = 0;
-  rows.forEach(tr => {{
-    const name = (tr.dataset.name || tr.querySelector('td div div + div div')?.textContent || '').toLowerCase();
-    const s    = tr.dataset.status;
-    const p    = tr.dataset.platform;
-    const show = (!q || name.includes(q)) && (!status || s === status) && (!plat || p === plat);
-    tr.style.display = show ? '' : 'none';
-    if (show) visible++;
+  filteredKols = KOLS.filter(k => {{
+    const name = (k.name||'').toLowerCase();
+    return (!q || name.includes(q)) && (!status || k.status===status) && (!plat || k.platform===plat);
   }});
-  document.getElementById('countBadge').textContent = `显示 ${{visible}} / {len(kols)} 个 KOL`;
+  renderPage(1);
 }}
+
+// 初始渲染
+renderPage(1);
 
 async function openDrawer(kolId) {{
   const k = kolMap[kolId];
