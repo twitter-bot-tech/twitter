@@ -4,3 +4,5 @@ logs/
 __pycache__/
 *.pyc
 .gstack/
+outbox/moonx-seo/node_modules/
+outbox/*/node_modules/
