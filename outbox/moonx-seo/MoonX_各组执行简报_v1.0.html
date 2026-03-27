@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 各组执行简报 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", Arial, sans-serif; background: #eee; }
+
+/* Page */
+.page {
+  width: 210mm; min-height: 297mm;
+  background: #fff;
+  margin: 12px auto;
+  padding: 14mm 14mm 12mm;
+  page-break-after: always;
+  position: relative;
+}
+@media print {
+  body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+@page { size: A4; margin: 0; }
+
+/* Header bar */
+.brief-header {
+  display: flex; align-items: stretch; gap: 0;
+  border-radius: 10px; overflow: hidden;
+  margin-bottom: 10px;
+}
+.brief-header .bh-color { width: 8px; flex-shrink: 0; }
+.brief-header .bh-main { flex: 1; padding: 11px 14px; }
+.brief-header .bh-main .team { font-size: 18px; font-weight: 900; line-height: 1; }
+.brief-header .bh-main .focus { font-size: 11px; color: #666; margin-top: 4px; }
+.brief-header .bh-meta { padding: 11px 14px; text-align: right; display: flex; flex-direction: column; justify-content: center; gap: 3px; }
+.brief-header .bh-meta .label { font-size: 10px; color: #999; }
+.brief-header .bh-meta .val { font-size: 12px; font-weight: 700; }
+.brief-header .bh-kpi { background: #f8f8f8; padding: 11px 14px; border-left: 1px solid #efefef; min-width: 140px; }
+.brief-header .bh-kpi .klabel { font-size: 10px; color: #999; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.brief-header .bh-kpi .krow { font-size: 11px; color: #333; line-height: 1.6; }
+
+/* Two column layout */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+
+/* Plan card */
+.plan-card { border: 1.5px solid #e8e8e8; border-radius: 8px; overflow: hidden; }
+.plan-card .pc-head { padding: 8px 11px; }
+.plan-card .pc-head .pnum { font-size: 10px; font-weight: 700; opacity: 0.5; letter-spacing: 1px; margin-bottom: 3px; }
+.plan-card .pc-head .pname { font-size: 13px; font-weight: 800; line-height: 1.2; }
+.plan-card .pc-body { padding: 0 11px 9px; }
+.plan-card .pc-body li { font-size: 11px; color: #444; line-height: 1.55; padding: 2px 0; border-top: 1px solid #f5f5f5; display: flex; gap: 5px; }
+.plan-card .pc-body li::before { content: "→"; font-size: 9px; color: #ccc; flex-shrink: 0; margin-top: 2px; }
+.plan-card .pc-kpi { background: #f8f8f8; padding: 6px 11px; font-size: 10.5px; color: #555; line-height: 1.4; }
+.plan-card .pc-kpi strong { color: #FF6B00; }
+
+/* Timeline */
+.tl-section { border: 1.5px solid #e8e8e8; border-radius: 8px; overflow: hidden; }
+.tl-section .ts-head { padding: 7px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; background: #f8f8f8; border-bottom: 1px solid #efefef; }
+.tl-row { display: flex; align-items: baseline; gap: 0; border-top: 1px solid #f5f5f5; }
+.tl-row:first-of-type { border-top: none; }
+.tl-row .td { font-size: 11px; font-weight: 800; min-width: 44px; padding: 5px 10px; color: #999; flex-shrink: 0; }
+.tl-row.hard .td { color: #E65100; }
+.tl-row .tt { font-size: 11px; color: #333; padding: 5px 10px 5px 0; line-height: 1.4; flex: 1; }
+.tl-row.hard .tt { color: #E65100; font-weight: 600; }
+.tl-row .warn-tag { font-size: 9px; font-weight: 700; background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; border-radius: 4px; padding: 1px 5px; flex-shrink: 0; margin-top: 4px; }
+
+/* Contacts + materials */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.info-box { border: 1.5px solid #e8e8e8; border-radius: 8px; padding: 9px 12px; }
+.info-box .ib-head { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+.info-row { display: flex; gap: 6px; font-size: 11px; color: #333; padding: 2px 0; align-items: baseline; }
+.info-row .ir-label { color: #999; flex-shrink: 0; font-size: 10px; min-width: 56px; }
+
+/* Footer */
+.page-footer { position: absolute; bottom: 8mm; left: 14mm; right: 14mm; display: flex; justify-content: space-between; font-size: 9px; color: #bbb; border-top: 1px solid #f0f0f0; padding-top: 5px; }
+
+/* Section label */
+.slabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 5px; }
+
+/* Alert */
+.alert { background: #FFF3E0; border: 1px solid #FFB74D; border-radius: 6px; padding: 6px 10px; font-size: 11px; color: #E65100; margin-bottom: 10px; line-height: 1.5; }
+.alert strong { font-weight: 800; }
+
+/* Color variants */
+.c-orange { color: #E65100; } .c-blue { color: #1565C0; } .c-pink { color: #AD1457; }
+.c-purple { color: #6A1B9A; } .c-teal { color: #00838F; } .c-green { color: #2E7D32; }
+.bg-orange { background: #FFF8F3; } .bg-blue { background: #F5F9FF; } .bg-pink { background: #FFF5F8; }
+.bg-purple { background: #FDF5FF; } .bg-teal { background: #F5FEFF; } .bg-green { background: #F5FDF5; }
+.border-orange { border-color: #FF6B00; } .border-blue { border-color: #2196F3; } .border-pink { border-color: #E91E63; }
+.border-purple { border-color: #9C27B0; } .border-teal { border-color: #00BCD4; } .border-green { border-color: #4CAF50; }
+.pc-head-orange { background: linear-gradient(135deg, #FFF3E0, #FFF8F3); border-bottom: 1px solid #FFE0B2; }
+.pc-head-blue { background: linear-gradient(135deg, #E3F2FD, #F5F9FF); border-bottom: 1px solid #BBDEFB; }
+.pc-head-pink { background: linear-gradient(135deg, #FCE4EC, #FFF5F8); border-bottom: 1px solid #F8BBD9; }
+.pc-head-purple { background: linear-gradient(135deg, #F3E5F5, #FDF5FF); border-bottom: 1px solid #E1BEE7; }
+.pc-head-teal { background: linear-gradient(135deg, #E0F7FA, #F5FEFF); border-bottom: 1px solid #B2EBF2; }
+.pc-head-green { background: linear-gradient(135deg, #E8F5E9, #F5FDF5); border-bottom: 1px solid #C8E6C9; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ -->
+<!-- PAGE 1: 增长运营                    -->
+<!-- ═══════════════════════════════════ -->
+<div class="page">
+  <div class="brief-header bg-orange border-orange" style="border: 1.5px solid #FF6B00;">
+    <div class="bh-color" style="background:#FF6B00;"></div>
+    <div class="bh-main">
+      <div class="team c-orange">增长运营</div>
+      <div class="focus">负责人：Naval + 增长团队 · 覆盖平台新老用户</div>
+    </div>
+    <div class="bh-kpi">
+      <div class="klabel">本组 KPI</div>
+      <div class="krow">新充值用户 ≥500</div>
+      <div class="krow">首周新注册 ≥1,000</div>
+      <div class="krow">月活跃交易用户 ≥500</div>
+      <div class="krow">月交易量 ≥$1M</div>
+    </div>
+    <div class="bh-meta">
+      <div class="label">文档</div>
+      <div class="val">执行简报 1/6</div>
+      <div class="label" style="margin-top:4px;">上升</div>
+      <div class="val">Hayden</div>
+    </div>
+  </div>
+
+  <div class="slabel">三套方案</div>
+  <div class="three-col">
+    <div class="plan-card border-orange">
+      <div class="pc-head pc-head-orange">
+        <div class="pnum c-orange">方案 01</div>
+        <div class="pname">充值阶梯奖励</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>充值 $100 → 赠 $10 体验金</li>
+          <li>充值 $500 → 赠 $30 体验金</li>
+          <li>充值 $1,000+ → 赠 $80 体验金</li>
+          <li>7 天有效，仅限预测市场</li>
+          <li>Push + 邮件 + Banner 全触达</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>活动期新增充值 ≥500 人，人均 ≥$300</div>
+    </div>
+    <div class="plan-card border-orange">
+      <div class="pc-head pc-head-orange">
+        <div class="pnum c-orange">方案 02</div>
+        <div class="pname">新用户双礼入场</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>注册即赠 $10 预测市场体验金</li>
+          <li>KYC 后解锁 3 笔免费额度（max $10/笔）</li>
+          <li>邀请码通道，邀请人同步返佣</li>
+          <li>7 日成长任务：首次预测→出金</li>
+          <li>完成全任务额外奖励 $5</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>首周新注册 ≥1,000，7 日留存 ≥40%</div>
+    </div>
+    <div class="plan-card border-orange">
+      <div class="pc-head pc-head-orange">
+        <div class="pnum c-orange">方案 03</div>
+        <div class="pname">0% Fee + 交易量排行榜</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D-0 宣布预测市场永久 0% 手续费</li>
+          <li>$500 交易量 → 返 $20</li>
+          <li>$1,000 → 返 $50；$3,000+ → 返 $150</li>
+          <li>月度 Top 10 交易量永久锁定 0% 席位</li>
+          <li>出口阈值：DAU≥500 且交易量≥$1M</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>月活跃交易用户 ≥500，月交易量 ≥$1M</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slabel">关键节点</div>
+      <div class="tl-section">
+        <div class="ts-head">D = 预测市场上线日</div>
+        <div class="tl-row hard"><div class="td">D-14</div><div class="tt">充值/交易规则设计完成，技术对齐</div></div>
+        <div class="tl-row hard"><div class="td">D-7</div><div class="tt">规则最终确认，站内预热 Banner 上线</div></div>
+        <div class="tl-row"><div class="td">D-3</div><div class="tt">预热推文 + Push 通知发出，倒计时公告</div></div>
+        <div class="tl-row hard"><div class="td">D-0</div><div class="tt">官宣上线 + 0% 政策 + 三套方案同步激活</div></div>
+        <div class="tl-row"><div class="td">D+7</div><div class="tt">首周数据复盘，推送策略优化</div></div>
+        <div class="tl-row hard"><div class="td">D+14</div><div class="tt">交易量冲榜高峰，永久 0% 排行榜公示</div></div>
+        <div class="tl-row"><div class="td">D+30</div><div class="tt">月度数据汇总，下轮方案调整</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">物料 & 联系人</div>
+      <div class="info-grid" style="grid-template-columns:1fr;">
+        <div class="info-box">
+          <div class="ib-head">需要的物料</div>
+          <div class="info-row"><span class="ir-label">落地页</span>增长团队自建，产品配合</div>
+          <div class="info-row"><span class="ir-label">Banner</span>设计团队（D-10 前交付）</div>
+          <div class="info-row"><span class="ir-label">推文配合</span>Arthur（官号同步）</div>
+          <div class="info-row"><span class="ir-label">数据看板</span>Nate 搭建，D-3 前上线</div>
+          <div class="info-row"><span class="ir-label">邮件工具</span>Naval 确认发送平台</div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <div class="ib-head">联系人</div>
+          <div class="info-row"><span class="ir-label">统筹</span>Hayden</div>
+          <div class="info-row"><span class="ir-label">数据</span>Nate（Pixel D-3 前必须上线）</div>
+          <div class="info-row"><span class="ir-label">社媒配合</span>Arthur</div>
+          <div class="info-row"><span class="ir-label">技术</span>产品团队（规则实现确认）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>MoonX 预测市场上线营销方案 V4.0 — 执行简报 1/6</span>
+    <span>增长运营 · Naval</span>
+    <span>2026-03-16</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- PAGE 2: 苍苍组                      -->
+<!-- ═══════════════════════════════════ -->
+<div class="page">
+  <div class="brief-header bg-blue border-blue" style="border: 1.5px solid #2196F3;">
+    <div class="bh-color" style="background:#2196F3;"></div>
+    <div class="bh-main">
+      <div class="team c-blue">苍苍组</div>
+      <div class="focus">负责人：苍苍 · 欧美 KOL 代理</div>
+    </div>
+    <div class="bh-kpi">
+      <div class="klabel">本组 KPI</div>
+      <div class="krow">上线日英文推文 ≥500K 展示量</div>
+      <div class="krow">KOL 挑战帖互动 ≥50K</div>
+      <div class="krow">邀请链接注册 ≥500</div>
+      <div class="krow">首充转化率 ≥30%</div>
+    </div>
+    <div class="bh-meta">
+      <div class="label">文档</div>
+      <div class="val">执行简报 2/6</div>
+      <div class="label" style="margin-top:4px;">上升</div>
+      <div class="val">Hayden</div>
+    </div>
+  </div>
+
+  <div class="slabel">三套方案</div>
+  <div class="three-col">
+    <div class="plan-card border-blue">
+      <div class="pc-head pc-head-blue">
+        <div class="pnum c-blue">方案 01</div>
+        <div class="pname">上线日 KOL 矩阵内容</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>确认 10+ KOL 参与，分层时间窗口</li>
+          <li>D-0 10:00 UTC 统一推文</li>
+          <li>Tier 1：视频/长文深度介绍</li>
+          <li>Tier 2/3：短推文 + 话题标签护航</li>
+          <li>引导评论区互动，提升算法权重</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>D-0 英文推文展示量 ≥500K</div>
+    </div>
+    <div class="plan-card border-blue">
+      <div class="pc-head pc-head-blue">
+        <div class="pnum c-blue">方案 02</div>
+        <div class="pname">KOL 带头预测挑战</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>3–5 名头部 KOL 公开下注热门题</li>
+          <li>全程记录：买入 → 等待 → 结算</li>
+          <li>结果揭晓后晒单 + #MoonXPredict 话题</li>
+          <li>胜出 KOL 获专属徽章 + 首页展示位</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>挑战帖互动 ≥50K，带动新增用户 ≥200</div>
+    </div>
+    <div class="plan-card border-blue">
+      <div class="pc-head pc-head-blue">
+        <div class="pnum c-blue">方案 03</div>
+        <div class="pname">KOL 专属邀请返佣</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>每位 KOL 专属邀请链接 + 落地页</li>
+          <li>邀请完成首充即触发返佣</li>
+          <li>10 人 → $50 / 50 人 → $300 / 100 人 → $800</li>
+          <li>月度 Top 3 额外奖励 + 平台认证标识</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>欧美区邀请注册 ≥500，首充转化 ≥30%</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slabel">关键节点</div>
+      <div class="tl-section">
+        <div class="ts-head">D = 预测市场上线日</div>
+        <div class="tl-row hard"><div class="td">D-16</div><div class="tt">向 Balaji 确认 KOL 名单（Briefing 前置准备）</div><div class="warn-tag">先决条件</div></div>
+        <div class="tl-row hard"><div class="td">D-14</div><div class="tt">发送欧美 KOL Briefing 包（内容方向+话术+素材）</div></div>
+        <div class="tl-row"><div class="td">D-7</div><div class="tt">内容方向确认，素材包分发完毕</div></div>
+        <div class="tl-row hard"><div class="td">D-3</div><div class="tt">KOL 预热内容发布（悬念预告+倒计时）</div></div>
+        <div class="tl-row hard"><div class="td">D-0</div><div class="tt">10:00 UTC KOL 矩阵推文，Tier 1 视频上线</div></div>
+        <div class="tl-row"><div class="td">D+7</div><div class="tt">内容效果追踪，引导二次传播</div></div>
+        <div class="tl-row"><div class="td">D+14</div><div class="tt">预测挑战第二轮，晒单 + 排行榜截图</div></div>
+        <div class="tl-row"><div class="td">D+30</div><div class="tt">KOL 合作 ROI 评估，下月名单确认</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">物料 & 联系人</div>
+      <div class="info-grid" style="grid-template-columns:1fr;">
+        <div class="info-box">
+          <div class="ib-head">需要的物料</div>
+          <div class="info-row"><span class="ir-label">KOL 名单</span>Balaji（D-16 前提供）</div>
+          <div class="info-row"><span class="ir-label">Briefing 包</span>Hayden/Arthur 提供内容框架</div>
+          <div class="info-row"><span class="ir-label">素材包</span>设计团队（D-10 前交付）</div>
+          <div class="info-row"><span class="ir-label">专属链接</span>Naval 生成邀请链接</div>
+          <div class="info-row"><span class="ir-label">预算上限</span>Naval 确认欧美 KOL 预算池</div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <div class="ib-head">联系人</div>
+          <div class="info-row"><span class="ir-label">KOL 外联</span>Balaji（名单+谈判）</div>
+          <div class="info-row"><span class="ir-label">预算</span>Naval</div>
+          <div class="info-row"><span class="ir-label">统筹</span>Hayden</div>
+          <div class="info-row"><span class="ir-label">社媒协同</span>Arthur（官号话题联动）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>MoonX 预测市场上线营销方案 V4.0 — 执行简报 2/6</span>
+    <span>苍苍组 · 欧美 KOL 代理</span>
+    <span>2026-03-16</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- PAGE 3: Sally 组                    -->
+<!-- ═══════════════════════════════════ -->
+<div class="page">
+  <div class="brief-header bg-pink border-pink" style="border: 1.5px solid #E91E63;">
+    <div class="bh-color" style="background:#E91E63;"></div>
+    <div class="bh-main">
+      <div class="team c-pink">Sally 组</div>
+      <div class="focus">负责人：Sally · 韩国 KOL 代理</div>
+    </div>
+    <div class="bh-kpi">
+      <div class="klabel">本组 KPI</div>
+      <div class="krow">韩语内容覆盖 ≥200K 展示量</div>
+      <div class="krow">韩区参与用户 ≥300</div>
+      <div class="krow">邀请链接注册 ≥300</div>
+      <div class="krow">裂变系数 ≥1.5</div>
+    </div>
+    <div class="bh-meta">
+      <div class="label">文档</div>
+      <div class="val">执行简报 3/6</div>
+      <div class="label" style="margin-top:4px;">上升</div>
+      <div class="val">Hayden</div>
+    </div>
+  </div>
+
+  <div class="slabel">三套方案</div>
+  <div class="three-col">
+    <div class="plan-card border-pink">
+      <div class="pc-head pc-head-pink">
+        <div class="pnum c-pink">方案 01</div>
+        <div class="pname">韩文上线日内容矩阵</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D-14 发送韩文 KOL Briefing</li>
+          <li>韩语话术模板 + 平台截图素材</li>
+          <li>Kakao / Twitter / YouTube Shorts 全覆盖</li>
+          <li>D-0 按韩国时区优化排期</li>
+          <li>配合欧美 KOL UTC 00:00 同步引爆</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>上线日韩语内容覆盖 ≥200K 展示量</div>
+    </div>
+    <div class="plan-card border-pink">
+      <div class="pc-head pc-head-pink">
+        <div class="pnum c-pink">方案 02</div>
+        <div class="pname">韩国预测挑战 + 排行榜</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>设立韩区专属挑战题（加密热点）</li>
+          <li>独立韩语排行榜，Top 10 赢专属奖励</li>
+          <li>KOL 担任"挑战发起人"公开参与</li>
+          <li>结果揭晓 KOL 直播开奖，带动传播</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>韩区参与用户 ≥300，韩语互动 ≥20K</div>
+    </div>
+    <div class="plan-card border-pink">
+      <div class="pc-head pc-head-pink">
+        <div class="pnum c-pink">方案 03</div>
+        <div class="pname">裂变邀请（韩语版）</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>韩语版邀请落地页（本地化 UI+文案）</li>
+          <li>阶梯返佣同欧美版，韩语通知</li>
+          <li>Kakao Talk 群组专属邀请码</li>
+          <li>韩区 Top 代理额外奖励 + 认证标识</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>韩区邀请注册 ≥300，裂变系数 ≥1.5</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ 待确认：</strong>Kakao Talk 推广费未列入主预算，D-10 前向 Naval 申请补录。
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slabel">关键节点</div>
+      <div class="tl-section">
+        <div class="ts-head">D = 预测市场上线日</div>
+        <div class="tl-row hard"><div class="td">D-16</div><div class="tt">向 Balaji 确认韩区 KOL 名单</div><div class="warn-tag">先决条件</div></div>
+        <div class="tl-row hard"><div class="td">D-14</div><div class="tt">发送韩文 KOL Briefing，Kakao 推广费申请</div></div>
+        <div class="tl-row"><div class="td">D-7</div><div class="tt">韩语内容定稿，Kakao/Twitter 素材就绪</div></div>
+        <div class="tl-row hard"><div class="td">D-3</div><div class="tt">韩区预热内容发布，韩语倒计时推文</div></div>
+        <div class="tl-row hard"><div class="td">D-0</div><div class="tt">韩区 KOL 矩阵同步（UTC 00:00 对齐）</div></div>
+        <div class="tl-row"><div class="td">D+7</div><div class="tt">韩区效果复盘，排行榜晒单推进</div></div>
+        <div class="tl-row hard"><div class="td">D+14</div><div class="tt">韩区排行榜竞赛冲刺，本地奖励公示</div></div>
+        <div class="tl-row"><div class="td">D+30</div><div class="tt">韩区用户增量评估，裂变系数统计</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">物料 & 联系人</div>
+      <div class="info-grid" style="grid-template-columns:1fr;">
+        <div class="info-box">
+          <div class="ib-head">需要的物料</div>
+          <div class="info-row"><span class="ir-label">KOL 名单</span>Balaji（D-16 前提供）</div>
+          <div class="info-row"><span class="ir-label">韩文 Briefing</span>Sally 自行本地化</div>
+          <div class="info-row"><span class="ir-label">排行榜 UI</span>产品团队（韩语版）</div>
+          <div class="info-row"><span class="ir-label">邀请落地页</span>Naval 生成，Sally 本地化</div>
+          <div class="info-row"><span class="ir-label">Kakao 推广费</span>Naval 审批（D-10 前提交申请）</div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <div class="ib-head">联系人</div>
+          <div class="info-row"><span class="ir-label">KOL 外联</span>Balaji</div>
+          <div class="info-row"><span class="ir-label">预算</span>Naval</div>
+          <div class="info-row"><span class="ir-label">统筹</span>Hayden</div>
+          <div class="info-row"><span class="ir-label">欧美协同</span>苍苍（时区 + 话题标签对齐）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>MoonX 预测市场上线营销方案 V4.0 — 执行简报 3/6</span>
+    <span>Sally 组 · 韩国 KOL 代理</span>
+    <span>2026-03-16</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- PAGE 4: Michael 组                  -->
+<!-- ═══════════════════════════════════ -->
+<div class="page">
+  <div class="brief-header bg-purple border-purple" style="border: 1.5px solid #9C27B0;">
+    <div class="bh-color" style="background:#9C27B0;"></div>
+    <div class="bh-main">
+      <div class="team c-purple">Michael 组</div>
+      <div class="focus">负责人：Michael · 媒体代理</div>
+    </div>
+    <div class="bh-kpi">
+      <div class="klabel">本组 KPI</div>
+      <div class="krow">上线日 T1/T2 报道 ≥5 篇</div>
+      <div class="krow">总覆盖读者 ≥1M</div>
+      <div class="krow">独家报道 ≥2 篇</div>
+      <div class="krow">30 天累计报道 ≥30 篇</div>
+    </div>
+    <div class="bh-meta">
+      <div class="label">文档</div>
+      <div class="val">执行简报 4/6</div>
+      <div class="label" style="margin-top:4px;">上升</div>
+      <div class="val">Hayden</div>
+    </div>
+  </div>
+
+  <div class="slabel">三套方案</div>
+  <div class="three-col">
+    <div class="plan-card border-purple">
+      <div class="pc-head pc-head-purple">
+        <div class="pnum c-purple">方案 01</div>
+        <div class="pname">T1/T2 媒体稿件 + PR Wire</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D-14 锁定媒体名单（CoinDesk/Decrypt/The Block）</li>
+          <li>D-12 提交稿件初稿（T1 需 5 天审核）</li>
+          <li>D-0 PR Wire 全球同步投送</li>
+          <li>核心卖点：0% 手续费 + 数据可信度</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>D-0 T1/T2 报道 ≥5 篇，覆盖读者 ≥1M</div>
+    </div>
+    <div class="plan-card border-purple">
+      <div class="pc-head pc-head-purple">
+        <div class="pnum c-purple">方案 02</div>
+        <div class="pname">媒体资源包 + Pitch</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>资源包：Logo / 截图 / 数据图表 / 角色海报</li>
+          <li>3 版 Pitch（长文 / 短讯 / 社媒摘要）</li>
+          <li>D-1 提供独家数据 Embargo 权限</li>
+          <li>专属联系人直线，响应 ≤4h</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>资源包下载 ≥20 家，独家报道 ≥2 篇</div>
+    </div>
+    <div class="plan-card border-purple">
+      <div class="pc-head pc-head-purple">
+        <div class="pnum c-purple">方案 03</div>
+        <div class="pname">代理冲榜月</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>上线后 30 天设立媒体代理排行榜</li>
+          <li>按报道数量 + 阅读量加权计分</li>
+          <li>Top 3：$1,000 / $600 / $300 现金奖励</li>
+          <li>月底公示，优质稿件官方转载</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>30 天累计报道 ≥30 篇，总阅读量 ≥5M</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ 节点更新（会议确认）：</strong>稿件初稿截止由 D-7 改为 <strong>D-12</strong>，T1 媒体编辑审核需 5 天。请立即按 D-12 安排写稿排期。
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slabel">关键节点</div>
+      <div class="tl-section">
+        <div class="ts-head">D = 预测市场上线日</div>
+        <div class="tl-row hard"><div class="td">D-14</div><div class="tt">锁定目标媒体名单，发送 Pitch</div></div>
+        <div class="tl-row hard"><div class="td">D-12</div><div class="tt">稿件初稿提交 T1 媒体（⚠️ 更新节点）</div><div class="warn-tag">已更新</div></div>
+        <div class="tl-row hard"><div class="td">D-7</div><div class="tt">PR Wire 投送时间确定，媒体资源包就绪</div></div>
+        <div class="tl-row"><div class="td">D-3</div><div class="tt">Embargo 通知发送，媒体预热放风</div></div>
+        <div class="tl-row hard"><div class="td">D-0</div><div class="tt">UTC 00:00 稿件解禁，PR Wire 全球投送</div></div>
+        <div class="tl-row"><div class="td">D+7</div><div class="tt">媒体报道覆盖统计，追加稿件协商</div></div>
+        <div class="tl-row"><div class="td">D+14</div><div class="tt">冲榜月中期播报，代理排行榜更新</div></div>
+        <div class="tl-row hard"><div class="td">D+30</div><div class="tt">30 天媒体覆盖总报告，代理冲榜月结算</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">物料 & 联系人</div>
+      <div class="info-grid" style="grid-template-columns:1fr;">
+        <div class="info-box">
+          <div class="ib-head">需要的物料</div>
+          <div class="info-row"><span class="ir-label">媒体资源包</span>Hayden + 设计团队（D-12 前）</div>
+          <div class="info-row"><span class="ir-label">PR Wire 账号</span>Hayden 提供（BusinessWire 等）</div>
+          <div class="info-row"><span class="ir-label">独家数据</span>Nate（D-1 Embargo 前提供）</div>
+          <div class="info-row"><span class="ir-label">稿件审核</span>Hayden 最终审批</div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <div class="ib-head">联系人</div>
+          <div class="info-row"><span class="ir-label">统筹审核</span>Hayden</div>
+          <div class="info-row"><span class="ir-label">数据支持</span>Nate</div>
+          <div class="info-row"><span class="ir-label">大媒体协同</span>Chloe（避免重复覆盖同一家）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>MoonX 预测市场上线营销方案 V4.0 — 执行简报 4/6</span>
+    <span>Michael 组 · 媒体代理</span>
+    <span>2026-03-16</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- PAGE 5: Chloe                       -->
+<!-- ═══════════════════════════════════ -->
+<div class="page">
+  <div class="brief-header bg-teal border-teal" style="border: 1.5px solid #00BCD4;">
+    <div class="bh-color" style="background:#00BCD4;"></div>
+    <div class="bh-main">
+      <div class="team c-teal">Chloe</div>
+      <div class="focus">内部员工 · 外部大媒体宣发</div>
+    </div>
+    <div class="bh-kpi">
+      <div class="klabel">本组 KPI</div>
+      <div class="krow">大媒体独家报道 ≥1 篇（≥100K 阅读）</div>
+      <div class="krow">活动期追加报道 ≥3 篇</div>
+      <div class="krow">月度成绩单覆盖媒体 ≥3 家</div>
+      <div class="krow">行业曝光 ≥500K</div>
+    </div>
+    <div class="bh-meta">
+      <div class="label">文档</div>
+      <div class="val">执行简报 5/6</div>
+      <div class="label" style="margin-top:4px;">上升</div>
+      <div class="val">Hayden</div>
+    </div>
+  </div>
+
+  <div class="slabel">三套方案</div>
+  <div class="three-col">
+    <div class="plan-card border-teal">
+      <div class="pc-head pc-head-teal">
+        <div class="pnum c-teal">方案 01</div>
+        <div class="pname">上线日大媒体联合报道</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D-21 接触目标大媒体（CoinTelegraph / Forbes Crypto）</li>
+          <li>提供 CEO 独家专访作为合作筹码</li>
+          <li>D-0 UTC 00:00 Embargo 同步解禁</li>
+          <li>合作媒体 Twitter/Newsletter 同步推送</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>大媒体独家报道 ≥1 篇，单篇阅读量 ≥100K</div>
+    </div>
+    <div class="plan-card border-teal">
+      <div class="pc-head pc-head-teal">
+        <div class="pnum c-teal">方案 02</div>
+        <div class="pname">活动期媒体跟进曝光</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D+7 提供充值活动首周数据给已合作媒体</li>
+          <li>D+14 提供交易量排行榜高亮数据</li>
+          <li>每次数据节点撰写 200 字简讯推送</li>
+          <li>黑马用户/话题出现时快速协调跟进</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>活动期追加报道 ≥3 篇，媒体热度不断档</div>
+    </div>
+    <div class="plan-card border-teal">
+      <div class="pc-head pc-head-teal">
+        <div class="pnum c-teal">方案 03</div>
+        <div class="pname">行业媒体月度成绩单</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D+28 向 Nate 获取完整月度数据</li>
+          <li>撰写图文版成绩单（注册/交易量/媒体覆盖）</li>
+          <li>联系 3+ 家行业媒体同步发布</li>
+          <li>官方社媒同步发布</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>覆盖媒体 ≥3 家，行业曝光 ≥500K</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ 今日待办（会议确认）：</strong>CEO 专访档期需 Hayden 今日确认。若 D-21 前无法确认，大媒体合作整条线需提前预警。
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slabel">关键节点</div>
+      <div class="tl-section">
+        <div class="ts-head">D = 预测市场上线日</div>
+        <div class="tl-row hard"><div class="td">今日</div><div class="tt">Hayden 确认 CEO 专访档期</div><div class="warn-tag">今日必办</div></div>
+        <div class="tl-row hard"><div class="td">D-21</div><div class="tt">接触大媒体，签署合作意向</div></div>
+        <div class="tl-row hard"><div class="td">D-14</div><div class="tt">大媒体合作协议确认，CEO 专访完成</div></div>
+        <div class="tl-row hard"><div class="td">D-7</div><div class="tt">大媒体稿件定稿，首发媒体确认</div></div>
+        <div class="tl-row"><div class="td">D-3</div><div class="tt">Embargo 协议确认（UTC 00:00 解禁）</div></div>
+        <div class="tl-row hard"><div class="td">D-0</div><div class="tt">大媒体联合报道发布 + 社媒推送</div></div>
+        <div class="tl-row"><div class="td">D+7</div><div class="tt">首周充值数据推送已合作媒体</div></div>
+        <div class="tl-row"><div class="td">D+14</div><div class="tt">交易量数据简讯，月度成绩单素材准备</div></div>
+        <div class="tl-row hard"><div class="td">D+30</div><div class="tt">行业媒体月度成绩单发布</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">物料 & 联系人</div>
+      <div class="info-grid" style="grid-template-columns:1fr;">
+        <div class="info-box">
+          <div class="ib-head">需要的物料</div>
+          <div class="info-row"><span class="ir-label">CEO 档期</span>Hayden（今日确认）</div>
+          <div class="info-row"><span class="ir-label">平台数据</span>Nate（D+7 / D+14 / D+28）</div>
+          <div class="info-row"><span class="ir-label">媒体资源包</span>Michael 组共享</div>
+          <div class="info-row"><span class="ir-label">稿件审核</span>Hayden 最终审批</div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <div class="ib-head">联系人</div>
+          <div class="info-row"><span class="ir-label">统筹</span>Hayden（CEO档期+审核）</div>
+          <div class="info-row"><span class="ir-label">数据</span>Nate</div>
+          <div class="info-row"><span class="ir-label">媒体协同</span>Michael（避免同一媒体重复）</div>
+          <div class="info-row"><span class="ir-label">社媒</span>Arthur（官号转发配合）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>MoonX 预测市场上线营销方案 V4.0 — 执行简报 5/6</span>
+    <span>Chloe · 外部大媒体宣发</span>
+    <span>2026-03-16</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- PAGE 6: SEO 组 (Vitalik)            -->
+<!-- ═══════════════════════════════════ -->
+<div class="page">
+  <div class="brief-header bg-green border-green" style="border: 1.5px solid #4CAF50;">
+    <div class="bh-color" style="background:#4CAF50;"></div>
+    <div class="bh-main">
+      <div class="team c-green">SEO 组</div>
+      <div class="focus">负责人：Vitalik · 直客自然流量 + 注册转化漏斗</div>
+    </div>
+    <div class="bh-kpi">
+      <div class="klabel">本组 KPI</div>
+      <div class="krow">30 天自然流量 ≥5K UV</div>
+      <div class="krow">落地页注册转化率 ≥8%</div>
+      <div class="krow">全漏斗转化率 ≥5%</div>
+      <div class="krow">7 日首充邮件转化率 ≥15%</div>
+    </div>
+    <div class="bh-meta">
+      <div class="label">文档</div>
+      <div class="val">执行简报 6/6</div>
+      <div class="label" style="margin-top:4px;">上升</div>
+      <div class="val">Hayden</div>
+    </div>
+  </div>
+
+  <div class="slabel">三套方案</div>
+  <div class="three-col">
+    <div class="plan-card border-green">
+      <div class="pc-head pc-head-green">
+        <div class="pnum c-green">方案 01</div>
+        <div class="pname">0 费率 SEO 文章 + 落地页</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>核心词：prediction market 0 fee / best prediction market</li>
+          <li>竞品对比文章（PredictIt 10% vs MoonX 0%）</li>
+          <li>专属落地页：费率计算器 + 注册 CTA</li>
+          <li>D-7 文章上线，D-0 配合声量推送</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>30 天自然流量 ≥5K UV，落地页转化率 ≥8%</div>
+    </div>
+    <div class="plan-card border-green">
+      <div class="pc-head pc-head-green">
+        <div class="pnum c-green">方案 02</div>
+        <div class="pname">注册转化漏斗 5 步</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>步骤 1：SEO 文章 → CTA → 落地页</li>
+          <li>步骤 2：落地页 → 注册（邮件+密码，简化）</li>
+          <li>步骤 3：注册 → 新手引导（体验金激活）</li>
+          <li>步骤 4：首次预测 → 结果通知（Push/邮件）</li>
+          <li>步骤 5：结算 → 出金引导 → 二次预测</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>全漏斗转化率 ≥5%（落地页访问→首次预测）</div>
+    </div>
+    <div class="plan-card border-green">
+      <div class="pc-head pc-head-green">
+        <div class="pnum c-green">方案 03</div>
+        <div class="pname">7 封激活邮件序列</div>
+      </div>
+      <div class="pc-body">
+        <ul style="list-style:none;padding:0;">
+          <li>D+0（注册当天）：欢迎 + 体验金领取</li>
+          <li>D+1：0% 费率对比 + 首个热门题推荐</li>
+          <li>D+3：充值阶梯奖励提醒（$100 赠 $10）</li>
+          <li>D+5：KOL 挑战晒单 + 真实用户故事</li>
+          <li>D+7：最终召回（体验金即将到期）</li>
+        </ul>
+      </div>
+      <div class="pc-kpi"><strong>目标：</strong>7 日首充转化率 ≥15%，邮件打开率 ≥35%</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ 重要说明（已与 Nate 对齐）：</strong>SEO 自然流量因 Google 收录延迟（3-5 天），D-0 当天几乎无 SEO 贡献。数据看板中 SEO 流量从 <strong>D+7 起才计入本组指标</strong>，请知晓。另：Conversion Pixel 须在 <strong>D-3 前</strong>安装完毕，由 Nate 确认。
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slabel">关键节点</div>
+      <div class="tl-section">
+        <div class="ts-head">D = 预测市场上线日</div>
+        <div class="tl-row hard"><div class="td">D-14</div><div class="tt">关键词调研确认，落地页架构设计</div></div>
+        <div class="tl-row hard"><div class="td">D-7</div><div class="tt">SEO 文章上线，落地页发布 + 功能测试</div></div>
+        <div class="tl-row hard"><div class="td">D-3</div><div class="tt">Pixel 安装完成（⚠️ Nate 确认），漏斗全流程测试</div><div class="warn-tag">Pixel 截止</div></div>
+        <div class="tl-row hard"><div class="td">D-0</div><div class="tt">0% Fee 落地页正式上线，邮件序列自动触发</div></div>
+        <div class="tl-row"><div class="td">D+7</div><div class="tt">关键词排名分析，文章优化迭代（SEO 流量开始计入）</div></div>
+        <div class="tl-row"><div class="td">D+14</div><div class="tt">新一轮 SEO 内容发布，漏斗数据优化</div></div>
+        <div class="tl-row hard"><div class="td">D+30</div><div class="tt">自然流量月度汇报，注册转化率总结</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">物料 & 联系人</div>
+      <div class="info-grid" style="grid-template-columns:1fr;">
+        <div class="info-box">
+          <div class="ib-head">需要的物料</div>
+          <div class="info-row"><span class="ir-label">产品截图</span>产品团队提供</div>
+          <div class="info-row"><span class="ir-label">邮件工具</span>Naval 确认发送平台</div>
+          <div class="info-row"><span class="ir-label">竞品数据</span>已在主方案中（PredictIt 10% 等）</div>
+          <div class="info-row"><span class="ir-label">KOL 晒单</span>苍苍/Sally 组 D+5 前提供素材</div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <div class="ib-head">联系人</div>
+          <div class="info-row"><span class="ir-label">数据/Pixel</span>Nate（D-3 前确认安装）</div>
+          <div class="info-row"><span class="ir-label">邮件工具</span>Naval</div>
+          <div class="info-row"><span class="ir-label">统筹</span>Hayden</div>
+          <div class="info-row"><span class="ir-label">KOL 素材</span>苍苍 / Sally</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>MoonX 预测市场上线营销方案 V4.0 — 执行简报 6/6</span>
+    <span>SEO 组 · Vitalik</span>
+    <span>2026-03-16</span>
+  </div>
+</div>
+
+</body>
+</html>

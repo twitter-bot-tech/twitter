@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 现有代理活动方案集 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.8; }
+.page { max-width: 1080px; margin: 0 auto; padding: 56px 64px; }
+
+.cover { text-align: center; padding: 72px 0 52px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover .eyebrow { font-size: 11px; color: #FF6B00; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.cover h1 { font-size: 30px; font-weight: 800; color: #111; margin-bottom: 10px; }
+.cover .sub { font-size: 15px; color: #888; margin-bottom: 28px; }
+.cover .meta { display: inline-flex; gap: 32px; background: #FFF8F0; padding: 14px 28px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item .label { font-size: 10px; color: #999; letter-spacing: .5px; text-transform: uppercase; }
+.cover .meta-item .value { font-size: 13px; font-weight: 700; color: #333; margin-top: 2px; }
+
+h2.sec { font-size: 19px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 15px; font-weight: 600; margin: 28px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 13px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+
+.tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; }
+.tag-blue { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+.tag-green { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+.tag-purple { background: #F3E5F5; color: #6A1B9A; border: 1px solid #CE93D8; }
+.tag-red { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
+.tag-gray { background: #F5F5F5; color: #555; border: 1px solid #DDD; }
+.tag-teal { background: #E0F7FA; color: #00695C; border: 1px solid #80CBC4; }
+
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.tip { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #1B5E20; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+
+.highlight-box { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: 8px; padding: 18px 22px; margin: 14px 0; }
+.highlight-box h4 { color: #E65100; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+
+.code-box { background: #F8F8F8; border: 1px solid #E0E0E0; border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-family: "SF Mono", Consolas, monospace; font-size: 12px; color: #333; white-space: pre-wrap; line-height: 1.7; }
+
+.msg-mock { border-radius: 10px; padding: 14px 18px; margin: 8px 0; font-size: 13px; line-height: 1.7; }
+.msg-tg { background: #E3F2FD; border: 1px solid #BBDEFB; }
+.msg-twitter { background: #F5F8FA; border: 1px solid #E1E8ED; }
+.msg-mock .msg-label { font-size: 11px; font-weight: 700; color: #888; margin-bottom: 6px; text-transform: uppercase; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 14px 0; }
+.five-col { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 14px 0; }
+
+.card { background: #FAFAFA; border: 1.5px solid #E8E8E8; border-radius: 10px; padding: 16px 18px; }
+.card.orange { background: #FFF8F0; border-color: #FFB74D; }
+.card.blue { background: #EFF6FF; border-color: #93C5FD; }
+.card.green { background: #F0FDF4; border-color: #86EFAC; }
+.card.purple { background: #FAF5FF; border-color: #C4B5FD; }
+.card.teal { background: #F0FDFA; border-color: #5EEAD4; }
+.card h4 { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px; }
+.card .metric { font-size: 22px; font-weight: 800; color: #FF6B00; }
+.card .metric-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+/* 方案卡片 */
+.plan-card { border-radius: 14px; border: 2px solid; margin: 28px 0; overflow: hidden; }
+.plan-card .plan-header { padding: 20px 24px; display: flex; align-items: flex-start; gap: 16px; }
+.plan-card .plan-badge { min-width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.plan-card .plan-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 4px; }
+.plan-card .plan-tagline { font-size: 13px; color: #555; }
+.plan-card .plan-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.plan-card .plan-body { padding: 0 24px 24px; }
+
+.plan-a { border-color: #FF6B00; }
+.plan-a .plan-header { background: linear-gradient(135deg, #FFF3E0, #FFF8F0); }
+.plan-a .plan-badge { background: #FF6B00; }
+
+.plan-b { border-color: #2196F3; }
+.plan-b .plan-header { background: linear-gradient(135deg, #E3F2FD, #EFF6FF); }
+.plan-b .plan-badge { background: #2196F3; }
+
+.plan-c { border-color: #9C27B0; }
+.plan-c .plan-header { background: linear-gradient(135deg, #F3E5F5, #FAF5FF); }
+.plan-c .plan-badge { background: #9C27B0; }
+
+.plan-d { border-color: #4CAF50; }
+.plan-d .plan-header { background: linear-gradient(135deg, #E8F5E9, #F0FDF4); }
+.plan-d .plan-badge { background: #4CAF50; }
+
+.plan-e { border-color: #00BCD4; }
+.plan-e .plan-header { background: linear-gradient(135deg, #E0F7FA, #F0FDFA); }
+.plan-e .plan-badge { background: #00BCD4; }
+
+.plan-f { border-color: #E91E63; }
+.plan-f .plan-header { background: linear-gradient(135deg, #FCE4EC, #FFF0F5); }
+.plan-f .plan-badge { background: #E91E63; }
+
+/* 奖励结构卡片 */
+.reward-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+.reward-item { background: #fff; border: 1px solid #E8E8E8; border-radius: 8px; padding: 12px 14px; text-align: center; }
+.reward-item .r-who { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.reward-item .r-val { font-size: 18px; font-weight: 800; color: #FF6B00; }
+.reward-item .r-cond { font-size: 11px; color: #888; margin-top: 3px; }
+
+/* 难度/优先级 */
+.diff-bar { display: flex; gap: 4px; align-items: center; margin-top: 4px; }
+.diff-dot { width: 10px; height: 10px; border-radius: 50%; }
+.diff-on { background: #FF6B00; }
+.diff-off { background: #E0E0E0; }
+
+hr.sec-div { border: none; border-top: 2px solid #FF6B00; margin: 44px 0; }
+hr.div { border: none; border-top: 1px solid #F0E8E0; margin: 24px 0; }
+
+ul, ol { padding-left: 20px; margin: 8px 0; }
+li { margin-bottom: 5px; color: #333; }
+ul li::marker { color: #FF6B00; }
+p { margin-bottom: 8px; color: #333; }
+
+.step-row { display: flex; gap: 14px; margin: 8px 0; align-items: flex-start; }
+.step-num { min-width: 26px; height: 26px; background: #FF6B00; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.step-content { flex: 1; font-size: 13px; color: #333; }
+.step-content strong { display: block; font-weight: 700; color: #111; margin-bottom: 2px; }
+
+.footer { text-align: center; margin-top: 56px; padding-top: 24px; border-top: 2px solid #FF6B00; color: #999; font-size: 12px; }
+.footer strong { color: #FF6B00; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div class="eyebrow">BYDFi MoonX · 现有代理 · 活动方案集</div>
+  <h1>现有代理 6 套活动方案</h1>
+  <div class="sub">苍苍组 · Sally 组 · Michael 组 — 多套并列方案，按需选用</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">版本</div><div class="value">V1.1</div></div>
+    <div class="meta-item"><div class="label">日期</div><div class="value">2026-03-16</div></div>
+    <div class="meta-item"><div class="label">方案数</div><div class="value">6 套</div></div>
+    <div class="meta-item"><div class="label">覆盖目标</div><div class="value">拉新·激活·推广预测·提佣</div></div>
+  </div>
+</div>
+
+<!-- ═══ 总览对比 ═══ -->
+<h2 class="sec">0. 五套方案一览对比</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>方案</th>
+      <th>主题</th>
+      <th>核心玩法</th>
+      <th>主打目标</th>
+      <th>周期</th>
+      <th>执行难度</th>
+      <th>适合哪组</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-orange">方案 A</span></td>
+      <td><strong>免费双礼入场</strong></td>
+      <td>$88体验金 + 3笔免费预测，KYC即领</td>
+      <td>拉新注册</td>
+      <td>14 天</td>
+      <td>
+        <div class="diff-bar"><div class="diff-dot diff-on"></div><div class="diff-dot diff-off"></div><div class="diff-dot diff-off"></div></div>低
+      </td>
+      <td>三组均可</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-blue">方案 B</span></td>
+      <td><strong>拉好友双倍赚</strong></td>
+      <td>已注册用户邀请新用户，双方各得奖励</td>
+      <td>裂变拉新</td>
+      <td>30 天</td>
+      <td>
+        <div class="diff-bar"><div class="diff-dot diff-on"></div><div class="diff-dot diff-on"></div><div class="diff-dot diff-off"></div></div>中
+      </td>
+      <td>三组均可</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-purple">方案 C</span></td>
+      <td><strong>预测大师挑战</strong></td>
+      <td>30天每日预测，正确率排名，周榜+总榜奖</td>
+      <td>推广预测市场</td>
+      <td>30 天</td>
+      <td>
+        <div class="diff-bar"><div class="diff-dot diff-on"></div><div class="diff-dot diff-on"></div><div class="diff-dot diff-on"></div></div>高
+      </td>
+      <td>Sally · Michael</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-green">方案 D</span></td>
+      <td><strong>老用户回归礼</strong></td>
+      <td>针对30天+沉睡用户，专属回归礼包</td>
+      <td>激活老用户</td>
+      <td>14 天</td>
+      <td>
+        <div class="diff-bar"><div class="diff-dot diff-on"></div><div class="diff-dot diff-on"></div><div class="diff-dot diff-off"></div></div>中
+      </td>
+      <td>苍苍 · Sally</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-teal">方案 E</span></td>
+      <td><strong>代理冲榜月</strong></td>
+      <td>三组代理PK拉新数量，Top代理额外奖励</td>
+      <td>提升代理佣金</td>
+      <td>30 天</td>
+      <td>
+        <div class="diff-bar"><div class="diff-dot diff-on"></div><div class="diff-dot diff-off"></div><div class="diff-dot diff-off"></div></div>低
+      </td>
+      <td>三组竞争</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-red">方案 F</span></td>
+      <td><strong>老用户免费探索</strong></td>
+      <td>已注册老用户直接领3笔免费预测交易，零门槛激活</td>
+      <td>激活预测市场</td>
+      <td>14 天</td>
+      <td>
+        <div class="diff-bar"><div class="diff-dot diff-on"></div><div class="diff-dot diff-off"></div><div class="diff-dot diff-off"></div></div>低
+      </td>
+      <td>三组均可</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="tip"><strong>选用建议：</strong>方案 A + 方案 B 可组合同期执行（先拉新，再裂变）；方案 C 适合上线后第 2~4 周作为留存主力；方案 D 针对沉睡用户独立运行；方案 E 作为代理激励机制全程开启；<strong>方案 F 专为已注册但未体验预测市场的老用户设计，推荐在上线日同步触发，与方案 A 配合使用。</strong></div>
+
+<hr class="sec-div">
+
+<!-- ═══ 方案 A ═══ -->
+<div class="plan-card plan-a">
+  <div class="plan-header">
+    <div class="plan-badge">🎁</div>
+    <div>
+      <div class="plan-title">方案 A · 免费双礼入场</div>
+      <div class="plan-tagline">不用充值，注册即得两份礼 — 最低门槛拉新利器</div>
+      <div class="plan-tags">
+        <span class="tag tag-orange">拉新注册</span>
+        <span class="tag tag-gray">14 天</span>
+        <span class="tag tag-gray">执行难度低</span>
+        <span class="tag tag-gray">三组均可</span>
+      </div>
+    </div>
+  </div>
+  <div class="plan-body">
+
+    <h3 class="sub">A.1 活动机制</h3>
+    <div class="two-col">
+      <div class="highlight-box">
+        <h4>礼包一：合约体验金 $88</h4>
+        <ul>
+          <li>注册 BYDFi → 完成 KYC → 进入活动中心领取</li>
+          <li>可用于永续合约交易</li>
+          <li>盈利满足条件可提现，本金不可提</li>
+          <li>有效期：领取后 14 天内使用</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        <h4>礼包二：预测市场 3 笔免费交易</h4>
+        <ul>
+          <li>注册 BYDFi → 完成 KYC → 进入 MoonX 预测市场领取</li>
+          <li>可用于 MoonX Predict 任意市场</li>
+          <li>预测正确盈利直接到账</li>
+          <li>活动期间全程 0 手续费</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">A.2 奖励结构</h3>
+    <div class="reward-grid">
+      <div class="reward-item">
+        <div class="r-who">新用户获得</div>
+        <div class="r-val">$88 + 3笔</div>
+        <div class="r-cond">KYC 完成即解锁，无需充值</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">代理获得</div>
+        <div class="r-val">按注册计佣</div>
+        <div class="r-cond">用户完成首单后开始计算佣金</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">竞品对比</div>
+        <div class="r-val">高于 Bybit</div>
+        <div class="r-cond">Bybit 实际主力档 $10~$50，我们 $88</div>
+      </div>
+    </div>
+
+    <h3 class="sub">A.3 执行话术</h3>
+
+    <h4 class="sub2">中文社群版（苍苍组）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">Telegram 群消息</div>
+      <strong>【限时 14 天 | BYDFi 双礼包免费领】</strong>
+
+新用户注册 → 完成实名 → 两份礼包同时到手：
+
+① 合约体验金 <strong>$88</strong> — 直接用来做合约单，盈利归你
+② 预测市场 <strong>3 笔免费</strong> — MoonX 新功能，猜对就赚钱
+
+不用充值，KYC 完成直接到账。
+
+➤ 注册链接：[专属链接]
+➤ 截止：[日期]（14 天内完成 KYC 即可）
+
+有问题 @我
+    </div>
+
+    <h4 class="sub2">英文版（Sally 组 / Michael 组）</h4>
+    <div class="msg-mock msg-twitter">
+      <div class="msg-label">Twitter / Telegram English</div>
+      <strong>BYDFi is giving away two free bonuses right now. Here's how to claim both:</strong>
+
+✅ Step 1 — Sign up: [link]
+✅ Step 2 — Complete KYC (~3 min)
+✅ Step 3 — Claim $88 contract trading bonus (Activity Center)
+✅ Step 4 — Claim 3 free prediction trades on MoonX Predict
+
+Both bonuses stack. No deposit required.
+
+Offer window: 14 days from sign-up.
+    </div>
+
+    <h3 class="sub">A.4 执行节奏（14 天窗口）</h3>
+    <table>
+      <thead><tr><th>时间节点</th><th>动作</th><th>话术重点</th></tr></thead>
+      <tbody>
+        <tr><td>D-0 上线日</td><td>正式发布双礼包消息</td><td>强调"无需充值"和"两份叠加"</td></tr>
+        <tr><td>D+3</td><td>私信未完成 KYC 的用户</td><td>"KYC 卡住了？2 分钟搞定，$88 还等着你"</td></tr>
+        <tr><td>D+7</td><td>发社群进度播报</td><td>"已有 XX 人领取，还剩 7 天，礼包还在"</td></tr>
+        <tr><td>D+12</td><td>最终冲刺 × 3 条</td><td>"最后 48 小时，早/午/晚各发一次"</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══ 方案 B ═══ -->
+<div class="plan-card plan-b">
+  <div class="plan-header">
+    <div class="plan-badge">🔗</div>
+    <div>
+      <div class="plan-title">方案 B · 拉好友双倍赚</div>
+      <div class="plan-tagline">已注册用户成为传播节点，代理坐收二级裂变佣金</div>
+      <div class="plan-tags">
+        <span class="tag tag-blue">裂变拉新</span>
+        <span class="tag tag-blue">提升佣金</span>
+        <span class="tag tag-gray">30 天</span>
+        <span class="tag tag-gray">执行难度中</span>
+        <span class="tag tag-gray">三组均可</span>
+      </div>
+    </div>
+  </div>
+  <div class="plan-body">
+
+    <h3 class="sub">B.1 活动机制</h3>
+    <p>激励<strong>已注册用户</strong>主动邀请身边的朋友，形成"代理 → 用户 → 用户"的两级传播链路。</p>
+
+    <div class="three-col">
+      <div class="card orange">
+        <h4>Level 1 — 代理邀请用户</h4>
+        <ul style="font-size:12px;margin-top:6px;">
+          <li>代理推广链接拉新</li>
+          <li>用户注册+KYC+首单</li>
+          <li>代理获常规佣金</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h4>Level 2 — 用户邀请用户</h4>
+        <ul style="font-size:12px;margin-top:6px;">
+          <li>已注册用户获专属邀请链接</li>
+          <li>邀请好友注册+充值 $50</li>
+          <li>双方各得 $10 USDT 奖励</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h4>Level 3 — 代理二级收益</h4>
+        <ul style="font-size:12px;margin-top:6px;">
+          <li>被邀请的好友也归属代理链路</li>
+          <li>代理获二级用户的交易佣金</li>
+          <li>参考 Bybit 子代理结构</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">B.2 奖励结构</h3>
+    <div class="reward-grid">
+      <div class="reward-item">
+        <div class="r-who">邀请人（已注册用户）</div>
+        <div class="r-val">+$10 USDT</div>
+        <div class="r-cond">好友完成首充 $50 后到账</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">被邀请人（新用户）</div>
+        <div class="r-val">$10 + $88 + 3笔</div>
+        <div class="r-cond">注册奖励 $10 + 方案 A 双礼包叠加领</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">代理额外收益</div>
+        <div class="r-val">二级佣金</div>
+        <div class="r-cond">被邀用户交易产生佣金，代理分成</div>
+      </div>
+    </div>
+
+    <div class="note"><strong>注意：</strong>$10 奖励 + 双礼包可叠加，被邀请新用户入场价值最大化（$10 + $88 + 3笔），是强力拉新钩子，话术中要同时强调。</div>
+
+    <h3 class="sub">B.3 执行话术</h3>
+
+    <h4 class="sub2">引导已注册用户分享（私信话术）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">代理私信已注册用户</div>
+BYDFi 现在有个活动，你把注册链接分享给朋友：
+
+你朋友注册 + 充值 $50 → 你得 <strong>$10 USDT</strong>，你朋友得 <strong>$10 + $88 体验金 + 3笔免费预测</strong>。
+
+你的专属邀请链接在"我的 → 推荐" 里能找到。
+
+发给 3 个朋友试试，3 个都注册的话你直接到手 $30。
+    </div>
+
+    <h4 class="sub2">英文版（Sally 组）</h4>
+    <div class="msg-mock msg-twitter">
+      <div class="msg-label">Twitter / TG — Referral Prompt</div>
+      <strong>Quick way to earn $10 on BYDFi:</strong>
+
+Share your referral link. When a friend signs up and deposits $50:
+→ You get $10 USDT
+→ They get $10 + $88 contract bonus + 3 free prediction trades
+
+Find your link: Profile → Referral Center
+
+The more friends you invite, the more you earn. No cap.
+    </div>
+
+    <h3 class="sub">B.4 代理推广社群晒单 SOP</h3>
+    <div class="step-row"><div class="step-num">1</div><div class="step-content"><strong>引导用户截图晒单</strong>发布"我邀请了 XX 人，到账了 $XX" 的截图，制造真实感，吸引更多人参与邀请</div></div>
+    <div class="step-row"><div class="step-num">2</div><div class="step-content"><strong>每周发布邀请排行榜</strong>"本群本周邀请 Top 3：第一名 XX 邀请了 5 人"，激活竞争情绪</div></div>
+    <div class="step-row"><div class="step-num">3</div><div class="step-content"><strong>防刷机制提示</strong>被邀请人需完成真实充值 $50 才触发奖励，告知用户不可用小号刷</div></div>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══ 方案 C ═══ -->
+<div class="plan-card plan-c">
+  <div class="plan-header">
+    <div class="plan-badge">🔮</div>
+    <div>
+      <div class="plan-title">方案 C · 预测大师 30 天挑战</div>
+      <div class="plan-tagline">每天预测，排行争榜，让预测市场成为用户每日习惯</div>
+      <div class="plan-tags">
+        <span class="tag tag-purple">推广预测市场</span>
+        <span class="tag tag-purple">用户留存</span>
+        <span class="tag tag-gray">30 天</span>
+        <span class="tag tag-gray">执行难度高</span>
+        <span class="tag tag-gray">Sally · Michael</span>
+      </div>
+    </div>
+  </div>
+  <div class="plan-body">
+
+    <h3 class="sub">C.1 活动机制</h3>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">基础规则</h4>
+        <ul>
+          <li>活动期 30 天，每天 MoonX 预测市场开放题目</li>
+          <li>用户每天至少参与 1 题</li>
+          <li>按<strong>累计正确题数</strong>排名（同分按参与早晚）</li>
+          <li>每周结算一次，月底总榜结算</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">奖励池</h4>
+        <ul>
+          <li>每周榜：Top 3 分别获 $50 / $30 / $20</li>
+          <li>月总榜：Top 10 分享 $500 奖池</li>
+          <li>参与奖：完成 20 天以上 → 领取积分徽章 + $5</li>
+          <li>新手专属：首次参与即得 1 笔免费额度（引流入口）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note"><strong>平台配合需求：</strong>此方案需 BYDFi 运营端在 MoonX 预测市场开发排行榜功能（或用外部表格临时替代），以及每日题目设置机制。建议提前 2 周与产品沟通。</div>
+
+    <h3 class="sub">C.2 代理运营 SOP</h3>
+    <table>
+      <thead><tr><th>时间</th><th>代理动作</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>每天早晨</td><td>发当日预测题</td><td>"今日题目：[问题]，你的答案是？投票 👇 或直接去平台参与"</td></tr>
+        <tr><td>每天晚上</td><td>发昨日题目答案</td><td>"昨天 [问题] 的答案是 [Yes/No]，猜对的朋友回复截图"</td></tr>
+        <tr><td>每周一</td><td>发上周榜单</td><td>截图排行榜 Top 5，"第一名已到账 $50"</td></tr>
+        <tr><td>每周五</td><td>制造 FOMO</td><td>"还有 2 天这周就结算了，赶紧去追分"</td></tr>
+        <tr><td>D+25</td><td>冲刺倒计时</td><td>"月总榜还有 5 天，Top10 瓜分 $500"</td></tr>
+      </tbody>
+    </table>
+
+    <h4 class="sub2">英文社群话术（Sally 组）</h4>
+    <div class="msg-mock msg-twitter">
+      <div class="msg-label">Daily Prediction Post — Twitter / TG</div>
+      <strong>Day 12 of the MoonX Prediction Challenge 🔮</strong>
+
+Today's question:
+→ Will BTC close above $88,000 on [date]?
+
+I'm going YES. You?
+
+Leaderboard after 12 days:
+🥇 [user] — 9/12 correct
+🥈 [user] — 8/12 correct
+🥉 [user] — 8/12 correct
+
+Top 3 this week split $100. 18 days left.
+
+Predict here → [link]
+    </div>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══ 方案 D ═══ -->
+<div class="plan-card plan-d">
+  <div class="plan-header">
+    <div class="plan-badge">💌</div>
+    <div>
+      <div class="plan-title">方案 D · 老用户专属回归礼</div>
+      <div class="plan-tagline">唤醒沉睡用户，专属身份感 + 限时礼包，激活比拉新成本更低</div>
+      <div class="plan-tags">
+        <span class="tag tag-green">激活老用户</span>
+        <span class="tag tag-gray">14 天</span>
+        <span class="tag tag-gray">执行难度中</span>
+        <span class="tag tag-gray">苍苍 · Sally</span>
+      </div>
+    </div>
+  </div>
+  <div class="plan-body">
+
+    <h3 class="sub">D.1 目标用户定义</h3>
+    <div class="three-col">
+      <div class="card">
+        <h4>沉睡用户（主要目标）</h4>
+        <p style="font-size:12px;color:#666;margin-top:6px;">注册超 30 天 + 最近 30 天无任何交易行为的用户</p>
+      </div>
+      <div class="card">
+        <h4>半沉睡用户（次要目标）</h4>
+        <p style="font-size:12px;color:#666;margin-top:6px;">注册超 14 天 + 完成 KYC 但从未做过首单</p>
+      </div>
+      <div class="card">
+        <h4>排除对象</h4>
+        <p style="font-size:12px;color:#666;margin-top:6px;">近 7 天有活跃交易记录的用户（无需激活，避免打扰）</p>
+      </div>
+    </div>
+
+    <h3 class="sub">D.2 回归礼包设计</h3>
+    <div class="reward-grid">
+      <div class="reward-item">
+        <div class="r-who">回归礼包一</div>
+        <div class="r-val">$20 USDT</div>
+        <div class="r-cond">回归专属，登录后进活动中心领取</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">回归礼包二</div>
+        <div class="r-val">首单 0 手续费</div>
+        <div class="r-cond">回归后首笔交易免手续费（合约或预测均可）</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">新功能体验</div>
+        <div class="r-val">MoonX 1 笔免费</div>
+        <div class="r-cond">专属赠送 1 笔免费预测额度，体验新功能</div>
+      </div>
+    </div>
+
+    <h3 class="sub">D.3 触达 SOP（分 3 波）</h3>
+
+    <div class="step-row"><div class="step-num">1</div><div class="step-content"><strong>第一波：私信唤醒（D-0）</strong>代理找出社群中 30 天以上未回应的老用户，逐一私信。话术聚焦"专属礼包" + "新功能"，不要提"你很久没来了"（显突兀）</div></div>
+    <div class="step-row"><div class="step-num">2</div><div class="step-content"><strong>第二波：社群提及（D+3）</strong>在社群发一条"老用户专属福利已开启"的公开消息，让老用户自然看到，比私信侵入感低</div></div>
+    <div class="step-row"><div class="step-num">3</div><div class="step-content"><strong>第三波：最后提醒（D+12）</strong>"专属回归礼包还剩最后 2 天"，制造截止紧迫感</div></div>
+
+    <h4 class="sub2">私信话术（中文）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">代理私信沉睡用户</div>
+好久不见！BYDFi 这段时间上了一个新功能 —— MoonX 预测市场，可以预测 BTC 走势、美联储决定这些，和做合约不太一样，挺有趣的。
+
+你作为老用户，有个<strong>专属回归礼包</strong>：
+① $20 USDT 直接到账
+② 回归首单 0 手续费
+③ 额外 1 笔 MoonX 免费预测
+
+14 天内登录就能领，有问题随时找我。
+    </div>
+
+    <h4 class="sub2">英文版（Sally 组）</h4>
+    <div class="msg-mock msg-twitter">
+      <div class="msg-label">Private Message — Win-back</div>
+Hey — long time no see on BYDFi.
+
+We just launched MoonX Predict (prediction markets — very different from futures, way simpler).
+
+As an existing user, there's a come-back package waiting for you:
+→ $20 USDT credited on login
+→ Zero-fee on your next trade
+→ 1 free prediction trade on MoonX
+
+14-day window. Login to claim: [link]
+    </div>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══ 方案 E ═══ -->
+<div class="plan-card plan-e">
+  <div class="plan-header">
+    <div class="plan-badge">🏅</div>
+    <div>
+      <div class="plan-title">方案 E · 代理冲榜月</div>
+      <div class="plan-tagline">三组代理互相 PK，拉新越多奖励越大，激活代理主动推广欲望</div>
+      <div class="plan-tags">
+        <span class="tag tag-teal">提升代理佣金</span>
+        <span class="tag tag-teal">拉新竞争</span>
+        <span class="tag tag-gray">30 天</span>
+        <span class="tag tag-gray">执行难度低</span>
+        <span class="tag tag-gray">三组竞争</span>
+      </div>
+    </div>
+  </div>
+  <div class="plan-body">
+
+    <h3 class="sub">E.1 活动机制</h3>
+    <p>在 30 天活动期内，苍苍组、Sally 组、Michael 组三组代理同台竞争，按以下维度计分排名：</p>
+
+    <table>
+      <thead><tr><th>计分维度</th><th>权重</th><th>计分规则</th></tr></thead>
+      <tbody>
+        <tr><td>新增注册用户数</td><td>40%</td><td>每 1 个有效注册用户（完成 KYC）= 1 分</td></tr>
+        <tr><td>新用户首单完成率</td><td>30%</td><td>首单完成率每提升 10% = +5 分（激励代理跟进激活质量）</td></tr>
+        <tr><td>预测市场参与人数</td><td>20%</td><td>每 1 个用户完成 MoonX 首次预测 = 1 分</td></tr>
+        <tr><td>老用户回归数</td><td>10%</td><td>每 1 个沉睡用户回归并完成交易 = 1 分</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">E.2 代理奖励池</h3>
+    <div class="three-col">
+      <div class="card orange" style="text-align:center;">
+        <div class="metric">$500</div>
+        <div class="metric-sub">月度冠军（积分第 1）</div>
+        <p style="font-size:12px;color:#888;margin-top:8px;">+ 下月返佣比例提升 5%</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="metric" style="color:#888;">$300</div>
+        <div class="metric-sub">月度亚军（积分第 2）</div>
+        <p style="font-size:12px;color:#888;margin-top:8px;">+ 下月返佣比例提升 3%</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="metric" style="color:#888;">$200</div>
+        <div class="metric-sub">月度季军（积分第 3）</div>
+        <p style="font-size:12px;color:#888;margin-top:8px;">+ 下月返佣比例提升 1%</p>
+      </div>
+    </div>
+
+    <div class="tip"><strong>设计逻辑：</strong>奖励叠加"下月返佣比例提升"，让冠军代理在下个月仍有持续优势，形成正向飞轮——越努力的代理越强，持续保持推广积极性。</div>
+
+    <h3 class="sub">E.3 运营端执行要求</h3>
+    <table>
+      <thead><tr><th>执行项</th><th>频率</th><th>执行方</th></tr></thead>
+      <tbody>
+        <tr><td>向三组代理同步实时积分榜</td><td>每周一</td><td>BYDFi 运营 → 代理群</td></tr>
+        <tr><td>当前排名播报</td><td>每 5 天</td><td>运营发截图到三组群</td></tr>
+        <tr><td>月末 3 天倒计时播报</td><td>每天</td><td>运营推送</td></tr>
+        <tr><td>月末结算并发奖励</td><td>月末 D+30</td><td>BYDFi 运营结算</td></tr>
+      </tbody>
+    </table>
+
+    <h4 class="sub2">代理群激励话术（运营发给代理）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">BYDFi 运营 → 代理内部群</div>
+【月度冲榜赛 | 第 2 周战报 】
+
+当前积分排名：
+🥇 Sally 组：42 分（新增 18 人注册）
+🥈 苍苍组：38 分（新增 15 人注册）
+🥉 Michael 组：31 分（新增 12 人注册）
+
+差距不大，还有 2 周！
+
+本月冠军奖励：<strong>$500 + 下月返佣+5%</strong>
+
+加油 💪 有什么支持需要随时找运营
+    </div>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══ 方案 F ═══ -->
+<div class="plan-card plan-f">
+  <div class="plan-header">
+    <div class="plan-badge">🎁</div>
+    <div>
+      <div class="plan-title">方案 F · 老用户免费探索预测市场</div>
+      <div class="plan-tagline">已注册老用户直接领 3 笔免费预测额度，零门槛体验 MoonX 新功能，成本极低、转化极快</div>
+      <div class="plan-tags">
+        <span class="tag tag-red">激活预测市场</span>
+        <span class="tag tag-orange">老用户专属</span>
+        <span class="tag tag-gray">14 天</span>
+        <span class="tag tag-gray">执行难度低</span>
+        <span class="tag tag-gray">三组均可</span>
+      </div>
+    </div>
+  </div>
+  <div class="plan-body">
+
+    <h3 class="sub">F.1 目标用户定义</h3>
+    <div class="three-col">
+      <div class="card orange">
+        <h4>核心目标（首选）</h4>
+        <p style="font-size:12px;color:#666;margin-top:6px;">已注册 + 近 30 天有登录或交易记录，但<strong>从未使用过预测市场功能</strong>的用户</p>
+      </div>
+      <div class="card">
+        <h4>次要目标</h4>
+        <p style="font-size:12px;color:#666;margin-top:6px;">已注册 + 历史上有过预测市场交易，但近 14 天未再使用的用户（二次激活）</p>
+      </div>
+      <div class="card">
+        <h4>排除对象</h4>
+        <p style="font-size:12px;color:#666;margin-top:6px;">近 7 天已有预测市场活跃记录的用户（无需推送，避免打扰）</p>
+      </div>
+    </div>
+
+    <div class="note"><strong>与方案 D 的区别：</strong>方案 D 针对<em>沉睡用户</em>，主要目标是让他们回到平台；方案 F 针对<em>活跃但未用预测市场</em>的用户，目标是推动他们尝试新功能。两个方案可同时运行，互不冲突。</div>
+
+    <h3 class="sub">F.2 奖励设计</h3>
+    <div class="reward-grid">
+      <div class="reward-item">
+        <div class="r-who">免费预测额度</div>
+        <div class="r-val">3 笔免费</div>
+        <div class="r-cond">无需存款，直接在预测市场下单使用</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">单笔额度上限</div>
+        <div class="r-val">$10 / 笔</div>
+        <div class="r-cond">每笔最高 $10 等值，共 $30 价值</div>
+      </div>
+      <div class="reward-item">
+        <div class="r-who">使用期限</div>
+        <div class="r-val">7 天有效</div>
+        <div class="r-cond">领取后 7 天内必须使用，过期失效</div>
+      </div>
+    </div>
+
+    <div class="tip"><strong>设计逻辑：</strong>对于"没用过"的用户，最大障碍是不知道怎么玩、不想花自己的钱试错。3 笔免费额度直接消除两个障碍——既教会用法，又无财务风险。用户体验后如果有盈利，自然会用真实资金继续参与。</div>
+
+    <h3 class="sub">F.3 触达 SOP</h3>
+
+    <div class="step-row"><div class="step-num">1</div><div class="step-content"><strong>第一波：社群公告（D-0）</strong>上线日当天，在社群发布"预测市场正式上线 + 老用户免费体验"公告，附带领取链接。聚焦"免费"和"无风险"两个关键词。</div></div>
+    <div class="step-row"><div class="step-num">2</div><div class="step-content"><strong>第二波：互动跟进（D+3）</strong>发布"今日预测题目"，晒出预测结果（正确/错误），引发互动。@提醒还没领取免费额度的用户，顺带说明预测市场怎么玩。</div></div>
+    <div class="step-row"><div class="step-num">3</div><div class="step-content"><strong>第三波：截止提醒（D+7）</strong>"免费 3 笔额度还剩 7 天，领了没用也是浪费"——营造截止感，推动还未行动的用户完成领取+使用。</div></div>
+    <div class="step-row"><div class="step-num">4</div><div class="step-content"><strong>跟进晒单（D+10）</strong>邀请已体验用户在群里晒预测结果，形成 UGC 氛围，带动更多人参与。提供截图话术模板让用户复制转发。</div></div>
+
+    <h3 class="sub">F.4 消息模板</h3>
+
+    <h4 class="sub2">社群公告话术（中文 — 苍苍组）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">TG/微信社群 公告</div>
+📢 MoonX 预测市场今日正式上线！
+
+和普通合约不一样：不用预测涨跌多少，只猜方向（对或错），还能押美联储加不加息、BTC 周涨跌。
+
+<strong>老用户专属福利：3 笔免费预测额度</strong>
+→ 无需存款，直接用
+→ 每笔最高 $10，共 $30 价值
+→ 7 天内使用，过期失效
+
+领取方式：登录 → 活动中心 → 免费预测额度
+或直接点：[专属链接]
+
+有疑问随时问我，教你怎么玩 👇
+    </div>
+
+    <h4 class="sub2">D+3 跟进话术（中文）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">TG 社群 — D+3 跟进</div>
+今天的 MoonX 预测题目来了：
+
+❓ 本周五 BTC 收盘价，会高于还是低于今日开盘价？
+
+用免费额度猜一下，对了有收益，错了也没损失。
+
+还没领取免费额度的，点这里领：[链接]
+（已经有 XX 位老用户体验了，有几个今天赚了）
+    </div>
+
+    <h4 class="sub2">社群公告话术（英文 — Sally / Michael 组）</h4>
+    <div class="msg-mock msg-twitter">
+      <div class="msg-label">TG / Twitter — English Announcement</div>
+🚀 MoonX Predict is LIVE on BYDFi!
+
+Different from futures — you predict outcomes, not price levels.
+BTC direction? Fed rate decision? GDP beats? All tradeable.
+
+<strong>Existing users get 3 FREE prediction trades</strong>
+→ No deposit needed
+→ Up to $10 each, $30 total value
+→ Valid 7 days after claiming
+
+How to claim: Login → Activity Center → Free Predict Credits
+Or use your link: [link]
+
+First time on prediction markets? Drop a question below 👇
+    </div>
+
+    <h4 class="sub2">D+3 英文跟进（Sally 组）</h4>
+    <div class="msg-mock msg-twitter">
+      <div class="msg-label">TG / Twitter Thread — D+3</div>
+Today's MoonX prediction:
+
+❓ Will BTC close higher or lower than today's open by Friday EOD?
+
+Use your free credits — right or wrong, you learn how it works.
+Profits are real and withdrawable.
+
+Haven't claimed your 3 free trades yet? → [link]
+(XX users already tried it today)
+    </div>
+
+    <h4 class="sub2">晒单引导话术（D+10）</h4>
+    <div class="msg-mock msg-tg">
+      <div class="msg-label">晒单引导 — 中文</div>
+用完免费额度的朋友，欢迎在群里晒一下你的战绩 🎯
+
+截图发出来，我们来看看谁预测最准~
+
+还没用完的，还剩最后几天，别浪费了：[链接]
+    </div>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══ 组合建议 ═══ -->
+<h2 class="sec">6. 方案组合执行建议</h2>
+
+<h3 class="sub">6.1 推荐组合路径</h3>
+<table>
+  <thead>
+    <tr><th>阶段</th><th>时间</th><th>主推方案</th><th>辅助方案</th><th>核心目标</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>上线冷启动期</td><td>第 1~2 周</td><td><span class="tag tag-orange">方案 A</span> 免费双礼入场 + <span class="tag tag-red">方案 F</span> 老用户免费探索</td><td><span class="tag tag-teal">方案 E</span> 代理冲榜（全程开启）</td><td>新老用户同时激活，快速积累预测市场用户量</td></tr>
+    <tr><td>裂变扩散期</td><td>第 2~4 周</td><td><span class="tag tag-blue">方案 B</span> 拉好友双倍赚</td><td><span class="tag tag-teal">方案 E</span> 代理冲榜</td><td>用存量用户带动新增</td></tr>
+    <tr><td>产品渗透期</td><td>第 3~6 周</td><td><span class="tag tag-purple">方案 C</span> 预测大师挑战</td><td><span class="tag tag-teal">方案 E</span> 代理冲榜</td><td>预测市场习惯养成</td></tr>
+    <tr><td>流失防御期</td><td>随时触发</td><td><span class="tag tag-green">方案 D</span> 老用户回归礼</td><td>—</td><td>召回沉睡用户</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">6.2 各组适配建议</h3>
+<div class="three-col">
+  <div class="card orange">
+    <h4>苍苍组（中文社群）</h4>
+    <ul style="font-size:12px;margin-top:6px;">
+      <li>主推：方案 A + 方案 D</li>
+      <li>方案 A：中文话术，微信/TG 双发</li>
+      <li>方案 D：私信沉睡老用户最合适</li>
+      <li>参与：方案 E 冲榜</li>
+    </ul>
+  </div>
+  <div class="card blue">
+    <h4>Sally 组（英文社群）</h4>
+    <ul style="font-size:12px;margin-top:6px;">
+      <li>主推：方案 A + 方案 C</li>
+      <li>方案 A：英文任务清单话术</li>
+      <li>方案 C：欧美用户对排行榜赛制接受度高</li>
+      <li>参与：方案 B 裂变 + 方案 E 冲榜</li>
+    </ul>
+  </div>
+  <div class="card green">
+    <h4>Michael 组（代理+媒体）</h4>
+    <ul style="font-size:12px;margin-top:6px;">
+      <li>主推：方案 A + 方案 B</li>
+      <li>方案 A：媒体线用英文版同步发布</li>
+      <li>方案 B：代理下用户裂变增量最大</li>
+      <li>方案 C 排行榜截图可给媒体提供素材</li>
+    </ul>
+  </div>
+</div>
+
+<h3 class="sub">6.3 预算参考（5 套合计）</h3>
+<table>
+  <thead><tr><th>方案</th><th>用户奖励成本</th><th>代理激励成本</th><th>备注</th></tr></thead>
+  <tbody>
+    <tr><td>方案 A</td><td>$88/人（体验金）</td><td>常规佣金</td><td>体验金不等于真实现金支出，取决于用户盈利情况</td></tr>
+    <tr><td>方案 B</td><td>$10+$10/对（邀请双方）</td><td>二级佣金</td><td>每成功邀请对 = $20，控制好充值门槛</td></tr>
+    <tr><td>方案 C</td><td>$500 奖池/月（周榜+总榜）</td><td>含在方案 E 里</td><td>建议先小规模测试月，验证参与率</td></tr>
+    <tr><td>方案 D</td><td>$20+1笔免费/回归用户</td><td>常规佣金</td><td>激活成本远低于拉新成本，高ROI</td></tr>
+    <tr><td>方案 E</td><td>—</td><td>$1,000/月（三名奖励合计）</td><td>是所有方案的放大器，全程开启</td></tr>
+    <tr><td>方案 F</td><td>3笔×$10免费额度/激活用户</td><td>常规佣金</td><td>仅在用户实际使用时产生成本；用户盈利则从交易手续费中回收</td></tr>
+  </tbody>
+</table>
+
+<!-- Footer -->
+<div class="footer">
+  <strong>BYDFi MoonX · 现有代理活动方案集 V1.1</strong><br>
+  苍苍组 · Sally 组 · Michael 组<br>
+  方案 A 免费双礼 | 方案 B 裂变邀请 | 方案 C 预测挑战 | 方案 D 老用户回归 | 方案 E 代理冲榜 | 方案 F 老用户免费探索<br>
+  2026-03-16 · 内部执行文件
+</div>
+
+</div>
+</body>
+</html>

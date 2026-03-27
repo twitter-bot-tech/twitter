@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX SEO 内容产品需求文档 V1.0</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; padding: 48px 56px; max-width: 1100px; margin: 0 auto; line-height: 1.75; }
+  
+  h1 { font-size: 26px; font-weight: 700; color: #111; margin: 48px 0 16px; padding-bottom: 12px; border-bottom: 3px solid #FF6B00; }
+  h2 { font-size: 20px; font-weight: 700; color: #1a1a1a; margin: 40px 0 12px; padding: 10px 16px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; }
+  h3 { font-size: 16px; font-weight: 600; color: #222; margin: 28px 0 10px; padding: 6px 12px; border-left: 3px solid #FF9800; background: #FAFAFA; border-radius: 2px; }
+  h4 { font-size: 14px; font-weight: 600; color: #444; margin: 20px 0 8px; }
+  
+  p { margin: 8px 0; color: #333; }
+  
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  thead tr th { background: #F5F5F5; font-weight: 600; border: 1px solid #ddd; padding: 9px 12px; text-align: left; }
+  tbody tr td { border: 1px solid #e8e8e8; padding: 9px 12px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #FAFAFA; }
+  
+  code { background: #F3F3F3; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", monospace; font-size: 12px; color: #C41A16; }
+  pre { background: #F8F8F8; border: 1px solid #E8E8E8; border-radius: 6px; padding: 16px; margin: 12px 0; overflow-x: auto; }
+  pre code { background: none; padding: 0; color: #333; font-size: 12px; white-space: pre; }
+  
+  blockquote { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 12px 18px; margin: 16px 0; border-radius: 4px; color: #555; font-size: 13px; }
+  blockquote p { color: #555; margin: 4px 0; }
+  
+  ul { margin: 8px 0 8px 22px; }
+  ol { margin: 8px 0 8px 22px; }
+  li { margin: 4px 0; color: #333; }
+  
+  hr { border: none; border-top: 1px solid #EEE; margin: 28px 0; }
+  strong { color: #111; font-weight: 600; }
+  
+  .toc { background: #F9F9F9; border: 1px solid #E8E8E8; border-radius: 6px; padding: 16px 20px; margin: 24px 0; font-size: 13px; }
+  .toc ul { margin: 4px 0 4px 16px; }
+</style>
+</head>
+<body>
+<h1 id="moonx-seo-v10">MoonX SEO 内容产品需求文档 V1.0</h1>
+<hr />
+<h2 id="_1">一、需求介绍</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>所属业务线</strong></td>
+<td>MoonX 预测市场聚合器</td>
+</tr>
+<tr>
+<td><strong>需求负责人</strong></td>
+<td>Kelly（市场负责人）</td>
+</tr>
+<tr>
+<td><strong>需求介绍</strong></td>
+<td>本文档描述 MoonX SEO 内容体系的完整产品需求，覆盖两类人工内容（预测学院、Meme 学院）和五类程序化 SEO 页面（如何参与预测市场、如何参与美股、如何购买 Meme、价格页、热门榜单页）的前端页面结构、数据调用逻辑、后台管理工具和验收标准。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_2">二、需求背景</h2>
+<h3 id="21">2.1 需求价值</h3>
+<p>MoonX 当前自然流量为 0，bydfi.com 整站自然流量 46.1K/月，MoonX 无任何 SEO 内容承接。</p>
+<p>核心问题：<br />
+- MoonX 全部页面为 CSR 渲染，Google 无法抓取内容，无自然流量<br />
+- 没有内容落地页，用户无法通过搜索发现 MoonX<br />
+- 竞品 laikalabs.ai（DA 仅 19）已开始布局，存在先发危机</p>
+<p>本需求的价值：<br />
+1. 建立 MoonX 内容 SEO 体系，目标 6 个月月均自然流量 15,000+<br />
+2. 以内容集群方式建立"预测市场聚合器"品牌权威<br />
+3. 程序化页面形成规模化流量（Token 价格页 + 预测事件页）</p>
+<h3 id="22">2.2 目标用户</h3>
+<p>站外自然搜索流量：<br />
+- 搜索 "polymarket alternative"、"prediction market aggregator" 等词的用户<br />
+- 搜索 "how to buy [meme coin]"、"[TOKEN] price prediction" 的 Meme 币用户<br />
+- 搜索 "TSLA prediction market odds"、"Tesla prediction market" 的股票用户</p>
+<h3 id="23">2.3 典型使用场景</h3>
+<ol>
+<li>用户搜索"polymarket vs kalshi"进入对比文章 → 了解 MoonX 聚合两者 → 点击进入 MoonX 平台</li>
+<li>用户搜索"how to buy PEPE on Solana"进入 Meme 购买指南 → 看到预测市场赔率 → 跳转 MoonX 下注</li>
+<li>用户搜索"TSLA prediction market"进入股票预测页 → 看到 Polymarket 上 TSLA 相关市场 → 跳转交易</li>
+<li>用户搜索"top prediction markets today"进入热门榜单 → 发现感兴趣市场 → 点击参与</li>
+</ol>
+<h3 id="24-seo-ahrefs">2.4 SEO 关键词矩阵（已验证，Ahrefs 真实数据）</h3>
+<table>
+<thead>
+<tr>
+<th>页面类型</th>
+<th>核心关键词</th>
+<th>月搜索量(US)</th>
+<th>竞争度</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>预测学院文章</td>
+<td>polymarket vs kalshi</td>
+<td>1,700</td>
+<td>中</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>预测学院文章</td>
+<td>polymarket alternative</td>
+<td>50</td>
+<td>低</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>预测学院文章</td>
+<td>prediction market aggregator</td>
+<td>50</td>
+<td>极低</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>预测学院文章</td>
+<td>what are prediction markets</td>
+<td>500</td>
+<td>中（AI Overview）</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>程序化·价格页</td>
+<td>TSLA prediction market odds</td>
+<td>待测</td>
+<td>低</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>程序化·Meme 购买</td>
+<td>{TOKEN} price prediction</td>
+<td>中长尾</td>
+<td>低</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>程序化·热门榜单</td>
+<td>top prediction markets today</td>
+<td>待测</td>
+<td>中</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_3">三、需求目标</h2>
+<h3 id="31">3.1 需求目标</h3>
+<ol>
+<li>建立 MoonX 内容 SEO 基础设施（CMS + 程序化模板 + SSR）</li>
+<li>发布第一批 SEO 文章，实现关键词排名突破</li>
+<li>程序化页面上线，形成规模化长尾流量</li>
+</ol>
+<h3 id="32">3.2 衡量指标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>计算方式</th>
+<th>目标值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>月自然流量</td>
+<td>GSC Click 数</td>
+<td>M2: 200+ / M4: 3,000+ / M6: 15,000+</td>
+</tr>
+<tr>
+<td>关键词排名</td>
+<td>GSC Avg Position</td>
+<td>"polymarket vs kalshi" M2 进 Top 20，M4 进 Top 5</td>
+</tr>
+<tr>
+<td>内容页收录率</td>
+<td>GSC Coverage 已索引数/发布数</td>
+<td>≥ 95%</td>
+</tr>
+<tr>
+<td>程序化页面数</td>
+<td>sitemap 有效 URL 数</td>
+<td>M3: 500+ / M6: 5,000+</td>
+</tr>
+<tr>
+<td>内容→交易转化率</td>
+<td>文章页点击 CTA / 进入 MoonX 平台数</td>
+<td>≥ 3%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">四、需求范围</h2>
+<h3 id="_5">需求列表</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>需求</th>
+<th>模块</th>
+<th>涉及终端</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>【预测学院】文章列表页前端改造</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>【预测学院】文章详情页前端改造</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>【Meme学院】文章列表页前端改造</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>【Meme学院】文章详情页前端改造</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>【内容 CMS】文章管理后台</td>
+<td>新功能开发</td>
+<td>后台管理系统</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>【程序化·预测事件指南】页面模板</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>【程序化·美股预测页】页面模板</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>【程序化·Meme购买指南】页面模板</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>【程序化·Token价格页】SSR meta 注入</td>
+<td>已有功能改造</td>
+<td>客户端</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>【程序化·热门榜单页】页面模板</td>
+<td>新功能开发</td>
+<td>客户端</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>全站 SEO 技术基础（SSR + Sitemap + Schema）</td>
+<td>新功能开发</td>
+<td>服务端</td>
+<td>P0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_6">五、需求详情</h2>
+<blockquote>
+<p><strong>通用技术要求（所有 SEO 页面）：</strong><br />
+- 所有 SEO 页面必须 <strong>SSR 渲染</strong>（服务端渲染），Google 爬虫能直接读取 HTML 内容<br />
+- 每个页面必须有独立的 <code>&lt;title&gt;</code>、<code>&lt;meta description&gt;</code>、<code>&lt;canonical&gt;</code><br />
+- 所有内链使用 <code>&lt;a href&gt;</code> 标签，不使用 JS 跳转<br />
+- 页面加载速度 LCP ≤ 2.5s（Core Web Vitals）</p>
+</blockquote>
+<hr />
+<h3 id="51">5.1 人工内容页面</h3>
+<h4 id="511">5.1.1 【预测学院】文章列表页</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/learn/prediction/</code><br />
+<strong>SEO 定位：</strong> 预测市场内容集群入口，传递权重给子页面</p>
+<p><strong>页面线框图：</strong></p>
+<pre><code>┌─────────────────────────────────────────────┐
+│  面包屑：MoonX &gt; Learn &gt; Prediction         │
+├─────────────────────────────────────────────┤
+│  H1: Prediction Market Academy              │
+│  副标题：Learn how prediction markets work  │
+├────────────────────┬────────────────────────┤
+│  分类 Tab：         │                        │
+│  All | Beginner |  │  精选文章卡片（大）     │
+│  Advanced | Guide  │                        │
+├────────────────────┴────────────────────────┤
+│  文章卡片列表（每行3个）                      │
+│  [封面图] [标题] [摘要] [日期] [阅读时间]    │
+│  [封面图] [标题] [摘要] [日期] [阅读时间]    │
+│  [封面图] [标题] [摘要] [日期] [阅读时间]    │
+├─────────────────────────────────────────────┤
+│  分页：&lt; 1 2 3 ... &gt;                         │
+└─────────────────────────────────────────────┘
+</code></pre>
+<p><strong>页面元素规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面元素</th>
+<th>前端功能逻辑</th>
+<th>数据调用逻辑</th>
+<th>其他说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>页面路径导航</td>
+<td>1. MoonX 首页 &gt; Learn &gt; Prediction<br>2. 点击「MoonX 首页」打开 <code>/en/moonx/markets/trending</code><br>3. 「Prediction」页签不可点击</td>
+<td>无后台数据调用，前端写死</td>
+<td></td>
+</tr>
+<tr>
+<td>SEO Meta</td>
+<td>1. Title: <code>Prediction Market Academy \| MoonX</code><br>2. Meta: Learn how prediction markets work, compare Polymarket vs Kalshi, and find the best platforms.</td>
+<td>前端写死</td>
+<td>SSR 必须</td>
+</tr>
+<tr>
+<td>H1 标题</td>
+<td><code>Prediction Market Academy</code></td>
+<td>前端写死</td>
+<td></td>
+</tr>
+<tr>
+<td>分类 Tab</td>
+<td>All / Beginner / Advanced / Comparison / Guide，点击筛选对应分类文章</td>
+<td>调用 CMS API：<code>GET /api/articles?category=prediction&amp;tag={tab}</code></td>
+<td>默认选中 All</td>
+</tr>
+<tr>
+<td>文章卡片</td>
+<td>显示：封面图、标题、摘要（前120字）、发布日期、预计阅读时间（字数/200）<br>点击跳转文章详情页</td>
+<td>调用 CMS API：<code>GET /api/articles?category=prediction&amp;page={n}&amp;limit=12</code><br>SSR 渲染前12篇，剩余 CSR 加载</td>
+<td>图片需 alt 属性 = 文章标题</td>
+</tr>
+<tr>
+<td>内部推荐</td>
+<td>右侧栏显示「Hot Topics」：3个热门内链文章</td>
+<td>CMS 后台手动配置</td>
+<td></td>
+</tr>
+<tr>
+<td>分页</td>
+<td>每页12篇，支持翻页，URL 参数：<code>?page=2</code></td>
+<td>前端分页，SEO 无影响</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="512">5.1.2 【预测学院】文章详情页</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/learn/prediction/{slug}</code><br />
+<strong>SEO 定位：</strong> 单篇文章攻打具体关键词<br />
+<strong>示例 URL：</strong> <code>/en/moonx/learn/prediction/polymarket-vs-kalshi</code></p>
+<p><strong>页面线框图：</strong></p>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│  面包屑：MoonX &gt; Learn &gt; Prediction &gt; {文章标题}    │
+├───────────────────────────┬─────────────────────────┤
+│                           │  右侧栏（Sticky）        │
+│  H1: {文章标题}            │  ┌───────────────────┐  │
+│  日期 | 作者 | 阅读时间    │  │  目录 TOC          │  │
+│                           │  │  - H2 锚点 1       │  │
+│  {文章封面图}              │  │  - H2 锚点 2       │  │
+│                           │  │  - H2 锚点 3       │  │
+│  {文章正文 Markdown 渲染}  │  └───────────────────┘  │
+│  - H2 段落                │                         │
+│  - H3 子段落              │  ┌───────────────────┐  │
+│  - 表格 / 列表            │  │  相关文章          │  │
+│                           │  │  推荐3篇           │  │
+│  FAQ 折叠模块（Schema）    │  └───────────────────┘  │
+│                           │                         │
+│  CTA 模块                 │  ┌───────────────────┐  │
+│  「Compare on MoonX →」   │  │  MoonX 平台推广位  │  │
+│                           │  │  运营配置          │  │
+├───────────────────────────┴─────────────────────────┤
+│  相关文章推荐（底部，3篇横排）                        │
+│  [卡片] [卡片] [卡片]                                │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>页面元素规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面元素</th>
+<th>前端功能逻辑</th>
+<th>数据调用逻辑</th>
+<th>其他说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEO Meta（SSR）</td>
+<td>1. Title：<code>{文章SEO标题} \| MoonX</code>（≤60字符）<br>2. Meta Description：文章 meta（≤155字符）<br>3. Canonical：<code>https://www.bydfi.com/en/moonx/learn/prediction/{slug}</code><br>4. og:title / og:description / og:image</td>
+<td>调用 CMS API：<code>GET /api/articles/{slug}</code><br><strong>必须 SSR</strong>，不可 CSR</td>
+<td>canonical 必须正确，防止重复</td>
+</tr>
+<tr>
+<td>面包屑</td>
+<td>MoonX &gt; Learn &gt; Prediction &gt; {文章标题}<br>每级均为可点击内链</td>
+<td>前端写死前3级，最后一级从 CMS 取文章标题</td>
+<td>BreadcrumbList Schema 必须注入</td>
+</tr>
+<tr>
+<td>H1</td>
+<td>文章标题，与 Title Tag 可不同（H1 更长更自然）</td>
+<td>CMS 字段：<code>h1_title</code></td>
+<td>H1 唯一，不可重复</td>
+</tr>
+<tr>
+<td>发布信息</td>
+<td>显示：发布日期、最近更新日期、作者名（可配置）、预计阅读时间</td>
+<td>CMS 字段</td>
+<td>日期格式：Month DD, YYYY（利于信任度）</td>
+</tr>
+<tr>
+<td>文章正文</td>
+<td>Markdown/富文本渲染，支持：H2/H3、表格、列表、图片、代码块、加粗、内链</td>
+<td>CMS 富文本字段，SSR 渲染</td>
+<td>图片必须有 alt，内链必须是相对路径</td>
+</tr>
+<tr>
+<td>目录 TOC</td>
+<td>自动提取正文所有 H2/H3 生成，点击锚点跳转</td>
+<td>前端自动解析 H2/H3，不调用后台</td>
+<td>右侧 sticky，随滚动高亮当前章节</td>
+</tr>
+<tr>
+<td>FAQ 模块</td>
+<td>折叠式展示 Q&amp;A，每条 Q 点击展开 A</td>
+<td>CMS 字段：FAQ 列表（question + answer）<br><strong>SSR 渲染</strong></td>
+<td><strong>FAQPage Schema 必须注入</strong>，提升 PAA 覆盖机会</td>
+</tr>
+<tr>
+<td>CTA 模块</td>
+<td>1. 固定文案：「See {keyword} markets on MoonX →」<br>2. 点击跳转 MoonX 对应市场页<br>3. 文章内最多出现 2 次 CTA</td>
+<td>CMS 字段：cta_text + cta_url，前端写死跳转逻辑</td>
+<td>CTA 按钮需 nofollow 防止 PageRank 流失</td>
+</tr>
+<tr>
+<td>相关文章推荐</td>
+<td>1. 右侧栏：同分类文章3篇<br>2. 文章底部：3篇横排卡片</td>
+<td>CMS API：<code>GET /api/articles?category=prediction&amp;exclude={current_slug}&amp;limit=3</code><br>按相关 tag 匹配度排序</td>
+<td></td>
+</tr>
+<tr>
+<td>运营推广位</td>
+<td>右侧栏可配置的运营 Banner</td>
+<td>后台 Banner 管理工具配置，调取对应语言和适用范围的 banner</td>
+<td>见 5.3.3 Banner 管理</td>
+</tr>
+<tr>
+<td>Article Schema</td>
+<td>注入 Article Schema：headline / datePublished / dateModified / author / publisher</td>
+<td>SSR 从 CMS 数据生成</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="513-meme">5.1.3 【Meme学院】文章列表页</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/learn/meme/</code></p>
+<p>规格与【预测学院】列表页相同，差异点：</p>
+<table>
+<thead>
+<tr>
+<th>差异项</th>
+<th>预测学院</th>
+<th>Meme 学院</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1</td>
+<td>Prediction Market Academy</td>
+<td>Meme Coin Academy</td>
+</tr>
+<tr>
+<td>Meta</td>
+<td>Learn prediction markets...</td>
+<td>Learn how to research, buy and trade meme coins...</td>
+</tr>
+<tr>
+<td>分类 Tab</td>
+<td>All / Beginner / Comparison / Guide</td>
+<td>All / Research / Buy Guide / Price Prediction / Community</td>
+</tr>
+<tr>
+<td>CMS 分类参数</td>
+<td><code>category=prediction</code></td>
+<td><code>category=meme</code></td>
+</tr>
+<tr>
+<td>关联推广位</td>
+<td>Polymarket / Kalshi CTA</td>
+<td>MoonX Meme 市场 CTA</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="514-meme">5.1.4 【Meme学院】文章详情页</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/learn/meme/{slug}</code></p>
+<p>规格与【预测学院】详情页相同，差异点：</p>
+<table>
+<thead>
+<tr>
+<th>差异项</th>
+<th>预测学院详情页</th>
+<th>Meme 学院详情页</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTA 文案</td>
+<td>Compare on MoonX →</td>
+<td>See {TOKEN} on MoonX →</td>
+</tr>
+<tr>
+<td>CTA 跳转</td>
+<td>MoonX 预测市场页</td>
+<td>MoonX Token 价格页 <code>/en/moonx/solana/token/{contract}</code></td>
+</tr>
+<tr>
+<td>右侧推广位</td>
+<td>预测市场 Banner</td>
+<td>Meme 代币交易 Banner</td>
+</tr>
+<tr>
+<td>相关推荐来源</td>
+<td><code>category=meme</code> 文章</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="52-seo">5.2 程序化 SEO 页面</h3>
+<blockquote>
+<p><strong>程序化页面通用规则：</strong><br />
+- 所有模板变量用 <code>{变量名}</code> 标注<br />
+- 每个页面的 Title / H1 / Meta 均为程序化生成（模板 + 变量）<br />
+- 所有价格/赔率数据 SSR 生成静态快照，CSR 负责实时更新<br />
+- noindex 规则：事件已结束 &gt;30天 / Token 已 rug / 数据不完整 → 自动加 noindex</p>
+</blockquote>
+<hr />
+<h4 id="521">5.2.1 【程序化·如何参与预测市场】</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/guide/prediction/{event-slug}</code><br />
+<strong>示例 URL：</strong> <code>/en/moonx/guide/prediction/will-trump-win-2026-midterms</code><br />
+<strong>目标关键词模式：</strong> <code>how to bet on {event}</code> / <code>{event} prediction market odds</code><br />
+<strong>触发条件：</strong> Polymarket / Kalshi 上 Volume ≥ $100K 的热门市场自动生成页面</p>
+<p><strong>页面线框图：</strong></p>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│  面包屑：MoonX &gt; Guide &gt; {事件名称}                   │
+├─────────────────────────────────────────────────────┤
+│  H1: {事件名称}: Prediction Market Odds &amp; How to Bet │
+│  最后更新：{更新时间}                                  │
+├─────────────────────┬───────────────────────────────┤
+│                     │  当前赔率卡片（SSR快照）         │
+│  事件介绍            │  ┌─────────────────────────┐   │
+│  {事件背景说明}      │  │ YES: 72% | NO: 28%      │   │
+│                     │  │ Polymarket Volume: $2.1M │   │
+│  如何参与（步骤）    │  │ Kalshi Odds: 70%         │   │
+│  Step 1: ...        │  └─────────────────────────┘   │
+│  Step 2: ...        │                                 │
+│  Step 3: ...        │  [Bet on MoonX →]               │
+│                     │                                 │
+│  平台对比           │  相关市场                        │
+│  Polymarket vs      │  [市场1] [市场2] [市场3]         │
+│  Kalshi odds        │                                 │
+│                     │                                 │
+│  FAQ                │                                 │
+└─────────────────────┴───────────────────────────────┘
+</code></pre>
+<p><strong>页面元素规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面元素</th>
+<th>前端功能逻辑</th>
+<th>数据调用逻辑</th>
+<th>其他说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEO Meta（SSR）</td>
+<td>Title: <code>{事件名称}: Prediction Market Odds \| MoonX</code><br>Meta: <code>What are the current odds for {事件}? Compare Polymarket ({YES%}) and Kalshi ({YES%}) odds. Trade on MoonX.</code></td>
+<td><strong>SSR</strong> 从 Polymarket/Kalshi API 获取赔率生成 meta</td>
+<td>赔率每日更新，meta 同步更新</td>
+</tr>
+<tr>
+<td>H1</td>
+<td><code>{事件名称}: Prediction Market Odds &amp; How to Bet</code></td>
+<td>模板+事件名，SSR 生成</td>
+<td></td>
+</tr>
+<tr>
+<td>事件介绍</td>
+<td>2-3段文字介绍事件背景，带内链到相关文章</td>
+<td><strong>SSR 模板文字</strong>（固定结构）+ 事件标题/截止日期（API 动态）</td>
+<td>模板由市场团队配置，变量自动填充</td>
+</tr>
+<tr>
+<td>当前赔率卡片</td>
+<td>1. 显示 YES%/NO%<br>2. 分别展示 Polymarket 和 Kalshi 赔率<br>3. 显示 Volume 和 Open Interest</td>
+<td>SSR 快照：渲染时拉取 Polymarket API + Kalshi API 最新数据<br>CSR：每60秒更新一次赔率显示</td>
+<td>SSR 快照确保 Google 能索引初始赔率</td>
+</tr>
+<tr>
+<td>如何参与步骤</td>
+<td>固定模板，3步：1.访问MoonX 2.连接钱包/注册 3.搜索市场下注</td>
+<td>前端写死模板，带 MoonX 跳转链接</td>
+<td></td>
+</tr>
+<tr>
+<td>平台赔率对比</td>
+<td>表格展示：平台 / 当前赔率 / 手续费 / 流动性</td>
+<td>SSR + CSR 实时更新 Polymarket + Kalshi 数据</td>
+<td></td>
+</tr>
+<tr>
+<td>相关市场</td>
+<td>3个同主题相关预测市场，横排卡片</td>
+<td>MoonX API：<code>GET /api/markets/related?event_id={id}&amp;limit=3</code></td>
+<td></td>
+</tr>
+<tr>
+<td>FAQ</td>
+<td>3-5条 FAQ，程序化生成常见问题（谁赢/截止日期/如何交易）</td>
+<td>模板 FAQ + 事件变量，SSR 渲染，FAQPage Schema</td>
+<td></td>
+</tr>
+<tr>
+<td>CTA 按钮</td>
+<td><code>Bet on This Market →</code> 跳转 MoonX 对应市场</td>
+<td>前端写死跳转 <code>/en/moonx/markets/{market_id}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>入库准入规则：</strong><br />
+- Polymarket Volume ≥ $100K 或 Kalshi Volume ≥ $50K<br />
+- 市场截止日期 &gt; 当前日期<br />
+- 已结束且 &gt;30 天的市场：加 <code>noindex</code>，保留页面历史记录用</p>
+<hr />
+<h4 id="522">5.2.2 【程序化·如何参与美股预测市场】</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/markets/stocks/{ticker}</code><br />
+<strong>示例 URL：</strong> <code>/en/moonx/markets/stocks/TSLA</code>、<code>/en/moonx/markets/stocks/GOOGL</code><br />
+<strong>目标关键词模式：</strong> <code>{TICKER} prediction market odds</code> / <code>{TICKER} Polymarket</code> / <code>bet on {company} stock</code></p>
+<p><strong>页面线框图：</strong></p>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│  面包屑：MoonX &gt; Markets &gt; Stocks &gt; {TICKER}          │
+├──────────────────────────────────────────────────────┤
+│  股票图标  {公司名} ({TICKER}) Prediction Market Odds │
+│  H1: Bet on {公司名} Stock: Polymarket Odds &amp; Markets │
+├─────────────────────┬────────────────────────────────┤
+│                     │  实时数据卡片（SSR快照）          │
+│  公司简介           │  ┌──────────────────────────┐   │
+│  {公司简介2句话}    │  │ 股价: $399.24（CSR实时）  │   │
+│                     │  │ 今日涨幅: +0.14%          │   │
+│  预测市场概况       │  └──────────────────────────┘   │
+│  Polymarket 相关    │                                  │
+│  市场列表           │  ┌──────────────────────────┐   │
+│                     │  │ Polymarket 市场：          │   │
+│  分析师预测 vs      │  │ · Will TSLA &gt; $400?        │   │
+│  预测市场对比       │  │   YES 45% / NO 55%         │   │
+│                     │  │ · TSLA Q1 earnings beat?  │   │
+│  如何下注步骤       │  │   YES 38% / NO 62%         │   │
+│                     │  └──────────────────────────┘   │
+│  FAQ                │  [See All TSLA Markets →]        │
+└─────────────────────┴────────────────────────────────┘
+</code></pre>
+<p><strong>页面元素规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面元素</th>
+<th>前端功能逻辑</th>
+<th>数据调用逻辑</th>
+<th>其他说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEO Meta（SSR）</td>
+<td>Title: <code>{公司名} ({TICKER}) Prediction Market: Polymarket Odds \| MoonX</code><br>Meta: <code>Trade prediction markets on {公司名} stock. Current Polymarket odds: YES {%}. Compare markets on MoonX.</code></td>
+<td><strong>SSR</strong> 生成，赔率从 Polymarket API 取最热市场第一条</td>
+<td>每日重新生成</td>
+</tr>
+<tr>
+<td>H1</td>
+<td><code>{公司名} ({TICKER}) Prediction Market Odds</code></td>
+<td>模板+股票名称，SSR</td>
+<td></td>
+</tr>
+<tr>
+<td>实时股价</td>
+<td>显示当前股价和涨跌幅</td>
+<td>CSR：调用 Yahoo Finance / Polygon.io API<br>SSR 快照：T-1日收盘价</td>
+<td>CSR 实时刷新，SSR 保底数据</td>
+</tr>
+<tr>
+<td>Polymarket 市场列表</td>
+<td>显示 Polymarket 上与该股票相关的所有活跃市场<br>每条：市场名称 / YES% / NO% / Volume / 截止日期</td>
+<td><strong>SSR</strong> 生成：Polymarket API 搜索 <code>{TICKER}</code> 相关市场<br>CSR 每30分钟更新赔率</td>
+<td></td>
+</tr>
+<tr>
+<td>分析师预测 vs 预测市场</td>
+<td>对比模块：分析师平均目标价 vs 预测市场对应事件赔率</td>
+<td>分析师数据：Yahoo Finance API（或手动配置）<br>预测市场：Polymarket API</td>
+<td>高价值内容，提升停留时间</td>
+</tr>
+<tr>
+<td>如何下注步骤</td>
+<td>固定模板 3 步引导用户到 MoonX 参与</td>
+<td>前端写死，带 CTA 跳转</td>
+<td></td>
+</tr>
+<tr>
+<td>公司简介</td>
+<td>2-3句话介绍公司</td>
+<td><strong>后台手动配置</strong>（初期）或 Wikipedia API 自动拉取</td>
+<td>不超过3句，聚焦 SEO 目的</td>
+</tr>
+<tr>
+<td>FAQ</td>
+<td>3-5条：<code>Is it legal to bet on {TICKER}?</code> / <code>What are current {TICKER} prediction market odds?</code></td>
+<td>模板+变量，SSR，FAQPage Schema</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>当前支持股票列表（Phase 1）：</strong> TSLA、GOOGL、AAPL、MSFT、NVDA、META、AMZN、SPY</p>
+<hr />
+<h4 id="523-meme">5.2.3 【程序化·如何购买 Meme 币】</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/guide/buy/{token-slug}</code><br />
+<strong>示例 URL：</strong> <code>/en/moonx/guide/buy/pepe-solana</code>、<code>/en/moonx/guide/buy/dogecoin</code><br />
+<strong>目标关键词模式：</strong> <code>{TOKEN} price prediction</code> / <code>{TOKEN} Polymarket odds</code> / <code>bet on {TOKEN}</code></p>
+<blockquote>
+<p>⚠️ <strong>策略说明：</strong> 经 SERP 分析，"how to buy {TOKEN}" 类词被 Binance/MetaMask/Gemini 垄断，MoonX 不做正面竞争。本页面定位改为：<strong>{TOKEN} 的预测市场赔率 + 如何在 MoonX 上下注该币的走势</strong>，差异化切入。</p>
+</blockquote>
+<p><strong>页面线框图：</strong></p>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│  面包屑：MoonX &gt; Guide &gt; Buy &gt; {TOKEN}                │
+├──────────────────────────────────────────────────────┤
+│  {代币图标} {TOKEN NAME} Price Prediction &amp; Odds      │
+│  H1: {TOKEN}: Price Prediction, Polymarket Odds      │
+│       &amp; How to Trade                                  │
+├─────────────────────┬────────────────────────────────┤
+│                     │  价格快照（SSR）                  │
+│  代币简介           │  ┌──────────────────────────┐   │
+│  什么是 {TOKEN}     │  │ 当前价格: $0.0000123      │   │
+│                     │  │ 24h 涨幅: +12.3%          │   │
+│  价格预测           │  │ 市值: $1.2B               │   │
+│  看涨/看空分析      │  └──────────────────────────┘   │
+│  （程序化生成）     │                                  │
+│                     │  预测市场赔率                    │
+│  预测市场赔率       │  ┌──────────────────────────┐   │
+│  Polymarket 相关    │  │ Will PEPE reach ATH?      │   │
+│  市场               │  │ YES 23% / NO 77%          │   │
+│                     │  └──────────────────────────┘   │
+│  如何在 MoonX 上    │                                  │
+│  下注该币走势       │  [Bet on PEPE on MoonX →]        │
+│                     │                                  │
+│  购买指南简版       │                                  │
+│  （3个主流平台）    │                                  │
+│                     │                                  │
+│  FAQ                │                                  │
+└─────────────────────┴────────────────────────────────┘
+</code></pre>
+<p><strong>页面元素规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面元素</th>
+<th>前端功能逻辑</th>
+<th>数据调用逻辑</th>
+<th>其他说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEO Meta（SSR）</td>
+<td>Title: <code>{TOKEN} Price Prediction &amp; Polymarket Odds \| MoonX</code><br>Meta: <code>{TOKEN} is currently ${price}, up/down {%} in 24h. See Polymarket prediction market odds and how to trade {TOKEN} on MoonX.</code></td>
+<td><strong>SSR</strong> 从 CoinGecko API 取价格，Polymarket API 取赔率</td>
+<td>每日更新</td>
+</tr>
+<tr>
+<td>H1</td>
+<td><code>{TOKEN NAME}: Price Prediction &amp; How to Trade on MoonX</code></td>
+<td>模板+代币名，SSR</td>
+<td></td>
+</tr>
+<tr>
+<td>价格快照</td>
+<td>SSR 快照：当前价格、24h 涨幅、市值<br>CSR：实时刷新（60秒）</td>
+<td>SSR：CoinGecko API <code>/simple/price?ids={id}&amp;vs_currencies=usd&amp;include_24hr_change=true</code><br>CSR 同接口实时更新</td>
+<td>SSR 保证 Google 能爬到初始价格</td>
+</tr>
+<tr>
+<td>价格预测模块</td>
+<td>程序化生成价格预测文字，基于技术信号：<br>- 看涨（价格在20日均线之上 + 成交量增加）<br>- 中性（震荡区间）<br>- 看跌（价格在20日均线之下）</td>
+<td><strong>SSR</strong>：CoinGecko 历史价格 API + 服务端模板选择</td>
+<td>声明"非投资建议"免责</td>
+</tr>
+<tr>
+<td>预测市场赔率</td>
+<td>显示 Polymarket 上该代币相关市场（如"Will X reach Y price"）</td>
+<td>Polymarket API 搜索代币相关市场<br><strong>SSR</strong> + CSR 更新</td>
+<td>无相关市场时显示"No active markets"并内链到热门市场</td>
+</tr>
+<tr>
+<td>如何在 MoonX 下注</td>
+<td>固定模板 3 步引导 + CTA 按钮</td>
+<td>前端写死</td>
+<td></td>
+</tr>
+<tr>
+<td>购买指南简版</td>
+<td>3个主流平台（Binance/Coinbase/OKX）的简短购买说明 + 各自跳转链接</td>
+<td>前端写死，带 rel="nofollow"</td>
+<td>不和 How to buy 页面竞争，仅作参考</td>
+</tr>
+<tr>
+<td>FAQ</td>
+<td><code>What is {TOKEN}?</code> / <code>Will {TOKEN} go up?</code> / <code>Where can I bet on {TOKEN}?</code></td>
+<td>模板+变量，FAQPage Schema</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Token 页面准入规则：</strong><br />
+- 市值 ≥ $10M<br />
+- 近7日有 Polymarket/MoonX 相关预测市场，或<br />
+- CoinGecko 日均交易量 ≥ $1M<br />
+- 已 rug / 停止交易 &gt;30天：加 noindex</p>
+<hr />
+<h4 id="524-token-ssr">5.2.4 【程序化·Token 价格详情页 SSR 改造】</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/solana/token/{contract}</code>（现有页面，需 SSR 改造）<br />
+<strong>SEO 定位：</strong> <code>{TOKEN} price</code>、<code>{TOKEN} chart</code>、<code>{TOKEN} market cap</code></p>
+<blockquote>
+<p><strong>说明：</strong> 本页面已存在（CSR），本需求为改造为 SSR，并注入 SEO meta 和 Schema。</p>
+</blockquote>
+<p><strong>改造要点：</strong></p>
+<table>
+<thead>
+<tr>
+<th>改造项</th>
+<th>现状</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>渲染方式</td>
+<td>CSR（Google 看不到内容）</td>
+<td><strong>SSR</strong> + CSR 混合</td>
+</tr>
+<tr>
+<td>Title</td>
+<td>无 / 通用标题</td>
+<td><code>{TOKEN} Price Today: ${price} \| MoonX</code></td>
+</tr>
+<tr>
+<td>Meta Description</td>
+<td>无</td>
+<td><code>{TOKEN} is currently ${price}, market cap ${mcap}. View real-time chart and prediction market odds on MoonX.</code></td>
+</tr>
+<tr>
+<td>H1</td>
+<td>无</td>
+<td><code>{TOKEN NAME} ({TICKER}) Price</code></td>
+</tr>
+<tr>
+<td>Canonical</td>
+<td>无</td>
+<td><code>https://www.bydfi.com/en/moonx/solana/token/{contract}</code></td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>无</td>
+<td>FinancialProduct Schema + BreadcrumbList Schema</td>
+</tr>
+<tr>
+<td>Sitemap</td>
+<td>未收录</td>
+<td>满足准入条件的 Token 自动加入 sitemap</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Token Sitemap 准入阈值：</strong><br />
+- LP ≥ $5K<br />
+- Holders ≥ 100<br />
+- 上线 ≥ 48小时<br />
+- 日均成交量 ≥ $1K<br />
+- 日均交易笔数 ≥ 50</p>
+<hr />
+<h4 id="525">5.2.5 【程序化·热门榜单页】</h4>
+<p><strong>页面路径：</strong> <code>/en/moonx/markets/trending/{category}</code><br />
+<strong>示例 URL：</strong> <code>/en/moonx/markets/trending/crypto</code>、<code>/en/moonx/markets/trending/politics</code><br />
+<strong>目标关键词模式：</strong> <code>top prediction markets {category}</code> / <code>trending prediction markets today</code></p>
+<p><strong>页面线框图：</strong></p>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│  面包屑：MoonX &gt; Markets &gt; Trending &gt; {分类}          │
+├──────────────────────────────────────────────────────┤
+│  H1: Top {分类} Prediction Markets Today             │
+│  更新时间：{更新时间}                                  │
+├──────────────────────────────────────────────────────┤
+│  分类 Tab：All | Crypto | Politics | Sports | Stocks  │
+├──────────────────────────────────────────────────────┤
+│  市场卡片列表（每行2个）                               │
+│  ┌─────────────────────┐  ┌─────────────────────┐   │
+│  │ 市场标题            │  │ 市场标题            │   │
+│  │ YES 72% ████░░ NO  │  │ YES 45% ████░░ NO  │   │
+│  │ Vol: $2.1M | 3天后  │  │ Vol: $890K | 7天后  │   │
+│  │ [Bet on MoonX →]    │  │ [Bet on MoonX →]    │   │
+│  └─────────────────────┘  └─────────────────────┘   │
+├──────────────────────────────────────────────────────┤
+│  SEO 描述段落（SSR，200字，覆盖关键词）                 │
+├──────────────────────────────────────────────────────┤
+│  相关文章推荐（内链到预测学院）                         │
+└──────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>页面元素规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面元素</th>
+<th>前端功能逻辑</th>
+<th>数据调用逻辑</th>
+<th>其他说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEO Meta（SSR）</td>
+<td>Title: <code>Top {分类} Prediction Markets Today \| MoonX</code><br>Meta: <code>Discover the most active {分类} prediction markets. Track real-time odds on Polymarket and Kalshi, aggregated by MoonX.</code></td>
+<td><strong>SSR</strong> 生成，分类名填入模板</td>
+<td>每日重新生成，meta 包含当日日期</td>
+</tr>
+<tr>
+<td>H1</td>
+<td><code>Top {分类} Prediction Markets Today</code></td>
+<td>模板+分类，SSR</td>
+<td></td>
+</tr>
+<tr>
+<td>分类 Tab</td>
+<td>All / Crypto / Politics / Sports / Stocks / Science，点击切换</td>
+<td>URL 参数切换：<code>/trending/crypto</code>、<code>/trending/politics</code> 等</td>
+<td>每个分类都是独立 URL，独立 SEO</td>
+</tr>
+<tr>
+<td>市场卡片列表</td>
+<td>显示：市场标题 / YES% 进度条 / Volume / 截止日期 / 来源平台（Polymarket/Kalshi/Manifold 图标）<br>点击跳转 MoonX 市场页</td>
+<td><strong>SSR</strong>：MoonX 聚合 API 取 Top 20 热门市场，按 Volume 排序<br>CSR 每30分钟更新赔率</td>
+<td>SSR 快照保证 Google 爬到初始数据</td>
+</tr>
+<tr>
+<td>SEO 描述段落</td>
+<td>200字自然语言描述，覆盖页面核心关键词</td>
+<td><strong>SSR 写死模板</strong>，包含：当前热门市场名称、Volume 数字、分类名</td>
+<td>每日重新生成</td>
+</tr>
+<tr>
+<td>相关文章内链</td>
+<td>底部展示 3 篇预测学院相关文章</td>
+<td>CMS API 按 tag 匹配</td>
+<td></td>
+</tr>
+<tr>
+<td>更新时间</td>
+<td>显示页面数据最后更新时间</td>
+<td>服务端生成时间戳，SSR</td>
+<td>增加内容新鲜度信号</td>
+</tr>
+</tbody>
+</table>
+<p><strong>分类页 URL 列表：</strong><br />
+- <code>/en/moonx/markets/trending/</code> （All，主榜单）<br />
+- <code>/en/moonx/markets/trending/crypto</code><br />
+- <code>/en/moonx/markets/trending/politics</code><br />
+- <code>/en/moonx/markets/trending/sports</code><br />
+- <code>/en/moonx/markets/trending/stocks</code><br />
+- <code>/en/moonx/markets/trending/science</code></p>
+<hr />
+<h3 id="53">5.3 后台管理工具</h3>
+<h4 id="531-cms">5.3.1 【内容 CMS】文章管理</h4>
+<blockquote>
+<p>覆盖：预测学院 + Meme 学院所有文章的创建/编辑/发布</p>
+</blockquote>
+<p><strong>文章新增/编辑页字段：</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文章分类</td>
+<td>下拉：prediction / meme</td>
+<td>是</td>
+<td>决定 URL 前缀</td>
+</tr>
+<tr>
+<td>Slug（URL）</td>
+<td>文本</td>
+<td>是</td>
+<td>字母+连字符，系统自动校验唯一性</td>
+</tr>
+<tr>
+<td>H1 标题</td>
+<td>文本（≤80字符）</td>
+<td>是</td>
+<td>页面显示标题</td>
+</tr>
+<tr>
+<td>SEO Title</td>
+<td>文本（≤60字符）</td>
+<td>是</td>
+<td><code>&lt;title&gt;</code> 标签，字符计数实时显示</td>
+</tr>
+<tr>
+<td>Meta Description</td>
+<td>文本（≤155字符）</td>
+<td>是</td>
+<td>字符计数实时显示</td>
+</tr>
+<tr>
+<td>封面图</td>
+<td>图片上传</td>
+<td>是</td>
+<td>自动生成 alt = H1 标题</td>
+</tr>
+<tr>
+<td>文章正文</td>
+<td>Markdown 富文本编辑器</td>
+<td>是</td>
+<td>支持 H2/H3/表格/图片/内链</td>
+</tr>
+<tr>
+<td>FAQ 模块</td>
+<td>动态添加 Q&amp;A 组</td>
+<td>否</td>
+<td>用于生成 FAQPage Schema</td>
+</tr>
+<tr>
+<td>CTA 文案</td>
+<td>文本</td>
+<td>是</td>
+<td>默认：「Compare on MoonX →」</td>
+</tr>
+<tr>
+<td>CTA 跳转 URL</td>
+<td>文本</td>
+<td>是</td>
+<td>默认：<code>/en/moonx/markets/trending</code></td>
+</tr>
+<tr>
+<td>标签（Tags）</td>
+<td>多选/自由输入</td>
+<td>是</td>
+<td>用于相关文章推荐匹配</td>
+</tr>
+<tr>
+<td>难度等级</td>
+<td>下拉：Beginner / Advanced</td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td>作者</td>
+<td>文本</td>
+<td>否</td>
+<td>默认：MoonX Team</td>
+</tr>
+<tr>
+<td>发布状态</td>
+<td>草稿 / 待审核 / 已发布</td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td>发布时间</td>
+<td>日期选择器</td>
+<td>是</td>
+<td>支持定时发布</td>
+</tr>
+<tr>
+<td>关联内链</td>
+<td>多选已有文章</td>
+<td>否</td>
+<td>底部相关推荐强制指定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>列表页筛选条件：</strong> 分类（多选）/ 标签（多选）/ 状态（多选）/ 发布时间范围</p>
+<hr />
+<h4 id="532">5.3.2 【程序化内容】后台配置工具</h4>
+<blockquote>
+<p>覆盖：如何参与预测市场 / 如何参与美股 / 如何购买 Meme 的模板配置</p>
+</blockquote>
+<p><strong>模板配置字段：</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>适用页面</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>市场准入阈值</td>
+<td>预测事件指南</td>
+<td>Volume 下限，低于此值不生成页面</td>
+</tr>
+<tr>
+<td>事件简介模板</td>
+<td>预测事件指南</td>
+<td>Markdown 模板，<code>{事件名}</code> 等变量自动替换</td>
+</tr>
+<tr>
+<td>步骤文案模板</td>
+<td>全部程序化页面</td>
+<td>固定3步引导，支持多语言</td>
+</tr>
+<tr>
+<td>股票列表维护</td>
+<td>美股预测页</td>
+<td>维护支持的股票 TICKER 列表 + 公司简介</td>
+</tr>
+<tr>
+<td>Token 准入阈值</td>
+<td>Meme 购买页</td>
+<td>市值/Volume 门槛配置</td>
+</tr>
+<tr>
+<td>FAQ 模板库</td>
+<td>全部程序化页面</td>
+<td>预设 FAQ 模板，按页面类型匹配</td>
+</tr>
+<tr>
+<td>noindex 规则配置</td>
+<td>全部程序化页面</td>
+<td>配置自动加 noindex 的条件</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="533-banner">5.3.3 【运营 Banner】配置工具</h4>
+<p>复用 BYDFi 现有运营资源位管理工具，新增适用范围：<br />
+- 预测学院文章页（<code>/en/moonx/learn/prediction/*</code>）<br />
+- Meme 学院文章页（<code>/en/moonx/learn/meme/*</code>）<br />
+- 程序化页面（<code>/en/moonx/guide/*</code>、<code>/en/moonx/markets/stocks/*</code>）</p>
+<hr />
+<h3 id="54-seo">5.4 SEO 技术基础要求</h3>
+<h4 id="sitemap">Sitemap 结构</h4>
+<pre><code>sitemap_index.xml
+├── sitemap_moonx_articles.xml     （预测学院 + Meme 学院文章）
+├── sitemap_moonx_guides.xml       （程序化·事件指南 + Meme 购买）
+├── sitemap_moonx_stocks.xml       （美股预测页）
+├── sitemap_moonx_tokens.xml       （Token 价格页，满足准入条件）
+└── sitemap_moonx_trending.xml     （热门榜单页）
+</code></pre>
+<p><strong>Sitemap 更新频率：</strong><br />
+- 文章页：发布/更新后实时更新<br />
+- 程序化页：每日凌晨全量重建</p>
+<h4 id="schema">Schema 类型对应</h4>
+<table>
+<thead>
+<tr>
+<th>页面类型</th>
+<th>Schema 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文章详情页</td>
+<td>Article + FAQPage + BreadcrumbList</td>
+</tr>
+<tr>
+<td>程序化·事件指南</td>
+<td>Article + FAQPage + BreadcrumbList</td>
+</tr>
+<tr>
+<td>美股预测页</td>
+<td>FinancialProduct + FAQPage + BreadcrumbList</td>
+</tr>
+<tr>
+<td>Meme 购买页</td>
+<td>Article + FAQPage + BreadcrumbList</td>
+</tr>
+<tr>
+<td>Token 价格页</td>
+<td>FinancialProduct + BreadcrumbList</td>
+</tr>
+<tr>
+<td>热门榜单页</td>
+<td>ItemList + BreadcrumbList</td>
+</tr>
+</tbody>
+</table>
+<h4 id="canonical">Canonical 规则</h4>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>Canonical 指向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正常页面</td>
+<td>指向自身</td>
+</tr>
+<tr>
+<td>有 <code>?page=2</code> 参数的列表页</td>
+<td>指向不带参数的第1页</td>
+</tr>
+<tr>
+<td>已结束市场（noindex）</td>
+<td>保留页面，加 noindex meta</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_7">六、验收标准</h2>
+<h3 id="61">6.1 人工内容页面验收</h3>
+<ul>
+<li>[ ] 访问 <code>/en/moonx/learn/prediction/</code> 列表页，查看源代码，能看到完整 HTML 文章列表（SSR）</li>
+<li>[ ] 访问 <code>/en/moonx/learn/prediction/polymarket-vs-kalshi</code> 详情页，查看源代码，能看到完整文章内容（SSR）</li>
+<li>[ ] <code>&lt;title&gt;</code> 为「Polymarket vs Kalshi: Full Comparison 2026 | MoonX」</li>
+<li>[ ] <code>&lt;meta name="description"&gt;</code> 存在且 ≤ 155 字符</li>
+<li>[ ] <code>&lt;link rel="canonical"&gt;</code> 正确指向当前 URL</li>
+<li>[ ] 页面包含 Article Schema（可用 Google Rich Results Test 验证）</li>
+<li>[ ] 页面包含 FAQPage Schema（有 FAQ 模块时）</li>
+<li>[ ] 页面包含 BreadcrumbList Schema</li>
+<li>[ ] FAQ 模块折叠/展开功能正常</li>
+<li>[ ] 内链正常跳转，无 404</li>
+<li>[ ] GSC URL Inspection 抓取结果：「页面已编入索引」</li>
+</ul>
+<h3 id="62">6.2 程序化页面验收</h3>
+<ul>
+<li>[ ] 访问 <code>/en/moonx/markets/stocks/TSLA</code>，源代码包含 TSLA 相关 Polymarket 市场数据（SSR）</li>
+<li>[ ] Token 页 <code>/en/moonx/solana/token/{contract}</code> 源代码包含 Title、Meta、H1</li>
+<li>[ ] sitemap_moonx_tokens.xml 包含满足准入条件的 Token URL</li>
+<li>[ ] 热门榜单页 CSR 赔率数据30分钟内更新一次</li>
+<li>[ ] 已结束市场页面加了 <code>&lt;meta name="robots" content="noindex"&gt;</code></li>
+</ul>
+<h3 id="63">6.3 后台工具验收</h3>
+<ul>
+<li>[ ] CMS 可新增/编辑/发布文章，状态流转正常</li>
+<li>[ ] 发布文章后，前端页面实时更新，无需重新部署</li>
+<li>[ ] SEO Title 超过60字符时，后台有实时警告</li>
+<li>[ ] 文章 Slug 已存在时，后台报错提示</li>
+<li>[ ] 定时发布功能：设置未来时间发布，到时间自动上线</li>
+</ul>
+<hr />
+<p><em>文档版本：V1.0 · 生成日期：2026-03-12 · 负责人：Kelly · 下次迭代：文章 CMS 上线后补充截图和原型图链接</em></p>
+</body>
+</html>

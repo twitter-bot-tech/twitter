@@ -1,0 +1,15 @@
+# flyctl launch added from .gitignore
+**/.env
+**/chart.png
+**/logs
+**/__pycache__
+**/*.pyc
+fly.toml
+
+# Large data directories — not needed in Docker image
+outbox/
+**/*.xlsx
+**/*.pdf
+inbox/
+.DS_Store
+**/.DS_Store

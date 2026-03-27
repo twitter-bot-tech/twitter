@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    width:1200px; height:628px; overflow:hidden;
+    background:#F8FAFC;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* ── Outer card ── */
+  .card {
+    width:1200px; height:628px;
+    background:#FFFFFF;
+    border-radius:0;
+    display:grid;
+    grid-template-columns: 340px 1fr;
+  }
+
+  /* ══ LEFT PANEL ══ */
+  .left {
+    background: linear-gradient(160deg, #0F172A 0%, #1E3A5F 100%);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:40px 32px; gap:24px;
+    position:relative; overflow:hidden;
+  }
+  /* subtle background glow */
+  .left::before {
+    content:''; position:absolute;
+    width:260px; height:260px; border-radius:50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%);
+    top:50%; left:50%; transform:translate(-50%,-50%);
+  }
+
+  .thumb {
+    width:140px; height:140px; border-radius:16px;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    position:relative; z-index:1;
+  }
+  .thumb-empty {
+    width:140px; height:140px; border-radius:16px;
+    background:rgba(255,255,255,0.06);
+    border:2px solid rgba(255,255,255,0.10);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; z-index:1;
+  }
+  .thumb-empty span { font-size:52px; color:rgba(255,255,255,0.2); font-weight:700; }
+
+  /* Big stat block */
+  .stat-block {
+    text-align:center; position:relative; z-index:1;
+  }
+  .stat-pct {
+    font-size:64px; font-weight:800; line-height:1;
+    letter-spacing:-2px;
+  }
+  .stat-yes { color:#34D399; }
+  .stat-no  { color:#F87171; }
+  .stat-label {
+    font-size:15px; color:rgba(255,255,255,0.50);
+    margin-top:4px; letter-spacing:0.5px; text-transform:uppercase;
+  }
+
+  /* Change badge */
+  .badge {
+    display:inline-flex; align-items:center; gap:4px;
+    padding:5px 12px; border-radius:20px;
+    font-size:14px; font-weight:700;
+    position:relative; z-index:1;
+  }
+  .badge-up { background:rgba(52,211,153,0.15); color:#34D399; }
+  .badge-dn { background:rgba(248,113,113,0.15); color:#F87171; }
+
+  /* Source */
+  .source {
+    font-size:12px; color:rgba(255,255,255,0.25);
+    font-style:italic; position:relative; z-index:1;
+  }
+
+  /* ══ RIGHT PANEL ══ */
+  .right {
+    display:flex; flex-direction:column;
+    padding:32px 44px 24px;
+    gap:0;
+  }
+  .right-top { display:contents; }
+  .right-bottom { display:contents; }
+
+  /* Top meta */
+  .meta {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .meta-tag {
+    font-size:12px; font-weight:600; color:#6366F1;
+    background:#EEF2FF; padding:3px 10px; border-radius:20px;
+    letter-spacing:0.3px;
+  }
+  .meta-vol {
+    font-size:12px; color:#94A3B8;
+  }
+
+  /* Question */
+  .question {
+    font-size:22px; font-weight:700; color:#0F172A;
+    line-height:1.4; margin-bottom:20px;
+    flex-shrink:0;
+  }
+
+  /* Divider */
+  .sep { height:1px; background:#F1F5F9; margin-bottom:16px; }
+
+  /* Chart */
+  .chart-wrap { height:210px; margin-bottom:16px; overflow:hidden; }
+
+  /* Odds bar fallback (shown when no price history) */
+  .odds-bar-wrap {
+    flex:1; margin-bottom:16px;
+    display:flex; flex-direction:column;
+    justify-content:space-between;
+    padding:8px 0 4px;
+    gap:16px;
+  }
+  .odds-big-row {
+    flex:1;
+    display:flex; align-items:stretch; gap:0;
+  }
+  .odds-big-stat {
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:6px;
+  }
+  .odds-divider {
+    width:1px; background:#E2E8F0; margin:8px 0;
+  }
+  .odds-big-pct {
+    font-size:52px; font-weight:900; line-height:1; letter-spacing:-2px;
+  }
+  .yes-color { color:#059669; }
+  .no-color  { color:#DC2626; }
+  .odds-big-label {
+    font-size:13px; font-weight:700; color:#94A3B8;
+    letter-spacing:1.5px; text-transform:uppercase;
+  }
+  .odds-big-payout {
+    font-size:12px; color:#CBD5E1;
+  }
+  .odds-bar {
+    display:flex; height:12px; border-radius:6px; overflow:hidden;
+    flex-shrink:0;
+  }
+  .odds-fill { }
+  .odds-fill-yes { background:linear-gradient(90deg,#059669,#10B981); }
+  .odds-fill-no  { background:linear-gradient(90deg,#DC2626,#EF4444); }
+
+  /* Buttons */
+  .buttons { display:flex; gap:14px; margin-bottom:8px; }
+  .btn {
+    flex:1; height:52px; border-radius:10px; border:none;
+    font-size:16px; font-weight:700; color:#fff;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 20px; cursor:default;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .btn-yes { background:linear-gradient(135deg,#059669,#10B981); }
+  .btn-no  { background:linear-gradient(135deg,#DC2626,#EF4444); }
+  .btn-label { font-weight:700; }
+  .btn-price { font-weight:600; opacity:0.9; font-size:15px; }
+
+  /* Sub row */
+  .sub-row { display:flex; gap:14px; margin-bottom:4px; }
+  .sub { flex:1; text-align:center; font-size:12px; color:#CBD5E1; }
+
+  /* Watermark */
+  .watermark {
+    text-align:right; font-size:11px; color:#E2E8F0;
+    font-style:italic;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- LEFT -->
+  <div class="left">
+    <img src="data:image/jpeg;base64,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" class="thumb"/>
+    <div class="stat-block">
+      <div class="stat-pct stat-no">0%</div>
+      <div class="stat-label">chance</div>
+    </div>
+    
+    <div class="source">Polymarket &nbsp;·&nbsp; $6.7M vol</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="right-top">
+      <div class="meta">
+        <span class="meta-tag">Prediction Market</span>
+        <span class="meta-vol">$6.7M 24h volume</span>
+      </div>
+      <div class="question">Will Chelsea win the 2025–26 English Premier League?</div>
+      <div class="sep"></div>
+      <div class="odds-bar-wrap">
+  <div class="odds-big-row">
+    <div class="odds-big-stat yes-stat">
+      <div class="odds-big-pct yes-color">0.1%</div>
+      <div class="odds-big-label">YES</div>
+      <div class="odds-big-payout">$100 → $100000</div>
+    </div>
+    <div class="odds-divider"></div>
+    <div class="odds-big-stat no-stat">
+      <div class="odds-big-pct no-color">99.9%</div>
+      <div class="odds-big-label">NO</div>
+      <div class="odds-big-payout">$100 → $100</div>
+    </div>
+  </div>
+  <div class="odds-bar">
+    <div class="odds-fill odds-fill-yes" style="flex:2"></div>
+    <div class="odds-fill odds-fill-no"  style="flex:99.9"></div>
+  </div>
+</div>
+    </div>
+    <div class="right-bottom">
+      <div class="buttons">
+        <button class="btn btn-yes">
+          <span class="btn-label">Buy Yes</span>
+          <span class="btn-price">0¢</span>
+        </button>
+        <button class="btn btn-no">
+          <span class="btn-label">Buy No</span>
+          <span class="btn-price">100¢</span>
+        </button>
+      </div>
+      <div class="sub-row">
+        <div class="sub">$100 → $100000</div>
+        <div class="sub">$100 → $100</div>
+      </div>
+      <div class="watermark">@moonx_bydfi</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

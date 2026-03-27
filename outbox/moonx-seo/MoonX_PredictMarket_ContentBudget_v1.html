@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 预测市场内容宣发预算执行方案 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.75; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+
+/* Cover */
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover h1 { font-size: 32px; font-weight: 700; color: #111; margin-bottom: 16px; }
+.cover .subtitle { font-size: 15px; color: #888; }
+.cover .meta { margin-top: 32px; display: inline-flex; gap: 40px; background: #FFF8F0; padding: 16px 32px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item { text-align: left; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+
+/* Section headers */
+h2.sec { font-size: 20px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 16px; font-weight: 600; margin: 32px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+table td:first-child { font-weight: 500; white-space: nowrap; color: #555; }
+
+/* Budget summary card */
+.budget-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 20px 0; }
+.budget-card { background: #FFF8F0; border: 1px solid #FFD9B3; border-radius: 8px; padding: 16px; text-align: center; }
+.budget-card .channel { font-size: 12px; color: #888; margin-bottom: 6px; }
+.budget-card .amount { font-size: 22px; font-weight: 700; color: #FF6B00; }
+.budget-card .pct { font-size: 12px; color: #999; margin-top: 4px; }
+.budget-total { background: #FF6B00; border-radius: 8px; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; margin: 12px 0 24px; }
+.budget-total .label { color: #fff; font-size: 14px; font-weight: 600; }
+.budget-total .value { color: #fff; font-size: 28px; font-weight: 700; }
+
+/* Tag */
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-high { background: #FFEBEE; color: #C62828; }
+.tag-med { background: #FFF3E0; color: #E65100; }
+.tag-low { background: #E8F5E9; color: #2E7D32; }
+.tag-kol { background: #E3F2FD; color: #1565C0; }
+.tag-media { background: #F3E5F5; color: #6A1B9A; }
+.tag-community { background: #E8F5E9; color: #2E7D32; }
+
+/* Note */
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+
+/* Timeline */
+.timeline { margin: 16px 0; }
+.timeline-row { display: flex; gap: 0; margin-bottom: 8px; align-items: center; }
+.timeline-label { width: 160px; font-size: 13px; font-weight: 600; color: #333; flex-shrink: 0; }
+.timeline-bar-wrap { flex: 1; background: #F0F0F0; border-radius: 4px; height: 28px; position: relative; overflow: hidden; }
+.timeline-bar { height: 100%; border-radius: 4px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; color: #fff; font-weight: 600; }
+.bar-w1 { background: #FF6B00; width: 33%; }
+.bar-w2 { background: #FF9800; width: 66%; }
+.bar-w3 { background: #FFB74D; width: 100%; }
+.bar-full { background: #FF6B00; width: 100%; }
+.bar-half { background: #FF9800; width: 50%; }
+.timeline-month { display: flex; margin-bottom: 4px; }
+.timeline-month-pad { width: 160px; flex-shrink: 0; }
+.timeline-months { flex: 1; display: flex; }
+.timeline-m { flex: 1; font-size: 11px; color: #999; text-align: center; }
+
+p { margin: 6px 0; }
+ul { margin: 6px 0 6px 20px; }
+ul li { margin: 3px 0; font-size: 13px; }
+hr { border: none; border-top: 1px solid #EEE; margin: 32px 0; }
+
+/* KPI grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+.kpi-card { border: 1px solid #E8E8E8; border-radius: 8px; padding: 16px; text-align: center; }
+.kpi-card .kpi-label { font-size: 12px; color: #888; margin-bottom: 8px; }
+.kpi-card .kpi-value { font-size: 20px; font-weight: 700; color: #FF6B00; }
+.kpi-card .kpi-sub { font-size: 11px; color: #bbb; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div class="subtitle">执行方案</div>
+  <h1>MoonX 预测市场内容宣发预算</h1>
+  <div class="subtitle">海外市场 · 独立于周年庆预算 · 内容宣发向</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">所属产品</div><div class="value">MoonX 预测市场</div></div>
+    <div class="meta-item"><div class="label">负责人</div><div class="value">Kelly（市场负责人）</div></div>
+    <div class="meta-item"><div class="label">月度预算</div><div class="value">$50,000 / 月</div></div>
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">V1.0</div></div>
+    <div class="meta-item"><div class="label">更新日期</div><div class="value">2026-03-23</div></div>
+  </div>
+</div>
+
+<!-- 1. 预算总览 -->
+<h2 class="sec">1. 预算总览</h2>
+
+<div class="budget-grid">
+  <div class="budget-card">
+    <div class="channel">加密媒体付费内容</div>
+    <div class="amount">$12,000</div>
+    <div class="pct">24%</div>
+  </div>
+  <div class="budget-card">
+    <div class="channel">PR 新闻稿</div>
+    <div class="amount">$5,000</div>
+    <div class="pct">10%</div>
+  </div>
+  <div class="budget-card">
+    <div class="channel">Twitter/X KOL</div>
+    <div class="amount">$13,000</div>
+    <div class="pct">26%</div>
+  </div>
+  <div class="budget-card">
+    <div class="channel">YouTube KOL</div>
+    <div class="amount">$16,000</div>
+    <div class="pct">32%</div>
+  </div>
+  <div class="budget-card">
+    <div class="channel">Reddit 内容渗透</div>
+    <div class="amount">$4,000</div>
+    <div class="pct">8%</div>
+  </div>
+</div>
+
+<div class="budget-total">
+  <div class="label">月度合计</div>
+  <div class="value">$50,000 / 月</div>
+</div>
+
+<div class="note"><strong>与周年庆预算的分工：</strong>周年庆预算负责品牌曝光层（PR 新闻稿发布、Coingecko/Coinzilla 展示广告、EDM）；本预算专注预测市场产品的内容教育与高意向用户获取，两者不重叠。</div>
+
+<!-- 2. 各渠道执行细则 -->
+<h2 class="sec">2. 各渠道执行细则</h2>
+
+<h3 class="sub">2.1 加密媒体付费内容 <span class="tag tag-media">$12,000 / 月</span></h3>
+<table>
+  <tr><th>项目</th><th>内容</th></tr>
+  <tr><td>目标媒体</td><td>CoinDesk、Cointelegraph、Decrypt（优先集中 1–2 家头部，不分散）</td></tr>
+  <tr><td>内容形式</td><td>Sponsored Article（付费深度专题）；区别于 PR 新闻稿，重点做产品教育和使用场景</td></tr>
+  <tr><td>内容主题</td><td>① 预测市场赛道解析（对比 Polymarket、Azuro）<br>② MoonX 预测市场使用指南<br>③ 历史预测结果复盘（数据驱动，增加可信度）</td></tr>
+  <tr><td>发布频率</td><td>每月 2–3 篇；上线后持续有存档页，搜索流量长尾效果好</td></tr>
+  <tr><td>执行要点</td><td>文章需包含产品截图、数据、用户视角，避免纯宣传口吻；媒体编辑合作确认 SEO 友好 URL</td></tr>
+</table>
+
+<h3 class="sub">2.2 PR 新闻稿 <span class="tag tag-media">$5,000 / 月</span></h3>
+<table>
+  <tr><th>项目</th><th>内容</th></tr>
+  <tr><td>发布渠道</td><td>PR Newswire 或 Globe Newswire；同步投递加密垂类媒体（The Block、BeInCrypto）</td></tr>
+  <tr><td>与周年庆 PR 的区别</td><td>周年庆 PR = 品牌活动；本 PR = 产品功能里程碑（上线、新市场、交易量突破）</td></tr>
+  <tr><td>触发时机</td><td>产品重大节点发布（上线、版本更新、数据里程碑），不做常规月发</td></tr>
+  <tr><td>执行要点</td><td>标题突出数据或差异化（"First Prediction Market on X Chain"类型）；附产品截图和创始人引言</td></tr>
+</table>
+
+<h3 class="sub">2.3 Twitter/X KOL <span class="tag tag-kol">$13,000 / 月</span></h3>
+<table>
+  <tr><th>项目</th><th>内容</th></tr>
+  <tr><td>KOL 数量</td><td>3–4 个，单价 $3,000–$4,500</td></tr>
+  <tr><td>KOL 类型</td><td>DeFi / Trading 垂类；粉丝中有 Polymarket 讨论记录的优先；拒绝纯喊单账号</td></tr>
+  <tr><td>粉丝规模</td><td>5万–30万（中型 KOL）；互动率 > 2% 优先于粉丝数</td></tr>
+  <tr><td>内容形式（优先级排序）</td><td>① 预测复盘帖（"上周我在 MoonX 押对了 X，下周我押..."）<br>② 深度 Thread（预测市场机制解析 + MoonX 体验）<br>③ 实时参与帖（重大事件期间发预测观点）</td></tr>
+  <tr><td>执行要点</td><td>要求 KOL 用自己的语气写，禁止模板化复制粘贴；每篇合作帖需包含产品链接 + 具体市场名称</td></tr>
+  <tr><td>合作方式</td><td>按帖计费；首月签 2 帖 + 效果达标后续约；保留 1 个 KOL 名额作为临时热点响应</td></tr>
+</table>
+
+<div class="note"><strong>为什么优先预测复盘内容：</strong>Polymarket 在 Twitter 的传播核心是"押对了"的炫耀感，用户愿意主动分享。MoonX 需要复制这个传播路径，让 KOL 示范行为，带动普通用户跟进。</div>
+
+<h3 class="sub">2.4 YouTube KOL <span class="tag tag-kol">$16,000 / 月</span></h3>
+<table>
+  <tr><th>项目</th><th>内容</th></tr>
+  <tr><td>KOL 数量</td><td>3–4 个，单价 $4,000–$5,500</td></tr>
+  <tr><td>KOL 类型</td><td>DeFi 教程 / 加密工具评测类频道；搜索权重高优先于订阅量</td></tr>
+  <tr><td>内容形式</td><td>① 如何使用 MoonX 预测市场教程（8–15 分钟）<br>② Polymarket vs MoonX 对比测评<br>③ 月度预测复盘 Vlog</td></tr>
+  <tr><td>SEO 价值</td><td>教程类视频 6–12 个月后仍持续带来自然搜索流量；"moonx prediction market" 相关关键词布局</td></tr>
+  <tr><td>执行要点</td><td>视频描述区需包含产品链接和关键词；要求频道做钉置评论引导互动；标题需含关键词</td></tr>
+</table>
+
+<h3 class="sub">2.5 Reddit 内容渗透 <span class="tag tag-community">$4,000 / 月</span></h3>
+<table>
+  <tr><th>项目</th><th>内容</th></tr>
+  <tr><td>目标版块</td><td>r/CryptoCurrency、r/ethereum、r/Polymarket、r/defi</td></tr>
+  <tr><td>内容形式</td><td>预测结果分析帖、"我用 MoonX 押了 X 事件"真实经历帖；严禁广告形态</td></tr>
+  <tr><td>账号策略</td><td>使用有历史的真实账号（karma > 500）；不用新注册账号，容易被封</td></tr>
+  <tr><td>发布频率</td><td>每周 3–5 帖；重大事件前后加密发布</td></tr>
+  <tr><td>执行要点</td><td>帖子核心是内容价值，产品链接放在评论区而非正文；先参与讨论建立信誉，再引导到产品</td></tr>
+  <tr><td>预算用途</td><td>社区运营人员外包成本（按帖计费）+ Reddit 广告测试（$1,000，用于测试哪个版块转化最好）</td></tr>
+</table>
+
+<!-- 3. KOL 筛选标准 -->
+<h2 class="sec">3. KOL 筛选标准</h2>
+
+<table>
+  <tr><th>维度</th><th>Twitter/X KOL 标准</th><th>YouTube KOL 标准</th></tr>
+  <tr><td>粉丝规模</td><td>5万–30万</td><td>订阅量 1万–20万</td></tr>
+  <tr><td>互动率</td><td>平均互动率 > 2%</td><td>平均播放量 / 订阅量 > 15%</td></tr>
+  <tr><td>内容垂类</td><td>DeFi、Trading、预测市场相关</td><td>DeFi 教程、加密工具评测</td></tr>
+  <tr><td>加分项</td><td>曾提及 Polymarket / 预测市场；有真实链上操作记录</td><td>视频在 Google 搜索有排名；教程类内容占比 > 50%</td></tr>
+  <tr><td>排除项</td><td>纯喊单账号；粉丝质量低（机器人占比高）；过去 3 个月有竞品独家合作</td><td>搬运内容频道；最近 6 个月无更新；评论区大量刷屏</td></tr>
+  <tr><td>合作形式</td><td>按帖计费，不签长期独家</td><td>按视频计费，视频存档不删除</td></tr>
+</table>
+
+<!-- 4. 执行节奏 -->
+<h2 class="sec">4. 执行节奏（与周年庆对齐）</h2>
+
+<div style="display:flex; gap:12px; margin:16px 0 24px;">
+  <div style="flex:1; background:#FFF3E0; border:2px solid #FF6B00; border-radius:8px; padding:16px;">
+    <div style="font-size:12px; font-weight:700; color:#FF6B00; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px;">P0 筹备预热</div>
+    <div style="font-size:18px; font-weight:700; color:#111; margin-bottom:12px;">3/14 – 3/31</div>
+    <ul style="margin:0 0 0 16px; font-size:13px; color:#444; line-height:2;">
+      <li>KOL 候选名单筛选（Twitter + YouTube 各 10+ 个）</li>
+      <li>接触确认 KOL，发 brief + 签合同</li>
+      <li>加密媒体选题确认 + 合同签署</li>
+      <li>PR 新闻稿撰写 & 内部审核</li>
+      <li>Reddit 账号预热，参与讨论建立信誉</li>
+    </ul>
+    <div style="margin-top:12px; background:#fff; border-left:3px solid #FF9800; padding:8px 12px; border-radius:3px; font-size:12px; color:#666;">目标：所有内容就位，4/1 起可立即发布</div>
+  </div>
+  <div style="flex:2; background:#FFF8F0; border:2px solid #FFB74D; border-radius:8px; padding:16px;">
+    <div style="font-size:12px; font-weight:700; color:#FF9800; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px;">P1 活动期（内容集中爆发）</div>
+    <div style="font-size:18px; font-weight:700; color:#111; margin-bottom:12px;">4/1 – 4/30</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:13px; color:#444;">
+      <div>
+        <div style="font-weight:600; color:#FF6B00; margin-bottom:4px;">前两周（4/1–4/14）</div>
+        <ul style="margin:0 0 0 16px; line-height:2;">
+          <li>加密媒体文章第 1 批上线（2 篇）</li>
+          <li>PR 新闻稿发布（配合上线节点）</li>
+          <li>Twitter KOL 第 1 轮帖子发布</li>
+          <li>YouTube 视频第 1 支上线</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600; color:#FF6B00; margin-bottom:4px;">后两周（4/15–4/30）</div>
+        <ul style="margin:0 0 0 16px; line-height:2;">
+          <li>加密媒体文章第 2 批上线（1–2 篇）</li>
+          <li>Twitter KOL 第 2 轮 + 热点响应帖</li>
+          <li>YouTube 视频第 2 支上线</li>
+          <li>Reddit 高频发布 + 数据复盘</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:12px; background:#fff; border-left:3px solid #FF9800; padding:8px 12px; border-radius:3px; font-size:12px; color:#666;">配合周年庆活动期流量峰值，内容发布节奏与周年庆 PR 波次错开 3–5 天，避免内部竞争注意力</div>
+  </div>
+</div>
+
+<div class="timeline">
+  <div class="timeline-month">
+    <div class="timeline-month-pad"></div>
+    <div class="timeline-months">
+      <div class="timeline-m">3/14</div>
+      <div class="timeline-m">3/21</div>
+      <div class="timeline-m">3/28</div>
+      <div class="timeline-m">4/1</div>
+      <div class="timeline-m">4/8</div>
+      <div class="timeline-m">4/15</div>
+      <div class="timeline-m">4/22</div>
+      <div class="timeline-m">4/30</div>
+    </div>
+  </div>
+  <div class="timeline-row">
+    <div class="timeline-label">KOL 筛选 & 接触</div>
+    <div class="timeline-bar-wrap"><div class="timeline-bar bar-w1" style="width:25%">筛选候选</div></div>
+  </div>
+  <div class="timeline-row">
+    <div class="timeline-label">KOL Brief 确认</div>
+    <div class="timeline-bar-wrap"><div class="timeline-bar" style="background:#FF9800; width:25%; margin-left:12%">确认 + 签约</div></div>
+  </div>
+  <div class="timeline-row">
+    <div class="timeline-label">媒体选题 & 签约</div>
+    <div class="timeline-bar-wrap"><div class="timeline-bar bar-w1" style="width:37%">选题确认</div></div>
+  </div>
+  <div class="timeline-row">
+    <div class="timeline-label">PR 稿撰写审核</div>
+    <div class="timeline-bar-wrap"><div class="timeline-bar" style="background:#FFB74D; color:#333; width:37%">撰写 + 审核</div></div>
+  </div>
+  <div class="timeline-row">
+    <div class="timeline-label">Reddit 预热</div>
+    <div class="timeline-bar-wrap"><div class="timeline-bar" style="background:#FF9800; width:100%">持续参与社区讨论</div></div>
+  </div>
+  <div class="timeline-row">
+    <div class="timeline-label">内容集中发布</div>
+    <div class="timeline-bar-wrap"><div class="timeline-bar" style="background:#FF6B00; width:62%; margin-left:37%">KOL + 媒体文章 + PR 波次发布</div></div>
+  </div>
+</div>
+
+<!-- 5. 时间排程 -->
+<h2 class="sec">5. 时间排程表（3/14 – 4/30）</h2>
+
+<style>
+.gantt-wrap { overflow-x: auto; margin: 16px 0; }
+.gantt { border-collapse: collapse; min-width: 900px; width: 100%; font-size: 12px; }
+.gantt th { padding: 7px 6px; text-align: center; font-weight: 600; border: 1px solid #ddd; white-space: nowrap; }
+.gantt td { padding: 7px 8px; border: 1px solid #E8E8E8; vertical-align: middle; white-space: nowrap; }
+.gantt .row-label { font-weight: 600; font-size: 12px; color: #333; white-space: nowrap; min-width: 130px; }
+.gantt .sub-label { font-weight: 400; font-size: 11px; color: #555; white-space: nowrap; padding-left: 14px; }
+.gantt .phase-p0 { background: #FF6B00; color: #fff; border-radius: 3px; text-align: center; font-size: 11px; font-weight: 600; padding: 3px 4px; }
+.gantt .phase-p1 { background: #FF9800; color: #fff; border-radius: 3px; text-align: center; font-size: 11px; font-weight: 600; padding: 3px 4px; }
+.gantt .phase-light { background: #FFF3E0; color: #E65100; border-radius: 3px; text-align: center; font-size: 11px; padding: 3px 4px; }
+.gantt .phase-key { background: #FF6B00; color: #fff; border-radius: 3px; text-align: center; font-size: 11px; font-weight: 700; padding: 3px 6px; }
+.gantt .empty { background: #FAFAFA; }
+.gantt .week-p0 { background: #FFF8F0; }
+.gantt .week-p1 { background: #FFFDE7; }
+.gantt .phase-header-p0 { background: #FF6B00; color: #fff; text-align: center; font-weight: 700; font-size: 12px; }
+.gantt .phase-header-p1 { background: #FF9800; color: #fff; text-align: center; font-weight: 700; font-size: 12px; }
+.gantt .channel-group { background: #FFF3E0; font-weight: 700; font-size: 12px; color: #E65100; }
+.milestone { display: inline-block; background: #FF6B00; color: #fff; border-radius: 50%; width: 18px; height: 18px; text-align: center; line-height: 18px; font-size: 10px; font-weight: 700; }
+</style>
+
+<div class="gantt-wrap">
+<table class="gantt">
+  <thead>
+    <tr>
+      <th rowspan="2" style="background:#F5F5F5; min-width:130px; text-align:left; padding-left:10px;">渠道 / 任务</th>
+      <th colspan="3" class="phase-header-p0">P0 筹备预热（3/14 – 3/31）</th>
+      <th colspan="4" class="phase-header-p1">P1 活动期（4/1 – 4/30）</th>
+    </tr>
+    <tr>
+      <th class="week-p0">3/14–3/20</th>
+      <th class="week-p0">3/21–3/27</th>
+      <th class="week-p0">3/28–3/31</th>
+      <th class="week-p1">4/1–4/7</th>
+      <th class="week-p1">4/8–4/14</th>
+      <th class="week-p1">4/15–4/21</th>
+      <th class="week-p1">4/22–4/30</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- Twitter/X KOL -->
+    <tr><td colspan="8" class="channel-group">Twitter/X KOL &nbsp;·&nbsp; $13,000</td></tr>
+    <tr>
+      <td class="sub-label">KOL 筛选 & 接触</td>
+      <td class="phase-p0">列候选名单 15+</td>
+      <td class="phase-light">发接触 DM</td>
+      <td class="empty"></td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">Brief 确认 & 签约</td>
+      <td class="empty"></td>
+      <td class="phase-p0">Brief 发出</td>
+      <td class="phase-light">签约 3–4 个</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">内容创作审核</td>
+      <td class="empty"></td><td class="empty"></td>
+      <td class="phase-light">初稿审核</td>
+      <td class="phase-key">审核通过</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">第 1 轮发布</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">复盘帖 × 2</td>
+      <td class="phase-light">Thread × 1</td>
+      <td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">第 2 轮发布</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">复盘帖 × 2</td>
+      <td class="phase-light">热点响应帖</td>
+    </tr>
+
+    <!-- YouTube KOL -->
+    <tr><td colspan="8" class="channel-group">YouTube KOL &nbsp;·&nbsp; $16,000</td></tr>
+    <tr>
+      <td class="sub-label">KOL 筛选 & 接触</td>
+      <td class="phase-p0">候选频道 10+</td>
+      <td class="phase-light">接触确认意向</td>
+      <td class="empty"></td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">Brief & 脚本确认</td>
+      <td class="empty"></td>
+      <td class="phase-p0">Brief 发出</td>
+      <td class="phase-light">脚本审核</td>
+      <td class="phase-key">签约 3–4 个</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">视频 1 上线（教程向）</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">上线 + UTM 验证</td>
+      <td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">视频 2 上线（对比测评）</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">上线 + 数据追踪</td>
+    </tr>
+
+    <!-- 加密媒体 -->
+    <tr><td colspan="8" class="channel-group">加密媒体付费内容 &nbsp;·&nbsp; $12,000</td></tr>
+    <tr>
+      <td class="sub-label">媒体选定 & 选题</td>
+      <td class="phase-p0">确定 1–2 家媒体</td>
+      <td class="phase-light">提交选题</td>
+      <td class="empty"></td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">文章撰写 & 审核</td>
+      <td class="empty"></td>
+      <td class="phase-p0">初稿提交</td>
+      <td class="phase-light">媒体审核 + 修改</td>
+      <td class="phase-key">终稿确认</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">第 1 批文章上线</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">2 篇上线</td>
+      <td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">第 2 批文章上线</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">1–2 篇上线</td>
+      <td class="empty"></td>
+    </tr>
+
+    <!-- PR -->
+    <tr><td colspan="8" class="channel-group">PR 新闻稿 &nbsp;·&nbsp; $5,000</td></tr>
+    <tr>
+      <td class="sub-label">稿件撰写</td>
+      <td class="phase-p0">初稿</td>
+      <td class="phase-light">内部审核</td>
+      <td class="phase-light">法务/合规确认</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">发布（配合产品上线）</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-key">PR Newswire 发出</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">媒体跟进</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-light">跟进转载 & 补充媒体</td>
+      <td class="empty"></td><td class="empty"></td>
+    </tr>
+
+    <!-- Reddit -->
+    <tr><td colspan="8" class="channel-group">Reddit 内容渗透 &nbsp;·&nbsp; $4,000</td></tr>
+    <tr>
+      <td class="sub-label">账号预热</td>
+      <td class="phase-p0">参与社区讨论</td>
+      <td class="phase-light">建立 karma 值</td>
+      <td class="phase-light">持续活跃</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">内容发布（每周 3–5 帖）</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-p1">分析帖 × 3</td>
+      <td class="phase-p1">分析帖 × 3</td>
+      <td class="phase-p1">经历帖 × 3</td>
+      <td class="phase-p1">经历帖 × 3</td>
+    </tr>
+    <tr>
+      <td class="sub-label">Reddit 广告测试</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-light">$500 测试投放</td>
+      <td class="phase-light">$500 优化投放</td>
+      <td class="empty"></td>
+    </tr>
+
+    <!-- 数据复盘 -->
+    <tr><td colspan="8" class="channel-group">数据追踪 & 复盘</td></tr>
+    <tr>
+      <td class="sub-label">UTM 埋点验证</td>
+      <td class="empty"></td><td class="empty"></td>
+      <td class="phase-p0">所有链接埋点</td>
+      <td class="phase-key">上线前全量验证</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td>
+    </tr>
+    <tr>
+      <td class="sub-label">阶段数据复盘</td>
+      <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+      <td class="phase-light">第 1 次复盘</td>
+      <td class="empty"></td>
+      <td class="phase-p1">月度复盘 + 5月预算调整</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<div style="display:flex; gap:16px; margin:12px 0 8px; font-size:12px; align-items:center;">
+  <div style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#FF6B00; border-radius:2px;"></span> 关键执行节点</div>
+  <div style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#FF9800; border-radius:2px;"></span> P1 活动期发布</div>
+  <div style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#FFF3E0; border:1px solid #FFB74D; border-radius:2px;"></span> 过程任务</div>
+</div>
+
+<!-- 6. 效果衡量 -->
+<h2 class="sec">5. 效果衡量指标</h2>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">媒体内容曝光量</div>
+    <div class="kpi-value">50万+</div>
+    <div class="kpi-sub">月度目标（PV）</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">KOL 内容互动量</div>
+    <div class="kpi-value">10万+</div>
+    <div class="kpi-sub">Likes + Comments + Shares</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">内容带来新注册</div>
+    <div class="kpi-value">500+</div>
+    <div class="kpi-sub">UTM 追踪，月度目标</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">首次预测用户</div>
+    <div class="kpi-value">200+</div>
+    <div class="kpi-sub">注册后完成首次押注</div>
+  </div>
+</div>
+
+<div class="note"><strong>追踪方式：</strong>所有 KOL 链接和媒体文章链接需附带 UTM 参数（utm_source=kol_twitter / youtube / reddit / media）；每两周汇总一次各渠道 ROI，第二个月根据数据调整分配。</div>
+
+<table>
+  <tr><th>渠道</th><th>核心指标</th><th>次要指标</th><th>周期</th></tr>
+  <tr><td>加密媒体付费内容</td><td>文章 PV、UTM 注册量</td><td>Google 搜索排名、反链数</td><td>月度</td></tr>
+  <tr><td>PR 新闻稿</td><td>媒体转载数量</td><td>品牌搜索量变化</td><td>每次发布后 7 天</td></tr>
+  <tr><td>Twitter/X KOL</td><td>帖子互动率、UTM 点击量</td><td>账号粉丝增长</td><td>每帖发布后 48 小时</td></tr>
+  <tr><td>YouTube KOL</td><td>视频播放量、UTM 注册量</td><td>评论区提问质量</td><td>发布后 7 天 / 30 天</td></tr>
+  <tr><td>Reddit</td><td>帖子点赞数、评论互动量</td><td>Reddit 广告 CTR</td><td>周度</td></tr>
+</table>
+
+<!-- 6. 注意事项 -->
+<h2 class="sec">6. 注意事项</h2>
+
+<ul>
+  <li><strong>不重复投放：</strong>本预算不投 Coingecko / Coinzilla / DV360，这些渠道周年庆预算已覆盖，重复购买同一批展示位浪费资金。</li>
+  <li><strong>Reddit 合规：</strong>Reddit 社区对广告极度敏感，帖子一旦被识别为营销内容会被删帖甚至封号；所有帖子需以真实用户视角撰写，产品链接只放评论区。</li>
+  <li><strong>KOL 内容审核：</strong>发布前需审核 KOL 内容，确保没有错误的产品信息；但不要过度修改语气，真实感是核心价值。</li>
+  <li><strong>第二个月再评估：</strong>第一个月数据出来后，按 UTM 追踪的实际 ROI 重新分配预算，效果差的渠道减少，效果好的加码。</li>
+  <li><strong>热点响应预留：</strong>Twitter/X KOL 预算中保留 1 个 KOL 名额（约 $3,000）用于临时热点事件快速响应，不要全部提前锁定。</li>
+</ul>
+
+<!-- 7. 内容模版 -->
+<h2 class="sec">7. 各渠道内容模版</h2>
+
+<div class="note"><strong>使用说明：</strong>以下模版为框架参考，KOL 必须用自己的语气二次创作，严禁直接复制发布。括号内为变量，发布前替换为真实数据。</div>
+
+<!-- 7.1 Twitter/X -->
+<h3 class="sub">7.1 Twitter/X KOL 模版</h3>
+
+<table>
+  <tr><th width="18%">模版类型</th><th>内容</th></tr>
+  <tr>
+    <td>① 预测复盘帖<br><span style="font-size:11px;color:#888;">首选，传播性最强</span></td>
+    <td>
+      <div style="background:#F8F8F8; border-radius:6px; padding:12px 14px; font-size:13px; line-height:1.8; white-space:pre-wrap;">Last week I put [amount] on [EVENT] going [YES/NO] on @moonx_bydfi's prediction market.
+
+It hit. Here's what I was thinking:
+
+→ [reason 1 in 1 sentence]
+→ [reason 2 in 1 sentence]
+→ [why this market had edge over Polymarket]
+
+This week I'm watching [NEXT EVENT]. My position: [YES/NO]
+
+If you want to follow the same market 👇
+[product link with UTM]</div>
+      <div style="margin-top:8px; font-size:12px; color:#888;">要点：真实押注金额、具体事件名称、必须提 Polymarket 作对比、下一个预测引导用户点击</div>
+    </td>
+  </tr>
+  <tr>
+    <td>② 深度 Thread<br><span style="font-size:11px;color:#888;">每月 1–2 条</span></td>
+    <td>
+      <div style="background:#F8F8F8; border-radius:6px; padding:12px 14px; font-size:13px; line-height:1.8; white-space:pre-wrap;">Prediction markets are the most underrated tool in crypto right now.
+
+Here's why I've been using MoonX instead of Polymarket, and how I'm up [X]% this month: 🧵
+
+1/ [What prediction markets are — explain to a trader, not a techie]
+
+2/ [Why crypto prediction markets beat traditional ones: 24/7, no KYC, on-chain settlement]
+
+3/ [What I look for in a market: liquidity, odds accuracy, event clarity]
+
+4/ [Specific example: how I found an edge in [EVENT] market on MoonX]
+
+5/ [How MoonX differs: aggregates Polymarket + Azuro, shows best odds, one-click position]
+
+6/ [My current open positions + what I'm watching]
+
+Sign up here → [link with UTM]</div>
+      <div style="margin-top:8px; font-size:12px; color:#888;">要点：教育向，不要纯喊单；第 5 条必须说清楚产品差异化；结尾一个 CTA</div>
+    </td>
+  </tr>
+  <tr>
+    <td>③ 热点实时帖<br><span style="font-size:11px;color:#888;">事件驱动，48h内发</span></td>
+    <td>
+      <div style="background:#F8F8F8; border-radius:6px; padding:12px 14px; font-size:13px; line-height:1.8; white-space:pre-wrap;">Everyone's talking about [HOT EVENT].
+
+The market is already pricing it in. Current odds on MoonX: [YES XX% / NO XX%]
+
+I think the market is [underpricing/overpricing] [YES/NO] because:
+- [reason]
+- [data point]
+
+My position: [X] on [YES/NO]
+
+Track it live → [link]</div>
+      <div style="margin-top:8px; font-size:12px; color:#888;">要点：必须包含实时赔率数据；在事件发生前 24–48h 发效果最好；不要发完全确定结果的事件</div>
+    </td>
+  </tr>
+</table>
+
+<!-- 7.2 YouTube -->
+<h3 class="sub">7.2 YouTube KOL 视频 Brief 模版</h3>
+
+<table>
+  <tr><th width="18%">视频类型</th><th>内容结构</th></tr>
+  <tr>
+    <td>① 教程向<br><span style="font-size:11px;color:#888;">标题含关键词，SEO 友好</span></td>
+    <td>
+      <div style="font-size:13px; line-height:2;">
+        <strong>参考标题：</strong>How to Use MoonX Prediction Market to Profit from Crypto Events (Step-by-Step)<br>
+        <strong>时长：</strong>10–15 分钟<br>
+        <strong>结构：</strong><br>
+        &nbsp;&nbsp;[0:00] Hook — "I made $X in 3 days predicting this crypto event"<br>
+        &nbsp;&nbsp;[0:30] 什么是预测市场？和交易有什么区别（1分钟简明解释）<br>
+        &nbsp;&nbsp;[2:00] MoonX 产品演示：注册 → 找市场 → 下注 → 结算（录屏）<br>
+        &nbsp;&nbsp;[5:00] 如何选择值得押注的市场（3个标准：流动性、赔率、事件清晰度）<br>
+        &nbsp;&nbsp;[8:00] 真实案例：博主自己的押注记录（必须是真实操作）<br>
+        &nbsp;&nbsp;[11:00] MoonX vs Polymarket 对比（速度、赔率、UX）<br>
+        &nbsp;&nbsp;[13:00] CTA：链接在简介，评论区置顶<br>
+        <strong>描述区必含关键词：</strong>moonx prediction market, crypto prediction market, polymarket alternative, predict crypto events
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>② 对比测评向<br><span style="font-size:11px;color:#888;">搜索"polymarket alternative"人群</span></td>
+    <td>
+      <div style="font-size:13px; line-height:2;">
+        <strong>参考标题：</strong>MoonX vs Polymarket: Which Crypto Prediction Market Should You Use in 2026?<br>
+        <strong>时长：</strong>8–12 分钟<br>
+        <strong>结构：</strong><br>
+        &nbsp;&nbsp;[0:00] Hook — "I tested both for 30 days. Here's the honest breakdown"<br>
+        &nbsp;&nbsp;[0:30] 对比维度说明（赔率、市场数量、UX、提款速度、手续费）<br>
+        &nbsp;&nbsp;[2:00] Polymarket 演示 + 优缺点<br>
+        &nbsp;&nbsp;[5:00] MoonX 演示 + 优缺点（重点：聚合多平台赔率）<br>
+        &nbsp;&nbsp;[8:00] 场景推荐：什么情况用哪个<br>
+        &nbsp;&nbsp;[10:00] 结论 + CTA<br>
+        <strong>注意：</strong>对比要客观，不能全说 MoonX 好，否则观众不信任；指出 1–2 个 Polymarket 做得更好的点
+      </div>
+    </td>
+  </tr>
+</table>
+
+<!-- 7.3 Reddit -->
+<h3 class="sub">7.3 Reddit 内容模版</h3>
+
+<table>
+  <tr><th width="18%">帖子类型</th><th>内容</th></tr>
+  <tr>
+    <td>① 预测分析帖<br><span style="font-size:11px;color:#888;">r/CryptoCurrency 首选</span></td>
+    <td>
+      <div style="background:#F8F8F8; border-radius:6px; padding:12px 14px; font-size:13px; line-height:1.8; white-space:pre-wrap;"><strong>标题：</strong>[EVENT] prediction market odds are pricing in [X]% probability — here's why I think that's wrong
+
+The current odds on [EVENT] are sitting at [YES: XX% / NO: XX%].
+
+Here's my breakdown of why this is mispriced:
+
+**What the market is pricing in:**
+[2-3 sentences explaining current consensus]
+
+**What I think the market is missing:**
+1. [Data point or argument 1]
+2. [Data point or argument 2]
+3. [Why the market might be anchoring on wrong info]
+
+**What this means for positioning:**
+[1-2 sentences on how someone could position]
+
+---
+*I'm tracking this on a prediction market aggregator. Happy to share the link in comments if anyone wants to follow the odds live.*</div>
+      <div style="margin-top:8px; font-size:12px; color:#888;">产品链接只放评论区，正文不提品牌名；标题要有具体数字，吸引点击；内容要有真实分析逻辑</div>
+    </td>
+  </tr>
+  <tr>
+    <td>② 真实经历帖<br><span style="font-size:11px;color:#888;">r/defi / r/Polymarket</span></td>
+    <td>
+      <div style="background:#F8F8F8; border-radius:6px; padding:12px 14px; font-size:13px; line-height:1.8; white-space:pre-wrap;"><strong>标题：</strong>Switched from Polymarket to [MoonX] for [EVENT] — here's the difference I noticed
+
+Been using Polymarket for about a year. Tried MoonX for the last month because someone mentioned it aggregates odds from multiple platforms.
+
+**What surprised me:**
+- Odds on [specific market] were [X]% better than Polymarket at the time I entered
+- The UI loads noticeably faster on mobile
+- [One honest criticism — e.g., "market selection is still smaller"]
+
+**What I missed:**
+- Polymarket has more niche markets that MoonX doesn't have yet
+
+**TL;DR:** For major events, MoonX odds are competitive or better. For niche stuff, Polymarket still wins.
+
+Anyone else been trying different platforms? Curious what others are using.</div>
+      <div style="margin-top:8px; font-size:12px; color:#888;">必须包含真实的缺点批评，否则 Reddit 用户一眼识破是营销；结尾用问题引发讨论；品牌链接放评论区</div>
+    </td>
+  </tr>
+</table>
+
+<!-- 7.4 加密媒体 -->
+<h3 class="sub">7.4 加密媒体 Sponsored Article Brief 模版</h3>
+
+<table>
+  <tr><th width="18%">项目</th><th>内容</th></tr>
+  <tr><td>文章方向 A</td><td><strong>赛道解读向：</strong>"The Rise of Crypto Prediction Markets: How MoonX Is Making Them Accessible to Every Trader"<br><span style="font-size:12px;color:#666;">结构：预测市场市场规模 → 现有平台痛点 → MoonX 的聚合器定位 → 用户如何受益 → 数据/截图 → 注册 CTA</span></td></tr>
+  <tr><td>文章方向 B</td><td><strong>使用指南向：</strong>"How to Use Crypto Prediction Markets to Hedge Your Portfolio During High-Volatility Events"<br><span style="font-size:12px;color:#666;">结构：预测市场 vs 期权的区别 → 3个实际使用场景（大选、Fed 会议、ETF 审批）→ MoonX 操作步骤 → 历史押注案例（数据） → 风险提示 → CTA</span></td></tr>
+  <tr><td>文章方向 C</td><td><strong>数据复盘向：</strong>"Prediction Market Accuracy Report: How Well Did Crypto Markets Predict [Quarter] Events?"<br><span style="font-size:12px;color:#666;">结构：选 5–8 个已结算市场 → 最终赔率 vs 实际结果 → 分析哪类事件预测准确率高 → MoonX 数据来源介绍 → 用户怎么利用这些数据 → CTA</span></td></tr>
+  <tr><td>必须包含</td><td>① 产品截图（至少 3 张）② UTM 链接 ③ 数据/图表（不能全是文字）④ 作者 bio 区包含 MoonX 链接</td></tr>
+  <tr><td>必须避免</td><td>纯广告口吻、夸大收益承诺、"guaranteed profit"类表述（合规风险）</td></tr>
+</table>
+
+<!-- 7.5 PR -->
+<h3 class="sub">7.5 PR 新闻稿模版框架</h3>
+
+<table>
+  <tr><th width="18%">模块</th><th>内容要求</th></tr>
+  <tr><td>标题</td><td>格式：[MoonX] [动作] [具体里程碑/数据]，例："MoonX Launches Crypto Prediction Market Aggregator, Offering Best-Odds Access to Polymarket and Azuro"</td></tr>
+  <tr><td>副标题</td><td>1句补充核心差异化：Platform aggregates real-time odds from multiple prediction markets, enabling traders to find the best position in one click</td></tr>
+  <tr><td>第一段</td><td>[城市], [日期] — [公司全称] 今日宣布 [里程碑]。[1–2句核心价值主张]。</td></tr>
+  <tr><td>第二段</td><td>产品功能说明（2–3句，技术细节尽量用白话）+ 目前支持的市场数量/链/资产</td></tr>
+  <tr><td>引言</td><td>CEO 或 CMO 的 1–2 句引言，强调用户价值而非技术（"We built this because..."）</td></tr>
+  <tr><td>数据支撑</td><td>上线用户数 / TVL / 市场数量 / 已结算市场准确率（有数据就放，没有用"growing community of X users"）</td></tr>
+  <tr><td>结尾</td><td>About MoonX + 产品链接 + 媒体联系方式</td></tr>
+  <tr><td>配套资源</td><td>产品截图 × 3、Logo 文件、创始人/CMO 头像（媒体发布需要）</td></tr>
+</table>
+
+<hr>
+
+</div>
+</body>
+</html>

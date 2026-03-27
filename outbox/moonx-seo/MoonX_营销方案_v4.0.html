@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 预测市场上线营销方案 V4.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  background: #fafafa; color: #1a1a1a; min-height: 100vh; }
+
+/* Cover */
+.cover { background: linear-gradient(135deg, #FF6B00, #FF9800); padding: 60px 48px 48px; color: #fff; }
+.cover .logo { font-size: 12px; font-weight: 700; letter-spacing: 2px; opacity: 0.8; margin-bottom: 24px; }
+.cover h1 { font-size: 34px; font-weight: 900; line-height: 1.2; margin-bottom: 10px; }
+.cover .subtitle { font-size: 15px; opacity: 0.85; margin-bottom: 32px; }
+.cover .meta { display: flex; gap: 32px; flex-wrap: wrap; }
+.cover .meta-item .label { font-size: 11px; opacity: 0.65; margin-bottom: 3px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 700; }
+
+/* Layout */
+.content { max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; }
+
+/* Section headers */
+.sec-header { border-left: 5px solid #FF6B00; padding: 4px 0 4px 16px; margin: 52px 0 24px; }
+.sec-header .sec-num { font-size: 11px; color: #FF6B00; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
+.sec-header h2 { font-size: 22px; font-weight: 800; }
+.sec-header p { font-size: 13px; color: #666; margin-top: 4px; }
+
+/* Overview table */
+.overview-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; font-size: 13px; }
+.overview-table th { background: #FF6B00; color: #fff; padding: 10px 14px; text-align: left; font-weight: 700; }
+.overview-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; }
+.overview-table tr:hover td { background: #fffaf5; }
+.overview-table .team-cell { font-weight: 800; white-space: nowrap; }
+.bg-growth td { background: #FFF8F3; } .bg-growth td:first-child { border-left: 4px solid #FF6B00; }
+.bg-cangcang td { background: #F5F9FF; } .bg-cangcang td:first-child { border-left: 4px solid #2196F3; }
+.bg-sally td { background: #FFF5F8; } .bg-sally td:first-child { border-left: 4px solid #E91E63; }
+.bg-michael td { background: #FDF5FF; } .bg-michael td:first-child { border-left: 4px solid #9C27B0; }
+.bg-chloe td { background: #F5FEFF; } .bg-chloe td:first-child { border-left: 4px solid #00BCD4; }
+.bg-seo td { background: #F5FDF5; } .bg-seo td:first-child { border-left: 4px solid #4CAF50; }
+.c-growth { color: #E65100; } .c-cangcang { color: #1565C0; } .c-sally { color: #AD1457; }
+.c-michael { color: #6A1B9A; } .c-chloe { color: #00838F; } .c-seo { color: #2E7D32; }
+
+/* Team section */
+.team-section { margin-bottom: 48px; }
+.team-header { display: flex; align-items: center; gap: 14px; padding: 18px 24px; border-radius: 12px 12px 0 0; }
+.team-header .team-name { font-size: 17px; font-weight: 900; color: #fff; }
+.team-header .team-focus { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+.team-h-growth { background: linear-gradient(135deg, #E65100, #FF9800); }
+.team-h-cangcang { background: linear-gradient(135deg, #1565C0, #42A5F5); }
+.team-h-sally { background: linear-gradient(135deg, #AD1457, #F06292); }
+.team-h-michael { background: linear-gradient(135deg, #6A1B9A, #AB47BC); }
+.team-h-chloe { background: linear-gradient(135deg, #00838F, #26C6DA); }
+.team-h-seo { background: linear-gradient(135deg, #2E7D32, #66BB6A); }
+
+.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border: 1.5px solid #e8e8e8; border-top: none; border-radius: 0 0 12px 12px; overflow: hidden; }
+.plan-card { padding: 20px 18px; border-right: 1px solid #efefef; background: #fff; }
+.plan-card:last-child { border-right: none; }
+.plan-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.45; }
+.plan-name { font-size: 15px; font-weight: 800; margin-bottom: 6px; line-height: 1.3; }
+.plan-obj { font-size: 12px; color: #666; margin-bottom: 12px; line-height: 1.55; }
+.plan-actions { list-style: none; margin-bottom: 12px; }
+.plan-actions li { font-size: 12px; color: #333; padding: 3px 0; display: flex; gap: 6px; align-items: baseline; border-top: 1px solid #f8f8f8; }
+.plan-actions li::before { content: "→"; font-size: 10px; color: #ccc; flex-shrink: 0; }
+.plan-kpi { background: #f8f8f8; border-radius: 6px; padding: 8px 10px; font-size: 11px; color: #555; line-height: 1.5; }
+.plan-kpi strong { color: #FF6B00; }
+
+/* Activity cards */
+.activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+.activity-card { border: 1.5px solid #FFE0B2; border-radius: 12px; overflow: hidden; background: #fff; }
+.activity-card-head { background: linear-gradient(135deg, #E65100, #FF9800); padding: 14px 20px; }
+.activity-card-head h3 { font-size: 15px; font-weight: 800; color: #fff; }
+.activity-card-head .tag { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+.activity-card-body { padding: 16px 20px; }
+.tier-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tier-table th { background: #FFF3E0; padding: 8px 12px; text-align: center; font-weight: 700; color: #E65100; font-size: 12px; }
+.tier-table td { padding: 9px 12px; text-align: center; border-bottom: 1px solid #f8f0e8; }
+.tier-table .amount { font-weight: 800; color: #FF6B00; }
+.tier-table .reward { font-weight: 700; color: #2E7D32; }
+
+/* Calendar */
+.cal-wrap { overflow-x: auto; margin-bottom: 40px; border: 1.5px solid #e8e8e8; border-radius: 12px; }
+.cal-table { min-width: 1050px; border-collapse: collapse; font-size: 12px; width: 100%; }
+.cal-table th.date-h { background: #1a1a1a; color: #fff; padding: 12px 8px; text-align: center; min-width: 120px; }
+.cal-table th.date-h .date-label { font-size: 16px; font-weight: 900; color: #FF6B00; }
+.cal-table th.date-h .date-desc { font-size: 10px; color: #888; margin-top: 2px; }
+.cal-table th.team-h { background: #f5f5f5; padding: 10px 14px; text-align: left; font-weight: 700; font-size: 12px; min-width: 110px; }
+.cal-table td { padding: 10px 10px; border: 1px solid #f0f0f0; vertical-align: top; line-height: 1.5; }
+.cal-item { font-size: 11px; color: #333; padding: 2px 0 2px 10px; position: relative; }
+.cal-item::before { content: "·"; position: absolute; left: 2px; color: #bbb; }
+.cal-label-growth { font-weight: 800; color: #E65100; background: #FFF8F3; padding: 10px 12px; white-space: nowrap; border-right: 1px solid #f0f0f0; }
+.cal-label-cangcang { font-weight: 800; color: #1565C0; background: #F5F9FF; padding: 10px 12px; white-space: nowrap; border-right: 1px solid #f0f0f0; }
+.cal-label-sally { font-weight: 800; color: #AD1457; background: #FFF5F8; padding: 10px 12px; white-space: nowrap; border-right: 1px solid #f0f0f0; }
+.cal-label-michael { font-weight: 800; color: #6A1B9A; background: #FDF5FF; padding: 10px 12px; white-space: nowrap; border-right: 1px solid #f0f0f0; }
+.cal-label-chloe { font-weight: 800; color: #00838F; background: #F5FEFF; padding: 10px 12px; white-space: nowrap; border-right: 1px solid #f0f0f0; }
+.cal-label-seo { font-weight: 800; color: #2E7D32; background: #F5FDF5; padding: 10px 12px; white-space: nowrap; border-right: 1px solid #f0f0f0; }
+.cal-growth { background: #fffcfa; }
+.cal-cangcang { background: #f8fbff; }
+.cal-sally { background: #fff8fb; }
+.cal-michael { background: #fdf8ff; }
+.cal-chloe { background: #f5feff; }
+.cal-seo { background: #f8fdf8; }
+
+/* Footer */
+.footer { border-top: 1px solid #eee; padding: 24px 32px; text-align: center; font-size: 12px; color: #999; max-width: 1200px; margin: 0 auto; }
+.footer strong { color: #FF6B00; }
+
+@media print {
+  .cover { padding: 40px 32px 32px; }
+  .content { padding: 24px 24px 40px; }
+  .cal-wrap { overflow: visible; }
+  .cal-table { min-width: unset; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="logo">MOONX FARM · INTERNAL CONFIDENTIAL</div>
+  <h1>预测市场上线<br>营销执行方案</h1>
+  <div class="subtitle">以执行团队为核心的整体分工框架 — 6 条执行线 × 2 大框架</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">版本</div><div class="value">V4.0</div></div>
+    <div class="meta-item"><div class="label">日期</div><div class="value">2026-03-16</div></div>
+    <div class="meta-item"><div class="label">执行线</div><div class="value">6 组</div></div>
+    <div class="meta-item"><div class="label">核心方案</div><div class="value">18 套</div></div>
+    <div class="meta-item"><div class="label">执行周期</div><div class="value">D-14 → D+30</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ===== 大框架一 ===== -->
+<div class="sec-header">
+  <div class="sec-num">大框架 · 一</div>
+  <h2>各执行线方案分配</h2>
+  <p>6 条执行线，每线 3 套落地方案，各线独立执行，上线日同步引爆</p>
+</div>
+
+<!-- Overview -->
+<table class="overview-table">
+  <thead>
+    <tr>
+      <th>执行线</th>
+      <th>主攻方向</th>
+      <th>方案 1</th>
+      <th>方案 2</th>
+      <th>方案 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="bg-growth">
+      <td class="team-cell c-growth">增长运营</td>
+      <td>平台直营 · 新老用户</td>
+      <td>充值阶梯奖励</td>
+      <td>新用户双礼入场</td>
+      <td>0% Fee + 交易量排行榜</td>
+    </tr>
+    <tr class="bg-cangcang">
+      <td class="team-cell c-cangcang">苍苍组</td>
+      <td>欧美 KOL 代理</td>
+      <td>上线日 KOL 矩阵内容</td>
+      <td>KOL 带头预测挑战</td>
+      <td>KOL 专属邀请返佣</td>
+    </tr>
+    <tr class="bg-sally">
+      <td class="team-cell c-sally">Sally 组</td>
+      <td>韩国 KOL 代理</td>
+      <td>韩文上线日内容矩阵</td>
+      <td>韩国预测挑战 + 排行榜</td>
+      <td>裂变邀请（韩语版）</td>
+    </tr>
+    <tr class="bg-michael">
+      <td class="team-cell c-michael">Michael 组</td>
+      <td>媒体代理</td>
+      <td>T1/T2 媒体稿件 + PR Wire</td>
+      <td>媒体资源包 + Pitch</td>
+      <td>代理冲榜月</td>
+    </tr>
+    <tr class="bg-chloe">
+      <td class="team-cell c-chloe">Chloe</td>
+      <td>外部大媒体宣发</td>
+      <td>上线日大媒体联合报道</td>
+      <td>活动期媒体跟进曝光</td>
+      <td>行业媒体月度成绩单</td>
+    </tr>
+    <tr class="bg-seo">
+      <td class="team-cell c-seo">SEO 组（Vitalik）</td>
+      <td>直客自然流量</td>
+      <td>0 费率 SEO 文章 + 落地页</td>
+      <td>注册转化漏斗 5 步</td>
+      <td>7 封激活邮件序列</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===== 增长运营 ===== -->
+<div class="team-section">
+  <div class="team-header team-h-growth">
+    <div>
+      <div class="team-name">增长运营 — 平台新老用户</div>
+      <div class="team-focus">负责人：Naval + 增长团队 · 覆盖站内所有注册用户</div>
+    </div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-num c-growth">方案 01</div>
+      <div class="plan-name">充值阶梯奖励</div>
+      <div class="plan-obj">拉升首月平台资金存量，激励用户追加充值探索预测市场</div>
+      <ul class="plan-actions">
+        <li>充值 $100 赠 $10 USDT 体验金</li>
+        <li>充值 $500 赠 $30 USDT 体验金</li>
+        <li>充值 $1,000+ 赠 $80 USDT 体验金</li>
+        <li>体验金 7 天有效，仅限预测市场使用</li>
+        <li>站内 Push + 邮件 + Banner 全渠道触达</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>活动期新增充值用户 ≥500，人均充值 ≥$300</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-growth">方案 02</div>
+      <div class="plan-name">新用户双礼入场</div>
+      <div class="plan-obj">降低新用户首次尝试门槛，提高 D-0 注册转化率</div>
+      <ul class="plan-actions">
+        <li>首次注册赠 $10 预测市场体验金</li>
+        <li>完成 KYC 后额外解锁 3 笔免费预测额度（max $10/笔）</li>
+        <li>邀请码专属通道，邀请人同步获返佣</li>
+        <li>新人 7 日成长任务（首次预测 → 首次出金）</li>
+        <li>完成全任务额外奖励 $5</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>上线首周新注册 ≥1,000，7 日留存率 ≥40%</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-growth">方案 03</div>
+      <div class="plan-name">0% Fee Launch + 交易量排行榜</div>
+      <div class="plan-obj">以永久 0% 手续费席位为核心钩子，驱动重度用户高频交易</div>
+      <ul class="plan-actions">
+        <li>D-0 宣布预测市场 0% 手续费（竞品 1–10%）</li>
+        <li>交易量 $500 返 $20，$1,000 返 $50，$3,000 返 $150</li>
+        <li>月度交易量 Top 10 永久锁定 0% 席位</li>
+        <li>实时排行榜每 4 小时刷新，公开展示</li>
+        <li>数据出口阈值：DAU ≥500 且交易量 ≥$1M</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>月活跃交易用户 ≥500，月交易量 ≥$1M</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 苍苍组 ===== -->
+<div class="team-section">
+  <div class="team-header team-h-cangcang">
+    <div>
+      <div class="team-name">苍苍组 — 欧美 KOL 代理</div>
+      <div class="team-focus">负责人：苍苍 · 覆盖英文市场 KOL 生态</div>
+    </div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-num c-cangcang">方案 01</div>
+      <div class="plan-name">上线日 KOL 矩阵内容</div>
+      <div class="plan-obj">D-0 形成英文市场声量爆发，多账号同步触发算法推流</div>
+      <ul class="plan-actions">
+        <li>D-14 发送 KOL Briefing 包（内容方向 + 素材 + 话术）</li>
+        <li>确认 10+ KOL 参与，分层设定发布时间窗口</li>
+        <li>D-0 10:00 UTC 起统一推文，话题标签护航</li>
+        <li>Tier 1 视频深度介绍，Tier 2/3 短文推广</li>
+        <li>引导评论区互动，提升算法权重</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>上线日英文推文覆盖 ≥500K 展示量</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-cangcang">方案 02</div>
+      <div class="plan-name">KOL 带头预测挑战</div>
+      <div class="plan-obj">通过 KOL 公开下注引发跟风效应，展示预测市场真实玩法</div>
+      <ul class="plan-actions">
+        <li>邀请 3–5 名头部 KOL 公开下注热门预测题</li>
+        <li>KOL 全程记录（买入 → 等待 → 结算）</li>
+        <li>结果揭晓后晒单，带 $MOONX 话题二次传播</li>
+        <li>胜出 KOL 获专属徽章 + 平台首页展示位</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>挑战帖互动 ≥50K，带动新增用户 ≥200</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-cangcang">方案 03</div>
+      <div class="plan-name">KOL 专属邀请返佣</div>
+      <div class="plan-obj">将 KOL 影响力转化为持续性注册来源，建立长期代理关系</div>
+      <ul class="plan-actions">
+        <li>每位 KOL 分配专属邀请链接 + 落地页</li>
+        <li>邀请注册用户完成首充即触发返佣</li>
+        <li>阶梯返佣：10 人→$50，50 人→$300，100 人→$800</li>
+        <li>月度 Top 3 代理额外奖励 + 平台认证标识</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>欧美区邀请注册 ≥500，首充转化率 ≥30%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Sally 组 ===== -->
+<div class="team-section">
+  <div class="team-header team-h-sally">
+    <div>
+      <div class="team-name">Sally 组 — 韩国 KOL 代理</div>
+      <div class="team-focus">负责人：Sally · 覆盖韩语市场 KOL 生态</div>
+    </div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-num c-sally">方案 01</div>
+      <div class="plan-name">韩文上线日内容矩阵</div>
+      <div class="plan-obj">在韩国加密社区形成集中声量，建立本地化认知</div>
+      <ul class="plan-actions">
+        <li>D-14 发送韩文 KOL Briefing（本地化内容方向）</li>
+        <li>提供韩语话术模板、平台截图素材</li>
+        <li>D-0 配合欧美 KOL 同步，按韩国时区优化排期</li>
+        <li>Kakao / Twitter / YouTube Shorts 全渠道覆盖</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>上线日韩语内容覆盖 ≥200K 展示量</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-sally">方案 02</div>
+      <div class="plan-name">韩国预测挑战 + 排行榜</div>
+      <div class="plan-obj">激活韩国用户竞技属性，以独立排行榜形成本地竞争氛围</div>
+      <ul class="plan-actions">
+        <li>设立韩区专属预测挑战题（加密热点话题）</li>
+        <li>独立韩语排行榜，Top 10 韩区用户赢专属奖励</li>
+        <li>KOL 担任"挑战发起人"，公开参与引流</li>
+        <li>结果揭晓后 KOL 直播开奖，带动二次传播</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>韩区参与用户 ≥300，韩语帖子互动 ≥20K</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-sally">方案 03</div>
+      <div class="plan-name">裂变邀请（韩语版）</div>
+      <div class="plan-obj">通过韩国用户社交网络裂变，低成本获取本地精准用户</div>
+      <ul class="plan-actions">
+        <li>韩语版邀请落地页，本地化 UI 与文案</li>
+        <li>邀请阶梯奖励同欧美版，韩语通知设计</li>
+        <li>Kakao Talk 群组专属邀请码，方便社群传播</li>
+        <li>韩区月度 Top 代理额外奖励 + KOL 认证</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>韩区邀请注册 ≥300，裂变系数 ≥1.5</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Michael 组 ===== -->
+<div class="team-section">
+  <div class="team-header team-h-michael">
+    <div>
+      <div class="team-name">Michael 组 — 媒体代理</div>
+      <div class="team-focus">负责人：Michael · 覆盖 T1/T2 加密媒体渠道</div>
+    </div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-num c-michael">方案 01</div>
+      <div class="plan-name">T1/T2 媒体稿件 + PR Wire</div>
+      <div class="plan-obj">上线日在主流加密媒体形成报道覆盖，建立机构公信力</div>
+      <ul class="plan-actions">
+        <li>D-14 锁定媒体名单（CoinDesk / Decrypt / The Block 等）</li>
+        <li>D-7 提交稿件初稿，配合编辑审核节奏</li>
+        <li>D-0 PR Wire 全球同步发布</li>
+        <li>核心卖点：0% 手续费 + 预测市场数据可信度</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>上线日 T1/T2 报道 ≥5 篇，总覆盖读者 ≥1M</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-michael">方案 02</div>
+      <div class="plan-name">媒体资源包 + Pitch</div>
+      <div class="plan-obj">为媒体代理提供标准化素材包，降低二次传播门槛</div>
+      <ul class="plan-actions">
+        <li>制作资源包：Logo / 截图 / 数据图表 / 角色海报</li>
+        <li>准备 3 版 Pitch（长文 / 短讯 / 社媒摘要）</li>
+        <li>提供平台独家数据 Embargo 权限（D-1 提前解锁）</li>
+        <li>专属媒体联系人直线，响应时间 ≤4h</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>资源包下载 ≥20 家，独家报道 ≥2 篇</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-michael">方案 03</div>
+      <div class="plan-name">代理冲榜月</div>
+      <div class="plan-obj">激励媒体代理持续产出报道，形成长尾媒体覆盖效应</div>
+      <ul class="plan-actions">
+        <li>上线后 30 天设立媒体代理排行榜</li>
+        <li>按报道数量 + 阅读量加权计分</li>
+        <li>Top 3：$1,000 / $600 / $300 现金奖励</li>
+        <li>月底公示排名，优质稿件平台官方转载</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>30 天内累计报道 ≥30 篇，总阅读量 ≥5M</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Chloe ===== -->
+<div class="team-section">
+  <div class="team-header team-h-chloe">
+    <div>
+      <div class="team-name">Chloe — 外部大媒体宣发</div>
+      <div class="team-focus">内部员工 · 负责与外部大媒体直接合作，覆盖高权重渠道</div>
+    </div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-num c-chloe">方案 01</div>
+      <div class="plan-name">上线日大媒体联合报道</div>
+      <div class="plan-obj">与 1–2 家头部媒体达成独家/联合报道，形成权威背书</div>
+      <ul class="plan-actions">
+        <li>D-21 接触目标大媒体（CoinTelegraph / Forbes Crypto 等）</li>
+        <li>提供 CEO 独家专访作为合作筹码</li>
+        <li>D-0 同步发布，标注独家首发权益</li>
+        <li>合作媒体在其 Twitter / Newsletter 同步推送</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>大媒体独家报道 ≥1 篇，单篇阅读量 ≥100K</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-chloe">方案 02</div>
+      <div class="plan-name">活动期媒体跟进曝光</div>
+      <div class="plan-obj">活动期间持续提供数据节点，保持媒体持续关注度</div>
+      <ul class="plan-actions">
+        <li>D+7 提供充值活动首周数据给已合作媒体</li>
+        <li>D+14 提供交易量排行榜高亮数据</li>
+        <li>每次数据节点撰写 200 字简讯推送媒体</li>
+        <li>出现黑马用户/话题，快速协调媒体跟进</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>活动期追加报道 ≥3 篇，媒体热度不断档</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-chloe">方案 03</div>
+      <div class="plan-name">行业媒体月度成绩单</div>
+      <div class="plan-obj">D+30 以数据化成绩单形式发布上线总结，巩固行业地位</div>
+      <ul class="plan-actions">
+        <li>D+28 向 Nate 获取完整月度数据</li>
+        <li>撰写图文版成绩单（注册量 / 交易量 / 媒体覆盖等）</li>
+        <li>联系 3+ 家行业媒体同步发布</li>
+        <li>成绩单同步在平台官方社媒发布</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>覆盖媒体 ≥3 家，行业曝光 ≥500K</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEO 组 ===== -->
+<div class="team-section">
+  <div class="team-header team-h-seo">
+    <div>
+      <div class="team-name">SEO 组 — Vitalik</div>
+      <div class="team-focus">独立团队 · 覆盖搜索自然流量 + 注册转化漏斗</div>
+    </div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-num c-seo">方案 01</div>
+      <div class="plan-name">0 费率 SEO 文章 + 落地页</div>
+      <div class="plan-obj">捕获"预测市场 0 手续费"搜索意图，转化高质量直客</div>
+      <ul class="plan-actions">
+        <li>核心词：prediction market 0 fee / best prediction market</li>
+        <li>竞品对比文章（PredictIt 10% vs MoonX 0%）</li>
+        <li>专属落地页：0% Fee 费率计算器 + 注册 CTA</li>
+        <li>D-7 文章上线，D-0 配合声量推送</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>30 天自然流量 ≥5K UV，落地页注册转化率 ≥8%</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-seo">方案 02</div>
+      <div class="plan-name">注册转化漏斗 5 步</div>
+      <div class="plan-obj">系统化消除注册到首次预测的摩擦点，提升全链路转化</div>
+      <ul class="plan-actions">
+        <li>步骤 1：SEO 文章 → 点击 CTA → 落地页</li>
+        <li>步骤 2：落地页 → 注册（邮件 + 密码，简化流程）</li>
+        <li>步骤 3：注册完成 → 新手引导（体验金激活）</li>
+        <li>步骤 4：首次预测 → 结果通知（Push / Email）</li>
+        <li>步骤 5：结算 → 出金引导 → 二次预测钩子</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>全漏斗转化率 ≥5%（落地页访问 → 首次预测）</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-num c-seo">方案 03</div>
+      <div class="plan-name">7 封激活邮件序列</div>
+      <div class="plan-obj">对注册未充值用户进行 7 天自动化激活，提升首充转化</div>
+      <ul class="plan-actions">
+        <li>D+0（注册当天）：欢迎 + 体验金领取引导</li>
+        <li>D+1：0% 费率对比图 + 首个热门预测题推荐</li>
+        <li>D+3：充值阶梯奖励提醒（$100 赠 $10）</li>
+        <li>D+5：KOL 挑战晒单 + 真实用户故事</li>
+        <li>D+7：最终召回（体验金即将到期警示）</li>
+      </ul>
+      <div class="plan-kpi"><strong>KPI：</strong>7 日首充转化率 ≥15%，邮件打开率 ≥35%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 附录：活动奖励规则 ===== -->
+<div class="sec-header">
+  <div class="sec-num">附录 · 增长运营</div>
+  <h2>充值 / 交易活动奖励规则</h2>
+  <p>增长运营核心数值 — 适用于方案 01 和方案 03</p>
+</div>
+
+<div class="activity-grid">
+  <div class="activity-card">
+    <div class="activity-card-head">
+      <h3>充值阶梯奖励</h3>
+      <div class="tag">活动期充值即得 · 体验金 7 天有效 · 仅限预测市场</div>
+    </div>
+    <div class="activity-card-body">
+      <table class="tier-table">
+        <thead>
+          <tr><th>充值金额</th><th>奖励体验金</th><th>奖励率</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="amount">$100</td><td class="reward">$10 USDT</td><td>10%</td></tr>
+          <tr><td class="amount">$500</td><td class="reward">$30 USDT</td><td>6%</td></tr>
+          <tr><td class="amount">$1,000+</td><td class="reward">$80 USDT</td><td>8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="activity-card">
+    <div class="activity-card-head">
+      <h3>交易量竞赛返现</h3>
+      <div class="tag">月度累计交易量达标即返现 · Top 10 永久 0% 席位</div>
+    </div>
+    <div class="activity-card-body">
+      <table class="tier-table">
+        <thead>
+          <tr><th>月度交易量</th><th>返现奖励</th><th>额外权益</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="amount">$500</td><td class="reward">$20 USDT</td><td>排行榜展示</td></tr>
+          <tr><td class="amount">$1,000</td><td class="reward">$50 USDT</td><td>专属徽章</td></tr>
+          <tr><td class="amount">$3,000+</td><td class="reward">$150 USDT</td><td>永久 0% 席位候选</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 大框架二 ===== -->
+<div class="sec-header">
+  <div class="sec-num">大框架 · 二</div>
+  <h2>执行日历</h2>
+  <p>D = 预测市场上线日 · 各执行线在关键节点的核心动作</p>
+</div>
+
+<div class="cal-wrap">
+  <table class="cal-table">
+    <thead>
+      <tr>
+        <th class="team-h">执行线</th>
+        <th class="date-h"><div class="date-label">D-14</div><div class="date-desc">提前两周</div></th>
+        <th class="date-h"><div class="date-label">D-7</div><div class="date-desc">提前一周</div></th>
+        <th class="date-h"><div class="date-label">D-3</div><div class="date-desc">预热启动</div></th>
+        <th class="date-h"><div class="date-label">D-0</div><div class="date-desc">上线日</div></th>
+        <th class="date-h"><div class="date-label">D+7</div><div class="date-desc">首周复盘</div></th>
+        <th class="date-h"><div class="date-label">D+14</div><div class="date-desc">冲量高峰</div></th>
+        <th class="date-h"><div class="date-label">D+30</div><div class="date-desc">月度总结</div></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cal-growth">
+        <td class="cal-label-growth">增长运营</td>
+        <td><div class="cal-item">充值/交易规则设计</div><div class="cal-item">落地页草稿</div></td>
+        <td><div class="cal-item">规则最终确认</div><div class="cal-item">站内预热 Banner 上线</div></td>
+        <td><div class="cal-item">预热推文 + Push 通知</div><div class="cal-item">倒计时公告发布</div></td>
+        <td><div class="cal-item">官宣上线 + 0% 政策</div><div class="cal-item">充值/交易活动开启</div><div class="cal-item">新用户双礼激活</div></td>
+        <td><div class="cal-item">充值活动数据复盘</div><div class="cal-item">推送策略优化</div></td>
+        <td><div class="cal-item">交易量冲榜高峰</div><div class="cal-item">永久 0% 排行榜公示</div></td>
+        <td><div class="cal-item">月度数据汇总</div><div class="cal-item">下轮方案调整</div></td>
+      </tr>
+      <tr class="cal-cangcang">
+        <td class="cal-label-cangcang">苍苍组</td>
+        <td><div class="cal-item">发送欧美 KOL Briefing</div><div class="cal-item">确认参与名单</div></td>
+        <td><div class="cal-item">内容方向确认</div><div class="cal-item">素材包分发完毕</div></td>
+        <td><div class="cal-item">KOL 预热内容发布</div><div class="cal-item">悬念预告 + 倒计时</div></td>
+        <td><div class="cal-item">10:00 UTC KOL 矩阵推文</div><div class="cal-item">Tier 1 视频/长文上线</div></td>
+        <td><div class="cal-item">内容效果追踪</div><div class="cal-item">二次传播引导</div></td>
+        <td><div class="cal-item">KOL 预测挑战第二轮</div><div class="cal-item">晒单 + 排行榜截图</div></td>
+        <td><div class="cal-item">KOL 合作 ROI 评估</div><div class="cal-item">下月合作名单确认</div></td>
+      </tr>
+      <tr class="cal-sally">
+        <td class="cal-label-sally">Sally 组</td>
+        <td><div class="cal-item">发送韩文 KOL Briefing</div><div class="cal-item">确认韩区参与名单</div></td>
+        <td><div class="cal-item">韩语内容定稿</div><div class="cal-item">Kakao/Twitter 素材就绪</div></td>
+        <td><div class="cal-item">韩区预热内容发布</div><div class="cal-item">韩语倒计时推文</div></td>
+        <td><div class="cal-item">韩区 KOL 矩阵同步发布</div><div class="cal-item">韩语排行榜上线</div></td>
+        <td><div class="cal-item">韩区效果复盘</div><div class="cal-item">排行榜晒单推进</div></td>
+        <td><div class="cal-item">韩区排行榜竞赛冲刺</div><div class="cal-item">本地奖励公示</div></td>
+        <td><div class="cal-item">韩区用户增量评估</div><div class="cal-item">裂变系数统计</div></td>
+      </tr>
+      <tr class="cal-michael">
+        <td class="cal-label-michael">Michael 组</td>
+        <td><div class="cal-item">锁定目标媒体名单</div><div class="cal-item">发送媒体 Pitch</div></td>
+        <td><div class="cal-item">稿件初稿交付</div><div class="cal-item">PR Wire 时间确定</div></td>
+        <td><div class="cal-item">媒体预热放风</div><div class="cal-item">Embargo 通知发送</div></td>
+        <td><div class="cal-item">T1/T2 稿件同步发布</div><div class="cal-item">PR Wire 全球投送</div></td>
+        <td><div class="cal-item">媒体报道覆盖统计</div><div class="cal-item">追加稿件协商</div></td>
+        <td><div class="cal-item">冲榜月中期播报</div><div class="cal-item">代理排行榜更新</div></td>
+        <td><div class="cal-item">30 天媒体覆盖总报告</div><div class="cal-item">代理冲榜月结算</div></td>
+      </tr>
+      <tr class="cal-chloe">
+        <td class="cal-label-chloe">Chloe</td>
+        <td><div class="cal-item">接触大媒体合作</div><div class="cal-item">CEO 专访档期协调</div></td>
+        <td><div class="cal-item">大媒体稿件定稿</div><div class="cal-item">首发媒体确认</div></td>
+        <td><div class="cal-item">大媒体预热预告发布</div><div class="cal-item">Embargo 协议确认</div></td>
+        <td><div class="cal-item">大媒体联合报道发布</div><div class="cal-item">媒体社媒同步推送</div></td>
+        <td><div class="cal-item">首周数据推送媒体</div><div class="cal-item">追加报道协商</div></td>
+        <td><div class="cal-item">交易量数据简讯发出</div><div class="cal-item">月度成绩单素材准备</div></td>
+        <td><div class="cal-item">行业媒体月度成绩单发布</div><div class="cal-item">下月合作计划启动</div></td>
+      </tr>
+      <tr class="cal-seo">
+        <td class="cal-label-seo">SEO 组</td>
+        <td><div class="cal-item">关键词调研确认</div><div class="cal-item">落地页架构设计</div></td>
+        <td><div class="cal-item">SEO 文章上线</div><div class="cal-item">落地页发布 + 测试</div></td>
+        <td><div class="cal-item">关键词排名最终检查</div><div class="cal-item">转化漏斗全流程测试</div></td>
+        <td><div class="cal-item">0% Fee 落地页正式上线</div><div class="cal-item">邮件序列自动触发</div></td>
+        <td><div class="cal-item">关键词排名变化分析</div><div class="cal-item">文章优化迭代</div></td>
+        <td><div class="cal-item">新一轮 SEO 内容发布</div><div class="cal-item">转化漏斗数据优化</div></td>
+        <td><div class="cal-item">自然流量月度汇报</div><div class="cal-item">注册转化率总结</div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /content -->
+
+<div class="footer">
+  MoonX Farm &nbsp;·&nbsp; <strong>预测市场上线营销方案 V4.0</strong> &nbsp;·&nbsp; 2026-03-16 &nbsp;·&nbsp; Internal Confidential
+</div>
+
+</body>
+</html>

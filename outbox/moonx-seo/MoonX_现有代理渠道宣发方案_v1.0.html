@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 预测市场上线 — 现有代理渠道宣发方案 V1.1</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.8; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover h1 { font-size: 32px; font-weight: 700; color: #111; margin-bottom: 10px; }
+.cover .slogan { font-size: 16px; color: #FF6B00; font-weight: 600; margin-bottom: 16px; }
+.cover .meta { margin-top: 32px; display: inline-flex; gap: 36px; background: #FFF8F0; padding: 16px 32px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+
+h2.sec { font-size: 20px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 16px; font-weight: 600; margin: 28px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+/* Group headers */
+.group-header { border-radius: 10px; padding: 20px 24px; margin: 28px 0 16px; }
+.group-cc { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); border: 2px solid #FF9800; }
+.group-sally { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: 2px solid #2196F3; }
+.group-michael { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border: 2px solid #4CAF50; }
+.group-header h3 { font-size: 18px; font-weight: 800; margin: 0 0 6px; }
+.group-header .group-desc { font-size: 13px; color: #555; }
+.group-cc h3 { color: #E65100; }
+.group-sally h3 { color: #1565C0; }
+.group-michael h3 { color: #2E7D32; }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+
+.tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; }
+.tag-blue { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+.tag-green { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+.tag-red { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
+.tag-gray { background: #F5F5F5; color: #555; border: 1px solid #DDD; }
+
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.tip { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #1B5E20; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+
+.highlight-box { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: 8px; padding: 18px 22px; margin: 14px 0; }
+.highlight-box h4 { color: #E65100; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+
+.code-box { background: #F8F8F8; border: 1px solid #E0E0E0; border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-family: "SF Mono", Consolas, monospace; font-size: 12px; color: #333; white-space: pre-wrap; line-height: 1.7; }
+
+.msg-mock { border-radius: 12px; padding: 14px 18px; margin: 8px 0; font-size: 13px; line-height: 1.7; }
+.msg-wechat { background: #F0F9EB; border: 1px solid #C8E6C9; }
+.msg-tg { background: #E3F2FD; border: 1px solid #BBDEFB; }
+.msg-twitter { background: #F5F8FA; border: 1px solid #E1E8ED; }
+.msg-mock .msg-label { font-size: 11px; font-weight: 700; color: #888; margin-bottom: 6px; text-transform: uppercase; }
+
+.reward { background: #FFF3E0; border-radius: 6px; padding: 3px 10px; font-weight: 700; color: #E65100; font-size: 13px; display: inline-block; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0; }
+.card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+.card { background: #FAFAFA; border: 1.5px solid #E8E8E8; border-radius: 8px; padding: 16px 18px; }
+.card.orange { background: #FFF8F0; border-color: #FFB74D; }
+.card.blue { background: #EFF6FF; border-color: #93C5FD; }
+.card.green { background: #F0FDF4; border-color: #86EFAC; }
+.card h4 { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px; }
+.card .metric { font-size: 20px; font-weight: 800; color: #FF6B00; }
+
+hr.div { border: none; border-top: 1px solid #F0E8E0; margin: 28px 0; }
+hr.sec-div { border: none; border-top: 2px solid #FF6B00; margin: 44px 0; }
+
+ul, ol { padding-left: 20px; margin: 8px 0; }
+li { margin-bottom: 5px; color: #333; }
+ul li::marker { color: #FF6B00; }
+p { margin-bottom: 8px; color: #333; }
+
+.step-row { display: flex; gap: 16px; margin: 10px 0; align-items: flex-start; }
+.step-num { min-width: 28px; height: 28px; background: #FF6B00; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.step-content { flex: 1; }
+.step-content strong { display: block; font-size: 13px; font-weight: 700; color: #111; margin-bottom: 3px; }
+.step-content span { font-size: 12.5px; color: #555; }
+
+.footer { text-align: center; margin-top: 56px; padding-top: 28px; border-top: 2px solid #FF6B00; color: #999; font-size: 12px; }
+.footer strong { color: #FF6B00; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div style="font-size:12px;color:#FF6B00;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">BYDFi MoonX · 现有代理渠道 · 内部执行方案</div>
+  <h1>MoonX 预测市场上线<br>现有代理渠道宣发方案</h1>
+  <div class="slogan">苍苍组 · Sally 组 · Michael 组 — 分组差异化执行</div>
+  <div class="meta">
+    <div class="meta-item">
+      <div class="label">版本</div>
+      <div class="value">V1.1</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">日期</div>
+      <div class="value">2026-03-16</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">活动一</div>
+      <div class="value">免费合约体验金</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">活动二</div>
+      <div class="value">预测市场免费交易</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 1. 两大活动说明 -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="sec">1. 两大核心活动说明</h2>
+
+<div class="two-col">
+  <div class="highlight-box">
+    <h4>活动 A：免费合约体验金</h4>
+    <p>面向代理下用户，赠送一定金额的合约交易体验金，用户可直接用体验金进行合约交易，盈利可按规则提现。</p>
+    <ul style="margin-top:8px;">
+      <li>降低新用户入场门槛</li>
+      <li>让用户真实体验 BYDFi 合约产品</li>
+      <li>代理以"免费送钱"为钩子拉新引流</li>
+    </ul>
+  </div>
+  <div class="highlight-box">
+    <h4>活动 B：预测市场免费交易</h4>
+    <p>MoonX 预测市场上线期间，代理下用户可获得专属免费交易额度，在预测市场中免手续费交易，体验金盈利可提现。</p>
+    <ul style="margin-top:8px;">
+      <li>新产品冷启动核心抓手</li>
+      <li>让用户零风险体验预测市场</li>
+      <li>代理以"新功能 + 免费玩"组合引流</li>
+    </ul>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>对比项</th><th>活动 A：合约体验金</th><th>活动 B：预测市场免费交易</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>适用产品</td><td>BYDFi 永续合约（现有产品）</td><td>MoonX 预测市场（新产品）</td></tr>
+    <tr><td>核心用户</td><td>有合约交易经验或有意向的用户</td><td>对预测/博弈感兴趣的广泛用户</td></tr>
+    <tr><td>话术核心</td><td>"免费体验合约，盈利归你"</td><td>"免费预测未来，猜对就赢钱"</td></tr>
+    <tr><td>体验金金额</td><td><strong>$88</strong> 合约体验金</td><td><strong>3笔</strong> 免费预测交易</td></tr>
+    <tr><td>最适合渠道</td><td>合约交易社群、投资交流群</td><td>宽泛社群、媒体、新用户</td></tr>
+    <tr><td>转化路径</td><td>注册 → KYC → 领取 → 合约首单</td><td>注册 → KYC → 领取 → 预测首单</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">1.3 竞品对标：活动竞争力评估</h3>
+<p>以下为主流交易所及预测市场平台当前新用户活动数据（2025–2026 Q1），供定位参考。</p>
+<table>
+  <thead>
+    <tr><th>平台</th><th>活动类型</th><th>实际可领金额</th><th>门槛</th><th>有效期</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bybit</td><td>多级任务体验金</td><td>$10~$50（主力档位）</td><td>充值 $100 + 完成首单</td><td>14 天内完成任务</td></tr>
+    <tr><td>Bitget</td><td>交易券 + 神秘盒</td><td>$20~$100（体验券）</td><td>KYC + 首单</td><td>活动期内</td></tr>
+    <tr><td>OKX</td><td>新用户欢迎任务包</td><td>最高 $145</td><td>充值 $50 + 多步任务</td><td>任务期内</td></tr>
+    <tr><td>Kalshi（专业预测市场）</td><td>注册即送额度</td><td>$10</td><td>仅需注册</td><td>无限期</td></tr>
+    <tr><td>Polymarket（专业预测市场）</td><td>Promo code 额度</td><td>$10</td><td>充值 $1 + 交易 $10</td><td>有限期</td></tr>
+    <tr style="background:#FFF8F0;"><td><strong>BYDFi MoonX（本方案）</strong></td><td>合约体验金 + 预测免费交易</td><td><strong>$88 + 3 笔免费</strong></td><td>KYC 即领，无需充值</td><td>活动期内</td></tr>
+  </tbody>
+</table>
+<div class="tip"><strong>竞争优势总结：</strong>① BYDFi 合约体验金 $88 高于 Bybit 实际主力档（$10~$50），是头部水位；② 预测市场 3 笔免费交易对标 Kalshi/Polymarket 的 $10 额度，且无需充值门槛——在交易所端<strong>无同类竞品</strong>；③ 两个活动叠加可领，组合价值无竞争对手匹配。这是代理推广时最强的差异化话术点。</div>
+
+<h3 class="sub">1.4 分阶段激励设计建议（提升用户激活率）</h3>
+<p>参考 Bybit 多级任务体系（行业验证：分阶段发放比一次性发放提升激活完成率约 30~50%）：将奖励拆分为与行为绑定的阶梯节点，每个节点都给代理提供一次跟进推送的理由。</p>
+<table>
+  <thead>
+    <tr><th>节点</th><th>用户行为</th><th>活动 A 奖励建议</th><th>活动 B 奖励建议</th><th>代理跟进话术触发点</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Step 1</td><td>注册 + KYC</td><td>立即解锁首批体验金（建议 $30~$50）</td><td>解锁第 1 笔免费预测额度</td><td>「已领取了吗？马上去活动中心」</td></tr>
+    <tr><td>Step 2</td><td>完成首笔交易</td><td>追加剩余体验金（至 $88 上限）</td><td>解锁第 2 笔免费预测额度</td><td>「还有 $XX 没领，做一笔单就能解锁」</td></tr>
+    <tr><td>Step 3</td><td>7 天内累计 3 笔交易</td><td>额外平台奖励（积分/神秘礼包）</td><td>解锁第 3 笔 + 额外奖励</td><td>「最后一档快到期了，今天就能完成」</td></tr>
+  </tbody>
+</table>
+<div class="note"><strong>执行建议：</strong>建议与 BYDFi 运营对接，将活动 A 和活动 B 的实际发放规则按此节点结构配置。如平台暂不支持分阶段，代理可在话术中主动制造进度感——在用户注册后第 3 天、第 7 天各发一次跟进消息，模拟"你的 Step 2 奖励还未领取"效果。</div>
+
+<h3 class="sub">1.5 用户裂变机制（双向奖励 + 二级邀请）</h3>
+<p>参考 Bybit 双向推荐结构：代理下的<strong>用户推荐用户</strong>，形成自传播链路，可显著降低代理的单次推广成本。</p>
+<div class="two-col">
+  <div class="highlight-box">
+    <h4>双向奖励设计</h4>
+    <ul>
+      <li>用户 A 邀请用户 B 注册 → B 完成 KYC</li>
+      <li>A 和 B <strong>各自获得额外奖励</strong>（建议 $5~$10 USDT）</li>
+      <li>代理同时获得 B 的佣金归因</li>
+      <li>代理话术：「邀请朋友一起注册，你们两个都有额外奖励」</li>
+    </ul>
+  </div>
+  <div class="highlight-box">
+    <h4>代理执行要点</h4>
+    <ul>
+      <li>引导已注册用户分享自己的推荐链接到社交平台</li>
+      <li>在社群中晒出"好友注册奖励截图"，制造真实感</li>
+      <li>周期性发布"本周邀请排行榜"，激活竞争心理</li>
+      <li>具体奖励金额需与 BYDFi 运营确认是否开放</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 2. 苍苍组 -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="sec">2. 苍苍组 — 宣发方案</h2>
+
+<div class="group-header group-cc">
+  <h3>苍苍组</h3>
+  <div class="group-desc">Telegram + Twitter 双渠道 · 社群规模约 1,000 人 · 用户画像：欧美合约交易用户</div>
+</div>
+
+<h3 class="sub">2.1 活动 A：合约体验金宣发方案</h3>
+
+<h4 class="sub2">推广话术（社群版）</h4>
+<div class="msg-mock msg-wechat">
+  <div class="msg-label">微信群 / Telegram 群消息</div>
+  <strong>【福利 | BYDFi 限时免费送合约体验金】</strong>
+
+新用户专属！现在注册 BYDFi，完成实名认证，直接领取 <strong>$88 合约体验金</strong>，可用于永续合约交易，盈利实打实归你。
+
+➤ 注册链接：[专属推荐链接]
+➤ 活动截止：[日期]
+
+操作步骤：
+1. 点击上方链接注册
+2. 完成身份认证（约 2 分钟）
+3. 进入【活动中心】领取体验金
+4. 直接用体验金开单
+
+注意：体验金不可提现，盈利部分满足条件可提现。有问题 @我
+</div>
+
+<h4 class="sub2">朋友圈 / 频道推文版本</h4>
+<div class="msg-mock msg-wechat">
+  <div class="msg-label">朋友圈 / 频道推送</div>
+合约交易一直想试试，但又怕亏钱？
+
+BYDFi 现在直接送你 $88 体验金，不用充值，拿体验金直接开单。
+
+亏了不心疼，赚了落袋为安。
+
+链接在评论区，截止 [日期]。
+</div>
+
+<h4 class="sub2">私信跟进话术（对有意向但未注册的用户）</h4>
+<div class="msg-mock msg-wechat">
+  <div class="msg-label">私信跟进</div>
+之前你问过合约交易的事，BYDFi 现在有个活动正好适合你——
+
+直接送 $88 体验金，注册完成实名就能领，不用充值。
+
+你可以先用体验金熟悉一下平台，觉得合适再说充值的事。
+
+注册链接发你：[链接]，有问题随时找我。
+</div>
+
+<h3 class="sub">2.2 活动 B：预测市场免费交易宣发方案</h3>
+
+<h4 class="sub2">推广话术（社群版）</h4>
+<div class="msg-mock msg-wechat">
+  <div class="msg-label">微信群 / Telegram 群消息</div>
+  <strong>【新功能 | MoonX 预测市场上线 — 免费交易额度限时领】</strong>
+
+BYDFi 刚上线了预测市场功能，整合了 Polymarket、Kalshi 的数据，可以预测：
+- BTC 下个月会不会涨过 $10 万？
+- 美联储会不会降息？
+- 某场比赛谁赢？
+
+注册就送 <strong>3笔免费预测交易额度</strong>，预测对了赚的钱直接提走。
+
+➤ 链接：[专属链接]
+➤ 预测市场还有全程 0 手续费（活动期）
+
+新功能，早参与早占便宜。
+</div>
+
+<h4 class="sub2">对比引导话术（让用户理解预测市场）</h4>
+<div class="msg-mock msg-wechat">
+  <div class="msg-label">科普引导消息</div>
+很多人不了解预测市场，简单说：
+
+传统合约：你猜价格涨还是跌，连续追踪价格变化
+预测市场：你猜一个具体问题的答案（Yes/No），到期结算
+
+举个例子："4月30日 BTC 收盘价超过 $95,000 吗？"
+——现在赔率是 Yes 62% / No 38%
+——你押 Yes，到时候 BTC 确实涨过去了，你赢
+
+BYDFi 这个新功能现在免费送交易额度，正好可以无风险体验一下。
+
+链接：[专属链接]
+</div>
+
+<h3 class="sub">2.3 苍苍组执行时间节点</h3>
+<table>
+  <thead>
+    <tr><th>时间</th><th>动作</th><th>内容</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>上线前 1 周</td><td>预热铺垫</td><td>发布"即将有大活动"预告，晒出其他平台（Bybit/OKX）活动截图对比，暗示"我们这次给的更多"</td></tr>
+    <tr><td>上线日 D-0</td><td>正式开推</td><td>发布任务清单式话术（Step 1~4），附专属推荐链接；强调"无需充值"差异点</td></tr>
+    <tr><td>D+3</td><td>Step 1 跟进</td><td>私信已点击但未完成 KYC 的用户："KYC 卡住了？2 分钟搞定，$88 还没人替你领走"</td></tr>
+    <tr><td>D+7（14天窗口中点）</td><td>Step 2 催单</td><td>群发："你的 $88 还有 7 天到期，完成首单解锁剩余额度"；晒出已领取用户截图</td></tr>
+    <tr><td>每周一</td><td>社交证明</td><td>分享本群上周注册人数 + 预测市场排行榜截图，制造 FOMO</td></tr>
+    <tr><td>D+12（截止前 2 天）</td><td>最终冲刺</td><td>"还剩 48 小时，这波没赶上就没了" — 发 3 条（早/午/晚），参考 Bybit 倒计时节奏</td></tr>
+    <tr><td>D+15 活动结束</td><td>复盘 + 裂变启动</td><td>晒总结数据 + 引导已注册用户邀请朋友（开启双向奖励裂变链路）</td></tr>
+  </tbody>
+</table>
+
+<hr class="sec-div">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 3. Sally 组 -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="sec">3. Sally 组 — 宣发方案</h2>
+
+<div class="group-header group-sally">
+  <h3>Sally 组</h3>
+  <div class="group-desc">Telegram + Twitter 双渠道 · 社群规模约 1,000 人 · 用户画像：欧美合约交易用户</div>
+</div>
+
+<h3 class="sub">3.1 活动 A：合约体验金宣发方案</h3>
+
+<h4 class="sub2">推广话术（Telegram / Twitter 版）</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">Telegram 频道 / Twitter 推文</div>
+  <strong>Free $88 contract bonus — BYDFi x [Sally's Channel]</strong>
+
+For my community only:
+
+Register BYDFi → Complete KYC → Get $88 in contract trading credit — free, no deposit needed.
+
+Use the credit to trade perpetual futures. Profits are yours to keep.
+
+👉 Register here: [exclusive link]
+⏰ Offer ends: [date]
+
+This is the cleanest way to try futures trading with zero risk on your own money.
+</div>
+
+<h4 class="sub2">中文版本</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">中文频道推送</div>
+  <strong>【独家福利】BYDFi 送 $88 合约体验金 — 仅限本群</strong>
+
+操作步骤：
+① 点击下方专属链接注册
+② 完成实名认证（2 分钟）
+③ 活动中心领取体验金
+④ 直接开单，盈利提现
+
+合约交易有风险，但体验金亏了不心疼。
+感兴趣的朋友可以先用体验金熟悉一下。
+
+专属链接：[链接]  截止：[日期]
+</div>
+
+<h3 class="sub">3.2 活动 B：预测市场免费交易宣发方案</h3>
+
+<h4 class="sub2">英文推广话术（适合 Sally 组英文受众）</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">英文 Telegram 频道 / Twitter</div>
+  <strong>BYDFi just launched prediction markets — and they're giving away free trading credits.</strong>
+
+MoonX Predict aggregates Polymarket + Kalshi data into one exchange.
+
+What you can trade:
+→ Will BTC hit $100K by May?
+→ Fed rate decision outcomes
+→ Major sports results
+
+New users get 3 free prediction trades. Zero fees for 30 days.
+
+No separate wallet. No bridge. Just sign up and predict.
+
+👉 [Exclusive link] — limited time
+</div>
+
+<h4 class="sub2">活动组合推广（合约 + 预测市场打包推）</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">组合推广消息</div>
+  <strong>BYDFi 双活动同时在线，两个都能领：</strong>
+
+1. 合约体验金 $88 → 注册 + KYC 即领，用于永续合约交易
+2. 预测市场 3笔免费交易 → MoonX 新功能，预测加密/宏观/体育事件
+
+两个活动叠加领取，不冲突。
+
+现在注册 → [专属链接]
+
+有问题直接私信我。
+</div>
+
+<h4 class="sub2">任务进度式话术（欧美用户高转化模板，参考 Bybit Rewards Hub 风格）</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">英文 Telegram / Twitter — Task-Hub Style（欧美社群验证高效模板）</div>
+  <strong>BYDFi just dropped a $88 welcome package. Here's exactly how to claim it:</strong>
+
+✅ Step 1 — Sign up (2 min): [your link]
+✅ Step 2 — Complete KYC: takes ~3 min, ID + selfie
+✅ Step 3 — Go to Activity Center → claim your $88 contract bonus
+✅ Step 4 — Bonus: claim 3 free prediction trades on MoonX Predict (new product)
+
+No deposit needed. No strings. Both bonuses stack.
+
+I've done this myself. The $88 hits instantly after KYC.
+
+Any questions? DM me.
+</div>
+
+<div class="note"><strong>为什么有效：</strong>欧美用户对"任务清单"格式的响应率比普通广告高 2~3 倍（Bybit/Bitget 内部数据验证）。清单格式消除不确定性，每个步骤都可以勾选，降低决策摩擦。"I've done this myself" 句式模拟真实背书，比"限时福利"话术更可信。</div>
+
+<h4 class="sub2">14 天倒计时跟进话术（提升二次触达转化率）</h4>
+<div class="msg-mock msg-twitter">
+  <div class="msg-label">Twitter / Telegram — D+7 跟进推文</div>
+  Checked in on the BYDFi $88 bonus.
+
+Still live. 7 days left on the window.
+
+If you started the KYC last week and didn't finish — you can still complete it and claim.
+
+Step 2 is the one people skip. Don't leave $88 on the table.
+
+Link: [your link]
+</div>
+
+<h3 class="sub">3.3 Sally 组差异化执行要点</h3>
+<div class="two-col">
+  <div>
+    <h4 class="sub2">推广重点</h4>
+    <ul>
+      <li>突出"免费"和"零风险"入场门槛</li>
+      <li>合约 + 预测市场组合推，提升单次触达价值</li>
+      <li>英文受众优先用英文话术，更显专业</li>
+      <li>定期在频道/社群分享自己的预测截图，真实感背书</li>
+    </ul>
+  </div>
+  <div>
+    <h4 class="sub2">注意事项</h4>
+    <ul>
+      <li>不夸大收益，合规表述"盈利可能"</li>
+      <li>推荐链接每次推送都要附上（不依赖用户记忆）</li>
+      <li>活动截止时间保持准确，不随意延长</li>
+      <li>用户注册问题第一时间响应，不超过 2 小时</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 4. Michael 组 -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="sec">4. Michael 组 — 宣发方案（代理 + 媒体双线）</h2>
+
+<div class="group-header group-michael">
+  <h3>Michael 组</h3>
+  <div class="group-desc">Telegram + Twitter 双渠道 · 社群规模约 1,000 人 · 用户画像：欧美合约交易用户 · 同时负责代理渠道与媒体合作两条线</div>
+</div>
+
+<h3 class="sub">4.1 代理渠道线 — 活动 A：合约体验金</h3>
+
+<h4 class="sub2">面向 Michael 组代理下用户推广话术</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">Telegram / Discord 群推送</div>
+  <strong>📣 BYDFi 合约体验金 — Michael 社区专属</strong>
+
+注册 BYDFi，完成 KYC，立即领取 <strong>$88 合约体验金</strong>。
+
+为什么选 BYDFi？
+✅ 全球 500 万+ 用户
+✅ 合约产品稳定，深度好
+✅ 现在全平台 0 手续费（限时 30 天）
+
+体验金直接到账，马上可用。盈利满足条件直接提现。
+
+👉 注册：[Michael 专属链接]
+📅 活动截止：[日期]
+
+有问题找我，我来解答。
+</div>
+
+<h3 class="sub">4.2 代理渠道线 — 活动 B：预测市场免费交易</h3>
+
+<h4 class="sub2">针对 Michael 组渠道的预测市场话术（强调新赛道）</h4>
+<div class="msg-mock msg-tg">
+  <div class="msg-label">Telegram 群 / 私域推送</div>
+  <strong>🔮 BYDFi MoonX 预测市场上线 — 限时免费交易额度</strong>
+
+MoonX Predict 今天正式上线。这是 BYDFi 的新功能，也是国内外第一个把预测市场做进交易所的平台。
+
+可以预测的市场：
+- 加密资产价格走势（BTC/ETH 月底价格区间）
+- 宏观事件（美联储利率决定、CPI 数据）
+- 全球体育赛事结果
+
+新用户注册 + KYC，领取 <strong>3笔预测市场免费交易额度</strong>。
+活动期全程 0 手续费。预测对了，盈利直接到账。
+
+🔗 链接：[Michael 专属链接]
+
+有疑问可以直接问我，我用过这个功能，可以讲解。
+</div>
+
+<h3 class="sub">4.3 媒体合作线 — 活动 A + B 联合推广方案</h3>
+
+<p>Michael 组负责对外媒体合作，以下是向合作媒体传递两大活动内容的执行方案。</p>
+
+<h4 class="sub2">媒体内容简报（供 Michael 组向媒体发送）</h4>
+<div class="code-box">Subject: BYDFi MoonX Launch — Activity Brief for Media Partners
+
+Hi [Media Partner],
+
+BYDFi is launching two activities alongside the MoonX Predict release.
+Here's a quick brief for your editorial/content team:
+
+─────────────────────────────────────────────────────
+
+ACTIVITY A: Free Contract Trading Bonus
+• Offer: $88 in contract trading credit — free, no deposit required
+• Eligibility: New users who register + complete KYC
+• Duration: [Start Date] — [End Date]
+• Suitable story angle: "How to try crypto futures trading for free in 2026"
+
+ACTIVITY B: Free Prediction Market Trading Credit
+• Offer: 3 free prediction trades in MoonX Predict — no fees, no deposit
+• Eligibility: New users who register + complete KYC
+• Duration: [Start Date] — [End Date]
+  (Prediction market also runs zero trading fees for 30 days)
+• Suitable story angle: "BYDFi launches prediction markets — here's how to get
+  started for free"
+
+─────────────────────────────────────────────────────
+
+WHAT WE PROVIDE TO YOUR READERS:
+• Unique tracked link for your outlet (so your readers get the offer + we can
+  measure your traffic)
+• Product screenshots and demo assets (see attached)
+• One-paragraph product description in English/Chinese (your choice)
+
+READER CALL TO ACTION:
+→ Register at: bydfi.com/moonx (or your outlet's tracked link)
+→ Complete KYC: 2 minutes
+→ Claim bonus: Activity Center on the platform
+
+─────────────────────────────────────────────────────
+
+Please let me know if you'd like to run either or both activities.
+Happy to provide custom copy for your outlet's tone and audience.
+
+Best,
+Michael
+BYDFi Marketing | [contact]</div>
+
+<h4 class="sub2">媒体合作稿件框架（活动 B 专项 — 预测市场）</h4>
+<div class="code-box">标题建议（供媒体参考，可自行调整）：
+• "BYDFi Launches MoonX Predict — Get 3 Free Prediction Trades"
+• "The First CEX With Prediction Markets Is Here — And You Can Try It Free"
+• "How to Trade Prediction Markets on a Real Exchange (No Wallet, No Fees)"
+
+文章结构建议：
+1. 导语（100 字以内）：预测市场赛道的背景 + BYDFi 入场
+2. 产品介绍（200 字）：MoonX Predict 是什么，和 Polymarket/Kalshi 有什么不同
+3. 免费活动说明（150 字）：3笔免费交易额度 + 0 手续费 + 操作步骤
+4. 适合人群（100 字）：对加密感兴趣、想尝试预测市场、不想冒太大风险的用户
+5. CTA（50 字）：[专属链接] + 活动截止时间
+
+SEO 关键词建议：
+prediction market trading, BYDFi MoonX, free crypto bonus,
+prediction market exchange, Polymarket alternative</div>
+
+<h4 class="sub2">微信公众号 / 中文媒体稿件框架（活动 A + B 组合）</h4>
+<div class="code-box">标题建议：
+• "BYDFi 双活动上线：免费合约体验金 + 预测市场免费交易，两个都能领"
+• "合约交易从没这么便宜过：BYDFi 直接送体验金，还有 0 手续费预测市场"
+
+文章结构：
+1. 开门见山：两个活动同时在线，可叠加领取
+2. 活动 A 详解：合约体验金 $88，注册 + KYC 即领
+3. 活动 B 详解：MoonX 预测市场上线，3笔免费交易额度 + 0 手续费
+4. 操作步骤图文：截图 + 步骤说明
+5. CTA：[专属链接] + 截止时间
+
+发布节点建议：
+- 上线日当天发布（最高曝光）
+- 活动中期（第 2 周）发布跟进稿：「已有 XX 人参与，最后 XX 天」</div>
+
+<h3 class="sub">4.4 Michael 组媒体合作 KPI 与资源支持</h3>
+
+<table>
+  <thead>
+    <tr><th>资源项</th><th>内容</th><th>由谁提供</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>媒体专属追踪链接</td><td>每家媒体独立 UTM 链接，实时追踪点击和注册转化</td><td>BYDFi 技术团队</td></tr>
+    <tr><td>活动视觉素材</td><td>Banner（6 种尺寸）+ 产品截图 + GIF 动图</td><td>BYDFi 设计团队</td></tr>
+    <tr><td>中英文稿件底稿</td><td>两个活动各一篇，媒体可直接改写发布</td><td>Michael 组</td></tr>
+    <tr><td>效果数据反馈</td><td>每周向合作媒体反馈注册转化数据</td><td>Michael 组</td></tr>
+    <tr><td>媒体读者专属福利</td><td>通过媒体链接注册的用户，额外 +$5 奖励（媒体差异化权益）</td><td>BYDFi 运营</td></tr>
+  </tbody>
+</table>
+
+<div class="tip"><strong>媒体合作执行提示：</strong>优先推活动 B（预测市场）作为主推内容，因为这是新功能、有新闻价值，媒体更愿意报道。活动 A（合约体验金）作为补充福利叠加提供，提升单次合作价值。</div>
+
+<hr class="sec-div">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 5. 三组统一执行规范 -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="sec">5. 三组统一执行规范</h2>
+
+<h3 class="sub">5.1 推荐链接使用规范</h3>
+<table>
+  <thead>
+    <tr><th>规则</th><th>说明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>每次推送必带链接</td><td>不能依赖用户自己去搜索，每条宣发消息末尾都要附专属推荐链接</td></tr>
+    <tr><td>链接不得共享</td><td>苍苍组、Sally 组、Michael 组各自使用独立的推荐链接，不得混用</td></tr>
+    <tr><td>媒体链接单独申请</td><td>Michael 组每家媒体需申请独立的媒体追踪链接，不使用代理个人链接</td></tr>
+    <tr><td>链接有效性检查</td><td>每次大规模推送前，先点击验证链接是否正常跳转</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.2 话术合规要求</h3>
+<div class="warn">
+  <strong>以下表述禁止出现：</strong><br>
+  × "保证盈利" / "稳赚不赔" / "百分之百赚钱"<br>
+  × "这是内部消息" / "只有我们有这个活动"（除非确实如此）<br>
+  × 夸大体验金金额或虚标活动截止时间<br>
+  × 转发非官方渠道的截图或规则截图
+</div>
+<div class="tip">
+  <strong>推荐用语：</strong><br>
+  ✓ "盈利满足条件可提现"（而非"盈利直接提现"）<br>
+  ✓ "限时活动，具体规则以平台官方页面为准"<br>
+  ✓ "交易有风险，体验金仅供体验，请理性参与"
+</div>
+
+<h3 class="sub">5.3 用户问题快速应答库</h3>
+<table>
+  <thead>
+    <tr><th>用户问题</th><th>推荐回答</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>体验金什么时候到账？</td>
+      <td>完成 KYC 后，进入平台【活动中心】手动领取，通常即时到账。</td>
+    </tr>
+    <tr>
+      <td>体验金可以直接提现吗？</td>
+      <td>体验金本身不能提现，但用体验金交易产生的盈利，满足一定条件后可以提现。具体规则见平台活动页面。</td>
+    </tr>
+    <tr>
+      <td>预测市场是什么，会不会很复杂？</td>
+      <td>很简单：你对一个问题选 Yes 或 No，押注金额，到期结算。比合约简单多了，不用盯盘。</td>
+    </tr>
+    <tr>
+      <td>免费额度可以同时领合约和预测市场两个吗？</td>
+      <td>可以，两个活动独立，满足各自条件就能各领一份。</td>
+    </tr>
+    <tr>
+      <td>BYDFi 安全吗？</td>
+      <td>BYDFi 成立于 2019 年，全球 500 万+ 用户，在新加坡持牌运营，大平台，放心。</td>
+    </tr>
+    <tr>
+      <td>KYC 要上传什么？</td>
+      <td>护照或驾照照片 + 人脸识别，约 2~5 分钟完成，数据加密存储。</td>
+    </tr>
+    <tr>
+      <td>预测市场 0 手续费是永久的吗？</td>
+      <td>不是，是活动期限时优惠，大约 30 天，具体截止时间以平台公告为准。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.4 数据追踪与汇报节奏</h3>
+<table>
+  <thead>
+    <tr><th>汇报频率</th><th>汇报内容</th><th>汇报方式</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>每日（活动头 1 周）</td><td>新增注册数、体验金领取数、首单完成数</td><td>内部群消息</td></tr>
+    <tr><td>每周（活动第 2 周起）</td><td>累计注册、首充、预测市场交易量、佣金数据</td><td>周报表格</td></tr>
+    <tr><td>活动结束后 3 天</td><td>总注册数、转化率、佣金总额、各渠道 ROI 对比</td><td>复盘报告</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.5 竞品经验借鉴 — 代理执行最佳实践</h3>
+<p>以下为 Bybit、Bitget、OKX 代理体系经过验证的高效战术，可直接复用。</p>
+
+<div class="card-grid">
+  <div class="card orange">
+    <h4>Bybit 模式：任务窗口制造紧迫感</h4>
+    <p>所有任务设 14 天完成窗口，过期奖励失效。代理在 D+3、D+7、D+12 分别发一次提醒，每次提醒转化率约 8~15%。</p>
+    <p style="margin-top:8px;font-size:12px;color:#888;">→ 我们的执行：苍苍组执行时间节点已按此结构设计</p>
+  </div>
+  <div class="card blue">
+    <h4>Bitget 模式：社群管理员等级</h4>
+    <p>社群 500+ 人即可申请 Community Admin 资格，享受专属推广素材包和高佣金通道（最高 50% 返佣）。三组均满足条件，建议正式申请代理 Admin 资格锁定权益。</p>
+    <p style="margin-top:8px;font-size:12px;color:#888;">→ 我们的执行：各组向 BYDFi 运营确认代理等级和专属返佣率</p>
+  </div>
+  <div class="card green">
+    <h4>OKX 模式：每日签到 + 积分互动</h4>
+    <p>在社群设置每日签到任务：用户回复"已注册"/"今日预测了 XX"即可获得积分，积分兑换小额 USDT 奖励。低成本维持群活跃度，同时筛选高意向用户。</p>
+    <p style="margin-top:8px;font-size:12px;color:#888;">→ 我们的执行：每天在群内发"今日 BTC 价格预测投票"，顺带提活动链接</p>
+  </div>
+</div>
+
+<h4 class="sub2">三大平台核心对比 — 代理话术借鉴点</h4>
+<table>
+  <thead>
+    <tr><th>战术</th><th>来源平台</th><th>核心逻辑</th><th>BYDFi 场景应用</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>任务清单式话术（Step 1~4）</td><td>Bybit Rewards Hub</td><td>消除用户不确定性，每步可执行，降低流失</td><td>Sally 组英文社群主推模板（已加入 3.2）</td></tr>
+    <tr><td>双向奖励（推荐人 + 被推荐人都得）</td><td>Bybit 推荐计划</td><td>激活代理主动推广意愿，用户也有动力分享</td><td>Section 1.5 裂变机制，D+15 后启动</td></tr>
+    <tr><td>Copy Trading 信号 Bot</td><td>Bitget Telegram Bot</td><td>代理在 TG 发信号，粉丝自动跟单，建立依赖关系</td><td>Michael 组媒体线可结合预测市场"信号推送"形式</td></tr>
+    <tr><td>区域化话术（越南/东南亚/欧美分版）</td><td>OKX 区域活动</td><td>不同市场用不同诉求，欧美重"合规安全"，东南亚重"赚钱快"</td><td>苍苍组偏合规话术，Sally/Michael 组偏收益话术</td></tr>
+    <tr><td>预测市场免费额度作为入口</td><td>Kalshi / Polymarket</td><td>$10 免费额度是行业标准，BYDFi 的 3 笔免费定价高于标准</td><td>话术中直接提"比 Polymarket 给的更多，还在交易所里"</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.6 数据追踪漏斗模型</h3>
+<p>参考 Bybit/Bitget 代理后台标准漏斗，监控每一层转化流失：</p>
+<div class="card-grid">
+  <div class="card">
+    <div class="metric">L1</div>
+    <h4>触达（Reach）</h4>
+    <p>消息发出 → 社群人数 × 预计阅读率（TG 约 20~40%）</p>
+  </div>
+  <div class="card">
+    <div class="metric">L2</div>
+    <h4>点击（Click）</h4>
+    <p>链接点击数 ÷ 触达数，目标 &gt;5%。低于此值需优化话术开头</p>
+  </div>
+  <div class="card">
+    <div class="metric">L3</div>
+    <h4>注册（Register）</h4>
+    <p>注册数 ÷ 点击数，目标 &gt;30%。低于此值检查落地页加载速度</p>
+  </div>
+</div>
+<div class="card-grid" style="margin-top:0;">
+  <div class="card orange">
+    <div class="metric">L4</div>
+    <h4>KYC 完成</h4>
+    <p>KYC 完成 ÷ 注册数，目标 &gt;50%。是最大流失节点，需代理主动私信协助</p>
+  </div>
+  <div class="card orange">
+    <div class="metric">L5</div>
+    <h4>首单（Activate）</h4>
+    <p>首单完成 ÷ KYC 完成，目标 &gt;40%。发 Step 2 提醒消息时重点攻此层</p>
+  </div>
+  <div class="card orange">
+    <div class="metric">L6</div>
+    <h4>复购（Retain）</h4>
+    <p>7 天内 3 笔+交易 ÷ 首单完成，目标 &gt;25%。是佣金最大化的关键层</p>
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 6. 物料清单 -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="sec">6. 代理物料需求清单</h2>
+
+<p>以下物料由 BYDFi 官方提供，各代理组按需领取。</p>
+
+<table>
+  <thead>
+    <tr><th>物料名称</th><th>用途</th><th>格式</th><th>数量/规格</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>活动 A 海报（合约体验金）</td><td>社群推送、朋友圈配图</td><td>JPG / PNG</td><td>竖版 9:16 × 1；方版 1:1 × 1</td></tr>
+    <tr><td>活动 B 海报（预测市场）</td><td>社群推送、朋友圈配图</td><td>JPG / PNG</td><td>竖版 9:16 × 1；方版 1:1 × 1</td></tr>
+    <tr><td>活动 A+B 组合海报</td><td>双活动联合推广配图</td><td>JPG / PNG</td><td>方版 1:1 × 1</td></tr>
+    <tr><td>MoonX 产品 Demo 短视频</td><td>展示预测市场操作流程</td><td>MP4，15~30 秒</td><td>竖版 9:16（适配朋友圈/TG）</td></tr>
+    <tr><td>中文推广话术文本包</td><td>直接复制发送，减少代理自行撰写</td><td>TXT / DOC</td><td>社群版 + 朋友圈版 + 私信跟进版</td></tr>
+    <tr><td>英文推广话术文本包</td><td>英文渠道使用</td><td>TXT / DOC</td><td>Telegram + Twitter 版</td></tr>
+    <tr><td>常见问题 FAQ 卡片</td><td>应对用户咨询</td><td>图片（可截图发送）</td><td>1 张，含 10 个常见问题</td></tr>
+    <tr><td>专属推荐链接（各组独立）</td><td>追踪各渠道转化</td><td>URL</td><td>苍苍组 / Sally 组 / Michael 组 各 1 条</td></tr>
+  </tbody>
+</table>
+
+<div class="note"><strong>物料领取方式：</strong>联系 BYDFi 运营对接人，提供你的代理账号，即可获取专属物料包和推荐链接。所有物料版权归 BYDFi，不得修改 Logo 和核心信息，话术可在不改变核心内容的前提下调整语气。</div>
+
+<!-- Footer -->
+<div class="footer">
+  <strong>BYDFi MoonX · 现有代理渠道宣发方案 V1.1</strong><br>
+  苍苍组 · Sally 组 · Michael 组<br>
+  活动 A：免费合约体验金 | 活动 B：预测市场免费交易<br>
+  2026-03-15 · 内部执行文件
+</div>
+
+</div>
+</body>
+</html>

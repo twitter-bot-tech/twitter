@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>MoonX KOL CRM 完整流程</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'PingFang SC', sans-serif; background: #f5f5f5; padding: 40px 20px; color: #1a1a1a; }
+.page { max-width: 1080px; margin: 0 auto; }
+
+h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.subtitle { text-align: center; font-size: 13px; color: #999; margin-bottom: 40px; }
+
+/* ── 时间线网格 ── */
+.tl { display: grid; grid-template-columns: 88px 20px 1fr; }
+
+.tl-label {
+  text-align: right;
+  padding-right: 14px;
+  padding-top: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #bbb;
+  line-height: 1.5;
+}
+
+.tl-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dot   { width: 12px; height: 12px; border-radius: 50%; margin-top: 14px; flex-shrink: 0; z-index: 1; }
+.dot.on  { background: #FF6B00; }
+.dot.off { background: #d0d0d0; }
+.line  { width: 2px; flex: 1; min-height: 12px; }
+.line.on  { background: #FF6B00; }
+.line.off { background: #e0e0e0; }
+
+.tl-body { padding: 8px 0 28px 18px; }
+
+/* ── 카드 ── */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border: 1.5px solid #ebebeb;
+}
+.card.on   { border-color: #FF6B00; }
+.card.part { border-color: #f0a500; }
+.card.off  { border-style: dashed; border-color: #d8d8d8; }
+
+.card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.card-title { font-size: 13px; font-weight: 700; }
+.card-desc  { font-size: 12px; color: #777; line-height: 1.6; }
+
+.tag {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 20px;
+  white-space: nowrap;
+}
+.tag.done { background: #e6f7ee; color: #1a7a45; }
+.tag.part { background: #fff3cd; color: #856404; }
+.tag.miss { background: #fde8e8; color: #c0392b; }
+.tag.new  { background: #e8f0fe; color: #1a56db; }
+
+/* ── 분기 ── */
+.fork { display: flex; position: relative; width: 100%; margin: 4px 0 0 0; }
+.fork::before {
+  content: ''; position: absolute; top: 0; left: 12%; right: 12%;
+  height: 2px; background: #e0e0e0;
+}
+.fb { flex: 1; display: flex; flex-direction: column; align-items: center; padding-top: 18px; position: relative; }
+.fb::before {
+  content: ''; position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%); width: 2px; height: 18px; background: #e0e0e0;
+}
+.fl {
+  font-size: 10px; font-weight: 600; padding: 2px 8px;
+  border-radius: 20px; margin-bottom: 6px;
+}
+.fl.y { background: #e6f7ee; color: #1a7a45; }
+.fl.n { background: #fde8e8; color: #c0392b; }
+.fl.o { background: #fff3cd; color: #856404; }
+.fl.q { background: #e8f0fe; color: #1a56db; }
+
+.chip {
+  font-size: 12px; font-weight: 600;
+  padding: 8px 12px; border-radius: 8px; text-align: center;
+  line-height: 1.4; width: 100%; max-width: 140px;
+}
+.chip.g  { background: #e6f7ee; color: #1a7a45; border: 1.5px solid #52c77a; }
+.chip.r  { background: #fff0f0; color: #c0392b; border: 1.5px solid #e57373; }
+.chip.o  { background: #fff3e0; color: #e65100; border: 1.5px solid #FF6B00; }
+.chip.b  { background: #e8f0fe; color: #1a56db; border: 1.5px solid #4285f4; }
+.chip.gy { background: #f5f5f5; color: #999;    border: 1.5px dashed #ccc; }
+
+.warn {
+  margin-top: 8px; padding: 6px 10px;
+  background: #fde8e8; border-radius: 6px;
+  font-size: 11px; color: #c0392b;
+}
+.info {
+  margin-top: 8px; padding: 6px 10px;
+  background: #e8f0fe; border-radius: 6px;
+  font-size: 11px; color: #1a56db;
+}
+
+/* ── 状态机 ── */
+.states { display: flex; align-items: center; flex-wrap: wrap; gap: 0; row-gap: 10px; }
+.st {
+  font-size: 12px; font-weight: 600;
+  padding: 7px 12px; border-radius: 8px;
+  border: 1.5px solid;
+}
+.arr { font-size: 16px; color: #ccc; padding: 0 4px; }
+
+/* ── 总结卡 ── */
+.summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 24px; }
+.sum-card { background: #fff; border-radius: 10px; padding: 16px; }
+.sum-title { font-size: 11px; font-weight: 700; margin-bottom: 8px; }
+.sum-item  { font-size: 12px; color: #555; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>MoonX KOL 外联 CRM 完整流程</h1>
+<p class="subtitle">对标行业标准（Grin / Aspire / CreatorIQ）补完版 · 2026-03</p>
+
+<div class="tl">
+
+  <!-- ══ 阶段0：预热 ══ -->
+  <div class="tl-label">阶段 0<br>预热</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">发邮件前预热 KOL</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        发冷邮件前 3-5 天：关注 YouTube 频道 / 点赞最新视频 / 留有质量的评论<br>
+        目的：让 KOL 在收到邮件前已认识 MoonX，回复率提升 2-3×<br>
+        <span style="color:#999;">Grin / Aspire 均内置此"预热序列"功能</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段1：收集 ══ -->
+  <div class="tl-label">阶段 1<br>收集</div>
+  <div class="tl-spine"><div class="dot on"></div><div class="line on"></div></div>
+  <div class="tl-body">
+    <div class="card on">
+      <div class="card-head">
+        <div class="card-title">KOL 多渠道收集</div>
+        <span class="tag done">✅ 已建</span>
+      </div>
+      <div class="card-desc">
+        每日 10:00 BJT &nbsp;|&nbsp; YouTube API + Web3 爬虫 + Kalshi 专项<br>
+        自动去重 → 分级（A/B/C/D）→ Excel → Google Sheets
+      </div>
+    </div>
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">KOL 画像丰富</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        行业平台标配：受众画像（年龄/地区/兴趣）、历史合作品牌、平均互动率趋势、报价区间<br>
+        当前仅有：频道名、订阅数、邮箱、分级
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段2：发送 ══ -->
+  <div class="tl-label">阶段 2<br>外联</div>
+  <div class="tl-spine"><div class="dot on"></div><div class="line on"></div></div>
+  <div class="tl-body">
+    <div class="card on">
+      <div class="card-head">
+        <div class="card-title">自动邮件外联</div>
+        <span class="tag done">✅ 已建</span>
+      </div>
+      <div class="card-desc">
+        每日 22:00 BJT，按分级路由 4 套模板，上限 10 封/天<br>
+        媒体询价每日 22:30 独立发送
+      </div>
+    </div>
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">专属追踪链接生成</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        发邮件时为每个 KOL 生成唯一 UTM 链接 + 专属返佣码<br>
+        用于后期精准归因：谁带来了多少注册/交易量<br>
+        <span style="color:#999;">没有这个，ROI 永远算不清</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段3：回复检测 ══ -->
+  <div class="tl-label">阶段 3<br>回复检测</div>
+  <div class="tl-spine"><div class="dot on"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card part">
+      <div class="card-head">
+        <div class="card-title">IMAP 收件扫描</div>
+        <span class="tag done">✅ 已建</span>
+        <span class="tag part">⚠️ 分类未建</span>
+      </div>
+      <div class="card-desc">每日 09:00 BJT，扫 INBOX + 垃圾邮件，回溯 90 天，自动更新状态</div>
+    </div>
+
+    <div style="font-size:11px; color:#aaa; text-align:center; margin:4px 0;">▼ AI 读取邮件正文，判断意向（未建）</div>
+    <div class="fork">
+      <div class="fb"><div class="fl y">感兴趣</div><div class="chip g">进入跟进 ↓</div></div>
+      <div class="fb"><div class="fl n">明确拒绝</div><div class="chip r">标记无效<br>停止跟进</div></div>
+      <div class="fb"><div class="fl o">OOO 自动回复</div><div class="chip gy">7天后<br>重新检测</div></div>
+      <div class="fb"><div class="fl q">询价 / 问题</div><div class="chip b">推送 Lark<br>Kelly 人工</div></div>
+    </div>
+    <div class="warn">❌ 当前所有回复统一标记「已回复」，无意向区分，会对拒绝者发 TG 邀请</div>
+  </div>
+
+  <!-- ══ 阶段4：自动跟进 ══ -->
+  <div class="tl-label">阶段 4<br>自动跟进</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">自动回复邮件（TG 邀请）</div>
+        <span class="tag miss">❌ 未建</span>
+      </div>
+      <div class="card-desc">
+        检测到「感兴趣」后立即触发，发一封：感谢回复 + 邀请加 TG @BDkelly + 附合作一页纸<br>
+        同一 KOL 只触发一次
+      </div>
+    </div>
+    <div style="font-size:11px; color:#aaa; text-align:center; margin:4px 0;">▼ KOL 是否在 48h 内加 TG</div>
+    <div class="fork">
+      <div class="fb">
+        <div class="fl y">加了 TG</div>
+        <div class="chip g">Bot 自动接待<br>↓<br>推 Lark 提醒 Kelly</div>
+      </div>
+      <div class="fb">
+        <div class="fl n">48h 未加</div>
+        <div class="chip o">发 follow-up<br>邮件（仅1次）</div>
+        <div style="width:2px;height:12px;background:#e0e0e0;margin:6px auto;"></div>
+        <div style="font-size:10px;color:#aaa;margin-bottom:4px;">再 72h 无响应</div>
+        <div class="chip gy">标记冷却<br>30天后重激活</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段5：谈判 ══ -->
+  <div class="tl-label">阶段 5<br>谈判</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">TG 谈判 + 条款记录</div>
+        <span class="tag miss">❌ 未建</span>
+      </div>
+      <div class="card-desc">
+        Kelly 在 TG 谈判，结果录入 CRM：报价 / 内容形式 / 发布日期 / 特殊要求<br>
+        状态 →「谈判中」&nbsp;&nbsp;|&nbsp;&nbsp; 3 天无进展 → 推 Lark 提醒
+      </div>
+    </div>
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">报价历史 & KOL 评分</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        记录每次谈判的起价 / 最终价 / 谈判轮次，供下次合作参考<br>
+        KOL 评分：回复速度 + 谈判配合度 + 后续执行质量
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段6：签约 ══ -->
+  <div class="tl-label">阶段 6<br>签约</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">合作确认 & Content Brief</div>
+        <span class="tag miss">❌ 未建</span>
+      </div>
+      <div class="card-desc">
+        口头确认 → 状态 →「已签约」<br>
+        自动生成 Content Brief（模板填入条款）→ 发给 KOL 邮箱<br>
+        记录：签约日期 / 发布截止日 / 内容要求 / 专属返佣码
+      </div>
+    </div>
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">电子合同（可选）</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        Grin / Aspire 标配电子签名合同，包含：内容要求、发布时间、独家期、FTC 披露要求<br>
+        <span style="color:#999;">初期可用 Brief 代替，规模化后补合同</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段7：内容审核 ══ -->
+  <div class="tl-label">阶段 7<br>内容审核</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">内容审核 & 发布确认</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        KOL 发布前提交草稿给 Kelly 审核（视频脚本 / 贴文文案）<br>
+        审核通过 → 确认发布 → 记录发布链接<br>
+        <span style="color:#999;">Grin / Aspire 有可视化内容审批看板，行业标配</span>
+      </div>
+    </div>
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">发布临期提醒</div>
+        <span class="tag miss">❌ 未建</span>
+      </div>
+      <div class="card-desc">临近截止日期提前 48h 提醒 Kelly；KOL 未按时发布 → 自动发催稿邮件</div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段8：效果追踪 ══ -->
+  <div class="tl-label">阶段 8<br>效果追踪</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">数据抓取 & ROI 计算</div>
+        <span class="tag miss">❌ 未建</span>
+      </div>
+      <div class="card-desc">
+        发布后 48h 自动抓取：播放量 / 互动数 / 点击量（UTM 追踪）<br>
+        对比专属返佣码带来的注册数 / 交易量<br>
+        计算每个 KOL 的 ROI，写入 CRM 供未来谈判参考
+      </div>
+    </div>
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">KOL 合作评级</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        发布完成后对 KOL 综合打分：内容质量 / 执行配合度 / ROI 表现<br>
+        高分 KOL 优先进入下一轮合作，低分标记降级
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段9：付款 ══ -->
+  <div class="tl-label">阶段 9<br>付款</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line off"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">付款确认</div>
+        <span class="tag miss">❌ 未建</span>
+      </div>
+      <div class="card-desc">
+        确认内容合格 → 生成付款记录 → 完成打款<br>
+        状态 →「已完成」&nbsp;&nbsp;|&nbsp;&nbsp; 记录：合作金额 / 付款日期 / 内容链接
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 阶段10：关系维护 ══ -->
+  <div class="tl-label">阶段 10<br>复购</div>
+  <div class="tl-spine"><div class="dot off"></div><div class="line" style="min-height:10px;"></div></div>
+  <div class="tl-body">
+    <div class="card off">
+      <div class="card-head">
+        <div class="card-title">长期关系维护 & 复购</div>
+        <span class="tag new">行业标准 · 未建</span>
+      </div>
+      <div class="card-desc">
+        合作完成 30 天后自动触发关系维护邮件（分享新产品、下期合作邀请）<br>
+        高 ROI KOL 进入"战略 KOL"名单，优先资源分配<br>
+        计算 KOL 终身合作价值（LTV），而不是一次性合作
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tl -->
+
+<!-- ══ 状态机 ══ -->
+<div style="margin-top:32px; background:#fff; border-radius:12px; padding:20px 24px; border:1.5px solid #ebebeb;">
+  <div style="font-size:13px; font-weight:700; margin-bottom:14px;">KOL 完整状态机</div>
+  <div class="states">
+    <div class="st" style="background:#f5f5f5;color:#999;border-color:#ddd;">待发送</div><div class="arr">→</div>
+    <div class="st" style="background:#fff3e0;color:#e65100;border-color:#FF6B00;">已发送</div><div class="arr">→</div>
+    <div class="st" style="background:#e8f0fe;color:#1a56db;border-color:#4285f4;">已回复</div><div class="arr">→</div>
+    <div class="st" style="background:#e8f0fe;color:#1a56db;border-color:#4285f4;">TG接触</div><div class="arr">→</div>
+    <div class="st" style="background:#f3e8ff;color:#6d28d9;border-color:#a78bfa;">谈判中</div><div class="arr">→</div>
+    <div class="st" style="background:#e6f7ee;color:#1a7a45;border-color:#52c77a;">已签约</div><div class="arr">→</div>
+    <div class="st" style="background:#e6f7ee;color:#1a7a45;border-color:#52c77a;">审核中</div><div class="arr">→</div>
+    <div class="st" style="background:#e6f7ee;color:#1a7a45;border-color:#52c77a;">已发布</div><div class="arr">→</div>
+    <div class="st" style="background:#e6f7ee;color:#1a7a45;border-color:#52c77a;">已完成</div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+    <div style="font-size:11px;color:#c0392b;background:#fff0f0;padding:3px 10px;border-radius:20px;border:1px solid #e57373;">无效（拒绝）</div>
+    <div style="font-size:11px;color:#856404;background:#fff3cd;padding:3px 10px;border-radius:20px;border:1px solid #f0a500;">冷却（无响应）</div>
+    <div style="font-size:11px;color:#888;background:#f5f5f5;padding:3px 10px;border-radius:20px;border:1px solid #ddd;">重新激活（30天）</div>
+    <div style="font-size:11px;color:#1a7a45;background:#e6f7ee;padding:3px 10px;border-radius:20px;border:1px solid #52c77a;">战略KOL（高ROI复购）</div>
+  </div>
+</div>
+
+<!-- ══ 建设进度 ══ -->
+<div class="summary">
+  <div class="sum-card" style="border:1.5px solid #52c77a;">
+    <div class="sum-title" style="color:#1a7a45;">✅ 已建（3 / 10 阶段）</div>
+    <div class="sum-item">
+      阶段 1：KOL 收集（YouTube + Web3 + Kalshi）<br>
+      阶段 2：邮件外联（KOL + 媒体）<br>
+      阶段 3：IMAP 回复检测（扫描已建）
+    </div>
+  </div>
+  <div class="sum-card" style="border:1.5px solid #f0a500;">
+    <div class="sum-title" style="color:#856404;">⚠️ 对标行业新增（5 个缺口）</div>
+    <div class="sum-item">
+      阶段 0：发邮件前预热 KOL<br>
+      阶段 2：专属 UTM + 返佣码生成<br>
+      阶段 5：KOL 报价历史 & 评分<br>
+      阶段 7：内容审核看板<br>
+      阶段 10：关系维护 & 复购体系
+    </div>
+  </div>
+  <div class="sum-card" style="border:1.5px solid #e57373;">
+    <div class="sum-title" style="color:#c0392b;">❌ 原流程未建（7 个断点）</div>
+    <div class="sum-item">
+      阶段 3：回复意向分类（AI）<br>
+      阶段 4：自动回邮件 + TG Bot<br>
+      阶段 5：谈判条款记录<br>
+      阶段 6：签约 + Content Brief<br>
+      阶段 7：发布临期提醒<br>
+      阶段 8：ROI 追踪<br>
+      阶段 9：付款确认
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;font-size:11px;color:#ccc;margin-top:28px;">
+  MoonX KOL CRM · 对标 Grin / Aspire / CreatorIQ · 2026-03
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+import { Metadata } from 'next'
+import Link from 'next/link'
+import { Newspaper, Clock, Share2, TrendingUp, ArrowRight } from 'lucide-react'
+import { Breadcrumb } from '@/components/seo/Breadcrumb'
+import { SchemaScript } from '@/components/seo/SchemaScript'
+import { breadcrumbSchema, newsMeta } from '@/lib/seo'
+import { CATEGORIES, CATEGORY_SLUGS, NEWS_ITEMS, readingTime } from './data'
+
+export const revalidate = 300
+
+function timeAgo(dateStr: string) {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const hours = Math.floor(diff / 3600000)
+  if (hours < 1) return 'Just now'
+  if (hours < 24) return `${hours}h ago`
+  return `${Math.floor(hours / 24)}d ago`
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ cat?: string }>
+}): Promise<Metadata> {
+  const { cat } = await searchParams
+  return newsMeta(cat)
+}
+
+export default async function NewsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cat?: string }>
+}) {
+  const { cat } = await searchParams
+  const activeCategory = cat
+    ? CATEGORIES.find(c => c.toLowerCase() === cat.toLowerCase().replace('-', ' ')) || 'All'
+    : 'All'
+
+  const filtered = activeCategory === 'All'
+    ? NEWS_ITEMS
+    : NEWS_ITEMS.filter(n => n.category === activeCategory)
+
+  const breadcrumbs = [
+    { name: 'MoonX', href: '/en/moonx/markets/trending' },
+    { name: 'Crypto News' },
+  ]
+
+  const today = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+  })
+
+  return (
+    <>
+      <SchemaScript
+        schema={breadcrumbSchema(
+          breadcrumbs.map(b => ({ name: b.name, url: `https://www.bydfi.com${b.href || ''}` }))
+        )}
+      />
+
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <Breadcrumb items={breadcrumbs} />
+
+        {/* Hero */}
+        <div className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 p-8 mb-8 relative overflow-hidden">
+          <div className="absolute right-8 top-4 w-24 h-24 rounded-full bg-orange-500/10 border border-orange-500/20" />
+          <div className="absolute right-20 top-12 w-16 h-16 rounded-full bg-blue-500/10 border border-blue-500/20" />
+          <div className="absolute right-4 top-16 w-12 h-12 rounded-full bg-yellow-500/20 border border-yellow-500/30" />
+
+          <p className="text-slate-400 text-sm mb-1">{today}</p>
+          <div className="flex items-center gap-3 mb-2">
+            <Newspaper className="w-8 h-8 text-orange-500" />
+            <h1 className="text-3xl font-bold text-white">Crypto News</h1>
+          </div>
+          <p className="text-slate-400 max-w-xl">
+            The hottest crypto news and market updates — curated for traders on MoonX.
+          </p>
+        </div>
+
+        {/* Category tabs */}
+        <div className="flex gap-1 flex-wrap mb-6 border-b pb-0">
+          {CATEGORIES.map(cat => {
+            const isActive = cat === activeCategory
+            const href = cat === 'All' ? '/en/moonx/news' : `/en/moonx/news/category/${CATEGORY_SLUGS[cat]}`
+            return (
+              <Link
+                key={cat}
+                href={href}
+                className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                  isActive
+                    ? 'border-orange-500 text-orange-500'
+                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground'
+                }`}
+              >
+                {cat}
+              </Link>
+            )
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Article list */}
+          <div className="lg:col-span-2 space-y-0 divide-y">
+            {filtered.map(article => (
+              <Link key={article.id} href={`/en/moonx/news/${article.slug}`} className="block group">
+                <article className="py-5 flex gap-4">
+                  {/* Thumbnail */}
+                  <div className={`flex-shrink-0 w-28 h-20 rounded-lg bg-gradient-to-br ${article.color} flex items-center justify-center`}>
+                    <span className="text-white font-bold text-xs">{article.tag}</span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <h2 className="font-semibold text-sm leading-snug line-clamp-2 mb-1.5 group-hover:text-orange-500 transition-colors">
+                      {article.title}
+                    </h2>
+                    <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                      {article.excerpt}
+                    </p>
+                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+                      <span className="text-orange-500 font-medium">Author: {article.source}</span>
+                      <span className="flex items-center gap-0.5">
+                        <Clock className="w-3 h-3" />
+                        {timeAgo(article.date)}
+                      </span>
+                      <span>{readingTime(article.content)} min read</span>
+                      <span className="flex items-center gap-0.5 hover:text-foreground transition-colors cursor-pointer ml-auto">
+                        <Share2 className="w-3 h-3" /> Share
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            ))}
+
+            {filtered.length === 0 && (
+              <div className="text-center py-16 text-muted-foreground">
+                <Newspaper className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                <p>No news in this category yet.</p>
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-4">
+            <div className="rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 p-5 text-white">
+              <p className="text-xs font-medium opacity-80 mb-1">Start Trading on MoonX</p>
+              <p className="text-2xl font-bold mb-0.5">$50 Bonus</p>
+              <p className="text-xs opacity-80 mb-3">For new users. Prediction markets + meme tokens.</p>
+              <Link
+                href="https://www.bydfi.com"
+                className="block text-center bg-white text-orange-600 font-semibold text-sm py-2 rounded-lg hover:bg-orange-50 transition-colors"
+              >
+                Start Now
+              </Link>
+            </div>
+
+            <div className="rounded-xl border p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <TrendingUp className="w-4 h-4 text-blue-500" />
+                <h3 className="font-semibold text-sm">Trending Markets</h3>
+              </div>
+              <div className="space-y-2">
+                {['Will BTC reach $150K by June?', 'Will ETH flip BTC in 2026?', 'Will Solana ETF launch in Q2?'].map((q, i) => (
+                  <Link
+                    key={i}
+                    href="/en/moonx/markets/trending"
+                    className="flex items-start justify-between gap-2 py-2 border-b last:border-0 group"
+                  >
+                    <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors line-clamp-2">{q}</span>
+                    <ArrowRight className="w-3 h-3 flex-shrink-0 text-muted-foreground group-hover:text-blue-500 transition-colors mt-0.5" />
+                  </Link>
+                ))}
+              </div>
+              <Link href="/en/moonx/markets/trending" className="text-xs text-blue-500 hover:underline mt-2 inline-block">
+                View all markets →
+              </Link>
+            </div>
+
+            <div className="rounded-xl border p-4">
+              <h3 className="font-semibold text-sm mb-3">Browse by Topic</h3>
+              <div className="flex flex-wrap gap-2">
+                {CATEGORIES.slice(1).map(cat => (
+                  <Link
+                    key={cat}
+                    href={`/en/moonx/news/category/${CATEGORY_SLUGS[cat]}`}
+                    className="text-xs border px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t flex flex-wrap gap-4 text-sm text-muted-foreground">
+          <Link href="/en/moonx/markets/trending" className="hover:text-foreground">Prediction Markets →</Link>
+          <Link href="/en/moonx/learn/prediction" className="hover:text-foreground">Prediction Academy →</Link>
+          <Link href="/en/moonx/learn/meme" className="hover:text-foreground">Meme Academy →</Link>
+        </div>
+      </main>
+    </>
+  )
+}

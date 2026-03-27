@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 四大拉新促活活动方案 v1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.8; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+
+/* Cover */
+.cover { text-align: center; padding: 72px 0 56px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover .eyebrow { font-size: 11px; color: #FF6B00; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+.cover h1 { font-size: 32px; font-weight: 800; color: #111; margin-bottom: 8px; }
+.cover .sub { font-size: 15px; color: #888; margin-bottom: 28px; }
+.cover .meta { display: inline-flex; gap: 36px; background: #FFF8F0; padding: 14px 28px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 13px; font-weight: 600; color: #333; margin-top: 2px; }
+
+/* Section headers */
+h2.sec { font-size: 19px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 15px; font-weight: 600; margin: 28px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 13px; font-weight: 600; margin: 18px 0 8px; color: #333; padding-left: 10px; border-left: 2px solid #FFB74D; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+
+/* Notes */
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.tip  { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #1B5E20; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+
+/* Highlight box */
+.highlight-box { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: 8px; padding: 18px 22px; margin: 14px 0; }
+.highlight-box h4 { color: #E65100; font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; }
+.tag-blue   { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+.tag-green  { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+.tag-purple { background: #F3E5F5; color: #6A1B9A; border: 1px solid #CE93D8; }
+.tag-gray   { background: #F5F5F5; color: #555;    border: 1px solid #DDD; }
+
+p { margin-bottom: 8px; color: #333; }
+ul, ol { padding-left: 20px; margin: 8px 0; }
+li { margin-bottom: 5px; color: #333; }
+ul li::marker { color: #FF6B00; }
+hr.sec-div { border: none; border-top: 2px solid #FF6B00; margin: 48px 0; }
+hr.div     { border: none; border-top: 1px solid #F0E8E0; margin: 28px 0; }
+
+/* Activity Card */
+.act-card { border-radius: 14px; border: 2px solid #FFB74D; margin: 0 0 40px; overflow: hidden; }
+.act-card.blue   { border-color: #93C5FD; }
+.act-card.green  { border-color: #86EFAC; }
+.act-card.purple { border-color: #C4B5FD; }
+
+.act-header { padding: 22px 26px; display: flex; align-items: flex-start; gap: 18px; background: linear-gradient(135deg,#FFF3E0,#FFF8F0); }
+.act-card.blue   .act-header { background: linear-gradient(135deg,#EFF6FF,#DBEAFE); }
+.act-card.green  .act-header { background: linear-gradient(135deg,#F0FDF4,#DCFCE7); }
+.act-card.purple .act-header { background: linear-gradient(135deg,#F5F3FF,#EDE9FE); }
+
+.act-num { min-width: 48px; height: 48px; background: #FF6B00; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #fff; flex-shrink: 0; line-height: 1; }
+.act-card.blue   .act-num { background: #2563EB; }
+.act-card.green  .act-num { background: #16A34A; }
+.act-card.purple .act-num { background: #7C3AED; }
+
+.act-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 4px; }
+.act-meta  { font-size: 13px; color: #666; }
+.act-tags  { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.act-body  { padding: 22px 26px; }
+
+/* Journey */
+.journey { display: flex; align-items: flex-start; gap: 0; margin: 16px 0; flex-wrap: wrap; }
+.j-step { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 120px; }
+.j-box  { background: #FFF8F0; border: 1.5px solid #FFB74D; border-radius: 10px; padding: 10px 12px; text-align: center; font-size: 12px; font-weight: 600; color: #E65100; width: 100%; }
+.act-card.blue   .j-box { background: #EFF6FF; border-color: #93C5FD; color: #1565C0; }
+.act-card.green  .j-box { background: #F0FDF4; border-color: #86EFAC; color: #166534; }
+.act-card.purple .j-box { background: #F5F3FF; border-color: #C4B5FD; color: #6A1B9A; }
+.j-sub  { font-size: 11px; color: #888; margin-top: 4px; text-align: center; padding: 0 4px; }
+.j-arrow { font-size: 20px; color: #DDD; margin: 0 4px; padding-top: 10px; flex-shrink: 0; }
+
+/* Tier cards */
+.tier-row { display: flex; gap: 12px; margin: 14px 0; }
+.tier { flex: 1; border-radius: 10px; padding: 14px 16px; text-align: center; }
+.tier .t-cond   { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+.tier .t-reward { font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+.tier .t-note   { font-size: 11px; opacity: .75; }
+.tier.t1 { background: #FFF3E0; border: 1.5px solid #FFB74D; }
+.tier.t1 .t-cond { color: #E65100; } .tier.t1 .t-reward { color: #BF360C; }
+.tier.t2 { background: #F0F9FF; border: 1.5px solid #7DD3FC; }
+.tier.t2 .t-cond { color: #0369A1; } .tier.t2 .t-reward { color: #0C4A6E; }
+.tier.t3 { background: #F0FDF4; border: 1.5px solid #86EFAC; }
+.tier.t3 .t-cond { color: #166534; } .tier.t3 .t-reward { color: #14532D; }
+
+/* Steps */
+.steps { margin: 12px 0; }
+.step  { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+.step-dot { min-width: 24px; height: 24px; background: #FF6B00; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; margin-top: 2px; }
+.act-card.blue   .step-dot { background: #2563EB; }
+.act-card.green  .step-dot { background: #16A34A; }
+.act-card.purple .step-dot { background: #7C3AED; }
+.step-content { font-size: 13px; color: #444; line-height: 1.7; }
+
+/* Code / Script box */
+.script-box { background: #F8F8F8; border: 1px solid #E0E0E0; border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-size: 12.5px; color: #333; line-height: 1.8; white-space: pre-wrap; }
+.script-box.en { border-left: 3px solid #2563EB; }
+.script-box.zh { border-left: 3px solid #FF6B00; }
+
+/* Two col */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0; }
+
+/* Summary table at top */
+.overview-table th { background: #FF6B00; color: #fff; }
+.overview-table .act-num-cell { font-weight: 800; white-space: nowrap; text-align: center; }
+.overview-table .num1 { background: #FFF3E0; color: #E65100; }
+.overview-table .num2 { background: #EFF6FF; color: #1565C0; }
+.overview-table .num3 { background: #F0FDF4; color: #166534; }
+.overview-table .num4 { background: #F5F3FF; color: #6A1B9A; }
+
+/* Budget */
+.budget-total td { background: #FFF8F0; font-weight: 700; color: #E65100; }
+
+/* Footer */
+.footer { text-align: center; margin-top: 56px; padding-top: 28px; border-top: 2px solid #FF6B00; color: #999; font-size: 12px; }
+.footer strong { color: #FF6B00; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div class="eyebrow">BYDFi MoonX · 活动策划方案</div>
+  <h1>四大拉新促活活动方案</h1>
+  <div class="sub">完整规则 · 用户路径 · 代理话术 · 成本估算</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">V1.0</div></div>
+    <div class="meta-item"><div class="label">策划日期</div><div class="value">2026-03-23</div></div>
+    <div class="meta-item"><div class="label">覆盖渠道</div><div class="value">苍苍组 · Sally 组 · Michael 组</div></div>
+    <div class="meta-item"><div class="label">月度预算估算</div><div class="value">~$4,500</div></div>
+  </div>
+</div>
+
+<!-- 总览 -->
+<h2 class="sec">活动总览</h2>
+
+<table class="overview-table">
+  <thead>
+    <tr><th>活动</th><th>名称</th><th>类型</th><th>导流方向</th><th>核心奖励</th><th>适合谁推</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="act-num-cell num1">活动一</td>
+      <td><strong>老用户预测免费体验包</strong></td>
+      <td><span class="tag tag-orange">促活</span></td>
+      <td>合约 → 预测</td>
+      <td>3 笔免费预测（共 $3 额度）</td>
+      <td>三组均可</td>
+    </tr>
+    <tr>
+      <td class="act-num-cell num2">活动二</td>
+      <td><strong>新用户注册专属权益</strong></td>
+      <td><span class="tag tag-blue">拉新</span></td>
+      <td>新用户 → 预测</td>
+      <td>0 手续费 7 天 + 3 笔免费预测 + 瓜分 $10,000</td>
+      <td>三组均可</td>
+    </tr>
+    <tr>
+      <td class="act-num-cell num3">活动三</td>
+      <td><strong>合约交易量阶梯送预测包</strong></td>
+      <td><span class="tag tag-orange">促活</span></td>
+      <td>合约活跃 → 预测</td>
+      <td>月交易量达标自动发放 $3/$10/$30 预测额度</td>
+      <td>Michael 组重点推</td>
+    </tr>
+    <tr>
+      <td class="act-num-cell num4">活动四</td>
+      <td><strong>预测达标送合约体验券</strong></td>
+      <td><span class="tag tag-purple">促活</span></td>
+      <td>预测 → 合约</td>
+      <td>单月预测 ≥5 笔 → $10 合约体验券</td>
+      <td>MoonX 上线模版首发</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="note"><strong>设计原则：</strong>四个活动分工明确，不重叠。活动一/三 针对已有合约用户导入预测；活动二 负责拉新；活动四 把预测用户反向拉回合约，形成双产品循环。代理可按自己用户群特点自由选用，不强制全部执行。</div>
+
+<hr class="sec-div">
+
+<!-- 活动一 -->
+<div class="act-card">
+  <div class="act-header">
+    <div class="act-num">一</div>
+    <div>
+      <div class="act-title">老用户预测免费体验包</div>
+      <div class="act-meta">针对 BYDFi 现有合约用户 · 冷启动期大批量激活 · 零门槛进入预测市场</div>
+      <div class="act-tags">
+        <span class="tag tag-orange">促活</span>
+        <span class="tag tag-orange">合约 → 预测</span>
+        <span class="tag tag-gray">冷启动必开</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+
+    <h3 class="sub">用户路径</h3>
+    <div class="journey">
+      <div class="j-step"><div class="j-box">代理群发通知</div><div class="j-sub">Telegram / 邮件</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">点击进入 MoonX</div><div class="j-sub">无需重新注册</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">活动中心一键领取</div><div class="j-sub">无需充值</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">选市场下注</div><div class="j-sub">任意预测市场</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">结算到账</div><div class="j-sub">正确：收益实时到账</div></div>
+    </div>
+
+    <h3 class="sub">活动规则</h3>
+    <table>
+      <tr><td style="width:140px;font-weight:600;">活动对象</td><td>BYDFi 注册满 30 天、近 90 天有合约交易记录的用户</td></tr>
+      <tr><td style="font-weight:600;">奖励内容</td><td><strong>3 笔免费预测额度，每笔 $1</strong>（合计 $3）。预测正确：收益实时到账，可提现。预测错误：本金由平台承担，用户无损失。</td></tr>
+      <tr><td style="font-weight:600;">领取方式</td><td>登录 BYDFi → 活动中心 → 「预测体验包」→ 一键领取，无需充值</td></tr>
+      <tr><td style="font-weight:600;">有效期</td><td><strong>领取后 7 天内使用</strong>。7 天未使用自动失效（制造紧迫感）</td></tr>
+      <tr><td style="font-weight:600;">每人限领</td><td>每个账户限领 1 次</td></tr>
+      <tr><td style="font-weight:600;">运营触达</td><td>领取后第 5 天未使用 → 系统自动推送提醒："你还有 2 笔预测额度，今天到期前记得用"</td></tr>
+    </table>
+
+    <h3 class="sub">运营 SOP</h3>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-content"><strong>开活动前：</strong>代理确认名单（已注册 BYDFi 且有合约交易记录），后台批量开放领取资格</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-content"><strong>发放日：</strong>代理按话术群发，附上活动页面直链（不要让用户自己找）</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-content"><strong>第 3 天：</strong>代理二次触达——"收到了吗？进活动中心领一下，只要 30 秒"</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-content"><strong>第 5 天：</strong>系统自动推送未使用提醒</div></div>
+      <div class="step"><div class="step-dot">5</div><div class="step-content"><strong>结束后：</strong>统计激活率（目标 ≥15%）、首次预测正确率（用于后续话术优化）</div></div>
+    </div>
+
+    <h3 class="sub">代理话术模板</h3>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">中文版（Telegram 群）</h4>
+        <div class="script-box zh">各位，好消息！
+
+MoonX 预测市场正式上线了，平台给咱们老用户送了个见面礼——
+
+3 笔免费预测额度，每笔 $1，不需要充值，预测对了收益直接到账，预测错了本金平台赔。
+
+进活动中心一键领，7 天有效。
+
+[活动链接]
+
+有问题在群里说，我在。</div>
+      </div>
+      <div>
+        <h4 class="sub2">英文版（发送用）</h4>
+        <div class="script-box en">Hey everyone —
+
+MoonX Predict is live. To celebrate, the platform is giving all active BYDFi traders a free welcome pack:
+
+3 free predictions ($1 each). No deposit needed. If you're right, you keep the profit. If you're wrong, the platform covers it — your money stays safe.
+
+Claim in the Activity Center. Expires in 7 days.
+
+[Activity Link]
+
+Any questions, drop them here.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">成本估算</h3>
+    <table>
+      <tr><td>预测额度成本</td><td>$3 × 用户数（仅在用户预测正确时实际产生收益支出，错误预测成本为 $0）</td></tr>
+      <tr><td>假设激活 500 人，正确率 55%</td><td>$3 × 500 × 55% = <strong>约 $825 实际成本</strong></td></tr>
+      <tr><td>每激活用户成本</td><td>$825 / 500 = <strong>$1.65 / 人</strong>（极低）</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- 活动二 -->
+<div class="act-card blue">
+  <div class="act-header">
+    <div class="act-num">二</div>
+    <div>
+      <div class="act-title">新用户注册专属权益</div>
+      <div class="act-meta">通过代理链接注册的新用户 · 基础权益 + 限时抢跑奖池 · 代理拉新核心活动</div>
+      <div class="act-tags">
+        <span class="tag tag-blue">拉新</span>
+        <span class="tag tag-blue">新用户 → 预测</span>
+        <span class="tag tag-gray">上线期持续开放</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+
+    <h3 class="sub">用户路径</h3>
+    <div class="journey">
+      <div class="j-step"><div class="j-box">点代理专属链接</div><div class="j-sub">专属链接自动绑定代理</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">注册 + KYC</div><div class="j-sub">完成身份验证</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">自动发放基础权益</div><div class="j-sub">0手续费 + 3笔免费预测</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">完成首次预测</div><div class="j-sub">进入奖池计数</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box">奖池瓜分资格</div><div class="j-sub">前 500 名分 $10,000</div></div>
+    </div>
+
+    <h3 class="sub">双层权益设计</h3>
+
+    <h4 class="sub2">基础权益（所有通过代理链接注册的用户，无上限，持续开放）</h4>
+    <div class="tier-row">
+      <div class="tier t1" style="background:#EFF6FF;border-color:#93C5FD;">
+        <div class="t-cond" style="color:#0369A1;">权益一</div>
+        <div class="t-reward" style="color:#1E40AF;font-size:16px;">0 手续费</div>
+        <div class="t-note" style="color:#555;">注册后前 7 天，MoonX 预测市场全免</div>
+      </div>
+      <div class="tier t1" style="background:#EFF6FF;border-color:#93C5FD;">
+        <div class="t-cond" style="color:#0369A1;">权益二</div>
+        <div class="t-reward" style="color:#1E40AF;font-size:16px;">3 笔免费预测</div>
+        <div class="t-note" style="color:#555;">每笔 $1，KYC 完成后自动到账，7 天有效</div>
+      </div>
+    </div>
+
+    <h4 class="sub2">Welcome 奖池（限时抢跑，制造传播）</h4>
+    <div class="highlight-box" style="background:#EFF6FF;border-color:#93C5FD;">
+      <h4 style="color:#1565C0;">前 500 名完成首次预测的用户，平分 $10,000 USDT</h4>
+      <ul>
+        <li>计数方式：以完成第一笔预测的时间顺序排名</li>
+        <li>奖励：第 1-500 名每人平均获得 $20 USDT（实际按人数平分）</li>
+        <li>发放时间：奖池名额满后 24 小时内发放</li>
+        <li>实时公示：活动页面显示"已有 XXX / 500 名额被领取"（制造抢跑感）</li>
+      </ul>
+    </div>
+
+    <div class="note"><strong>为什么不用"限额50个"：</strong>限额太少会让大多数用户觉得"轮不到我"，反而降低参与意愿。500 人的奖池门槛合理，代理话术也更好说——"抢 $10,000 奖池，还剩 XXX 个名额"。</div>
+
+    <h3 class="sub">运营 SOP</h3>
+    <div class="steps">
+      <div class="step"><div class="step-dot" style="background:#2563EB;">1</div><div class="step-content"><strong>开活动前：</strong>为每位代理生成唯一专属注册链接，确保注册来源可追踪</div></div>
+      <div class="step"><div class="step-dot" style="background:#2563EB;">2</div><div class="step-content"><strong>推广期：</strong>代理按话术发出，每周更新一次奖池剩余名额（"还剩 XXX 个名额"）</div></div>
+      <div class="step"><div class="step-dot" style="background:#2563EB;">3</div><div class="step-content"><strong>奖池满后：</strong>立即公布名单，官方发文宣传（"$10,000 奖池已被 500 名用户瓜分"），为下一轮奖池铺垫</div></div>
+      <div class="step"><div class="step-dot" style="background:#2563EB;">4</div><div class="step-content"><strong>注册后第 2 天：</strong>若用户未使用 3 笔免费预测，发送提醒邮件/推送："你的免费预测还没用——今天截止前试一次？"</div></div>
+    </div>
+
+    <h3 class="sub">代理话术模板</h3>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">中文版（Telegram 群）</h4>
+        <div class="script-box zh">刚上线的 MoonX 预测市场，通过我的链接注册有专属福利：
+
+① 前 7 天 0 手续费
+② 直接送 3 笔免费预测（对了赚，错了不损失你的钱）
+③ 完成第一笔预测，有机会瓜分 $10,000 奖池，前 500 名都有份
+
+名额不多，先到先得。
+
+[你的专属注册链接]</div>
+      </div>
+      <div>
+        <h4 class="sub2">英文版（发送用）</h4>
+        <div class="script-box en">MoonX Predict just launched — sign up through my link and you get:
+
+① Zero fees for your first 7 days
+② 3 free predictions ($1 each — profit if right, no loss if wrong)
+③ Complete your first prediction and you're in the draw to split a $10,000 USDT prize pool (first 500 users)
+
+Spots are limited. First come, first served.
+
+[Your referral link]</div>
+      </div>
+    </div>
+
+    <h3 class="sub">成本估算</h3>
+    <table>
+      <tr><td>Welcome 奖池</td><td><strong>$10,000</strong>（固定，一次性）</td></tr>
+      <tr><td>免费预测额度</td><td>$3 × 新用户数 × 正确率（估算 500 人 × 55% ≈ $825）</td></tr>
+      <tr><td>0 手续费机会成本</td><td>7 天免费，按新用户平均手续费估算较小，忽略不计</td></tr>
+      <tr class="budget-total"><td>合计（按 500 新用户估算）</td><td><strong>约 $10,825</strong></td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- 活动三 -->
+<div class="act-card green">
+  <div class="act-header">
+    <div class="act-num">三</div>
+    <div>
+      <div class="act-title">合约交易量阶梯送预测包</div>
+      <div class="act-meta">针对合约活跃用户 · 月度自动发放 · 持续将合约交易行为转化为预测参与</div>
+      <div class="act-tags">
+        <span class="tag tag-green">促活</span>
+        <span class="tag tag-green">合约 → 预测</span>
+        <span class="tag tag-gray">Michael 组重点推</span>
+        <span class="tag tag-gray">持续运营</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+
+    <h3 class="sub">奖励阶梯</h3>
+
+    <div class="tier-row">
+      <div class="tier t1">
+        <div class="t-cond">月合约交易量 ≥ $5,000</div>
+        <div class="t-reward">$3</div>
+        <div class="t-note">预测额度<br>（3 笔 × $1）</div>
+      </div>
+      <div class="tier t2">
+        <div class="t-cond">月合约交易量 ≥ $20,000</div>
+        <div class="t-reward">$10</div>
+        <div class="t-note">预测额度<br>（10 笔 × $1）</div>
+      </div>
+      <div class="tier t3">
+        <div class="t-cond">月合约交易量 ≥ $50,000</div>
+        <div class="t-reward">$30</div>
+        <div class="t-note">预测额度<br>（30 笔 × $1）</div>
+      </div>
+    </div>
+
+    <div class="note"><strong>阶梯说明：</strong>每月 1 日重置，按该月累计合约交易量判断档位。达到高档位不叠加低档——即 $20K 档发 $10，不再额外发 $3。月底收到奖励时，正好是下月初用户最活跃的时间点。</div>
+
+    <h3 class="sub">用户路径</h3>
+    <div class="journey">
+      <div class="j-step"><div class="j-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534;">正常进行合约交易</div><div class="j-sub">无需任何额外操作</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534;">月底系统自动计算</div><div class="j-sub">判断达到哪个档位</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534;">系统推送通知</div><div class="j-sub">"你本月合约量达标，预测额度已到账"</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534;">进入 MoonX 使用</div><div class="j-sub">额度 14 天有效</div></div>
+    </div>
+
+    <h3 class="sub">活动规则</h3>
+    <table>
+      <tr><td style="width:140px;font-weight:600;">统计周期</td><td>每自然月（1 日 00:00 — 月末 23:59 UTC）</td></tr>
+      <tr><td style="font-weight:600;">发放时间</td><td>次月 1~3 日自动发放到 MoonX 账户</td></tr>
+      <tr><td style="font-weight:600;">额度有效期</td><td><strong>收到后 14 天</strong>内使用，过期失效</td></tr>
+      <tr><td style="font-weight:600;">通知方式</td><td>站内信 + App 推送：「恭喜！你本月合约交易量达到 $XX,000，MoonX 预测额度 $X 已到账，14 天内使用」</td></tr>
+      <tr><td style="font-weight:600;">月中进度提示</td><td>每月 20 日，系统对当月交易量接近档位门槛（差距 &lt;20%）的用户发一次提示：「距 $20K 档还差 $XX，月底前完成可获 $10 预测额度」</td></tr>
+    </table>
+
+    <h3 class="sub">代理话术模板</h3>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">中文版</h4>
+        <div class="script-box zh">好消息！现在在 BYDFi 做合约，每个月交易量达到一定金额，平台自动送你 MoonX 预测额度：
+
+$5K → 送 $3 预测额度
+$20K → 送 $10 预测额度
+$50K → 送 $30 预测额度
+
+不用申请，自动到账，月底发。
+有问题问我。</div>
+      </div>
+      <div>
+        <h4 class="sub2">英文版（发送用）</h4>
+        <div class="script-box en">New perk for active BYDFi traders —
+
+Hit these monthly contract volume targets and get free MoonX prediction credits automatically:
+
+$5K volume → $3 prediction credits
+$20K volume → $10 prediction credits
+$50K volume → $30 prediction credits
+
+No action needed. Credits land in your MoonX account on the 1st of each month.
+
+Questions? Ask me here.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">成本估算（月度）</h3>
+    <table>
+      <tr><td>$5K 档（估算 100 人，正确率 55%）</td><td>$3 × 100 × 55% ≈ $165</td></tr>
+      <tr><td>$20K 档（估算 40 人，正确率 55%）</td><td>$10 × 40 × 55% ≈ $220</td></tr>
+      <tr><td>$50K 档（估算 15 人，正确率 55%）</td><td>$30 × 15 × 55% ≈ $248</td></tr>
+      <tr class="budget-total"><td><strong>月度合计</strong></td><td><strong>约 $633 / 月</strong>（实际成本随正确率浮动）</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- 活动四 -->
+<div class="act-card purple">
+  <div class="act-header">
+    <div class="act-num">四</div>
+    <div>
+      <div class="act-title">预测达标送合约体验券</div>
+      <div class="act-meta">针对 MoonX 预测市场活跃用户 · 反向导入合约 · 双产品循环激活</div>
+      <div class="act-tags">
+        <span class="tag tag-purple">促活</span>
+        <span class="tag tag-purple">预测 → 合约</span>
+        <span class="tag tag-gray">MoonX 上线首月启动</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+
+    <h3 class="sub">达标标准与奖励（四套方案，代理可选）</h3>
+
+    <table>
+      <thead><tr><th>方案</th><th>达标条件（单月）</th><th>奖励</th><th>适合场景</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-purple">方案 A</span></td>
+          <td>预测笔数 ≥ 5 笔</td>
+          <td><strong>$10 合约体验券</strong></td>
+          <td>新用户激活期，低门槛引导</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-purple">方案 B</span></td>
+          <td>预测总金额 ≥ $20</td>
+          <td><strong>$10 合约体验券</strong></td>
+          <td>已有预测习惯的活跃用户</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-purple">方案 C</span></td>
+          <td>预测笔数 ≥ 10 笔 + 正确率 ≥ 50%</td>
+          <td><strong>$25 合约体验券</strong></td>
+          <td>留存期，奖励高质量预测用户</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-purple">方案 D</span></td>
+          <td>预测总金额 ≥ $50</td>
+          <td><strong>$30 合约体验券</strong></td>
+          <td>高净值预测用户转化合约</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">MoonX 上线第一个月使用<strong>方案 A</strong>（门槛最低，最易达到），目的是让大量用户第一次体验合约产品。留存期切换到方案 C/D。</div>
+
+    <h3 class="sub">合约体验券规则说明</h3>
+    <div class="highlight-box" style="background:#F5F3FF;border-color:#C4B5FD;">
+      <h4 style="color:#6A1B9A;">什么是合约体验券</h4>
+      <ul>
+        <li>面值 $10/$25/$30 的合约专用代金券，可在 BYDFi 永续合约中使用</li>
+        <li>可用合约：全平台永续合约品种</li>
+        <li>盈利提现条件：使用体验券交易盈利达到面值的 1 倍，盈利部分可提现（例：$10 券，盈利 $10 即可提现）</li>
+        <li>有效期：发放后 30 天</li>
+        <li>不可直接提现，不可转让</li>
+      </ul>
+    </div>
+
+    <h3 class="sub">用户路径</h3>
+    <div class="journey">
+      <div class="j-step"><div class="j-box" style="background:#F5F3FF;border-color:#C4B5FD;color:#6A1B9A;">在 MoonX 完成预测</div><div class="j-sub">达到当月方案门槛</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box" style="background:#F5F3FF;border-color:#C4B5FD;color:#6A1B9A;">系统自动触发</div><div class="j-sub">不需要申请</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box" style="background:#F5F3FF;border-color:#C4B5FD;color:#6A1B9A;">收到推送通知</div><div class="j-sub">"你的预测达标了，合约体验券已到账"</div></div>
+      <div class="j-arrow">→</div>
+      <div class="j-step"><div class="j-box" style="background:#F5F3FF;border-color:#C4B5FD;color:#6A1B9A;">进入合约市场使用</div><div class="j-sub">首次接触合约产品</div></div>
+    </div>
+
+    <h3 class="sub">运营触达设计</h3>
+    <table>
+      <tr><td style="width:160px;font-weight:600;">达标时（立即）</td><td>推送："恭喜！你本月在 MoonX 完成了 5 笔预测，$10 合约体验券已到账——去 BYDFi 合约市场用一下？"</td></tr>
+      <tr><td style="font-weight:600;">接近达标（差 1-2 笔）</td><td>推送："再预测 1 次就能拿到 $10 合约体验券，这周还有好几个市场开着"</td></tr>
+      <tr><td style="font-weight:600;">体验券未使用（7天后）</td><td>推送："你的 $10 合约体验券还没用，剩 23 天过期——进合约市场试一把"</td></tr>
+    </table>
+
+    <h3 class="sub">代理话术模板</h3>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">中文版</h4>
+        <div class="script-box zh">MoonX 上线首月特别活动：
+
+在 MoonX 预测市场完成 5 笔预测（每笔最少 $1），平台自动发你 $10 BYDFi 合约体验券。
+
+体验券可以直接在合约市场开仓用，赚了算你的。
+
+预测 + 合约两边都能玩，试试？
+
+[MoonX 活动链接]</div>
+      </div>
+      <div>
+        <h4 class="sub2">英文版（发送用）</h4>
+        <div class="script-box en">MoonX launch special —
+
+Make 5 predictions on MoonX this month (min $1 each) and you'll automatically get a $10 BYDFi contract trading voucher.
+
+Use it on any perpetual contract. Profits are yours to keep.
+
+Two markets, one account. Give it a shot.
+
+[MoonX activity link]</div>
+      </div>
+    </div>
+
+    <h3 class="sub">成本估算（月度，方案 A）</h3>
+    <table>
+      <tr><td>体验券发放量（估算 200 人达标）</td><td>$10 × 200 = $2,000</td></tr>
+      <tr><td>体验券实际兑付率（约 30% 盈利）</td><td>$2,000 × 30% = <strong>实际净成本约 $600</strong></td></tr>
+      <tr><td>说明</td><td>体验券仅在用户合约盈利时才产生实际成本，未使用或亏损的体验券平台不产生支出</td></tr>
+      <tr class="budget-total"><td><strong>月度合计（净成本）</strong></td><td><strong>约 $600 / 月</strong></td></tr>
+    </table>
+
+  </div>
+</div>
+
+<hr class="sec-div">
+
+<!-- 预算汇总 -->
+<h2 class="sec">预算汇总</h2>
+
+<table>
+  <thead><tr><th>活动</th><th>月度预算</th><th>成本结构</th></tr></thead>
+  <tbody>
+    <tr><td><strong>活动一：老用户免费体验包</strong></td><td>约 $825（单次）</td><td>仅在预测正确时产生成本</td></tr>
+    <tr><td><strong>活动二：新用户注册权益</strong></td><td>约 $10,825（奖池单次 + 额度）</td><td>奖池固定，额度随注册量浮动</td></tr>
+    <tr><td><strong>活动三：合约量阶梯送预测</strong></td><td>约 $633 / 月</td><td>随参与人数浮动</td></tr>
+    <tr><td><strong>活动四：预测达标送体验券</strong></td><td>约 $600 / 月</td><td>仅在合约盈利时实际兑付</td></tr>
+    <tr class="budget-total"><td><strong>月度持续成本（活动三+四）</strong></td><td><strong>约 $1,233 / 月</strong></td><td></td></tr>
+    <tr class="budget-total"><td><strong>上线首月全开</strong></td><td><strong>约 $12,883</strong></td><td>含活动一/二单次成本 + 活动三/四首月</td></tr>
+  </tbody>
+</table>
+
+<div class="tip"><strong>执行建议：</strong>上线日同时开活动一（激活老用户）和活动二（拉新）；活动三和四作为持续机制长期运行，不设截止日期。代理可视自己用户群情况自由组合，不强制四个全开。</div>
+
+<hr class="sec-div">
+
+<!-- Footer -->
+<div class="footer">
+  <strong>BYDFi MoonX 四大拉新促活活动方案 V1.0</strong><br>
+  完整规则版 · 2026-03-23<br>
+  包含：活动规则 · 用户路径 · 运营 SOP · 代理话术（中英双版）· 成本估算
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{
+  "title": "执行OKR",
+  "updated": "2026-03-23",
+  "wiki_url": "https://psgu4di0f9uu.sg.larksuite.com/wiki/MJ2OwRJaZirqGGkc2O8lLYQJgyb?sheet=uzGIF3",
+  "rows": [
+    {
+      "market": "代理(30%)",
+      "channel": "代理渠道-付费宣发",
+      "platform": "Twitter/X\nYouTube",
+      "action": "签约欧美+东南亚中腰部KOL（加密/美股）\n提供激励+定制化活动支持\n产出>20条内容",
+      "freq": "持续",
+      "goal": "Waitlist >100\nKOL签约3-8个",
+      "priority": "★★",
+      "status": "目前kol回复3个，沟通中"
+    },
+    {
+      "market": "代理(30%)",
+      "channel": "代理渠道-现有kol",
+      "platform": "线上活动",
+      "action": "举办预测体验定制化活动\n对应代理定制主题\n参与有奖励",
+      "freq": "上线时一场",
+      "goal": "每场参与>30人",
+      "priority": "★★★",
+      "status": "方案第一版已出，完善中"
+    },
+    {
+      "market": "代理(30%)",
+      "channel": "直客/代理-媒体",
+      "platform": "加密媒体(Decrypt等)",
+      "action": "发布加密货币预测相关品牌内容\n聚焦欧美+东南亚地区\n差异化产品特性宣传",
+      "freq": "持续",
+      "goal": "累计曝光>10万",
+      "priority": "★★★★",
+      "status": "先使用michale那媒体20+；品牌上线的prd+"
+    },
+    {
+      "market": "代理(30%)",
+      "channel": "直客/代理-媒体",
+      "platform": "财经媒体(Bloomberg等)",
+      "action": "发布美股预测相关内容\n聚焦欧美市场\n财经类渠道宣发",
+      "freq": "持续",
+      "goal": "覆盖欧美受众",
+      "priority": "★★★★",
+      "status": ""
+    },
+    {
+      "market": "直客(70%)",
+      "channel": "直客-邮件",
+      "platform": "邮件系统",
+      "action": "建立流失用户名单\n设计召回邮件序列\n个性化内容推送",
+      "freq": "每周1次",
+      "goal": "打开率>25%\n召回率>10%",
+      "priority": "★★",
+      "status": "预测上线第一版去做邮件"
+    },
+    {
+      "market": "直客(70%)",
+      "channel": "直客-增长",
+      "platform": "全球社群",
+      "action": "招募全球大使20人（欧美+东南亚）\n瓜分奖池激励\n大使自发传播",
+      "freq": "持续招募",
+      "goal": "带来注册>300",
+      "priority": "★",
+      "status": "8个报名"
+    },
+    {
+      "market": "直客(70%)",
+      "channel": "直客-SEO（2年）",
+      "platform": "Google/Bing",
+      "action": "布局20个核心关键词\nprediction market / Polymarket alternative等\n内容SEO优化",
+      "freq": "持续",
+      "goal": "4月底完成0-1的seo搭建",
+      "priority": "★★★",
+      "status": "第一版本方案已出"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/en/moonx/news/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/en/moonx/news/page.js"
+    ],
+    "/en/moonx/news/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/en/moonx/news/[slug]/page.js"
+    ],
+    "/en/moonx/markets/trending/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/en/moonx/markets/trending/page.js"
+    ],
+    "/en/moonx/learn/prediction/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/en/moonx/learn/prediction/page.js"
+    ],
+    "/en/moonx/learn/meme/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/en/moonx/learn/meme/page.js"
+    ],
+    "/en/moonx/news/category/[cat]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/en/moonx/news/category/[cat]/page.js"
+    ]
+  }
+}

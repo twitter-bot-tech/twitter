@@ -1,0 +1,1320 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><title>MoonX SEO PRD v2.0</title><style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.75; color: #1a1a2e; max-width: 960px; margin: 0 auto; padding: 48px 56px; }
+h1 { font-size: 28px; font-weight: 700; margin: 36px 0 10px; color: #0d0d1a; border-bottom: 3px solid #6c63ff; padding-bottom: 10px; }
+h2 { font-size: 20px; font-weight: 700; margin: 32px 0 10px; color: #1a1a2e; border-bottom: 1px solid #e0e0ef; padding-bottom: 6px; }
+h3 { font-size: 16px; font-weight: 600; margin: 22px 0 8px; color: #2d2d5e; }
+h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: #4a4a6e; }
+p { margin: 8px 0; } ul, ol { margin: 8px 0 8px 24px; } li { margin: 4px 0; }
+code { background: #f0f0f8; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 12px; color: #6c63ff; }
+pre { background: #f5f5fa; border-left: 4px solid #6c63ff; padding: 16px; border-radius: 0 6px 6px 0; overflow-x: auto; margin: 12px 0; }
+pre code { background: none; padding: 0; color: #2d2d5e; font-size: 12px; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+th { background: #6c63ff; color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 9px 14px; border-bottom: 1px solid #e8e8f0; vertical-align: top; }
+tr:nth-child(even) td { background: #f8f8fd; }
+blockquote { border-left: 4px solid #6c63ff; background: #f8f8fd; padding: 12px 18px; margin: 12px 0; color: #3a3a5e; }
+hr { border: none; border-top: 2px solid #e0e0ef; margin: 28px 0; }
+@media print { body { padding: 20px 28px; } h2 { page-break-after: avoid; } table, pre { page-break-inside: avoid; } }</style></head><body><h1 id="moonx-seo-prd-v20">MoonX SEO 页面体系 产品需求文档 PRD v2.0</h1>
+<p><strong>版本：2.0 | 日期：2026-03-11</strong>
+<strong>产品负责人：Kelly</strong>
+<strong>文档状态：待评审</strong>
+<strong>依据：SEO全站规范 + 基础能力优化P1 + GSC数据 + 竞品分析</strong></p>
+<hr />
+<h2 id="_1">一、页面体系总览</h2>
+<p>MoonX SEO 由 <strong>2 类人工内容</strong> + <strong>5 类程序化内容</strong> 构成：</p>
+<pre><code>/en/moonx/
+│
+├── 【人工内容 A】预测学院
+│   └── /en/moonx/learn/prediction/
+│       ├── /en/moonx/learn/prediction/                  分类首页
+│       └── /en/moonx/learn/prediction/{slug}            学院文章（15-20篇）
+│
+├── 【人工内容 B】Meme 学院
+│   └── /en/moonx/learn/meme/
+│       ├── /en/moonx/learn/meme/                        分类首页
+│       └── /en/moonx/learn/meme/{slug}                  学院文章（10-15篇）
+│
+├── 【程序化 1】如何参与预测市场（事件级）
+│   └── /en/moonx/guide/prediction/{event-slug}          每个热门预测市场一页
+│
+├── 【程序化 2】如何参与美股预测市场（股票级）
+│   └── /en/moonx/markets/stocks/{ticker}                每支股票一页
+│
+├── 【程序化 3】如何购买 Meme
+│   └── /en/moonx/guide/buy/{token-slug}                 每个 Token 一页
+│
+├── 【程序化 4】Token 行情页（已有架构）
+│   └── /en/moonx/solana/token/{contract}
+│
+└── 【程序化 5】热门榜单页（分类展开）
+    └── /en/moonx/markets/trending/{category}
+</code></pre>
+<hr />
+<h2 id="a">二、人工内容 A — 预测学院</h2>
+<h3 id="21">2.1 定位</h3>
+<p>攻打所有「预测市场」相关中高频词，建立 MoonX 在 Google 眼中的预测市场权威地位。</p>
+<hr />
+<h3 id="22">2.2 分类首页</h3>
+<p><strong>URL：</strong> <code>/en/moonx/learn/prediction/</code></p>
+<p><strong>页面内容结构：</strong></p>
+<pre><code>─────────────────────────────────────────────────────────────
+[H1] Prediction Market Academy — Learn to Trade  (SSR)
+
+[说明段落]                                        (SSR)
+Everything you need to know about prediction
+markets: how they work, which platforms to use,
+and how to find the best odds.
+
+[文章分类 Tab]
+  All | Beginner | Platform Guides | Strategies | US Stocks
+
+[文章卡片列表]                                    (SSR)
+┌────────────────────────────────────────────────┐
+│ [分类标签] Beginner                             │
+│ What Is a Prediction Market? Complete Guide    │
+│ 5 min read · Updated 2026-03                   │
+├────────────────────────────────────────────────┤
+│ [分类标签] Platform Guide                      │
+│ Polymarket vs Kalshi: Full Comparison          │
+│ 8 min read · Updated 2026-03                   │
+└────────────────────────────────────────────────┘
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="23">2.3 文章页内容结构</h3>
+<pre><code>Breadcrumb: Home &gt; MoonX &gt; Prediction Academy &gt; {文章标题}
+─────────────────────────────────────────────────────────────
+Main（720px）                        Side（260px）
+─────────────────────────────────────────────────────────────
+[H1] 文章标题（含目标关键词）  (SSR)  ┌───────────────────────┐
+                                      │  目录 TOC（sticky）   │
+[Intro: 100-150词]          (SSR)     │  1. Section 1         │
+说清楚文章回答什么问题                │  2. Section 2         │
+                                      │  3. ...               │
+[H2] Section 1              (SSR)     └───────────────────────┘
+[正文]
+                                      ┌───────────────────────┐
+[对比表格]（如有）           (SSR)     │  MoonX CTA 卡片       │
+                                      │  Compare odds on      │
+[H2] Section 2              (SSR)     │  Polymarket &amp; Kalshi  │
+[正文]                                │                       │
+                                      │  [Browse Markets →]   │
+[H2] Section N              (SSR)     └───────────────────────┘
+[正文]
+                                      ┌───────────────────────┐
+[FAQ] 5-8 问答              (SSR)     │  Related Articles     │
+JSON-LD FAQPage Schema                │  • Article 1          │
+                                      │  • Article 2          │
+[CTA Banner]                (SSR)     │  • Article 3          │
+→ Compare Markets on MoonX            └───────────────────────┘
+
+[Related Articles]          (SSR)
+← → Cluster 文章互链
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="24">2.4 文章清单与关键词规格</h3>
+<p><strong>支柱页（Pillar）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>Slug</th>
+<th>H1</th>
+<th>目标关键词</th>
+<th>字数</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prediction-markets-guide</code></td>
+<td>Prediction Markets: The Complete Guide 2026</td>
+<td>what are prediction markets</td>
+<td>4,000</td>
+<td><strong>P0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cluster 文章：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Slug</th>
+<th>H1</th>
+<th>目标关键词</th>
+<th>月搜索量</th>
+<th>字数</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>prediction-market-aggregator</code></td>
+<td>What Is a Prediction Market Aggregator?</td>
+<td>prediction market aggregator</td>
+<td>1K-5K</td>
+<td>1,800</td>
+<td><strong>P0</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>polymarket-alternatives</code></td>
+<td>Best Polymarket Alternatives 2026</td>
+<td>polymarket alternative</td>
+<td>10K-50K</td>
+<td>2,200</td>
+<td><strong>P0</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>polymarket-vs-kalshi</code></td>
+<td>Polymarket vs Kalshi: Full Comparison</td>
+<td>polymarket vs kalshi</td>
+<td>10K-50K</td>
+<td>2,000</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>how-to-trade-prediction-markets</code></td>
+<td>How to Trade Prediction Markets for Beginners</td>
+<td>how to trade prediction markets</td>
+<td>5K-20K</td>
+<td>2,000</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>prediction-market-odds</code></td>
+<td>Prediction Market Odds Explained</td>
+<td>prediction market odds</td>
+<td>1K-5K</td>
+<td>1,500</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>kalshi-review</code></td>
+<td>Kalshi Review 2026: Is It Worth Using?</td>
+<td>kalshi review</td>
+<td>5K-10K</td>
+<td>2,000</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>polymarket-review</code></td>
+<td>Polymarket Review 2026</td>
+<td>polymarket review</td>
+<td>5K-20K</td>
+<td>2,000</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>us-election-prediction-market</code></td>
+<td>How to Bet on US Elections Using Prediction Markets</td>
+<td>election prediction market</td>
+<td>10K-50K</td>
+<td>2,000</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>stock-prediction-markets</code></td>
+<td>How to Trade Stock Price Outcomes on Prediction Markets</td>
+<td>stock prediction market</td>
+<td>5K-20K</td>
+<td>2,000</td>
+<td>P1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>内链规则：</strong></p>
+<pre><code>所有 Cluster 文章 → 支柱页 prediction-markets-guide（必须）
+所有文章结尾 CTA → /en/moonx/markets/trending
+美股相关文章 → /en/moonx/markets/stocks/{ticker}（程序化页面）
+</code></pre>
+<hr />
+<h3 id="25">2.5 目标关键词矩阵（预测学院）</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>关键词</th>
+<th>月搜索量</th>
+<th>竞争</th>
+<th>目标页面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>品类独占</td>
+<td>prediction market aggregator</td>
+<td>1K-5K</td>
+<td>极低</td>
+<td>/learn/prediction/prediction-market-aggregator</td>
+</tr>
+<tr>
+<td>替代词</td>
+<td>polymarket alternative</td>
+<td>10K-50K</td>
+<td>中</td>
+<td>/learn/prediction/polymarket-alternatives</td>
+</tr>
+<tr>
+<td>对比词</td>
+<td>polymarket vs kalshi</td>
+<td>10K-50K</td>
+<td>中</td>
+<td>/learn/prediction/polymarket-vs-kalshi</td>
+</tr>
+<tr>
+<td>通用权威</td>
+<td>what are prediction markets</td>
+<td>50K+</td>
+<td>高</td>
+<td>/learn/prediction/prediction-markets-guide</td>
+</tr>
+<tr>
+<td>入门词</td>
+<td>how to trade prediction markets</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>/learn/prediction/how-to-trade-prediction-markets</td>
+</tr>
+<tr>
+<td>热门场景</td>
+<td>election prediction market</td>
+<td>10K-50K</td>
+<td>中</td>
+<td>/learn/prediction/us-election-prediction-market</td>
+</tr>
+<tr>
+<td>美股场景</td>
+<td>stock prediction market</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>/learn/prediction/stock-prediction-markets</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="b-meme">三、人工内容 B — Meme 学院</h2>
+<h3 id="31">3.1 定位</h3>
+<p>攻打 Solana meme 币、pump.fun、链上工具相关词。与 Token 行情页形成内链闭环。</p>
+<hr />
+<h3 id="32">3.2 分类首页</h3>
+<p><strong>URL：</strong> <code>/en/moonx/learn/meme/</code></p>
+<p><strong>页面内容结构：</strong></p>
+<pre><code>─────────────────────────────────────────────────────────────
+[H1] Meme Coin Academy — Solana Trading Guide     (SSR)
+
+[说明段落]                                         (SSR)
+Learn how to find, analyze, and trade Solana meme
+coins. From pump.fun launches to smart money
+tracking—everything in one place.
+
+[文章分类 Tab]
+  All | Getting Started | Tools | Strategies | Safety
+
+[文章卡片列表]                                     (SSR)
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="33">3.3 文章清单与关键词规格</h3>
+<p><strong>支柱页：</strong></p>
+<table>
+<thead>
+<tr>
+<th>Slug</th>
+<th>H1</th>
+<th>目标关键词</th>
+<th>字数</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>solana-meme-coin-guide</code></td>
+<td>Solana Meme Coin Trading: The Complete Guide 2026</td>
+<td>solana meme coin</td>
+<td>4,000</td>
+<td><strong>P0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cluster 文章：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Slug</th>
+<th>H1</th>
+<th>目标关键词</th>
+<th>月搜索量</th>
+<th>字数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>what-is-smart-money-tracking</code></td>
+<td>What Is Smart Money Tracking in Crypto?</td>
+<td>smart money tracker crypto</td>
+<td>5K-20K</td>
+<td>1,800</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>gmgn-alternative</code></td>
+<td>GMGN vs MoonX: Which Solana Tracker Is Better?</td>
+<td>GMGN alternative</td>
+<td>1K-5K</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>best-solana-meme-tracker</code></td>
+<td>Best Solana Meme Coin Trackers 2026</td>
+<td>best solana meme coin tracker</td>
+<td>2K-10K</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>how-to-use-pump-fun</code></td>
+<td>How to Use Pump.fun: Complete Beginner Guide</td>
+<td>how to use pump.fun</td>
+<td>5K-20K</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>how-to-find-100x-meme-coin</code></td>
+<td>How to Find the Next 100x Meme Coin on Solana</td>
+<td>how to find 100x meme coin</td>
+<td>2K-10K</td>
+<td>2,500</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>solana-meme-coin-risks</code></td>
+<td>Solana Meme Coin Risks: What You Need to Know</td>
+<td>meme coin risks solana</td>
+<td>1K-5K</td>
+<td>1,500</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>what-are-meme-coins</code></td>
+<td>What Are Meme Coins? Complete Beginner Guide</td>
+<td>what are meme coins</td>
+<td>10K-50K</td>
+<td>2,000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>内链规则：</strong></p>
+<pre><code>所有 Cluster → 支柱页 solana-meme-coin-guide
+所有文章 CTA → /en/moonx/markets/trending 或 /en/moonx/pump
+Smart money 类文章 → /en/moonx/monitor/dynamic/hot
+Token 工具类文章 → /en/moonx/solana/token/{热门token}
+</code></pre>
+<hr />
+<h2 id="1">四、程序化 1 — 如何参与预测市场（事件级）</h2>
+<h3 id="41">4.1 定位</h3>
+<p>为每个热门预测市场事件生成独立指南页，捕获 <code>how to bet on [event]</code>、<code>[event] prediction market</code> 类搜索词。</p>
+<p><strong>URL 结构：</strong> <code>/en/moonx/guide/prediction/{event-slug}</code></p>
+<p><strong>示例：</strong>
+- <code>/en/moonx/guide/prediction/trump-2028-election</code>
+- <code>/en/moonx/guide/prediction/fed-rate-march-2026</code>
+- <code>/en/moonx/guide/prediction/super-bowl-2026</code></p>
+<hr />
+<h3 id="42">4.2 触发与生成规则</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发条件</td>
+<td>Polymarket 或 Kalshi 上交易量 &gt; $10,000 的市场</td>
+</tr>
+<tr>
+<td>生成时间</td>
+<td>市场上线后 24 小时内自动生成</td>
+</tr>
+<tr>
+<td>下线规则</td>
+<td>市场结束后 30 天内转为 noindex</td>
+</tr>
+<tr>
+<td>更新频率</td>
+<td>市场数据（赔率/成交量）每日更新</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="43">4.3 页面内容结构</h3>
+<pre><code>Breadcrumb: Home &gt; MoonX &gt; Prediction Guides &gt; {Event Title}
+─────────────────────────────────────────────────────────────
+Main（720px）                        Side（280px）
+─────────────────────────────────────────────────────────────
+[H1]                         (SSR)   ┌───────────────────────┐
+How to Trade {EVENT_TITLE}           │  Live Odds            │
+Prediction Market                    │                       │
+                                     │  YES  [██████] 68%    │
+[Current Odds Block]         (SSR)   │  NO   [████  ] 32%    │
+Market: {EVENT_TITLE}                │                       │
+Platform: Polymarket / Kalshi        │  Vol: $X.XXM          │
+YES: {PCT}% | NO: {PCT}%             │  [Trade on MoonX →]   │
+Volume: ${VOLUME}                    └───────────────────────┘
+Closes: {DATE}
+                                     ┌───────────────────────┐
+[说明段落]                   (SSR)   │  Compare Odds         │
+{EVENT_TITLE} is one of the          │                       │
+most-traded prediction markets       │  Polymarket  68%      │
+right now...（~150词模板）           │  Kalshi      65%      │
+                                     │  Manifold    70%      │
+[H2] What Is This Market?   (SSR)   │                       │
+{EVENT_DESC}（模板文字）             │  Best entry: Manifold  │
+                                     └───────────────────────┘
+[H2] How to Trade           (SSR)
+Step 1: Connect to MoonX
+Step 2: Find {EVENT_SHORT}
+Step 3: Choose YES or NO
+Step 4: Enter amount &amp; confirm
+
+[H2] Platform Comparison    (SSR)
+| Platform | Odds | Fees | US? |
+|----------|------|------|-----|
+| Polymarket | {PCT}% | ~2% | ❌ |
+| Kalshi | {PCT}% | ~6% | ✅ |
+
+[H2] Price History          (SSR+CSR)
+[历史赔率图表]（ApexCharts，CSR）
+Key levels: {HIGH_ODDS}% high,
+{LOW_ODDS}% low
+
+[FAQ] 5 问答                (SSR)
+JSON-LD FAQPage Schema
+
+[Related Markets]           (CSR)
+→ 同类热门预测市场
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="44">4.4 关键词覆盖</h3>
+<table>
+<thead>
+<tr>
+<th>关键词模式</th>
+<th>示例</th>
+<th>月搜索量级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{event} prediction market</code></td>
+<td>trump 2028 prediction market</td>
+<td>1K-100K</td>
+</tr>
+<tr>
+<td><code>how to bet on {event}</code></td>
+<td>how to bet on fed rate cut</td>
+<td>500-10K</td>
+</tr>
+<tr>
+<td><code>{event} odds</code></td>
+<td>super bowl 2026 odds prediction market</td>
+<td>1K-50K</td>
+</tr>
+<tr>
+<td><code>{event} polymarket</code></td>
+<td>election polymarket odds</td>
+<td>1K-20K</td>
+</tr>
+<tr>
+<td><code>{event} kalshi</code></td>
+<td>fed rate kalshi</td>
+<td>500-5K</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="45">4.5 内链网络</h3>
+<pre><code>/en/moonx/guide/prediction/{event-slug}
+  ↔  /en/moonx/markets/trending                    （热门市场列表）
+  →  /en/moonx/learn/prediction/how-to-trade-prediction-markets
+  →  /en/moonx/learn/prediction/polymarket-vs-kalshi
+  →  /en/moonx/guide/prediction/{related-event}    （同类其他市场）
+</code></pre>
+<hr />
+<h2 id="2">五、程序化 2 — 美股预测市场页</h2>
+<h3 id="51">5.1 定位</h3>
+<p>为每支有 Kalshi 预测市场的股票生成独立页面，结合股票实时价格 + 相关预测市场，捕获 <code>{TICKER} prediction market</code> / <code>{TICKER} price prediction</code> 类搜索词。</p>
+<p><strong>URL 结构：</strong> <code>/en/moonx/markets/stocks/{ticker}</code></p>
+<p><strong>示例：</strong>
+- <code>/en/moonx/markets/stocks/tsla</code>
+- <code>/en/moonx/markets/stocks/googl</code>
+- <code>/en/moonx/markets/stocks/nvda</code>
+- <code>/en/moonx/markets/stocks/spy</code>（S&amp;P 500 ETF）</p>
+<hr />
+<h3 id="52">5.2 触发规则</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发条件</td>
+<td>Kalshi 上有该股票相关的活跃预测市场</td>
+</tr>
+<tr>
+<td>自动生成</td>
+<td>有新股票市场上线时自动创建页面</td>
+</tr>
+<tr>
+<td>更新频率</td>
+<td>股票价格实时，预测市场数据每日更新</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="53">5.3 页面内容结构</h3>
+<pre><code>Breadcrumb: Home &gt; MoonX &gt; Stock Markets &gt; {TICKER}
+─────────────────────────────────────────────────────────────
+Main（720px）                        Side（280px）
+─────────────────────────────────────────────────────────────
+[H1]                         (SSR)   ┌───────────────────────┐
+{TICKER} ({COMPANY}) Prediction      │  {TICKER} Live Price  │
+Markets — Live Odds &amp; Analysis       │  ${PRICE}             │
+                                     │  24h: ▲ +X.X%         │
+[Stock Price Card]           (SSR)   │                       │
+Current: ${PRICE}                    │  [Trade Prediction    │
+24h: +X.X% | 52w High: ${H}         │   Markets on MoonX →] │
+52w Low: ${L}                        └───────────────────────┘
+Source: Real-time market data
+                                     ┌───────────────────────┐
+[H2] Active Prediction       (SSR)   │  Quick Trade          │
+Markets for {TICKER}                 │                       │
+[预测市场列表，每条含：]              │  Will TSLA close      │
+• &quot;Will TSLA close above             │  above $300?          │
+  $350 by March 31?&quot;                 │  YES [████] 45%       │
+  YES: 45% | Vol: $2.3M              │                       │
+• &quot;Will Tesla report Q1              │  [Trade YES / NO]     │
+  revenue above $25B?&quot;               └───────────────────────┘
+  YES: 62% | Vol: $1.1M
+
+[H2] {TICKER} Price          (SSR+CSR)
+Prediction Analysis
+[历史股价图表，1M/3M/1Y]    (CSR)
+[程序化分析文字 ~200词]      (SSR)
+基于当前预测市场隐含概率分析
+股价走势...
+
+[H2] Historical Accuracy     (SSR)
+Past {TICKER} prediction markets
+and their resolution outcomes
+[历史表格]
+
+[H2] How to Trade            (SSR)
+{TICKER} Prediction Markets
+Step 1-3 指南
+
+[FAQ] 5-8 问答               (SSR)
+• What is the {TICKER} prediction market?
+• How do I bet on {TICKER} stock price?
+• Is {TICKER} prediction market legal in the US?
+JSON-LD FAQPage Schema
+
+[Related Stocks]             (CSR)
+→ 同类热门股票预测市场
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="54">5.4 关键词覆盖</h3>
+<table>
+<thead>
+<tr>
+<th>关键词模式</th>
+<th>示例</th>
+<th>月搜索量级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{TICKER} prediction market</code></td>
+<td>TSLA prediction market</td>
+<td>500-5K</td>
+</tr>
+<tr>
+<td><code>{TICKER} price prediction</code></td>
+<td>Tesla price prediction 2026</td>
+<td>5K-50K</td>
+</tr>
+<tr>
+<td><code>{COMPANY} stock prediction</code></td>
+<td>Tesla stock prediction</td>
+<td>5K-50K</td>
+</tr>
+<tr>
+<td><code>bet on {TICKER}</code></td>
+<td>bet on Tesla stock</td>
+<td>500-5K</td>
+</tr>
+<tr>
+<td><code>{TICKER} kalshi</code></td>
+<td>TSLA kalshi</td>
+<td>500-2K</td>
+</tr>
+<tr>
+<td><code>{COMPANY} earnings prediction</code></td>
+<td>Tesla earnings prediction</td>
+<td>1K-10K</td>
+</tr>
+</tbody>
+</table>
+<p><strong>首批目标股票（有 Kalshi 活跃市场）：</strong>
+TSLA · GOOGL · NVDA · AAPL · META · AMZN · SPY · QQQ · BTC-related ETFs</p>
+<hr />
+<h3 id="55">5.5 内链网络</h3>
+<pre><code>/en/moonx/markets/stocks/{ticker}
+  ↔  /en/moonx/markets/trending                    （互链）
+  →  /en/moonx/learn/prediction/stock-prediction-markets
+  →  /en/moonx/guide/prediction/{related-event}    （该股票的具体预测市场）
+  →  /en/moonx/learn/prediction/how-to-trade-prediction-markets
+</code></pre>
+<hr />
+<h2 id="3-meme">六、程序化 3 — 如何购买 Meme</h2>
+<h3 id="61">6.1 定位</h3>
+<p>为每个满足条件的 Solana Token 生成独立的购买指南页，捕获 <code>how to buy {TOKEN}</code> 搜索词（高转化意图）。</p>
+<p><strong>URL 结构：</strong> <code>/en/moonx/guide/buy/{token-slug}</code></p>
+<p><strong>示例：</strong>
+- <code>/en/moonx/guide/buy/pepe-solana</code>
+- <code>/en/moonx/guide/buy/wif-solana</code>
+- <code>/en/moonx/guide/buy/bonk</code></p>
+<hr />
+<h3 id="62">6.2 触发规则</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发条件</td>
+<td>与 Token 行情页相同准入条件（LP≥$5K / Holders≥100 / 上线≥48h 等）</td>
+</tr>
+<tr>
+<td>特殊条件</td>
+<td>优先为搜索量 &gt; 500/月 的 Token 生成</td>
+</tr>
+<tr>
+<td>与行情页关系</td>
+<td>购买指南页 ↔ 行情页 互链，互补不重复</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="63">6.3 页面内容结构</h3>
+<pre><code>Breadcrumb: Home &gt; MoonX &gt; Buy Crypto &gt; How to Buy {TOKEN}
+─────────────────────────────────────────────────────────────
+Main（720px）                        Side（280px）
+─────────────────────────────────────────────────────────────
+[H1] How to Buy {TOKEN_SYMBOL}       ┌───────────────────────┐
+on Solana — Step-by-Step    (SSR)    │  Buy {TOKEN} Now      │
+                                     │                       │
+[Quick Stats]               (SSR)    │  Price: ${PRICE}      │
+Current Price: ${PRICE}              │  24h: ▲ +X%           │
+24h Volume: ${VOL}                   │                       │
+Market Cap: ${CAP}                   │  [Buy on MoonX →]     │
+                                     └───────────────────────┘
+[H2] What Is {TOKEN}?       (SSR)
+~150词介绍（程序化模板）              ┌───────────────────────┐
+                                     │  Price Chart          │
+[H2] How to Buy {TOKEN}     (SSR)    │  [mini chart CSR]     │
+Step 1: Set up a Solana wallet       └───────────────────────┘
+Step 2: Fund with SOL
+Step 3: Open MoonX
+Step 4: Search {TOKEN}
+Step 5: Enter amount &amp; trade
+
+[H2] Where to Buy {TOKEN}   (SSR)
+| Platform | Type | Fees |
+|----------|------|------|
+| MoonX | DEX Aggregator | 0.3% |
+| Raydium | DEX | 0.25% |
+
+[H2] Is {TOKEN} Safe?       (SSR)
+~100词风险说明（模板）
+
+[FAQ] 5问答                 (SSR)
+• How to buy {TOKEN} without KYC?
+• What wallet do I need for {TOKEN}?
+• What is {TOKEN} contract address?
+JSON-LD FAQPage Schema
+
+[Price Chart - Full]        (CSR)
+
+[Related Tokens]            (CSR)
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="64">6.4 关键词覆盖</h3>
+<table>
+<thead>
+<tr>
+<th>关键词模式</th>
+<th>示例</th>
+<th>月搜索量级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>how to buy {TOKEN}</code></td>
+<td>how to buy PEPE</td>
+<td>100-50K</td>
+</tr>
+<tr>
+<td><code>buy {TOKEN} solana</code></td>
+<td>buy WIF solana</td>
+<td>100-20K</td>
+</tr>
+<tr>
+<td><code>where to buy {TOKEN}</code></td>
+<td>where to buy BONK</td>
+<td>100-10K</td>
+</tr>
+<tr>
+<td><code>{TOKEN} how to purchase</code></td>
+<td>PEPE how to purchase</td>
+<td>100-5K</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="65">6.5 内链网络</h3>
+<pre><code>/en/moonx/guide/buy/{token-slug}
+  ↔  /en/moonx/solana/token/{contract}         （行情页，互链）
+  →  /en/moonx/pump                            （发现更多新币）
+  →  /en/moonx/learn/meme/what-are-meme-coins  （教育内链）
+  →  /en/moonx/monitor/dynamic/hot             （聪明钱验证）
+</code></pre>
+<hr />
+<h2 id="4-token">七、程序化 4 — Token 行情页（扩展版）</h2>
+<p><strong>URL：</strong> <code>/en/moonx/solana/token/{contract}</code>（已有架构）</p>
+<p>在原有基础上新增四大价值板块（详见 PRD v1.2）：</p>
+<table>
+<thead>
+<tr>
+<th>板块</th>
+<th>新增关键词覆盖</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Historical Price</td>
+<td><code>{TOKEN} price history</code> / <code>{TOKEN} all time high</code></td>
+</tr>
+<tr>
+<td>Price Prediction</td>
+<td><code>{TOKEN} price prediction 2026</code></td>
+</tr>
+<tr>
+<td>Calculator</td>
+<td><code>{TOKEN} to USD</code> / <code>1000 {TOKEN} in dollars</code></td>
+</tr>
+<tr>
+<td>Market Analysis</td>
+<td><code>{TOKEN} market analysis</code> / <code>{TOKEN} market cap</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>与新程序化页面的关系：</strong></p>
+<pre><code>Token 行情页 ↔ 购买指南页（互链）
+Token 行情页 → 预测学院文章（教育内链）
+</code></pre>
+<hr />
+<h2 id="5">八、程序化 5 — 热门榜单页（分类展开）</h2>
+<h3 id="81-trending-trending">8.1 从单一 Trending 页扩展为分类 Trending 体系</h3>
+<p><strong>URL 结构：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>URL</th>
+<th>目标关键词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总榜</td>
+<td><code>/en/moonx/markets/trending</code></td>
+<td>trending prediction markets</td>
+</tr>
+<tr>
+<td>政治类</td>
+<td><code>/en/moonx/markets/trending/politics</code></td>
+<td>political prediction markets</td>
+</tr>
+<tr>
+<td>加密类</td>
+<td><code>/en/moonx/markets/trending/crypto</code></td>
+<td>crypto prediction markets</td>
+</tr>
+<tr>
+<td>体育类</td>
+<td><code>/en/moonx/markets/trending/sports</code></td>
+<td>sports prediction markets</td>
+</tr>
+<tr>
+<td>美股类</td>
+<td><code>/en/moonx/markets/trending/stocks</code></td>
+<td>stock prediction markets today</td>
+</tr>
+<tr>
+<td>经济类</td>
+<td><code>/en/moonx/markets/trending/economics</code></td>
+<td>economic prediction markets</td>
+</tr>
+<tr>
+<td>Meme 热榜</td>
+<td><code>/en/moonx/markets/trending/meme</code></td>
+<td>trending meme coins solana</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="82-trending">8.2 页面内容结构（以分类 Trending 为例）</h3>
+<pre><code>Breadcrumb: Home &gt; MoonX &gt; Markets &gt; Trending &gt; Politics
+─────────────────────────────────────────────────────────────
+[H1] Trending Political Prediction Markets  (SSR)
+
+[静态说明段落]                               (SSR)
+Track the most active political prediction
+markets right now. Compare odds from Polymarket,
+Kalshi, and Manifold side by side.
+
+[市场列表]                                   (CSR)
+┌─────────────────────────────────────────────┐
+│ Will Trump win 2028? YES 58% Vol $50M  ↑   │
+│ Senate control 2026? DEM 52% Vol $20M  →   │
+└─────────────────────────────────────────────┘
+
+[FAQ] 3 问答                                 (SSR)
+JSON-LD FAQPage Schema
+─────────────────────────────────────────────────────────────
+</code></pre>
+<hr />
+<h3 id="83">8.3 内链网络</h3>
+<pre><code>/en/moonx/markets/trending/{category}
+  ↔  /en/moonx/markets/trending               （总榜互链）
+  ↔  /en/moonx/markets/stocks/{ticker}        （美股分类 ↔ 个股页面）
+  →  /en/moonx/guide/prediction/{event}       （具体市场参与指南）
+  →  /en/moonx/learn/prediction/{article}    （教育内容）
+</code></pre>
+<hr />
+<h2 id="_2">九、全站内链网络</h2>
+<pre><code>                      ┌──────────────────────────┐
+                      │      MoonX 首页           │
+                      │   /en/moonx              │
+                      └────────────┬─────────────┘
+                                   │
+          ┌──────────────┬─────────┴──────────┬──────────────┐
+          │              │                    │              │
+   ┌──────▼──────┐ ┌─────▼──────┐  ┌─────────▼──────┐ ┌────▼──────┐
+   │  预测学院    │ │  Meme 学院  │  │  热门榜单体系  │ │ 功能落地页 │
+   │/learn/      │ │/learn/     │  │/markets/       │ │/pump      │
+   │prediction/  │ │meme/       │  │trending/       │ │/monitor.. │
+   └──────┬──────┘ └─────┬──────┘  └────────┬───────┘ └───────────┘
+          │              │                   │
+     文章内链         文章内链          分类页内链
+          │              │                   │
+   ┌──────▼──────┐ ┌─────▼──────┐  ┌────────▼───────┐
+   │  事件指南    │ │  购买指南   │  │  美股预测页    │
+   │/guide/      │ │/guide/buy/ │  │/markets/       │
+   │prediction/  │ │{token}     │  │stocks/{ticker} │
+   └──────┬──────┘ └─────┬──────┘  └────────┬───────┘
+          │              │                   │
+          └──────────────┼───────────────────┘
+                         │ 双向互链
+                  ┌──────▼──────┐
+                  │ Token 行情页 │
+                  │/solana/token│
+                  │/{contract}  │
+                  └─────────────┘
+</code></pre>
+<p><strong>内链核心规则：</strong></p>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学院文章 → 支柱页</td>
+<td>每篇 Cluster 必须链接本学院支柱页</td>
+</tr>
+<tr>
+<td>程序化页 → 学院</td>
+<td>每个程序化页至少 1 个指向相关学院文章的教育内链</td>
+</tr>
+<tr>
+<td>程序化页 → 产品页</td>
+<td>每个程序化页有 1 个 CTA 指向 /markets/trending</td>
+</tr>
+<tr>
+<td>行情页 ↔ 购买指南</td>
+<td>互链，覆盖不同搜索意图</td>
+</tr>
+<tr>
+<td>美股页 ↔ 事件指南</td>
+<td>互链，同一股票的不同角度</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_3">十、关键词矩阵（全量）</h2>
+<h3 id="a_1">A. 人工内容词（高价值，稳定流量）</h3>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>月搜索量</th>
+<th>竞争</th>
+<th>优先级</th>
+<th>目标页面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>what are prediction markets</td>
+<td>50K+</td>
+<td>高</td>
+<td>P0</td>
+<td>/learn/prediction/prediction-markets-guide</td>
+</tr>
+<tr>
+<td>polymarket alternative</td>
+<td>10K-50K</td>
+<td>中</td>
+<td>P0</td>
+<td>/learn/prediction/polymarket-alternatives</td>
+</tr>
+<tr>
+<td>polymarket vs kalshi</td>
+<td>10K-50K</td>
+<td>中</td>
+<td>P1</td>
+<td>/learn/prediction/polymarket-vs-kalshi</td>
+</tr>
+<tr>
+<td>prediction market aggregator</td>
+<td>1K-5K</td>
+<td>极低</td>
+<td>P0</td>
+<td>/learn/prediction/prediction-market-aggregator</td>
+</tr>
+<tr>
+<td>what are meme coins</td>
+<td>10K-50K</td>
+<td>高</td>
+<td>P1</td>
+<td>/learn/meme/what-are-meme-coins</td>
+</tr>
+<tr>
+<td>how to use pump.fun</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>P1</td>
+<td>/learn/meme/how-to-use-pump-fun</td>
+</tr>
+<tr>
+<td>smart money tracker crypto</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>P0</td>
+<td>/monitor/dynamic/hot + /learn/meme/...</td>
+</tr>
+<tr>
+<td>GMGN alternative</td>
+<td>1K-5K</td>
+<td>低</td>
+<td>P1</td>
+<td>/learn/meme/gmgn-alternative</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b">B. 程序化词（规模化，长尾）</h3>
+<table>
+<thead>
+<tr>
+<th>关键词模式</th>
+<th>规模</th>
+<th>竞争</th>
+<th>目标页面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{event} prediction market</code></td>
+<td>每事件 1K-100K</td>
+<td>低</td>
+<td>/guide/prediction/{event}</td>
+</tr>
+<tr>
+<td><code>how to bet on {event}</code></td>
+<td>每事件 500-10K</td>
+<td>低</td>
+<td>/guide/prediction/{event}</td>
+</tr>
+<tr>
+<td><code>{TICKER} prediction market</code></td>
+<td>每股票 500-5K</td>
+<td>低</td>
+<td>/markets/stocks/{ticker}</td>
+</tr>
+<tr>
+<td><code>{TICKER} price prediction</code></td>
+<td>每股票 5K-50K</td>
+<td>中</td>
+<td>/markets/stocks/{ticker}</td>
+</tr>
+<tr>
+<td><code>how to buy {TOKEN}</code></td>
+<td>每 Token 100-50K</td>
+<td>极低</td>
+<td>/guide/buy/{token}</td>
+</tr>
+<tr>
+<td><code>{TOKEN} price solana</code></td>
+<td>每 Token 100-50K</td>
+<td>极低</td>
+<td>/solana/token/{contract}</td>
+</tr>
+<tr>
+<td><code>{TOKEN} price prediction</code></td>
+<td>每 Token 100-100K</td>
+<td>低</td>
+<td>/solana/token/{contract}</td>
+</tr>
+<tr>
+<td><code>{TOKEN} to USD</code></td>
+<td>每 Token 50-10K</td>
+<td>极低</td>
+<td>/solana/token/{contract}</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">十一、技术需求</h2>
+<h3 id="111-ssr">11.1 SSR 改造优先级</h3>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>页面类型</th>
+<th>必须 SSR 的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P0</strong></td>
+<td>/learn/prediction/ 及所有文章</td>
+<td>全部正文</td>
+</tr>
+<tr>
+<td><strong>P0</strong></td>
+<td>/learn/meme/ 及所有文章</td>
+<td>全部正文</td>
+</tr>
+<tr>
+<td><strong>P0</strong></td>
+<td>/solana/token/{contract}</td>
+<td>H1、4大板块文字、FAQ</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>/guide/prediction/{event}</td>
+<td>H1、当前赔率文字、How-to、FAQ</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>/markets/stocks/{ticker}</td>
+<td>H1、价格文字、市场列表标题、FAQ</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>/guide/buy/{token}</td>
+<td>H1、What Is 段落、How-to、FAQ</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>/markets/trending/{category}</td>
+<td>H1、说明段落、FAQ</td>
+</tr>
+</tbody>
+</table>
+<h3 id="112">11.2 程序化页面模板要求</h3>
+<p>每类程序化页面需要技术团队实现的：</p>
+<table>
+<thead>
+<tr>
+<th>页面类型</th>
+<th>数据接口需求</th>
+<th>模板变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事件指南</td>
+<td>Polymarket + Kalshi API：赔率、交易量、截止时间</td>
+<td>EVENT_TITLE, PCT, VOLUME, DATE</td>
+</tr>
+<tr>
+<td>美股页</td>
+<td>股票实时价格 API + Kalshi 股票市场 API</td>
+<td>TICKER, PRICE, CHANGE, 市场列表</td>
+</tr>
+<tr>
+<td>购买指南</td>
+<td>Token 链上数据（同行情页数据源）</td>
+<td>TOKEN_SYMBOL, PRICE, VOL, CONTRACT</td>
+</tr>
+<tr>
+<td>热门榜单分类</td>
+<td>同 Trending 页数据，按 category 过滤</td>
+<td>CATEGORY, 市场列表</td>
+</tr>
+</tbody>
+</table>
+<h3 id="113-sitemap">11.3 Sitemap 规格</h3>
+<table>
+<thead>
+<tr>
+<th>Sitemap 文件</th>
+<th>内容</th>
+<th>更新频率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>learn-prediction</td>
+<td>/learn/prediction/ 所有文章</td>
+<td>新增时更新</td>
+</tr>
+<tr>
+<td>learn-meme</td>
+<td>/learn/meme/ 所有文章</td>
+<td>新增时更新</td>
+</tr>
+<tr>
+<td>guide-prediction</td>
+<td>/guide/prediction/ 有效事件页</td>
+<td>每日更新</td>
+</tr>
+<tr>
+<td>markets-stocks</td>
+<td>/markets/stocks/ 有效股票页</td>
+<td>每周更新</td>
+</tr>
+<tr>
+<td>guide-buy</td>
+<td>/guide/buy/ 有效购买指南页</td>
+<td>每日更新</td>
+</tr>
+<tr>
+<td>token-pages</td>
+<td>/solana/token/ 满足条件的 token</td>
+<td>每日更新</td>
+</tr>
+</tbody>
+</table>
+<h3 id="114-noindex">11.4 noindex 规则</h3>
+<table>
+<thead>
+<tr>
+<th>页面类型</th>
+<th>noindex 条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事件指南页</td>
+<td>市场交易量 &lt; $10,000 OR 已结束超过 30 天</td>
+</tr>
+<tr>
+<td>美股页</td>
+<td>Kalshi 上该股票无活跃市场</td>
+</tr>
+<tr>
+<td>购买指南页</td>
+<td>同 Token 行情页准入条件</td>
+</tr>
+<tr>
+<td>Token 行情页</td>
+<td>LP&lt;$5K / Holders&lt;100 / 上线&lt;48h 等</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_5">十二、分期计划</h2>
+<h3 id="phase-1-1-4">Phase 1（第 1-4 周）：内容地基</h3>
+<ul>
+<li>[ ] /learn/prediction/ 路径建好（SSR）</li>
+<li>[ ] /learn/meme/ 路径建好（SSR）</li>
+<li>[ ] 发布预测学院文章 #1-4</li>
+<li>[ ] 发布 Meme 学院文章 #1-3</li>
+<li>[ ] Token 行情页 SSR meta 注入</li>
+</ul>
+<h3 id="phase-2-5-8">Phase 2（第 5-8 周）：程序化启动</h3>
+<ul>
+<li>[ ] 事件指南页模板上线（/guide/prediction/）</li>
+<li>[ ] 美股预测页模板上线（/markets/stocks/）</li>
+<li>[ ] Trending 分类页扩展（/markets/trending/{category}）</li>
+<li>[ ] 发布学院剩余文章</li>
+</ul>
+<h3 id="phase-3-9-16">Phase 3（第 9-16 周）：规模化</h3>
+<ul>
+<li>[ ] 购买指南页模板上线（/guide/buy/）</li>
+<li>[ ] Token 行情页四大板块上线</li>
+<li>[ ] 所有 Sitemap 提交 GSC</li>
+<li>[ ] 内链网络完整建立</li>
+</ul>
+<hr />
+<h2 id="_6">十三、验收标准</h2>
+<h3 id="_7">内容验收</h3>
+<ul>
+<li>[ ] 预测学院：支柱页 + 8 篇 Cluster，全部 SSR 渲染，内链闭环</li>
+<li>[ ] Meme 学院：支柱页 + 6 篇 Cluster，全部 SSR 渲染，内链闭环</li>
+<li>[ ] 每篇文章：title 50-60字符，description 140-160字符，FAQPage Schema 无报错</li>
+</ul>
+<h3 id="_8">程序化页面验收</h3>
+<ul>
+<li>[ ] 事件指南页：赔率数据正确，模板变量全部替换，SSR 内容可见</li>
+<li>[ ] 美股页：股票价格实时，Kalshi 市场列表准确，FAQ 正常</li>
+<li>[ ] 购买指南页：与行情页互链正确，How-to 步骤完整</li>
+<li>[ ] 热门榜单分类：各分类数据正确，canonical 无重复内容</li>
+</ul>
+<h3 id="_9">业务验收</h3>
+<ul>
+<li>[ ] Phase 1 结束：GSC 中 /learn/ 页面出现展示量</li>
+<li>[ ] Phase 2 结束：程序化页面开始被索引，月自然流量 &gt; 500</li>
+<li>[ ] Phase 3 结束：月自然流量 &gt; 3,000，"polymarket alternative" 进 Top 50</li>
+</ul>
+<hr />
+<p><em>PRD v2.0 · 2026-03-11 · MoonX SEO 完整页面体系</em></p></body></html>

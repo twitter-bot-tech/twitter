@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BYDFi MoonX 预测市场上线营销活动方案 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.8; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+
+/* Cover */
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover h1 { font-size: 34px; font-weight: 700; color: #111; margin-bottom: 10px; }
+.cover .slogan { font-size: 18px; color: #FF6B00; font-weight: 600; margin-bottom: 20px; }
+.cover .subtitle { font-size: 15px; color: #888; }
+.cover .meta { margin-top: 32px; display: inline-flex; gap: 40px; background: #FFF8F0; padding: 16px 32px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item { text-align: left; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+
+/* Section headers */
+h2.sec { font-size: 20px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 16px; font-weight: 600; margin: 32px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+table td:first-child { font-weight: 500; color: #555; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; }
+.tag-red { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
+.tag-green { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+.tag-blue { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+.tag-purple { background: #F3E5F5; color: #6A1B9A; border: 1px solid #CE93D8; }
+.tag-gray { background: #F5F5F5; color: #555; border: 1px solid #DDD; }
+
+/* Notes */
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+.tip { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #1B5E20; }
+
+/* Lists */
+ul, ol { padding-left: 20px; margin: 8px 0; }
+li { margin-bottom: 5px; color: #333; }
+ul li::marker { color: #FF6B00; }
+
+/* Highlight box */
+.highlight-box { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: 8px; padding: 20px 24px; margin: 16px 0; }
+.highlight-box h4 { color: #E65100; font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+
+/* Timeline */
+.timeline { position: relative; margin: 20px 0; padding-left: 36px; }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: #FFD9B3; }
+.tl-item { position: relative; margin-bottom: 28px; }
+.tl-dot { position: absolute; left: -30px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: #FF6B00; border: 2px solid #fff; box-shadow: 0 0 0 2px #FF6B00; }
+.tl-dot.gray { background: #9CA3AF; box-shadow: 0 0 0 2px #9CA3AF; }
+.tl-date { font-size: 12px; font-weight: 700; color: #FF6B00; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.tl-title { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 6px; }
+.tl-body { font-size: 13px; color: #555; }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
+.card { background: #FAFAFA; border: 1.5px solid #E8E8E8; border-radius: 8px; padding: 18px 20px; }
+.card.orange { background: #FFF8F0; border-color: #FFB74D; }
+.card.blue { background: #EFF6FF; border-color: #93C5FD; }
+.card.green { background: #F0FDF4; border-color: #86EFAC; }
+.card-icon { font-size: 24px; margin-bottom: 10px; }
+.card h4 { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.card p { font-size: 13px; color: #555; }
+.card .metric { font-size: 22px; font-weight: 800; color: #FF6B00; margin: 6px 0; }
+.card .metric-label { font-size: 12px; color: #888; }
+
+/* Two columns */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 16px 0; }
+
+/* Divider */
+hr.div { border: none; border-top: 1px solid #F0E8E0; margin: 32px 0; }
+
+/* Reward table highlight */
+.reward { background: #FFF3E0; border-radius: 6px; padding: 4px 10px; font-weight: 700; color: #E65100; font-size: 13px; display: inline-block; }
+
+/* Footer */
+.footer { text-align: center; margin-top: 64px; padding-top: 32px; border-top: 2px solid #FF6B00; color: #999; font-size: 12px; }
+.footer strong { color: #FF6B00; }
+
+p { margin-bottom: 8px; color: #333; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div style="font-size:12px;color:#FF6B00;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">BYDFi MoonX · 营销活动策划方案</div>
+  <h1>预见未来，赢在预测</h1>
+  <div class="slogan">"The Future is Predictable — And Profitable"</div>
+  <div class="subtitle">MoonX 预测市场上线全渠道营销活动完整方案</div>
+  <div class="meta">
+    <div class="meta-item">
+      <div class="label">文档版本</div>
+      <div class="value">V1.0</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">策划日期</div>
+      <div class="value">2026-03-15</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">建议活动周期</div>
+      <div class="value">6 周（含预热）</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">目标市场</div>
+      <div class="value">全球加密用户</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">负责团队</div>
+      <div class="value">市场 / KOL / SEO</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 活动概述 -->
+<h2 class="sec">1. 活动概述与核心定位</h2>
+
+<h3 class="sub">1.1 活动背景</h3>
+<p>BYDFi MoonX 即将上线预测市场功能，聚合 Polymarket、Kalshi 等主流预测市场数据，为用户提供一站式预测交易体验。这是 MoonX 差异化竞争的核心抓手——头部交易所（Bybit、OKX、Binance）均未提供此类聚合预测市场功能。</p>
+<p>本次营销活动以产品上线为核心节点，通过三条并行推广线（直客线、KOL/代理线、媒体代理线），形成全渠道声量爆发，快速建立 MoonX 在"预测市场"这一细分赛道的品牌心智。</p>
+
+<h3 class="sub">1.2 活动名称与 Slogan</h3>
+<div class="highlight-box">
+  <h4>主活动名称</h4>
+  <p style="font-size:20px;font-weight:800;color:#111;margin:8px 0;">「MoonX Predict Launch Festival」<br><span style="font-size:16px;color:#FF6B00;">预见节 · 全球首发庆典</span></p>
+  <hr style="border:none;border-top:1px solid #FFD9B3;margin:14px 0;">
+  <h4>核心 Slogan（三语）</h4>
+  <ul>
+    <li><strong>英文主 Slogan：</strong>"The Future is Predictable — And Profitable"</li>
+    <li><strong>中文主 Slogan：</strong>"预见未来，赢在预测"</li>
+    <li><strong>传播副 Slogan：</strong>"Trade What's Next. Not What's Past."</li>
+  </ul>
+  <hr style="border:none;border-top:1px solid #FFD9B3;margin:14px 0;">
+  <h4>活动 Hashtag</h4>
+  <p><strong>#MoonXPredict</strong> &nbsp;|&nbsp; <strong>#PredictToEarn</strong> &nbsp;|&nbsp; <strong>#BYDFiMoonX</strong></p>
+</div>
+
+<h3 class="sub">1.3 竞争差异化</h3>
+<table>
+  <thead>
+    <tr>
+      <th>维度</th>
+      <th>Binance / OKX / Bybit</th>
+      <th>MoonX（差异化优势）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>预测市场</td>
+      <td>无原生预测市场</td>
+      <td><span class="tag tag-orange">首发</span> 聚合 Polymarket + Kalshi，一站式</td>
+    </tr>
+    <tr>
+      <td>手续费</td>
+      <td>合约 0.02%~0.05%</td>
+      <td><span class="tag tag-orange">活动期</span> 全平台 0 手续费</td>
+    </tr>
+    <tr>
+      <td>预测体验</td>
+      <td>无</td>
+      <td>聚合数据 + 智能预测面板</td>
+    </tr>
+    <tr>
+      <td>用户教育</td>
+      <td>弱</td>
+      <td>系统性内容矩阵 + KOL 科普</td>
+    </tr>
+    <tr>
+      <td>进入门槛</td>
+      <td>标准</td>
+      <td><span class="tag tag-green">0 成本体验</span> 免费交易额度</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr class="div">
+
+<!-- 2. 三条线活动规则 -->
+<h2 class="sec">2. 三条线活动规则与奖励机制</h2>
+
+<!-- 直客线 -->
+<h3 class="sub">2.1 直客线：「零摩擦进场」活动</h3>
+<div class="highlight-box">
+  <h4>活动主题：MoonX 全平台 0 手续费 · 预测市场首发体验</h4>
+  <p>面向所有新老用户，通过零门槛激励快速拉新、激活沉睡用户，同时完成预测市场产品的用户教育。</p>
+</div>
+
+<h4 class="sub2">核心活动一：全平台 0 手续费</h4>
+<table>
+  <thead>
+    <tr>
+      <th>字段</th>
+      <th>内容</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>活动时间</td>
+      <td>上线日起 30 天（爆发期 + 延续期全程）</td>
+    </tr>
+    <tr>
+      <td>适用范围</td>
+      <td>MoonX 合约 + 预测市场所有交易对</td>
+    </tr>
+    <tr>
+      <td>参与方式</td>
+      <td>活动期间自动享受，无需申请</td>
+    </tr>
+    <tr>
+      <td>用户价值</td>
+      <td>每笔交易节省 0.02%~0.05% 手续费，高频用户月节省可观</td>
+    </tr>
+    <tr>
+      <td>传播话术</td>
+      <td>"Bybit 收你的，MoonX 不收"</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="sub2">核心活动二：预测市场体验金（新用户专属）</h4>
+<table>
+  <thead>
+    <tr>
+      <th>用户类型</th>
+      <th>奖励内容</th>
+      <th>领取条件</th>
+      <th>有效期</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>新注册用户</td>
+      <td><span class="reward">$10 预测市场体验金</span></td>
+      <td>注册 + KYC 完成</td>
+      <td>7 天</td>
+    </tr>
+    <tr>
+      <td>新注册 + 首充</td>
+      <td><span class="reward">$30 预测市场体验金</span></td>
+      <td>首次充值 ≥ $50</td>
+      <td>14 天</td>
+    </tr>
+    <tr>
+      <td>老用户激活</td>
+      <td><span class="reward">$15 预测市场体验金</span></td>
+      <td>90 天未交易用户，完成 1 笔预测市场交易</td>
+      <td>7 天</td>
+    </tr>
+  </tbody>
+</table>
+<div class="note"><strong>说明：</strong>体验金仅可用于预测市场交易，盈利部分可提现（上限 $50），引导用户真实体验产品价值而非套利。</div>
+
+<h4 class="sub2">核心活动三：「预见排行榜」竞猜大赛</h4>
+<table>
+  <thead>
+    <tr>
+      <th>字段</th>
+      <th>内容</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>赛制</td>
+      <td>活动期间累计预测市场盈利排行，每周结算一次</td>
+    </tr>
+    <tr>
+      <td>周奖励池</td>
+      <td>$5,000 USDT（共 4 周，总计 $20,000）</td>
+    </tr>
+    <tr>
+      <td>奖励分配</td>
+      <td>第 1 名 $1,500 / 第 2 名 $800 / 第 3 名 $500 / 4~10 名各 $300 / 11~20 名各 $50</td>
+    </tr>
+    <tr>
+      <td>额外奖励</td>
+      <td>分享截图至 Twitter 并 @BYDFi，额外抽取 10 名各 $50</td>
+    </tr>
+    <tr>
+      <td>裂变机制</td>
+      <td>邀请好友参赛，每成功邀请 1 名完成首单的用户，双方各得 $5 奖励</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="sub2">核心活动四：社交裂变任务</h4>
+<table>
+  <thead>
+    <tr>
+      <th>任务</th>
+      <th>奖励</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>关注 @BYDFi_MoonX 并转推活动推文</td>
+      <td><span class="reward">$3 体验金</span></td>
+      <td>自动核验，每账号限 1 次</td>
+    </tr>
+    <tr>
+      <td>加入 Telegram 官方群</td>
+      <td><span class="reward">$2 体验金</span></td>
+      <td>Bot 自动发放</td>
+    </tr>
+    <tr>
+      <td>在 Twitter 发布预测截图 + #MoonXPredict</td>
+      <td><span class="reward">$5 体验金</span></td>
+      <td>每周限 1 次，人工审核</td>
+    </tr>
+    <tr>
+      <td>邀请 3 名好友完成注册</td>
+      <td><span class="reward">$20 现金奖励</span></td>
+      <td>现金，可直接提现</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr class="div">
+
+<!-- KOL/代理线 -->
+<h3 class="sub">2.2 KOL / 代理线：「先行者计划」</h3>
+<div class="highlight-box">
+  <h4>活动主题：MoonX Pioneer Program — 先行者，先获益</h4>
+  <p>面向 KOL 和代理商，通过合约体验金 + 预测市场免费交易 + 专属佣金激励，打造强推广动力，形成口碑裂变。</p>
+</div>
+
+<h4 class="sub2">KOL 合作分级体系</h4>
+<table>
+  <thead>
+    <tr>
+      <th>级别</th>
+      <th>粉丝规模</th>
+      <th>合约体验金</th>
+      <th>预测市场免费额度</th>
+      <th>额外固定酬劳</th>
+      <th>佣金比例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-red">S 级 KOL</span></td>
+      <td>50 万+ 粉丝</td>
+      <td><span class="reward">$5,000 USDT</span></td>
+      <td><span class="reward">$2,000 免费额度</span></td>
+      <td>$3,000~$5,000/篇</td>
+      <td>40% 终身佣金</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-orange">A 级 KOL</span></td>
+      <td>10~50 万粉丝</td>
+      <td><span class="reward">$2,000 USDT</span></td>
+      <td><span class="reward">$500 免费额度</span></td>
+      <td>$800~$2,000/篇</td>
+      <td>35% 终身佣金</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-blue">B 级 KOL</span></td>
+      <td>1~10 万粉丝</td>
+      <td><span class="reward">$500 USDT</span></td>
+      <td><span class="reward">$200 免费额度</span></td>
+      <td>$200~$500/篇</td>
+      <td>30% 终身佣金</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-gray">C 级 KOL</span></td>
+      <td>1,000~1 万粉丝</td>
+      <td><span class="reward">$100 USDT</span></td>
+      <td><span class="reward">$50 免费额度</span></td>
+      <td>纯佣金</td>
+      <td>25% 终身佣金</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="sub2">代理商专项激励</h4>
+<table>
+  <thead>
+    <tr>
+      <th>阶段</th>
+      <th>条件</th>
+      <th>奖励</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>冲刺奖励（活动前 2 周）</td>
+      <td>带量新注册用户 ≥ 100 人</td>
+      <td><span class="reward">额外 $500 奖金 + 佣金上浮 5%</span></td>
+    </tr>
+    <tr>
+      <td>爆发奖励（活动第 3~4 周）</td>
+      <td>带量新注册用户 ≥ 500 人</td>
+      <td><span class="reward">额外 $2,000 奖金 + 专属活动物料</span></td>
+    </tr>
+    <tr>
+      <td>月度冠军</td>
+      <td>当月带量 Top 1 代理商</td>
+      <td><span class="reward">$5,000 现金 + MoonX 官方认证徽章</span></td>
+    </tr>
+    <tr>
+      <td>预测市场专项</td>
+      <td>带来 ≥ 50 名完成预测市场首单用户</td>
+      <td><span class="reward">$1,000 专项奖励</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="sub2">KOL 内容创作支持包</h4>
+<div class="two-col">
+  <div>
+    <ul>
+      <li>产品专属体验账号（真实资金预测交易演示）</li>
+      <li>独家数据支持（MoonX 预测市场数据洞察报告）</li>
+      <li>专属 Landing Page（带 KOL 专属推荐码）</li>
+      <li>官方帮转 / 互动加持（放大内容传播）</li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li>中英文双语内容素材包（图片、视频封面、话术）</li>
+      <li>1-on-1 产品 Briefing 培训（产品经理亲授）</li>
+      <li>实时数据看板（追踪自己的引流效果）</li>
+      <li>专属客服通道（24h 响应 KOL 问题）</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- 媒体代理线 -->
+<h3 class="sub">2.3 媒体代理线：「首发报道计划」</h3>
+<div class="highlight-box">
+  <h4>活动主题：MoonX Media First Program — 抢先报道，独家权益</h4>
+  <p>面向加密媒体和内容机构，通过预测市场免费交易额度 + 独家稿件资源，激励媒体深度报道 MoonX 预测市场功能。</p>
+</div>
+
+<h4 class="sub2">媒体合作分级</h4>
+<table>
+  <thead>
+    <tr>
+      <th>媒体级别</th>
+      <th>代表媒体</th>
+      <th>预测市场免费额度</th>
+      <th>稿件费</th>
+      <th>独家权益</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-red">头部媒体</span></td>
+      <td>CoinDesk, Decrypt, The Block, CoinTelegraph</td>
+      <td><span class="reward">$5,000 免费额度</span></td>
+      <td>$5,000~$15,000</td>
+      <td>上线前 48h 独家专访 + 产品功能内测</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-orange">中型媒体</span></td>
+      <td>BeInCrypto, Bitcoinist, NewsBTC</td>
+      <td><span class="reward">$2,000 免费额度</span></td>
+      <td>$1,500~$3,000</td>
+      <td>上线当日独家数据 + 官方互动</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-blue">垂直社区媒体</span></td>
+      <td>各大 Telegram 频道、Discord 社区</td>
+      <td><span class="reward">$500 免费额度</span></td>
+      <td>$300~$800/帖</td>
+      <td>官方 AMA 资源置换</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-green">YouTube 媒体</span></td>
+      <td>加密 YouTube 博主</td>
+      <td><span class="reward">$1,000 免费额度</span></td>
+      <td>$1,000~$5,000</td>
+      <td>视频前贴片 + 专属优惠码</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="sub2">媒体独家内容资源包</h4>
+<ul>
+  <li>上线前 48 小时独家产品 Demo 视频（仅向签约媒体开放）</li>
+  <li>创始人 / CPO 独家专访名额（全球限 5 家）</li>
+  <li>MoonX 预测市场独家数据报告（首月用户行为分析）</li>
+  <li>预测市场行业白皮书联合发布权（挂媒体 Logo）</li>
+  <li>官方 Twitter 推荐 / 联合推文资源</li>
+</ul>
+<div class="note"><strong>核心逻辑：</strong>免费交易额度让媒体人自己使用产品，形成真实体验背书，降低"广告味"，提升报道可信度。</div>
+
+<hr class="div">
+
+<!-- 3. 时间轴 -->
+<h2 class="sec">3. 活动时间轴</h2>
+
+<div class="timeline">
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">Week -3 至 -2（预热期 · 蓄水）</div>
+    <div class="tl-title">蓄水期：造势与预热</div>
+    <div class="tl-body">
+      <ul>
+        <li><strong>内容预热：</strong>开始发布预测市场科普内容（"什么是预测市场？""Polymarket vs 传统期货"），SEO 文章上线</li>
+        <li><strong>KOL 签约：</strong>完成 S/A 级 KOL 合同签署，发送体验金和产品 Briefing</li>
+        <li><strong>媒体接触：</strong>向头部媒体发送独家 PR 邀请，提供产品 Demo 素材</li>
+        <li><strong>社区建设：</strong>建立 Telegram 官方群，开始 Discord 频道运营</li>
+        <li><strong>倒计时活动：</strong>Twitter 发布 "Coming Soon" 系列推文，配预测市场概念海报</li>
+        <li><strong>早鸟注册：</strong>开放早鸟名单注册，前 1,000 名额外 $5 体验金</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">Week -1（预热期 · 爆破前夜）</div>
+    <div class="tl-title">引爆前夜：制造期待感</div>
+    <div class="tl-body">
+      <ul>
+        <li><strong>KOL 预热内容发布：</strong>A/B 级 KOL 开始发布"我在试用 MoonX 预测市场"种草内容</li>
+        <li><strong>Twitter Space 预告：</strong>官方宣布上线日当天将举办 Twitter Space AMA</li>
+        <li><strong>媒体稿件预埋：</strong>头部媒体稿件定稿，约定上线日 0 点同步发布</li>
+        <li><strong>倒计时 7 天推文矩阵：</strong>每天发布一个预测市场冷知识 + 活动奖励剧透</li>
+        <li><strong>Telegram 社区：</strong>举办"预测小测验"互动活动，活跃社区氛围</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">Day 1（上线日 · 爆发期）</div>
+    <div class="tl-title">爆发日：全渠道同步引爆</div>
+    <div class="tl-body">
+      <ul>
+        <li><strong>00:00：</strong>产品正式上线，官方推文发布，所有预埋媒体稿件同步推送</li>
+        <li><strong>08:00：</strong>S 级 KOL 统一发布体验内容，形成信息流霸屏</li>
+        <li><strong>12:00：</strong>Twitter Space AMA 直播（创始人 + 2 位 S 级 KOL 参与）</li>
+        <li><strong>16:00：</strong>Telegram 社区 AMA 直播</li>
+        <li><strong>全天：</strong>A/B/C 级 KOL 梯次发布内容，维持话题热度</li>
+        <li><strong>全天：</strong>#MoonXPredict 话题冲榜，安排社区用户配合互动</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">Week 1~2（爆发期）</div>
+    <div class="tl-title">爆发期：持续扩散与转化</div>
+    <div class="tl-body">
+      <ul>
+        <li><strong>内容矩阵：</strong>KOL 持续发布"使用教程""预测策略分享""收益截图"等内容</li>
+        <li><strong>排行榜周播：</strong>每周一发布"预见排行榜"周榜，制造持续话题</li>
+        <li><strong>YouTube 深度评测：</strong>YouTube KOL 发布 10~20 分钟深度产品评测视频</li>
+        <li><strong>媒体二次传播：</strong>中型媒体稿件陆续发布，覆盖更广用户群</li>
+        <li><strong>社区 PK 活动：</strong>Telegram/Discord 举办"每日预测挑战"，维持日活</li>
+        <li><strong>数据 PR：</strong>发布上线首周数据报告（注册量、交易量等）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">Week 3~4（爆发期延续）</div>
+    <div class="tl-title">深化期：用户粘性与口碑建设</div>
+    <div class="tl-body">
+      <ul>
+        <li><strong>用户故事 UGC：</strong>征集并发布真实用户预测成功案例，放大口碑</li>
+        <li><strong>品牌联动：</strong>与预测市场相关项目联合举办活动（如与 Polymarket 社区联动）</li>
+        <li><strong>KOL 第二波内容：</strong>发布"一个月使用心得"类长内容，加深品牌印象</li>
+        <li><strong>排行榜月度决赛：</strong>发布月度总榜，重磅奖励颁发，制造高潮</li>
+        <li><strong>代理商冲刺：</strong>公布代理商月度排行，激励最后冲量</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-dot gray"></div>
+    <div class="tl-date">Week 5~6（延续期）</div>
+    <div class="tl-title">延续期：常态化运营</div>
+    <div class="tl-body">
+      <ul>
+        <li><strong>0 手续费结束预告：</strong>提前 1 周预告 0 手续费活动即将结束，制造紧迫感</li>
+        <li><strong>老用户回访：</strong>向未完成预测交易的用户发送邮件/push，附加小额体验金</li>
+        <li><strong>长尾 SEO 收割：</strong>SEO 文章已进入排名，持续带来自然流量</li>
+        <li><strong>媒体复盘报告：</strong>发布"MoonX 预测市场上线一个月成绩单"PR 稿</li>
+        <li><strong>常态化 KOL：</strong>将优质 KOL 转为长期合作，维持月度内容输出</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- 4. 各平台推广策略 -->
+<h2 class="sec">4. 各平台推广策略</h2>
+
+<h3 class="sub">4.1 Twitter / X — 主战场</h3>
+<div class="two-col">
+  <div>
+    <h4 class="sub2">官方账号策略</h4>
+    <ul>
+      <li><strong>发布频率：</strong>活动期每日 3~5 条推文</li>
+      <li><strong>内容类型：</strong>产品功能、活动信息、数据战报、用户故事</li>
+      <li><strong>互动策略：</strong>积极回复用户，转发 #MoonXPredict 优质内容</li>
+      <li><strong>话题标签：</strong>每推必带 #MoonXPredict + #BYDFiMoonX</li>
+      <li><strong>Twitter Space：</strong>上线日 AMA + 每周 1 次话题讨论</li>
+      <li><strong>Twitter Ads：</strong>精准投放（目标：Polymarket/Kalshi 关注者）</li>
+    </ul>
+  </div>
+  <div>
+    <h4 class="sub2">KOL 内容矩阵规划</h4>
+    <table style="font-size:12px;">
+      <thead>
+        <tr>
+          <th>周期</th>
+          <th>内容方向</th>
+          <th>数量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>预热期</td>
+          <td>预测市场科普、产品种草</td>
+          <td>20+ 条</td>
+        </tr>
+        <tr>
+          <td>上线日</td>
+          <td>统一发布体验内容</td>
+          <td>50+ 条</td>
+        </tr>
+        <tr>
+          <td>爆发期</td>
+          <td>教程、策略、收益截图</td>
+          <td>每周 30+ 条</td>
+        </tr>
+        <tr>
+          <td>延续期</td>
+          <td>用户故事、月度总结</td>
+          <td>每周 15+ 条</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="note"><strong>Twitter 广告投放建议：</strong>预算 $15,000~$20,000，定向 Polymarket、Kalshi、prediction market 关键词关注者，以及 Bybit/OKX 用户群体，CPC 目标控制在 $0.5 以内。</div>
+
+<h3 class="sub">4.2 Telegram — 社区运营</h3>
+<table>
+  <thead>
+    <tr>
+      <th>渠道类型</th>
+      <th>策略</th>
+      <th>目标</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>官方公告频道</td>
+      <td>每日活动进展推送、排行榜播报、奖励发放通知</td>
+      <td>信息触达，维持用户关注</td>
+    </tr>
+    <tr>
+      <td>官方社区群</td>
+      <td>每日互动话题、每周 AMA、Bot 自动发放体验金</td>
+      <td>提升活跃度和用户粘性</td>
+    </tr>
+    <tr>
+      <td>外部 Telegram 群投放</td>
+      <td>向 50~100 个加密 Telegram 群发布活动信息（授权方式）</td>
+      <td>拉新，目标群组粉丝 10 万+</td>
+    </tr>
+    <tr>
+      <td>Telegram 博主合作</td>
+      <td>付费置顶帖 + 群内 AMA</td>
+      <td>精准圈层覆盖</td>
+    </tr>
+  </tbody>
+</table>
+<div class="tip"><strong>社区运营技巧：</strong>设置每日"预测打卡"任务（分享当天预测的事件），持续维持群活跃度，形成社区习惯。</div>
+
+<h3 class="sub">4.3 YouTube — 深度教育</h3>
+<ul>
+  <li><strong>类型 1：产品深度评测（10~20 分钟）</strong>——目标 5~8 位 A 级 YouTube KOL 合作，覆盖中文 / 英文 / 东南亚语言</li>
+  <li><strong>类型 2：使用教程（5~8 分钟）</strong>——官方自制 + KOL 合作，SEO 关键词：MoonX tutorial, prediction market trading</li>
+  <li><strong>类型 3：策略分享（8~15 分钟）</strong>——展示预测市场交易策略，结合 Polymarket 数据分析</li>
+  <li><strong>YouTube Shorts 矩阵：</strong>30~60 秒短视频，展示预测功能亮点，覆盖算法推荐流量</li>
+  <li><strong>预算：</strong>YouTube KOL 合作总预算 $30,000~$50,000</li>
+</ul>
+
+<h3 class="sub">4.4 媒体 PR 矩阵</h3>
+<table>
+  <thead>
+    <tr>
+      <th>媒体类型</th>
+      <th>目标媒体（举例）</th>
+      <th>内容形式</th>
+      <th>时机</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>英文头部加密媒体</td>
+      <td>CoinDesk, CoinTelegraph, Decrypt, The Block</td>
+      <td>产品上线新闻稿 + 创始人专访</td>
+      <td>上线日同步发布</td>
+    </tr>
+    <tr>
+      <td>英文中型加密媒体</td>
+      <td>BeInCrypto, Bitcoinist, CryptoSlate</td>
+      <td>功能深度解析 + 竞品对比</td>
+      <td>上线后 3~7 天</td>
+    </tr>
+    <tr>
+      <td>中文加密媒体</td>
+      <td>链闻、深潮、链捕手、Foresight News</td>
+      <td>中文深度报道 + 活动推广</td>
+      <td>上线日同步发布</td>
+    </tr>
+    <tr>
+      <td>东南亚媒体</td>
+      <td>TokenInsight, CoinNess</td>
+      <td>本地化活动报道</td>
+      <td>上线后 1 周</td>
+    </tr>
+    <tr>
+      <td>行业 Newsletter</td>
+      <td>Bankless, Milk Road, The Defiant</td>
+      <td>赞助内容 / 活动预告</td>
+      <td>预热期</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub">4.5 其他渠道</h3>
+<div class="card-grid">
+  <div class="card orange">
+    <h4>Reddit</h4>
+    <p>在 r/CryptoCurrency、r/defi、r/polymarket 发布活动帖子，参与预测市场相关讨论，软植入 MoonX。</p>
+  </div>
+  <div class="card blue">
+    <h4>Discord</h4>
+    <p>建立官方 Discord 服务器，设置角色体系和每日任务，吸引核心社区用户。在 Polymarket 官方 Discord 进行合规曝光。</p>
+  </div>
+  <div class="card">
+    <h4>Email 营销</h4>
+    <p>对现有 BYDFi 用户发送活动邮件，个性化推送（沉睡用户专属激活优惠），目标打开率 25%+。</p>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- 5. KOL/媒体合作方案 -->
+<h2 class="sec">5. KOL / 媒体合作详细方案</h2>
+
+<h3 class="sub">5.1 KOL 筛选标准</h3>
+<table>
+  <thead>
+    <tr>
+      <th>筛选维度</th>
+      <th>要求</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>内容垂直度</td>
+      <td>加密货币 / DeFi / 交易 / 预测市场</td>
+      <td>非垂直账号（娱乐、生活类）不考虑</td>
+    </tr>
+    <tr>
+      <td>粉丝真实度</td>
+      <td>虚假粉丝率 &lt; 15%</td>
+      <td>使用 SparkToro / HypeAuditor 核验</td>
+    </tr>
+    <tr>
+      <td>互动率</td>
+      <td>Twitter 互动率 ≥ 1%，YouTube 完播率 ≥ 30%</td>
+      <td>低互动高粉丝账号优先级降级</td>
+    </tr>
+    <tr>
+      <td>受众地域</td>
+      <td>英语 / 中文 / 东南亚语言覆盖</td>
+      <td>优先英语 + 中文双语博主</td>
+    </tr>
+    <tr>
+      <td>合规性</td>
+      <td>无虚假项目推广历史，无 SEC 相关风险</td>
+      <td>合规部门审核</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.2 目标 KOL 类型清单</h3>
+<div class="two-col">
+  <div>
+    <h4 class="sub2">英文 KOL 类型</h4>
+    <ul>
+      <li>加密交易策略博主（Twitter 主导）</li>
+      <li>DeFi / Web3 分析师账号</li>
+      <li>预测市场爱好者（Polymarket 活跃用户 KOL）</li>
+      <li>加密 YouTube 评测博主</li>
+      <li>加密 Newsletter 作者</li>
+    </ul>
+  </div>
+  <div>
+    <h4 class="sub2">中文 KOL 类型</h4>
+    <ul>
+      <li>币圈交易大 V（微博 / Twitter 双线）</li>
+      <li>加密研究员（深度分析类）</li>
+      <li>合约交易博主</li>
+      <li>加密博客 / 公众号作者</li>
+      <li>Bilibili / 抖音加密内容创作者</li>
+    </ul>
+  </div>
+</div>
+
+<h3 class="sub">5.3 KOL 合作流程</h3>
+<table>
+  <thead>
+    <tr>
+      <th>步骤</th>
+      <th>动作</th>
+      <th>负责人</th>
+      <th>时间节点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1. 筛选</td>
+      <td>建立 KOL 候选名单，数据核验，分级</td>
+      <td>KOL 经理</td>
+      <td>上线前 4 周</td>
+    </tr>
+    <tr>
+      <td>2. 接触</td>
+      <td>发送个性化邀请邮件 / DM，说明合作价值</td>
+      <td>KOL 经理</td>
+      <td>上线前 3 周</td>
+    </tr>
+    <tr>
+      <td>3. 谈判</td>
+      <td>确认内容要求、发布时间、报酬</td>
+      <td>KOL 经理 + 法务</td>
+      <td>上线前 2 周</td>
+    </tr>
+    <tr>
+      <td>4. Briefing</td>
+      <td>提供产品体验账号 + 内容素材包 + 1-on-1 培训</td>
+      <td>产品 + 市场</td>
+      <td>上线前 1 周</td>
+    </tr>
+    <tr>
+      <td>5. 审稿</td>
+      <td>审核内容（合规性 + 准确性），给出修改建议</td>
+      <td>市场 + 合规</td>
+      <td>发布前 48h</td>
+    </tr>
+    <tr>
+      <td>6. 发布</td>
+      <td>按计划时间发布，官方互动放大</td>
+      <td>KOL + 社媒运营</td>
+      <td>按时间轴</td>
+    </tr>
+    <tr>
+      <td>7. 结算</td>
+      <td>追踪数据，达标后结算酬劳</td>
+      <td>KOL 经理 + 财务</td>
+      <td>发布后 7 天</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.4 媒体合作方案</h3>
+<ul>
+  <li><strong>独家权益策略：</strong>向头部媒体提供"首发独家"资源（专访、内测），激励主动报道意愿</li>
+  <li><strong>数据驱动 PR：</strong>上线后定期向媒体输出数据（用户增长、交易量等），提供持续报道素材</li>
+  <li><strong>联合内容：</strong>与媒体共同发布预测市场行业报告，形成品牌背书</li>
+  <li><strong>Press Kit：</strong>准备完整 Press Kit（Logo、截图、数据、Founder Bio），降低媒体报道门槛</li>
+  <li><strong>国际化：</strong>为不同语言市场提供本地化稿件底稿（中文、英文、西班牙文、韩文）</li>
+</ul>
+
+<hr class="div">
+
+<!-- 6. KPI -->
+<h2 class="sec">6. 关键指标（KPI）</h2>
+
+<h3 class="sub">6.1 核心 KPI 目标</h3>
+<div class="card-grid">
+  <div class="card orange">
+    <h4>新注册用户</h4>
+    <div class="metric">50,000+</div>
+    <div class="metric-label">活动期 6 周目标</div>
+  </div>
+  <div class="card orange">
+    <h4>预测市场首单用户</h4>
+    <div class="metric">20,000+</div>
+    <div class="metric-label">完成至少 1 笔预测交易</div>
+  </div>
+  <div class="card orange">
+    <h4>预测市场交易量</h4>
+    <div class="metric">$5M+</div>
+    <div class="metric-label">USDT，活动期总交易额</div>
+  </div>
+</div>
+<div class="card-grid" style="margin-top:16px;">
+  <div class="card blue">
+    <h4>Twitter 话题曝光</h4>
+    <div class="metric">10M+</div>
+    <div class="metric-label">Impressions（#MoonXPredict）</div>
+  </div>
+  <div class="card blue">
+    <h4>KOL 内容触达</h4>
+    <div class="metric">5M+</div>
+    <div class="metric-label">KOL 内容总 Reach</div>
+  </div>
+  <div class="card blue">
+    <h4>媒体报道数量</h4>
+    <div class="metric">30+</div>
+    <div class="metric-label">独立媒体报道篇数</div>
+  </div>
+</div>
+
+<h3 class="sub">6.2 分渠道 KPI 拆解</h3>
+<table>
+  <thead>
+    <tr>
+      <th>渠道</th>
+      <th>核心指标</th>
+      <th>目标值</th>
+      <th>衡量工具</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Twitter / X</td>
+      <td>话题 Impressions / 新增粉丝 / 活动推文互动率</td>
+      <td>1,000 万曝光 / +5,000 粉丝 / 互动率 3%+</td>
+      <td>Twitter Analytics</td>
+    </tr>
+    <tr>
+      <td>Telegram</td>
+      <td>社区成员数 / 日活跃用户</td>
+      <td>+10,000 成员 / 日活 500+</td>
+      <td>TGStat</td>
+    </tr>
+    <tr>
+      <td>YouTube</td>
+      <td>评测视频总播放量</td>
+      <td>50 万+ 播放</td>
+      <td>YouTube Studio</td>
+    </tr>
+    <tr>
+      <td>KOL 渠道</td>
+      <td>注册转化 / 首充用户数</td>
+      <td>20,000 注册 / 5,000 首充</td>
+      <td>后台推荐码追踪</td>
+    </tr>
+    <tr>
+      <td>媒体 PR</td>
+      <td>报道数量 / 媒体 Domain Authority 均值</td>
+      <td>30 篇+ / DA 50+</td>
+      <td>Ahrefs / Moz</td>
+    </tr>
+    <tr>
+      <td>SEO</td>
+      <td>自然流量 / "prediction market" 关键词排名</td>
+      <td>月自然流量 +50,000 / Top 10</td>
+      <td>Google Search Console</td>
+    </tr>
+    <tr>
+      <td>邮件营销</td>
+      <td>打开率 / 点击率 / 转化激活率</td>
+      <td>打开率 25% / 点击 5% / 激活 10%</td>
+      <td>邮件服务商后台</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub">6.3 活动预算估算</h3>
+<table>
+  <thead>
+    <tr>
+      <th>预算项目</th>
+      <th>估算金额（USD）</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>用户奖励池（体验金 + 竞赛奖励）</td>
+      <td>$80,000</td>
+      <td>含体验金、排行榜奖励、裂变奖励</td>
+    </tr>
+    <tr>
+      <td>S/A 级 KOL 合作费</td>
+      <td>$80,000</td>
+      <td>10~15 位 KOL，含体验金和酬劳</td>
+    </tr>
+    <tr>
+      <td>B/C 级 KOL（长尾）</td>
+      <td>$20,000</td>
+      <td>50~100 位 KOL</td>
+    </tr>
+    <tr>
+      <td>YouTube KOL</td>
+      <td>$40,000</td>
+      <td>5~8 位深度评测博主</td>
+    </tr>
+    <tr>
+      <td>媒体 PR 投放</td>
+      <td>$50,000</td>
+      <td>头部 + 中型媒体稿件费</td>
+    </tr>
+    <tr>
+      <td>Twitter / X 广告</td>
+      <td>$20,000</td>
+      <td>精准投放，CPC 优化</td>
+    </tr>
+    <tr>
+      <td>内容制作（图文、视频）</td>
+      <td>$15,000</td>
+      <td>官方素材 + 媒体包制作</td>
+    </tr>
+    <tr>
+      <td>社区运营工具 + Bot</td>
+      <td>$5,000</td>
+      <td>Telegram Bot 开发、积分系统</td>
+    </tr>
+    <tr>
+      <td>预备金（机动）</td>
+      <td>$20,000</td>
+      <td>应对突发机会（热点事件借势）</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#E65100;">合计</td>
+      <td style="font-weight:700;color:#E65100;">$330,000</td>
+      <td>ROI 目标：CAC ≤ $6.6/用户（5 万用户）</td>
+    </tr>
+  </tbody>
+</table>
+<div class="note"><strong>预算弹性：</strong>若预算有限，优先保障用户奖励池（直接影响用户体验）和 KOL 合作（覆盖最广）；广告投放可后置，视前期数据灵活追加。</div>
+
+<hr class="div">
+
+<!-- 7. 风险控制 -->
+<h2 class="sec">7. 风险控制</h2>
+
+<h3 class="sub">7.1 主要风险识别与应对</h3>
+<table>
+  <thead>
+    <tr>
+      <th>风险类型</th>
+      <th>风险描述</th>
+      <th>概率</th>
+      <th>应对措施</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-red">高</span> 套利风险</td>
+      <td>用户批量注册、刷体验金，不真实使用产品</td>
+      <td>高</td>
+      <td>KYC 强制验证；体验金盈利上限 $50；同 IP/设备检测；反作弊系统</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-red">高</span> 合规风险</td>
+      <td>预测市场在部分国家被认定为博彩，监管风险</td>
+      <td>中</td>
+      <td>法律合规部门提前审查可运营国家/地区；活动明确排除受限地区；KOL 合同包含合规声明</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-orange">中</span> 产品稳定性风险</td>
+      <td>上线日高并发导致系统崩溃，损害品牌形象</td>
+      <td>中</td>
+      <td>上线前进行压力测试；预备应急公告模板；上线首日监控 7x24h</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-orange">中</span> KOL 内容风险</td>
+      <td>KOL 发布不准确信息或违规内容</td>
+      <td>中</td>
+      <td>所有内容发布前审核；合同明确违规惩罚条款；提供标准 Briefing 降低偏差</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-orange">中</span> 竞争对手反制</td>
+      <td>Bybit/OKX 跟进推出类似活动或降价</td>
+      <td>中</td>
+      <td>预备机动预算 $20,000 用于快速加码；突出 MoonX 聚合数据的技术壁垒；用先发优势锁定用户</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-gray">低</span> KOL 爽约风险</td>
+      <td>签约 KOL 临时取消合作或延迟发布</td>
+      <td>低</td>
+      <td>合同包含违约金条款；每个级别保留 20% 备用 KOL 名单；分批签约</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-gray">低</span> 市场大环境风险</td>
+      <td>活动期间加密市场大幅下跌，用户情绪悲观</td>
+      <td>低</td>
+      <td>预测市场天然适合熊市（可做空/预测下跌）；调整话术强调"无论涨跌都能参与预测"</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub">7.2 反作弊机制</h3>
+<ul>
+  <li><strong>KYC 强制：</strong>所有体验金领取必须通过 KYC 实名认证</li>
+  <li><strong>设备指纹：</strong>同设备多账号检测，自动封禁异常账号</li>
+  <li><strong>IP 限制：</strong>同 IP 注册超过 3 个账号，触发人工审核</li>
+  <li><strong>提现门槛：</strong>体验金盈利需完成真实交易量才可提现（如：需累计交易 $200 以上）</li>
+  <li><strong>实时监控：</strong>设置异常交易行为报警阈值，风控团队 24h 响应</li>
+</ul>
+
+<h3 class="sub">7.3 危机公关预案</h3>
+<div class="warn"><strong>重要：</strong>上线前必须准备以下应急预案，指定发言人，确保在 2 小时内响应任何公关危机。</div>
+<ul>
+  <li><strong>系统故障：</strong>官方第一时间在 Twitter + Telegram 发布说明，给受影响用户补偿</li>
+  <li><strong>负面媒体报道：</strong>指定公关负责人处理，48 小时内发布官方回应</li>
+  <li><strong>KOL 负面事件：</strong>立即暂停合作，删除相关内容，发布声明与其切割</li>
+  <li><strong>监管查询：</strong>法务团队前置应对，有标准回应模板</li>
+</ul>
+
+<hr class="div">
+
+<!-- 8. 执行检查清单 -->
+<h2 class="sec">8. 执行检查清单（Launch Checklist）</h2>
+<h3 class="sub">上线前 4 周</h3>
+<ul>
+  <li>完成活动规则设计，通过法务合规审核</li>
+  <li>完成 KOL 候选名单，启动外联</li>
+  <li>完成产品 Press Kit 制作</li>
+  <li>建立 Telegram 官方群 + Bot 配置完成</li>
+  <li>Twitter 广告账号 Warming Up，素材准备</li>
+</ul>
+<h3 class="sub">上线前 2 周</h3>
+<ul>
+  <li>S/A 级 KOL 合同全部签署完成</li>
+  <li>头部媒体稿件确认，上线日发布计划锁定</li>
+  <li>体验金和排行榜系统开发测试完成</li>
+  <li>KOL Briefing 培训完成，素材包发送</li>
+  <li>社交媒体预热内容排期完成</li>
+</ul>
+<h3 class="sub">上线前 1 周</h3>
+<ul>
+  <li>系统压力测试通过</li>
+  <li>所有 KOL 内容草稿完成审核</li>
+  <li>早鸟名单注册活动启动</li>
+  <li>数据追踪看板配置完成（UTM 参数、推荐码系统）</li>
+  <li>应急预案和发言人确认</li>
+</ul>
+<h3 class="sub">上线日</h3>
+<ul>
+  <li>00:00 官方推文发布</li>
+  <li>媒体稿件同步确认已发布</li>
+  <li>KOL 内容发布情况实时监控</li>
+  <li>系统稳定性监控</li>
+  <li>12:00 Twitter Space AMA 正常进行</li>
+  <li>实时数据看板数据正常</li>
+</ul>
+
+<hr class="div">
+
+<!-- Summary -->
+<div class="highlight-box" style="margin-top:32px;">
+  <h4 style="font-size:17px;">活动核心逻辑总结</h4>
+  <p style="margin-top:8px;">本次「MoonX Predict Launch Festival」以产品差异化（聚合预测市场）为核心，通过三条并行推广线形成立体攻势：</p>
+  <ul style="margin-top:10px;">
+    <li><strong>直客线</strong>：0 手续费降低门槛 + 体验金驱动首单转化 + 竞赛制造持续留存</li>
+    <li><strong>KOL/代理线</strong>：高佣金 + 体验金打造强推广动力，B 级长尾 KOL 覆盖广度，S 级 KOL 打造品牌可信度</li>
+    <li><strong>媒体线</strong>：首发独家资源换取深度报道，建立 SEO 长尾流量护城河</li>
+  </ul>
+  <p style="margin-top:10px;">三线协同，在上线当日形成全渠道声量爆发，6 周活动周期内完成品牌心智占领，在"预测市场"这一细分赛道建立 MoonX 的先发优势和持久竞争壁垒。</p>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <strong>BYDFi MoonX 营销活动策划方案 V1.0</strong><br>
+  策划日期：2026-03-15 &nbsp;|&nbsp; 文档类型：营销策划 &nbsp;|&nbsp; 保密级别：内部使用
+</div>
+
+</div>
+</body>
+</html>

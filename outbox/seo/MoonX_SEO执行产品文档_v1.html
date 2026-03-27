@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoonX SEO 执行产品文档 V2.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.75; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover h1 { font-size: 32px; font-weight: 700; color: #111; margin-bottom: 16px; }
+.cover .subtitle { font-size: 15px; color: #888; }
+.cover .meta { margin-top: 32px; display: inline-flex; gap: 40px; background: #FFF8F0; padding: 16px 32px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item { text-align: left; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+h2.sec { font-size: 20px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 16px; font-weight: 600; margin: 32px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+table td:first-child { font-weight: 500; color: #555; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-p0 { background: #FFEBEE; color: #C62828; }
+.tag-p1 { background: #FFF3E0; color: #E65100; }
+.tag-p2 { background: #F3E5F5; color: #6A1B9A; }
+.tag-new { background: #E3F2FD; color: #1565C0; }
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+code { background: #F3F3F3; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", monospace; font-size: 12px; color: #C41A16; }
+pre { background: #F8F8F8; border-left: 4px solid #FF9800; padding: 14px 18px; border-radius: 0 6px 6px 0; overflow-x: auto; margin: 12px 0; font-size: 12px; }
+pre code { background: none; padding: 0; color: #333; }
+.kw { background: #E8F5E9; color: #2E7D32; padding: 2px 8px; border-radius: 3px; font-size: 12px; font-weight: 500; }
+.url { background: #E3F2FD; color: #1565C0; padding: 2px 8px; border-radius: 3px; font-family: monospace; font-size: 12px; }
+p { margin: 6px 0; }
+ol, ul { margin: 6px 0 6px 20px; }
+ol li, ul li { margin: 3px 0; }
+hr { border: none; border-top: 1px solid #EEE; margin: 32px 0; }
+a { color: #FF6B00; text-decoration: none; }
+strong { color: #111; }
+@media print { body { padding: 20px 28px; } h2 { page-break-after: avoid; } table { page-break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="cover">
+  <div class="subtitle">执行参考文档</div>
+  <h1>MoonX SEO 执行产品文档</h1>
+  <div class="subtitle">跨团队执行参考（Tech · Content · Marketing）</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">文档性质</div><div class="value">跨团队执行参考文档</div></div>
+    <div class="meta-item"><div class="label">数据来源</div><div class="value">GSC · SerpAPI · MoonX 平台</div></div>
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">V2.0</div></div>
+    <div class="meta-item"><div class="label">生成日期</div><div class="value">2026-03-13</div></div>
+  </div>
+</div>
+<hr />
+<h2 class="sec">一、现状诊断</h2>
+<h3 class="sub">1.1 bydfi.com 整体数据（过去 28 天）</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+<th>解读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总点击</td>
+<td>46,100</td>
+<td>月均约 5 万</td>
+</tr>
+<tr>
+<td>总展示</td>
+<td>7,880,000</td>
+<td>月均约 800 万</td>
+</tr>
+<tr>
+<td>平均 CTR</td>
+<td>0.6%</td>
+<td>行业均值 2-3%，<strong>显著偏低</strong></td>
+</tr>
+<tr>
+<td>平均排名</td>
+<td>9.5</td>
+<td>第一页底部，有提升空间</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心问题：展示量大但点击率低。说明 bydfi 主站有一定域名权重，但页面 title/description 吸引力不足，或排名词不精准。</strong></p>
+<h3 class="sub">1.2 MoonX 当前 SEO 状态</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GSC 展示量</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>GSC 点击量</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Google 索引页面数</td>
+<td><strong>0</strong>（估计）</td>
+</tr>
+<tr>
+<td>自然流量占比</td>
+<td><strong>0%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>根本原因：MoonX 全页面 CSR 渲染，Google 爬取到的是空壳 HTML，无任何可索引内容。</strong></p>
+<h3 class="sub">1.3 机会判断</h3>
+<table>
+<thead>
+<tr>
+<th>机会</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bydfi.com 有域名权重</td>
+<td>7.88M 月展示，新 MoonX 页面起步更快</td>
+</tr>
+<tr>
+<td>"prediction market aggregator" 无竞争</td>
+<td>SerpAPI 分析：该词无强对手，MoonX = 品类定义者</td>
+</tr>
+<tr>
+<td>Token 页规模化</td>
+<td>DEXScreener 模式，MoonX 已有架构，缺 SSR meta</td>
+</tr>
+<tr>
+<td>CSR→SSR 改造后从 0 起步</td>
+<td>所有增量都是纯新增，增长曲线清晰</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 class="sec">二、目标定义</h2>
+<h3 class="sub">2.1 分阶段流量目标</h3>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>月自然流量</th>
+<th>索引页面数</th>
+<th>核心词排名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSR 上线后 2 周</td>
+<td>首次 &gt; 0</td>
+<td>10+</td>
+<td>无</td>
+</tr>
+<tr>
+<td>M2（第 2 个月）</td>
+<td>200-500</td>
+<td>50+</td>
+<td>开始出现</td>
+</tr>
+<tr>
+<td>M4（第 4 个月）</td>
+<td>3,000+</td>
+<td>500+</td>
+<td>polymarket alternative Top 50</td>
+</tr>
+<tr>
+<td>M6（第 6 个月）</td>
+<td>15,000+</td>
+<td>2,000+</td>
+<td>polymarket alternative Top 10</td>
+</tr>
+<tr>
+<td>M12（第 12 个月）</td>
+<td>60,000+</td>
+<td>10,000+</td>
+<td>polymarket alternative Top 3</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">2.2 流量来源拆解（M12 目标）</h3>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>占比</th>
+<th>月流量</th>
+<th>驱动方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Token 行情页（规模化）</td>
+<td>80%</td>
+<td>48,000+</td>
+<td>程序化 SEO，Token 页 × 10,000</td>
+</tr>
+<tr>
+<td>内容文章（Learn 页）</td>
+<td>15%</td>
+<td>9,000+</td>
+<td>编辑 SEO，10 篇核心文章</td>
+</tr>
+<tr>
+<td>功能落地页</td>
+<td>5%</td>
+<td>3,000+</td>
+<td>产品词排名</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">2.3 核心 KPI（月度追踪）</h3>
+<ul>
+<li>GSC 展示量（先行指标，最快 2-4 周出现）</li>
+<li>Google 有效索引页面数</li>
+<li>"polymarket alternative" 排名位次</li>
+<li>月自然点击量</li>
+</ul>
+<hr />
+<h2 class="sec">三、页面体系设计</h2>
+<p>MoonX 需要建设 <strong>4 类核心页面</strong>，每类服务不同搜索意图。</p>
+<hr />
+<h3 class="sub">类型 A：Token 行情页（规模化流量引擎）</h3>
+<p><strong>角色：</strong> 引擎 B，主力流量来源（占 M12 目标 80%）</p>
+<p><strong>URL 结构：</strong></p>
+<pre><code>/en/moonx/solana/token/{contract_address}
+示例：/en/moonx/solana/token/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+</code></pre>
+<p><strong>页面内容规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>内容块</th>
+<th>渲染方式</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Title（meta）</td>
+<td><strong>SSR 必须</strong></td>
+<td><code>{TOKEN} Price, Chart &amp; Trading \| MoonX</code></td>
+</tr>
+<tr>
+<td>Description（meta）</td>
+<td><strong>SSR 必须</strong></td>
+<td><code>Trade {TOKEN} on MoonX. Live price ${PRICE}, 24h {DIRECTION} {PCT}%, volume ${VOL}. Track smart money and trade Solana tokens in real time.</code></td>
+</tr>
+<tr>
+<td>H1</td>
+<td><strong>SSR 必须</strong></td>
+<td><code>{TOKEN} ({TOKEN_NAME}) — Live Price &amp; Trading</code></td>
+</tr>
+<tr>
+<td>功能说明段落</td>
+<td><strong>SSR 必须</strong></td>
+<td>固定文字（见附录 A）</td>
+</tr>
+<tr>
+<td>FAQ Schema</td>
+<td><strong>SSR 必须</strong></td>
+<td>3 个问题（见附录 A）</td>
+</tr>
+<tr>
+<td>实时价格/K 线</td>
+<td>CSR 可以</td>
+<td>动态数据</td>
+</tr>
+<tr>
+<td>Smart Money 动向</td>
+<td>CSR 可以</td>
+<td>动态数据</td>
+</tr>
+<tr>
+<td>持有人/交易量</td>
+<td>CSR 可以</td>
+<td>动态数据</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sitemap 准入规则（满足全部条件才收录）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>准入阈值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LP 流动性池</td>
+<td>≥ $5,000 USD</td>
+</tr>
+<tr>
+<td>持有人数</td>
+<td>≥ 100</td>
+</tr>
+<tr>
+<td>上线时长</td>
+<td>≥ 48 小时</td>
+</tr>
+<tr>
+<td>24h 交易量</td>
+<td>≥ $1,000 USD</td>
+</tr>
+<tr>
+<td>24h 交易笔数</td>
+<td>≥ 50 笔</td>
+</tr>
+</tbody>
+</table>
+<p><strong>不满足条件：</strong> <code>&lt;meta name="robots" content="noindex, nofollow" /&gt;</code>，不放入 sitemap。</p>
+<p><strong>攻打关键词：</strong>
+- <code>{TOKEN} price solana</code>
+- <code>buy {TOKEN} solana</code>
+- <code>{TOKEN} pump.fun</code>
+- <code>{TOKEN} contract address</code></p>
+<hr />
+<h3 class="sub">类型 B：学院页 / Learn（品牌权威）</h3>
+<p><strong>角色：</strong> 引擎 A，建立 Google 对 MoonX 的认知，同时驱动预测市场相关词排名</p>
+<p><strong>URL 结构：</strong></p>
+<pre><code>/en/moonx/learn/                          ← 学院首页（文章列表）
+/en/moonx/learn/{slug}                    ← 每篇文章
+示例：/en/moonx/learn/polymarket-vs-kalshi
+</code></pre>
+<p><strong>所有文章统一规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>规格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Title</td>
+<td>目标关键词 + 年份 + <code>\| MoonX</code>，50-60 字符</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>解答搜索意图 + 钩子 + MoonX 价值，140-160 字符</td>
+</tr>
+<tr>
+<td>H1</td>
+<td>与 Title 一致或相近</td>
+</tr>
+<tr>
+<td>字数</td>
+<td>Cluster 文章 1,500-2,500 词；Pillar 页 3,000-4,000 词</td>
+</tr>
+<tr>
+<td>内链</td>
+<td>每篇必须链接到支柱页；支柱页链接到所有 Cluster</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>Article Schema + FAQPage Schema（≥3 个问题）</td>
+</tr>
+<tr>
+<td>CTA</td>
+<td>每篇结尾放 MoonX 产品页链接</td>
+</tr>
+</tbody>
+</table>
+<p><strong>技术要求：</strong> <code>/en/moonx/learn/</code> 路径必须 SSR 渲染（参考 bydfi 现有 /learn/ 体系）。</p>
+<hr />
+<h3 class="sub">类型 C：功能落地页（产品词排名）</h3>
+<p><strong>角色：</strong> 地基，告诉 Google MoonX 是什么产品</p>
+<p><strong>页面清单：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>URL</th>
+<th>核心关键词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MoonX 首页</td>
+<td><code>/en/moonx</code></td>
+<td>prediction market aggregator, moonx</td>
+</tr>
+<tr>
+<td>热门预测市场</td>
+<td><code>/en/moonx/markets/trending</code></td>
+<td>trending prediction markets</td>
+</tr>
+<tr>
+<td>Smart Money</td>
+<td><code>/en/moonx/monitor/dynamic/hot</code></td>
+<td>smart money tracker crypto</td>
+</tr>
+<tr>
+<td>Pump.fun</td>
+<td><code>/en/moonx/pump</code></td>
+<td>pump.fun trading, pump.fun token tracker</td>
+</tr>
+</tbody>
+</table>
+<p><strong>每个功能页必须有的静态内容（SSR 注入）：</strong>
+1. 功能说明段落（3-5 句，描述页面是什么）
+2. FAQ Schema（3 个问题）
+3. 正确的 title / description / canonical</p>
+<p><strong>动态内容（CSR 渲染）：</strong> 实时行情、排行、价格</p>
+<hr />
+<h3 class="sub">类型 D：对比页（决策词截流）</h3>
+<p><strong>角色：</strong> 引擎 A 的一部分，放在 /learn/ 下，单独列出因为搜索量大</p>
+<p><strong>URL 结构：</strong></p>
+<pre><code>/en/moonx/learn/polymarket-vs-kalshi
+/en/moonx/learn/polymarket-alternatives
+/en/moonx/learn/moonx-vs-gmgn
+</code></pre>
+<p><strong>内容规格：</strong> 同学院页规格，重点是比较表格 + 明确推荐结论 + MoonX 聚合方案作为最优解。</p>
+<hr />
+<h2 class="sec">四、技术执行规格</h2>
+<h3 class="sub">4.1 SSR 改造优先级</h3>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>页面</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P0</strong></td>
+<td><code>/en/moonx/learn/</code> 路径</td>
+<td>文章发布的前提</td>
+</tr>
+<tr>
+<td><strong>P0</strong></td>
+<td>Token 详情页 <code>/token/{contract}</code></td>
+<td>最大流量来源，不改造等于放弃</td>
+</tr>
+<tr>
+<td><strong>P1</strong></td>
+<td><code>/en/moonx/markets/trending</code></td>
+<td>核心功能页，产品词排名</td>
+</tr>
+<tr>
+<td><strong>P1</strong></td>
+<td><code>/en/moonx</code> 首页</td>
+<td>品牌词和聚合器词</td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td><code>/en/moonx/monitor/dynamic/hot</code></td>
+<td>Smart money 词</td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td><code>/en/moonx/pump</code></td>
+<td>Pump.fun 词</td>
+</tr>
+</tbody>
+</table>
+<p><strong>改造原则：</strong>
+- 静态内容（title、h1、功能说明、FAQ 文字、Schema）= 服务端渲染
+- 动态内容（实时价格、排行、K 线）= 客户端渲染
+- Schema JSON-LD 必须服务端注入 <code>&lt;head&gt;</code>，禁止客户端异步写入</p>
+<h3 class="sub">4.2 Meta 标签规格</h3>
+<p><strong>Token 页 Title 模板（50-60 字符）：</strong></p>
+<pre><code>{TOKEN_SYMBOL} Price, Chart &amp; Trading | MoonX
+示例：PEPE Price, Chart &amp; Trading | MoonX
+</code></pre>
+<p><strong>Token 页 Description 模板（140-160 字符）：</strong></p>
+<pre><code>Trade {TOKEN_SYMBOL} on MoonX. Live price ${PRICE}, 24h {up/down} {PCT}%, volume ${VOL_24H}. Track smart money and trade Solana tokens in real time.
+</code></pre>
+<p><strong>功能页 Meta 规格：</strong></p>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>Title</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首页</td>
+<td><code>MoonX — Prediction Market Aggregator \| Trade Polymarket, Kalshi &amp; More</code></td>
+<td><code>MoonX aggregates prediction markets from Polymarket, Kalshi, and Manifold in one place. Compare odds, track smart money, and trade meme tokens on Solana.</code></td>
+</tr>
+<tr>
+<td>Trending</td>
+<td><code>Trending Prediction Markets Today — Live Odds \| MoonX</code></td>
+<td><code>Track the hottest prediction markets right now. MoonX shows trending markets from Polymarket, Kalshi, and Manifold with live odds and 24h volume.</code></td>
+</tr>
+<tr>
+<td>Smart Money</td>
+<td><code>Smart Money Crypto Tracker — Follow Top Wallets \| MoonX</code></td>
+<td><code>Track what smart money wallets are buying and selling in real time. MoonX monitors top Solana traders so you can spot trends before they go viral.</code></td>
+</tr>
+<tr>
+<td>Pump</td>
+<td><code>Pump.fun Token Trading — New Launches on Solana \| MoonX</code></td>
+<td><code>Trade the latest pump.fun token launches on Solana. MoonX shows new token launches with real-time price, volume, and smart money activity.</code></td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">4.3 Canonical 修复清单</h3>
+<table>
+<thead>
+<tr>
+<th>问题 URL</th>
+<th>修复方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/en/moonx/trade/dynamic?network=SOLANA</code></td>
+<td>canonical → <code>/en/moonx/trade/dynamic</code></td>
+</tr>
+<tr>
+<td><code>/en/moonx/pump?network=SOLANA</code></td>
+<td>canonical → <code>/en/moonx/pump</code></td>
+</tr>
+<tr>
+<td><code>/en/moonx/solana/token?address={x}</code></td>
+<td>canonical → <code>/en/moonx/solana/token/{contract}</code></td>
+</tr>
+<tr>
+<td><code>/en/moonx/account/my-position</code></td>
+<td>noindex + robots.txt Disallow</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">4.4 Sitemap 规格</h3>
+<p><strong>Token 页 Sitemap 文件：</strong></p>
+<pre><code>www.bydfi.com/events/cms/sitemap/pseo/moonx-token-summary.xml
+</code></pre>
+<ul>
+<li><code>changefreq: daily</code></li>
+<li><code>priority: 0.6</code></li>
+<li><code>lastmod</code>：精确到秒，带 UTC 时区</li>
+<li>仅收录满足准入条件的 token 页</li>
+</ul>
+<p><strong>提交到 GSC 的 sitemap：</strong>
+- 主站 sitemap（已有）
+- MoonX /learn/ 文章 sitemap（新建）
+- MoonX token 页 sitemap（新建，动态更新）</p>
+<h3 class="sub">4.5 Schema 规格</h3>
+<table>
+<thead>
+<tr>
+<th>页面类型</th>
+<th>Schema 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首页</td>
+<td>WebPage + Organization</td>
+</tr>
+<tr>
+<td>功能落地页</td>
+<td>WebPage + FAQPage</td>
+</tr>
+<tr>
+<td>Token 行情页</td>
+<td>FinancialProduct + BreadcrumbList + FAQPage</td>
+</tr>
+<tr>
+<td>学院文章</td>
+<td>Article + FAQPage</td>
+</tr>
+<tr>
+<td>对比页</td>
+<td>Article + FAQPage</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 class="sec">五、关键词执行矩阵</h2>
+<h3 class="sub">5.1 赛道 A：预测市场（品牌权威）</h3>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>月搜索量</th>
+<th>竞争</th>
+<th>优先级</th>
+<th>目标页面 URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prediction market aggregator</td>
+<td>1K-5K</td>
+<td>极低</td>
+<td><strong>P0</strong></td>
+<td>/learn/prediction-market-aggregator</td>
+</tr>
+<tr>
+<td>polymarket alternative</td>
+<td>10K-50K</td>
+<td>中</td>
+<td><strong>P0</strong></td>
+<td>/learn/polymarket-alternatives</td>
+</tr>
+<tr>
+<td>polymarket alternatives 2026</td>
+<td>10K-50K</td>
+<td>中</td>
+<td><strong>P0</strong></td>
+<td>/learn/polymarket-alternatives</td>
+</tr>
+<tr>
+<td>polymarket vs kalshi</td>
+<td>10K-50K</td>
+<td>中</td>
+<td><strong>P1</strong></td>
+<td>/learn/polymarket-vs-kalshi</td>
+</tr>
+<tr>
+<td>best prediction market 2026</td>
+<td>5K-20K</td>
+<td>中</td>
+<td><strong>P1</strong></td>
+<td>/learn/prediction-markets-guide</td>
+</tr>
+<tr>
+<td>what are prediction markets</td>
+<td>50K+</td>
+<td>高</td>
+<td><strong>P1</strong></td>
+<td>/learn/prediction-markets-guide</td>
+</tr>
+<tr>
+<td>how prediction markets work</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>P1</td>
+<td>/learn/prediction-markets-guide</td>
+</tr>
+<tr>
+<td>kalshi alternative</td>
+<td>5K-10K</td>
+<td>低</td>
+<td>P1</td>
+<td>/learn/polymarket-alternatives</td>
+</tr>
+<tr>
+<td>manifold markets alternative</td>
+<td>1K-5K</td>
+<td>低</td>
+<td>P2</td>
+<td>/learn/polymarket-alternatives</td>
+</tr>
+<tr>
+<td>how to trade prediction markets</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>P2</td>
+<td>/learn/how-to-trade-prediction-markets</td>
+</tr>
+<tr>
+<td>prediction market odds</td>
+<td>1K-5K</td>
+<td>低</td>
+<td>P2</td>
+<td>/learn/prediction-market-odds</td>
+</tr>
+<tr>
+<td>is polymarket legal</td>
+<td>5K-10K</td>
+<td>低</td>
+<td>P2</td>
+<td>/learn/polymarket-vs-kalshi</td>
+</tr>
+<tr>
+<td>prediction market aggregator</td>
+<td>1K-5K</td>
+<td>极低</td>
+<td><strong>P0</strong></td>
+<td>/en/moonx（首页）</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">5.2 赛道 B：Meme Token 工具（产品流量）</h3>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>月搜索量</th>
+<th>竞争</th>
+<th>优先级</th>
+<th>目标页面 URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>smart money tracker crypto</td>
+<td>5K-20K</td>
+<td>中</td>
+<td><strong>P0</strong></td>
+<td>/monitor/dynamic/hot（功能页优化）</td>
+</tr>
+<tr>
+<td>GMGN alternative</td>
+<td>1K-5K</td>
+<td>低</td>
+<td>P1</td>
+<td>/learn/gmgn-vs-moonx</td>
+</tr>
+<tr>
+<td>best solana meme coin tracker</td>
+<td>2K-10K</td>
+<td>低</td>
+<td>P1</td>
+<td>/learn/best-solana-meme-coin-tracker</td>
+</tr>
+<tr>
+<td>solana token tracker</td>
+<td>1K-5K</td>
+<td>低</td>
+<td>P1</td>
+<td>/learn/best-solana-meme-coin-tracker</td>
+</tr>
+<tr>
+<td>pump.fun trading</td>
+<td>5K-20K</td>
+<td>中</td>
+<td>P2</td>
+<td>/pump（功能页优化）</td>
+</tr>
+<tr>
+<td>trending meme coins solana</td>
+<td>2K-10K</td>
+<td>低</td>
+<td>P2</td>
+<td>/markets/trending（功能页优化）</td>
+</tr>
+<tr>
+<td>how to find 100x meme coins</td>
+<td>1K-5K</td>
+<td>低</td>
+<td>P2</td>
+<td>/learn/how-to-find-100x-meme-coin</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">5.3 赛道 C：规模化长尾（Token 页）</h3>
+<table>
+<thead>
+<tr>
+<th>关键词模式</th>
+<th>单词月搜索量</th>
+<th>竞争</th>
+<th>规模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{TOKEN} price solana</td>
+<td>100-10K</td>
+<td>极低</td>
+<td>× N 个 token</td>
+</tr>
+<tr>
+<td>buy {TOKEN} solana</td>
+<td>100-5K</td>
+<td>极低</td>
+<td>× N 个 token</td>
+</tr>
+<tr>
+<td>{TOKEN} pump.fun</td>
+<td>50-5K</td>
+<td>极低</td>
+<td>× N 个 token</td>
+</tr>
+<tr>
+<td>{TOKEN} contract address</td>
+<td>100-2K</td>
+<td>极低</td>
+<td>× N 个 token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>规模预估：</strong> 满足准入条件的活跃 token 约 500-2,000 个，每周新增 50-200 个。</p>
+<hr />
+<h2 class="sec">六、内容执行计划</h2>
+<h3 class="sub">6.1 内容架构（集群模型）</h3>
+<pre><code>支柱页 (Pillar)
+└── Prediction Markets: The Complete Guide 2026
+    URL: /en/moonx/learn/prediction-markets-guide
+    目标词: what are prediction markets / best prediction market 2026
+    字数: ~4,000 词
+    状态: ✅ 初稿完成
+
+Cluster A：聚合器定位（护城河）
+├── What Is a Prediction Market Aggregator?
+│   URL: /learn/prediction-market-aggregator
+│   目标词: prediction market aggregator
+│   状态: ✅ 初稿完成
+└── （后续：Prediction Market Aggregator vs Single Platform）
+
+Cluster B：竞品替代（最高流量）
+├── Best Polymarket Alternatives 2026
+│   URL: /learn/polymarket-alternatives
+│   目标词: polymarket alternative
+│   状态: ✅ 初稿完成
+└── Polymarket vs Kalshi: Full Comparison
+    URL: /learn/polymarket-vs-kalshi
+    目标词: polymarket vs kalshi
+    状态: ✅ 初稿完成
+
+Cluster C：操作指南（转化）
+├── How to Trade Prediction Markets for Beginners
+│   URL: /learn/how-to-trade-prediction-markets
+│   目标词: how to trade prediction markets
+│   状态: 待写（#5）
+└── Prediction Market Odds Explained
+    URL: /learn/prediction-market-odds
+    目标词: prediction market odds
+    状态: 待写（#6）
+
+Cluster D：Meme Token 工具（产品词）
+├── What Is Smart Money Tracking in Crypto?
+│   URL: /learn/smart-money-tracking-crypto
+│   目标词: smart money tracker crypto
+│   状态: 待写（#7）
+├── GMGN vs MoonX: Which Is Better?
+│   URL: /learn/gmgn-vs-moonx
+│   目标词: GMGN alternative
+│   状态: 待写（#8）
+└── Best Solana Meme Coin Tracker 2026
+    URL: /learn/best-solana-meme-coin-tracker
+    目标词: best solana meme coin tracker
+    状态: 待写（#9）
+</code></pre>
+<h3 class="sub">6.2 文章发布计划</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>文章标题</th>
+<th>目标关键词</th>
+<th>字数</th>
+<th>优先级</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>What Is a Prediction Market Aggregator?</td>
+<td>prediction market aggregator</td>
+<td>~1,800</td>
+<td><strong>P0</strong></td>
+<td>✅ 完成</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Best Polymarket Alternatives 2026</td>
+<td>polymarket alternative</td>
+<td>~2,200</td>
+<td><strong>P0</strong></td>
+<td>✅ 完成</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Polymarket vs Kalshi: Full Comparison</td>
+<td>polymarket vs kalshi</td>
+<td>~2,000</td>
+<td>P1</td>
+<td>✅ 完成</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Prediction Markets: The Complete Guide</td>
+<td>prediction markets / what are prediction markets</td>
+<td>~4,000</td>
+<td>P1</td>
+<td>✅ 完成</td>
+</tr>
+<tr>
+<td>5</td>
+<td>How to Trade Prediction Markets</td>
+<td>how to trade prediction markets</td>
+<td>~2,000</td>
+<td>P2</td>
+<td>待写</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Prediction Market Odds Explained</td>
+<td>prediction market odds</td>
+<td>~1,500</td>
+<td>P2</td>
+<td>待写</td>
+</tr>
+<tr>
+<td>7</td>
+<td>What Is Smart Money Tracking?</td>
+<td>smart money tracker crypto</td>
+<td>~1,800</td>
+<td>P1</td>
+<td>待写</td>
+</tr>
+<tr>
+<td>8</td>
+<td>GMGN vs MoonX: Which Is Better?</td>
+<td>GMGN alternative</td>
+<td>~2,000</td>
+<td>P1</td>
+<td>待写</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Best Solana Meme Coin Tracker 2026</td>
+<td>best solana meme coin tracker</td>
+<td>~2,000</td>
+<td>P2</td>
+<td>待写</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">6.3 内链规则</h3>
+<ul>
+<li>每篇 Cluster 文章 <strong>必须</strong> 链接到支柱页（Prediction Markets Guide）</li>
+<li>支柱页链接到所有 Cluster 文章</li>
+<li>所有文章结尾 CTA 链接到 MoonX 产品页：<code>/en/moonx/markets/trending</code></li>
+<li>Token 页内链：Token 页 → /markets/trending → MoonX 首页</li>
+</ul>
+<hr />
+<h2 class="sec">七、执行时间线</h2>
+<h3 class="sub">第 1-2 周：技术评估与内容并行</h3>
+<p><strong>Tech（技术团队）：</strong>
+- [ ] 确认 SSR 改造排期（哪些页面，第几周上线）
+- [ ] 确认 <code>/en/moonx/learn/</code> 路径何时建好
+- [ ] 开始 Canonical 修复（不依赖 SSR，现在就能做）
+- [ ] 参考技术规格文档：<code>tech_ssr_spec_for_moonx.md</code></p>
+<p><strong>Content（内容团队）：</strong>
+- [ ] Kelly 审核文章 #1-4（已完成初稿）
+- [ ] 根据反馈调整语气/风格
+- [ ] 开始写文章 #5（How to Trade Prediction Markets）</p>
+<p><strong>验收标准：</strong> 确认 SSR 上线时间，/learn/ 路径建好时间</p>
+<hr />
+<h3 class="sub">第 3-4 周：首次上线</h3>
+<p><strong>Tech：</strong>
+- [ ] <code>/en/moonx/learn/</code> 路径上线（SSR）
+- [ ] 功能页 meta 标签写入（trending / smart money / pump）
+- [ ] Canonical 修复完成</p>
+<p><strong>Content：</strong>
+- [ ] 发布文章 #1-3（learn 路径一上线立即发布）
+- [ ] 发布文章 #4（支柱页）
+- [ ] GSC 提交 sitemap，申请抓取</p>
+<p><strong>验收标准：</strong> GSC 中 MoonX 开始出现展示量（哪怕个位数）</p>
+<hr />
+<h3 class="sub">第 5-8 周：Token 页上线 + 内容继续</h3>
+<p><strong>Tech：</strong>
+- [ ] Token 详情页 SSR meta 注入上线
+- [ ] Token sitemap 自动更新机制建好
+- [ ] 提交 token sitemap 到 GSC
+- [ ] MoonX 首页 SSR 上线</p>
+<p><strong>Content：</strong>
+- [ ] 发布文章 #5-7
+- [ ] 监控 GSC：哪些词开始出现展示 → 优化对应页面 description（提升 CTR）</p>
+<p><strong>验收标准：</strong> Token 页开始被 Google 收录，learn 页面出现关键词展示量</p>
+<hr />
+<h3 class="sub">第 9-16 周：规模化</h3>
+<p><strong>Tech：</strong>
+- [ ] Token sitemap 持续更新（满足准入条件的 token 自动进入）
+- [ ] 修复 noindex token 页（不满足条件的自动标记）</p>
+<p><strong>Content：</strong>
+- [ ] 发布文章 #8-9
+- [ ] 根据 GSC 数据：优化 CTR 低但展示量高的页面
+- [ ] 开始外链建设（进入现有 polymarket alternative 榜单）</p>
+<p><strong>验收标准：</strong>
+- Token 页有效收录 ≥ 500
+- "polymarket alternative" 出现在 Top 50
+- 月自然流量 ≥ 1,000</p>
+<hr />
+<h2 class="sec">八、成功指标追踪</h2>
+<h3 class="sub">每月复盘看板</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>M1 目标</th>
+<th>M2 目标</th>
+<th>M4 目标</th>
+<th>M6 目标</th>
+<th>M12 目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GSC 月展示量</td>
+<td>&gt;0</td>
+<td>5,000+</td>
+<td>50,000+</td>
+<td>200,000+</td>
+<td>1,000,000+</td>
+</tr>
+<tr>
+<td>GSC 月点击量</td>
+<td>&gt;0</td>
+<td>200+</td>
+<td>3,000+</td>
+<td>15,000+</td>
+<td>60,000+</td>
+</tr>
+<tr>
+<td>有效索引页面数</td>
+<td>5+</td>
+<td>50+</td>
+<td>500+</td>
+<td>2,000+</td>
+<td>10,000+</td>
+</tr>
+<tr>
+<td>其中 token 页</td>
+<td>0</td>
+<td>0</td>
+<td>500+</td>
+<td>2,000+</td>
+<td>10,000+</td>
+</tr>
+<tr>
+<td>其中 learn 页</td>
+<td>4</td>
+<td>8+</td>
+<td>10</td>
+<td>10</td>
+<td>10+</td>
+</tr>
+<tr>
+<td>"polymarket alternative" 排名</td>
+<td>—</td>
+<td>Top 100</td>
+<td>Top 50</td>
+<td>Top 10</td>
+<td>Top 3</td>
+</tr>
+<tr>
+<td>平均 CTR</td>
+<td>—</td>
+<td>0.5%+</td>
+<td>1%+</td>
+<td>1.5%+</td>
+<td>2%+</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub">最重要的先行指标（Leading Indicators）</h3>
+<ol>
+<li><strong>GSC 展示量出现</strong> — SSR 上线后 1-2 周应出现，这是一切的起点</li>
+<li><strong>索引页面数增长</strong> — 每周看 Google Search Console Coverage 报告</li>
+<li><strong>长尾词开始排名</strong> — 先是第 50-100 位，然后爬升，说明内容被认可</li>
+</ol>
+<hr />
+<h2 class="sec">附录 A：Token 页固定静态内容规格</h2>
+<h3 class="sub">固定说明段落（所有 token 页一致，SSR 注入）</h3>
+<pre><code>Trade {TOKEN_SYMBOL} on MoonX, the Solana meme token trading platform.
+View live price charts, track smart money wallet activity, and execute trades
+directly. MoonX aggregates liquidity across Solana DEXs for best execution.
+</code></pre>
+<h3 class="sub">FAQ Schema（每个 token 页统一 3 个问题）</h3>
+<pre><code class="language-json">{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;FAQPage&quot;,
+  &quot;mainEntity&quot;: [
+    {
+      &quot;@type&quot;: &quot;Question&quot;,
+      &quot;name&quot;: &quot;What is {TOKEN_SYMBOL}?&quot;,
+      &quot;acceptedAnswer&quot;: {
+        &quot;@type&quot;: &quot;Answer&quot;,
+        &quot;text&quot;: &quot;{TOKEN_SYMBOL} ({TOKEN_NAME}) is a token on the Solana blockchain. View live price, trading volume, and smart money activity on MoonX.&quot;
+      }
+    },
+    {
+      &quot;@type&quot;: &quot;Question&quot;,
+      &quot;name&quot;: &quot;How to buy {TOKEN_SYMBOL} on MoonX?&quot;,
+      &quot;acceptedAnswer&quot;: {
+        &quot;@type&quot;: &quot;Answer&quot;,
+        &quot;text&quot;: &quot;To buy {TOKEN_SYMBOL} on MoonX: 1) Connect your Solana wallet, 2) Search for {TOKEN_SYMBOL}, 3) Enter the amount and confirm the trade. MoonX routes through the best available DEX liquidity.&quot;
+      }
+    },
+    {
+      &quot;@type&quot;: &quot;Question&quot;,
+      &quot;name&quot;: &quot;Is {TOKEN_SYMBOL} safe to trade?&quot;,
+      &quot;acceptedAnswer&quot;: {
+        &quot;@type&quot;: &quot;Answer&quot;,
+        &quot;text&quot;: &quot;Always research before trading any meme token. Check liquidity pool size, holder distribution, and smart money activity on MoonX before entering a position.&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+<h3 class="sub">FinancialProduct Schema 模板</h3>
+<pre><code class="language-json">{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;FinancialProduct&quot;,
+  &quot;name&quot;: &quot;{TOKEN_SYMBOL} Meme Token — Live Chart &amp; Trading&quot;,
+  &quot;url&quot;: &quot;https://www.bydfi.com/en/moonx/solana/token/{CONTRACT}&quot;,
+  &quot;provider&quot;: {
+    &quot;@type&quot;: &quot;Organization&quot;,
+    &quot;name&quot;: &quot;MoonX by BYDFi&quot;,
+    &quot;url&quot;: &quot;https://www.bydfi.com/en/moonx&quot;
+  }
+}
+</code></pre>
+<hr />
+<h2 class="sec">附录 B：已产出内容文件清单</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MoonX_SEO计划书_v2.md</code></td>
+<td>三轨战略总计划</td>
+</tr>
+<tr>
+<td><code>tech_ssr_spec_for_moonx.md</code></td>
+<td>技术团队 SSR meta 规格</td>
+</tr>
+<tr>
+<td><code>article_01_prediction_market_aggregator.md</code></td>
+<td>文章 #1 初稿</td>
+</tr>
+<tr>
+<td><code>article_02_polymarket_alternatives.md</code></td>
+<td>文章 #2 初稿</td>
+</tr>
+<tr>
+<td><code>article_03_polymarket_vs_kalshi.md</code></td>
+<td>文章 #3 初稿</td>
+</tr>
+<tr>
+<td><code>article_04_prediction_markets_guide.md</code></td>
+<td>文章 #4 支柱页初稿</td>
+</tr>
+<tr>
+<td><code>05_outreach_emails.md</code></td>
+<td>5 封进榜单外联邮件</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 class="sec">附录 C：需要 Kelly 确认的事项</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>选项 A</th>
+<th>选项 B</th>
+<th>截止</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>文章 #1-4 语气/风格是否满意？</td>
+<td>满意，继续写 #5-9</td>
+<td>需要调整，先改</td>
+<td>本周</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Tech SSR 改造排期确认了吗？</td>
+<td>已确认时间节点</td>
+<td>还在协调中</td>
+<td>本周</td>
+</tr>
+<tr>
+<td>3</td>
+<td>/en/moonx/learn/ 路径何时建好？</td>
+<td>已有时间节点</td>
+<td>还在协调中</td>
+<td>本周</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>文档版本：v1.0 · 2026-03-11 · 基于 GSC数据 + SEO全站规范 + 基础能力优化P1 + SerpAPI分析</em></p>
+
+<hr>
+<p style="color:#999;font-size:12px;text-align:center;margin-top:32px">
+  文档版本：V2.0 · 生成日期：2026-03-13 · 需求负责人：Kelly<br>
+  V2.0 更新：统一为 MoonX PRD 橙色风格
+</p>
+</div>
+</body>
+</html>

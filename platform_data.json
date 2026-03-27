@@ -1,0 +1,135 @@
+{
+  "source": "神策分析 PDF 导出",
+  "updated": "2026-03-11",
+  "note": "每次 Kelly 更新 PDF 后运行 python3 parse_platform_pdf.py 刷新此文件",
+
+  "moonx_data": {
+    "monthly_active_users": {
+      "2026-03": 543,
+      "2026-02": 1644,
+      "2026-01": 1876,
+      "2025-12": 2016,
+      "2025-11": 2404
+    },
+    "trend_note": "⚠️ 活跃用户连续5个月下滑，2026-03 较峰值下降 77%",
+
+    "today_2026_03_11": {
+      "trading_users": 2,
+      "app_homepage_visits": 22,
+      "app_asset_visits": 17,
+      "app_trade_visits": 9,
+      "pc_language_region_clicks": 6,
+      "pc_market_clicks": 1,
+      "pc_position_clicks": 2
+    },
+
+    "trading": {
+      "total_traders_since_june": 6571,
+      "daily_avg_traders": 23.14,
+      "total_volume_cny": "387.69亿",
+      "daily_avg_volume_cny": "2.15亿",
+      "today_volume_usdt": 2164.23
+    },
+
+    "deposit_funnel": {
+      "monthly_exchange_quick_deposit_users": {
+        "2026-03": 240, "2026-02": 789, "2026-01": 839, "2025-12": 635
+      },
+      "monthly_chain_deposit_users": {
+        "2026-03": 4, "2026-02": 24, "2026-01": 25, "2025-12": 46
+      },
+      "monthly_trade_complete_users": {
+        "2026-03": 0, "2026-02": 0, "2026-01": 0, "2025-12": 0
+      },
+      "funnel_issue": "⚠️ 充值→交易完成转化率为0，存在严重断层，充值功能仍在开发埋点"
+    },
+
+    "trading_country": {
+      "United States": "51.67%",
+      "Canada": "4.62%",
+      "Iran": "2.34%",
+      "Hong Kong": "1.86%",
+      "Australia": "1.59%",
+      "France": "1.41%",
+      "Netherlands": "1.17%",
+      "India": "1.00%",
+      "Others": "22.96%"
+    },
+
+    "trading_method": {
+      "市价交易（交易主页）": "32.23%",
+      "市价平仓（持仓）": "20.93%",
+      "一键卖出（交易主页）": "7.64%",
+      "市价加仓（持仓）": "5.48%",
+      "一键买入（following）": "3.65%",
+      "一键买入（首页）": "3.65%",
+      "一键买入（行情页）": "3.16%"
+    },
+
+    "platform_distribution": {
+      "Web_js": "40.80%",
+      "Android": "32.60%",
+      "iOS": "26.59%"
+    }
+  },
+
+  "t1_user_profile": {
+    "geography": {
+      "United States": "61.92%",
+      "Canada": "6.96%",
+      "Germany": "5.61%",
+      "France": "4.03%",
+      "United Kingdom": "2.83%",
+      "South Korea": "2.40%",
+      "Spain": "2.19%",
+      "Singapore": "1.61%",
+      "Others": "3.56%"
+    },
+
+    "language": {
+      "English_en": "~80%",
+      "Farsi_fa": "1.62%",
+      "Spanish_es": "1.32%",
+      "French_fr": "1.19%"
+    },
+
+    "spot_trading_pairs": {
+      "BTC_USDT": "9.10%",
+      "XRP_USDT": "6.89%",
+      "SOL_USDT": "6.56%",
+      "ETH_USDT": "5.62%",
+      "USDC_USDT": "5.54%",
+      "DOGE_USDT": "2.94%",
+      "LTC_USDT": "2.11%",
+      "BNB_USDT": "1.34%"
+    },
+
+    "user_acquisition": {
+      "推广": "35.65%",
+      "广告": "34.73%",
+      "自然_SEO": "29.63%"
+    },
+
+    "device": {
+      "Web_js": "49.76%",
+      "iOS": "28.63%",
+      "Android": "21.61%"
+    },
+
+    "key_insights": [
+      "美国用户占62%，英语内容ROI最高",
+      "自然流量仅29.6%，SEO提升空间大",
+      "Web端用户占50%，落地页体验优化优先级高",
+      "BTC/XRP/SOL是核心交易对，内容选题应围绕这些",
+      "用户以推广+广告获取为主，自然增长体系待建设"
+    ]
+  },
+
+  "marketing_alerts": [
+    "🔴 活跃用户5个月连续下滑（2404→543），需立即干预",
+    "🔴 今日交易用户仅2人，流量极低",
+    "🔴 充值→交易完成转化率0%，产品漏斗断裂",
+    "🟡 自然流量占比29.6%，SEO布局滞后",
+    "🟡 美国市场占比高但内容以中文为主，英文内容严重不足"
+  ]
+}

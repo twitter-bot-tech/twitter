@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 流失用户邮件活动模版 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  background: #f0f0f0; color: #1a1a1a; }
+
+/* ── Page wrapper ── */
+.page { max-width: 960px; margin: 0 auto; background: #fafafa; min-height: 100vh; }
+
+/* ── Cover ── */
+.cover { background: linear-gradient(150deg, #111 0%, #1a0e00 50%, #FF6B00 100%);
+  padding: 56px 48px 44px; color: #fff; }
+.cover .eyebrow { font-size: 11px; letter-spacing: 3px; opacity: 0.45; text-transform: uppercase; margin-bottom: 16px; }
+.cover h1 { font-size: 34px; font-weight: 900; line-height: 1.15; margin-bottom: 8px; }
+.cover .tagline { font-size: 14px; opacity: 0.65; margin-bottom: 32px; }
+.cover .seg-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+.seg-pill { padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; border: 1.5px solid; }
+.seg-pill.a { background: rgba(33,150,243,0.15); border-color: #42A5F5; color: #90CAF9; }
+.seg-pill.b { background: rgba(76,175,80,0.15); border-color: #66BB6A; color: #A5D6A7; }
+.seg-pill.c { background: rgba(255,107,0,0.15); border-color: #FF9800; color: #FFB74D; }
+.cover .meta { display: flex; gap: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+.cover .meta .ml { font-size: 10px; opacity: 0.45; text-transform: uppercase; letter-spacing: 1px; }
+.cover .meta .mv { font-size: 13px; font-weight: 700; margin-top: 2px; }
+
+/* ── Layout ── */
+.wrap { padding: 32px 40px 80px; }
+
+/* ── Section headers ── */
+.sec-bar { border-radius: 10px; padding: 18px 24px; margin: 40px 0 20px;
+  display: flex; justify-content: space-between; align-items: center; }
+.sec-bar.sa { background: linear-gradient(135deg, #1565C0, #42A5F5); }
+.sec-bar.sb { background: linear-gradient(135deg, #2E7D32, #66BB6A); }
+.sec-bar.sc { background: linear-gradient(135deg, #E65100, #FF9800); }
+.sec-bar h2 { font-size: 18px; font-weight: 900; color: #fff; }
+.sec-bar .seg-meta { text-align: right; }
+.sec-bar .seg-meta .sm-label { font-size: 10px; color: rgba(255,255,255,0.6); }
+.sec-bar .seg-meta .sm-val { font-size: 12px; font-weight: 700; color: #fff; }
+
+/* ── Trigger rule ── */
+.trigger-box { background: #fff; border: 1.5px solid #e8e8e8; border-radius: 8px;
+  padding: 14px 18px; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap; }
+.tr-item { display: flex; gap: 8px; align-items: baseline; }
+.tr-item .trl { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: .5px; min-width: 52px; }
+.tr-item .trv { font-size: 12px; color: #333; }
+.tr-item .trv strong { color: #FF6B00; }
+
+/* ── Email sequence row ── */
+.seq-row { display: flex; gap: 0; margin-bottom: 32px; position: relative; }
+.seq-row::before { content: ''; position: absolute; left: 28px; top: 56px; bottom: 0;
+  width: 2px; background: #f0f0f0; z-index: 0; }
+.seq-item { flex: 1; position: relative; }
+.seq-num-wrap { display: flex; align-items: flex-start; gap: 16px; }
+.seq-dot { width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0; display: flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 900;
+  color: #fff; position: relative; z-index: 1; }
+.sd-blue { background: #1565C0; }
+.sd-green { background: #2E7D32; }
+.sd-orange { background: #E65100; }
+.sd-gray { background: #9E9E9E; }
+.seq-header { flex: 1; }
+.seq-header .sh-day { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.seq-header .sh-title { font-size: 14px; font-weight: 800; color: #111; margin-top: 2px; }
+.seq-header .sh-goal { font-size: 12px; color: #666; margin-top: 2px; }
+
+/* ── Email mockup ── */
+.email-mock { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px;
+  overflow: hidden; margin: 12px 0 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.em-client-bar { background: #f5f5f5; padding: 10px 16px; border-bottom: 1px solid #e8e8e8;
+  display: flex; gap: 16px; flex-wrap: wrap; }
+.em-field { display: flex; gap: 6px; font-size: 11px; }
+.em-field .ef-label { color: #999; min-width: 36px; }
+.em-field .ef-val { color: #333; font-weight: 600; }
+.ef-val.subject { color: #111; font-weight: 800; font-size: 12px; }
+.ef-val.preview { color: #888; font-style: italic; }
+.em-body { padding: 24px 28px; }
+.em-body .greeting { font-size: 14px; color: #333; margin-bottom: 16px; }
+.em-body .main-msg { font-size: 14px; color: #1a1a1a; line-height: 1.8; margin-bottom: 16px; }
+.em-body .highlight { background: #FFF3E0; border-left: 3px solid #FF6B00;
+  padding: 12px 16px; border-radius: 4px; font-size: 13px; color: #333;
+  line-height: 1.7; margin: 14px 0; }
+.em-body .highlight strong { color: #E65100; }
+.em-body .cta-wrap { margin: 20px 0 8px; }
+.em-cta { display: inline-block; background: #FF6B00; color: #fff; font-weight: 800;
+  font-size: 13px; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+.em-cta.secondary { background: transparent; border: 2px solid #FF6B00; color: #FF6B00; }
+.em-body .footer-note { font-size: 11px; color: #aaa; margin-top: 16px; line-height: 1.6; }
+.em-body .reward-box { background: linear-gradient(135deg, #FFF8F3, #FFF3E0);
+  border: 1.5px solid #FFB74D; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+.em-body .reward-box .rb-title { font-size: 12px; font-weight: 700; color: #E65100; margin-bottom: 8px; }
+.em-body .reward-box .rb-row { display: flex; gap: 10px; font-size: 13px; margin-bottom: 4px; }
+.em-body .reward-box .rb-row .rbl { color: #999; min-width: 64px; }
+.em-body .reward-box .rb-row .rbv { font-weight: 700; color: #111; }
+.em-body .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+.em-body .stat-cell { background: #f8f8f8; border-radius: 6px; padding: 10px 12px; text-align: center; }
+.em-body .stat-cell .sv { font-size: 20px; font-weight: 900; color: #FF6B00; }
+.em-body .stat-cell .sl { font-size: 10px; color: #888; margin-top: 2px; }
+.em-body .urgency { background: #FFEBEE; border: 1px solid #FFCDD2; border-radius: 6px;
+  padding: 10px 14px; font-size: 12px; color: #C62828; font-weight: 600; margin: 12px 0; }
+.em-body .personalized { background: #E3F2FD; border-radius: 6px; padding: 12px 16px;
+  margin: 12px 0; font-size: 13px; color: #1565C0; }
+
+/* ── Annotation ── */
+.annotation { font-size: 11px; color: #999; display: flex; gap: 6px; margin-top: 6px; margin-bottom: 16px; padding-left: 4px; line-height: 1.5; }
+.annotation::before { content: '↗'; color: #ddd; }
+
+/* ── Rule box ── */
+.rule-box { background: #fff; border: 1.5px solid #e8e8e8; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; }
+.rule-box h4 { font-size: 12px; font-weight: 800; color: #333; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }
+.rule-row { display: flex; gap: 8px; font-size: 12px; color: #444; padding: 4px 0;
+  border-top: 1px solid #f8f8f8; align-items: baseline; }
+.rule-row .rl { color: #999; min-width: 80px; font-size: 11px; font-weight: 700; }
+.key-rule { display: inline-flex; background: #FFF3E0; border: 1px solid #FFB74D;
+  border-radius: 4px; padding: 1px 7px; font-size: 10.5px; font-weight: 700; color: #E65100; }
+
+/* ── Overview grid ── */
+.overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+.ov-card { border-radius: 10px; overflow: hidden; border: 1.5px solid #e8e8e8; background: #fff; }
+.ov-head { padding: 12px 16px; }
+.ov-head .oh-tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.6; margin-bottom: 4px; }
+.ov-head .oh-name { font-size: 14px; font-weight: 800; }
+.ov-head .oh-def { font-size: 11px; margin-top: 3px; opacity: 0.7; }
+.ov-body { padding: 10px 16px 14px; }
+.ov-row { font-size: 11px; color: #555; padding: 3px 0; border-top: 1px solid #f8f8f8;
+  display: flex; gap: 6px; }
+.ov-row::before { content: '→'; color: #ddd; font-size: 10px; }
+.ov-head-a { background: linear-gradient(135deg, #E3F2FD, #F0F7FF); border-bottom: 1px solid #BBDEFB; }
+.ov-head-a .oh-tag { color: #1565C0; } .ov-head-a .oh-name { color: #1565C0; }
+.ov-head-b { background: linear-gradient(135deg, #E8F5E9, #F5FDF5); border-bottom: 1px solid #C8E6C9; }
+.ov-head-b .oh-tag { color: #2E7D32; } .ov-head-b .oh-name { color: #2E7D32; }
+.ov-head-c { background: linear-gradient(135deg, #FFF3E0, #FFF8F3); border-bottom: 1px solid #FFE0B2; }
+.ov-head-c .oh-tag { color: #E65100; } .ov-head-c .oh-name { color: #E65100; }
+
+/* ── Divider ── */
+.sec-div { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
+
+/* ── Footer ── */
+.doc-footer { text-align: center; padding: 24px 40px 40px; font-size: 11px; color: #bbb;
+  border-top: 1px solid #efefef; }
+.doc-footer strong { color: #FF6B00; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── COVER ── -->
+<div class="cover">
+  <div class="eyebrow">MoonX Farm · Internal</div>
+  <h1>流失用户<br>邮件活动模版</h1>
+  <div class="tagline">三类流失场景 · 共 12 封邮件 · 全文案 + 触发规则</div>
+  <div class="seg-row">
+    <div class="seg-pill a">A 段：注册未充值</div>
+    <div class="seg-pill b">B 段：充值未交易</div>
+    <div class="seg-pill c">C 段：曾活跃后流失</div>
+  </div>
+  <div class="meta">
+    <div><div class="ml">版本</div><div class="mv">V1.0</div></div>
+    <div><div class="ml">日期</div><div class="mv">2026-03-16</div></div>
+    <div><div class="ml">邮件总数</div><div class="mv">12 封（每段 4 封）</div></div>
+    <div><div class="ml">发送工具</div><div class="mv">Naval 确认邮件平台</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ── OVERVIEW ── -->
+<div style="margin-bottom:8px;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;">三类流失场景定义</div>
+<div class="overview-grid">
+  <div class="ov-card">
+    <div class="ov-head ov-head-a">
+      <div class="oh-tag">A 段</div>
+      <div class="oh-name">注册未充值</div>
+      <div class="oh-def">注册后 3 天内未完成首次充值</div>
+    </div>
+    <div class="ov-body">
+      <div class="ov-row">触发：注册满 3 天 AND 充值余额 = $0</div>
+      <div class="ov-row">4 封邮件：D+3 / D+7 / D+14 / D+21</div>
+      <div class="ov-row">目标：首充转化率 ≥15%</div>
+      <div class="ov-row">终止条件：完成首充即停止序列</div>
+    </div>
+  </div>
+  <div class="ov-card">
+    <div class="ov-head ov-head-b">
+      <div class="oh-tag">B 段</div>
+      <div class="oh-name">充值未交易</div>
+      <div class="oh-def">充值后 2 天内未完成首笔预测</div>
+    </div>
+    <div class="ov-body">
+      <div class="ov-row">触发：充值后满 2 天 AND 预测交易次数 = 0</div>
+      <div class="ov-row">4 封邮件：D+2 / D+5 / D+10 / D+15</div>
+      <div class="ov-row">目标：首次交易转化率 ≥40%</div>
+      <div class="ov-row">终止条件：完成首笔预测即停止序列</div>
+    </div>
+  </div>
+  <div class="ov-card">
+    <div class="ov-head ov-head-c">
+      <div class="oh-tag">C 段</div>
+      <div class="oh-name">曾活跃后流失</div>
+      <div class="oh-def">曾完成过交易，但 30 天内无任何登录</div>
+    </div>
+    <div class="ov-body">
+      <div class="ov-row">触发：最后登录时间超过 30 天 AND 历史交易 ≥1 笔</div>
+      <div class="ov-row">4 封邮件：D+30 / D+37 / D+44 / D+51</div>
+      <div class="ov-row">目标：回归率 ≥20%，回归用户 7 日留存 ≥50%</div>
+      <div class="ov-row">终止条件：登录即停止序列</div>
+    </div>
+  </div>
+</div>
+
+<div class="rule-box">
+  <h4>全局发送规则</h4>
+  <div class="rule-row"><span class="rl">频率上限</span>同一用户最多同时进入 1 个序列，不叠加发送</div>
+  <div class="rule-row"><span class="rl">优先级</span>B 段 > A 段（已充值更值得激活）；C 段独立运行</div>
+  <div class="rule-row"><span class="rl">发送时间</span><span class="key-rule">用户所在时区 10:00–11:00</span>，避免凌晨发送降低打开率</div>
+  <div class="rule-row"><span class="rl">退订处理</span>退订即永久移除，不再进入任何流失序列</div>
+  <div class="rule-row"><span class="rl">A/B 测试</span>主题行建议每封做 2 版 A/B 测试，以打开率高的版本为准</div>
+</div>
+
+
+<!-- ════════════════════════════════════════ -->
+<!--  A 段：注册未充值                        -->
+<!-- ════════════════════════════════════════ -->
+<div class="sec-bar sa">
+  <div>
+    <h2>A 段 — 注册未充值</h2>
+    <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">注册后 3 天未充值 · 4 封邮件 · 间隔：D+3 / 7 / 14 / 21</div>
+  </div>
+  <div class="seg-meta">
+    <div class="sm-label">目标</div>
+    <div class="sm-val">首充转化率 ≥15%</div>
+  </div>
+</div>
+
+<!-- A1 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;">
+  <div class="seq-dot sd-blue">1</div>
+  <div class="seq-header">
+    <div class="sh-day">注册后第 3 天</div>
+    <div class="sh-title">软提醒 — 你的 $10 还没拿</div>
+    <div class="sh-goal">低压力提醒，把体验金作为钩子，不要推销</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">你有 $10 还没领</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">注册的时候我们给你留了一笔体验金，还在那里等你……</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">
+      你注册 MoonX 的时候，我们给你留了 <strong>$10 预测市场体验金</strong>。<br>
+      到现在还没动，所以发封邮件问问你。
+    </div>
+    <div class="highlight">
+      <strong>体验金怎么用：</strong><br>
+      完成第一笔预测即自动解锁。用平台的钱先试试，赢了是你的，输了不心疼。
+    </div>
+    <div class="main-msg">
+      现在预测市场有这几道题挺热门的：<br>
+      · 比特币年底会不会突破 $120K？<br>
+      · 美联储下次会降息吗？<br>
+      · 以太坊 ETF 今年会通过吗？
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">去领我的 $10 →</a>
+    </div>
+    <div class="footer-note">
+      对了，MoonX 预测市场手续费是 0%。竞品收 1%–10%，我们不收。<br>
+      有问题直接回复这封邮件，我们会看的。
+    </div>
+  </div>
+</div>
+<div class="annotation">主题行 A/B 备选：「你的账号里有 $10 在等你」· 目标打开率 ≥40%</div>
+
+<!-- A2 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-blue">2</div>
+  <div class="seq-header">
+    <div class="sh-day">注册后第 7 天</div>
+    <div class="sh-title">价值对比 — 为什么选 MoonX</div>
+    <div class="sh-goal">用竞品费率数据说话，建立认知差异</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">别的平台收 10% 手续费，我们收 0%</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">同样预测对了，你能多拿多少？算了一下……</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">我们算了一笔账，给你看看。</div>
+    <div class="em-body" style="padding:0;">
+      <div class="stat-row">
+        <div class="stat-cell"><div class="sv">10%</div><div class="sl">PredictIt 手续费</div></div>
+        <div class="stat-cell"><div class="sv">1.75%</div><div class="sl">Kalshi 手续费</div></div>
+        <div class="stat-cell"><div class="sv" style="color:#2E7D32;">0%</div><div class="sl">MoonX 手续费</div></div>
+      </div>
+    </div>
+    <div class="main-msg" style="margin-top:14px;">
+      如果你每月交易 $1,000，在 PredictIt 要付 <strong>$100 手续费</strong>，在 MoonX 付 <strong>$0</strong>。<br>
+      一年下来差 $1,200——够再做很多次预测了。
+    </div>
+    <div class="highlight">
+      <strong>现在充值还有额外奖励：</strong><br>
+      充值 $100 → 赠 $10 USDT 体验金（7 天有效）<br>
+      充值 $500 → 赠 $30 USDT 体验金<br>
+      充值 $1,000+ → 赠 $80 USDT 体验金
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">现在充值，领取奖励 →</a>
+    </div>
+    <div class="footer-note">体验金有效期 7 天，仅限预测市场使用，完成首笔预测后解锁。</div>
+  </div>
+</div>
+<div class="annotation">主题行 A/B 备选：「同样预测对了，你多赚 10%」· 目标点击率 ≥8%</div>
+
+<!-- A3 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-blue">3</div>
+  <div class="seq-header">
+    <div class="sh-day">注册后第 14 天</div>
+    <div class="sh-title">限时激励 — 充值奖励截止提醒</div>
+    <div class="sh-goal">制造时间压力，推动立即行动</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">充值奖励还剩 7 天</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">充值 $100 赠 $10 的活动快结束了，不想错过的话……</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="urgency">⏰ 充值阶梯奖励活动还剩 <strong>7 天</strong>，活动结束后恢复原价（无奖励）。</div>
+    <div class="reward-box">
+      <div class="rb-title">现在充值，最高多得 $80</div>
+      <div class="rb-row"><span class="rbl">充值 $100</span><span class="rbv">→ 赠 $10 USDT（10% 奖励）</span></div>
+      <div class="rb-row"><span class="rbl">充值 $500</span><span class="rbv">→ 赠 $30 USDT（6% 奖励）</span></div>
+      <div class="rb-row"><span class="rbl">充值 $1,000+</span><span class="rbv">→ 赠 $80 USDT（8% 奖励）</span></div>
+    </div>
+    <div class="main-msg">
+      加上你注册时的 $10 体验金，充值 $100 你可以用 <strong>$120</strong> 开始预测。<br>
+      手续费是 0%，赢了全部是你的。
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">立即充值，锁定奖励 →</a>
+    </div>
+    <div class="footer-note">奖励体验金有效期 7 天，仅限预测市场使用。活动截止后不再补发。</div>
+  </div>
+</div>
+<div class="annotation">主题行 A/B 备选：「$80 奖励还有最后 7 天可以领」· 目标转化率 ≥10%</div>
+
+<!-- A4 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-gray">4</div>
+  <div class="seq-header">
+    <div class="sh-day">注册后第 21 天（最终召回）</div>
+    <div class="sh-title">最后一封 — 体验金即将清零</div>
+    <div class="sh-goal">短、直接、强 FOMO，之后不再打扰</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">你的 $10 今晚 23:59 清零</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">这是我们最后一封提醒，之后就不打扰你了。</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="urgency">你注册时的 <strong>$10 预测市场体验金</strong>今晚 23:59 到期，之后自动清零。</div>
+    <div class="main-msg">
+      用平台的钱做一笔预测，不需要充值。就当试试看——<br>
+      如果不喜欢，就当没发生过。
+    </div>
+    <div class="cta-wrap" style="display:flex;gap:12px;align-items:center;">
+      <a class="em-cta" href="#">现在去用 $10 →</a>
+      <span style="font-size:12px;color:#999;">（不充值也可以用）</span>
+    </div>
+    <div class="footer-note">
+      这是我们最后一封提醒，之后不会再发活动邮件。<br>
+      如果以后想回来，随时欢迎：moonx.farm
+    </div>
+  </div>
+</div>
+<div class="annotation">这封保持极简，字数越少越好。目标打开率 ≥45%（紧迫性主题行效果最好）</div>
+
+
+<!-- ════════════════════════════════════════ -->
+<!--  B 段：充值未交易                        -->
+<!-- ════════════════════════════════════════ -->
+<div class="sec-bar sb" style="margin-top:48px;">
+  <div>
+    <h2>B 段 — 充值未交易</h2>
+    <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">充值后 2 天未完成首笔预测 · 4 封邮件 · 间隔：D+2 / 5 / 10 / 15</div>
+  </div>
+  <div class="seg-meta">
+    <div class="sm-label">目标</div>
+    <div class="sm-val">首次交易转化率 ≥40%</div>
+  </div>
+</div>
+
+<!-- B1 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;">
+  <div class="seq-dot sd-green">1</div>
+  <div class="seq-header">
+    <div class="sh-day">充值后第 2 天</div>
+    <div class="sh-title">行动引导 — 你的资金还没开始工作</div>
+    <div class="sh-goal">直接问为什么没交易，提供最低门槛入口</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">你充值了，但还没开始预测？</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">可能是不知道从哪道题开始——我帮你挑了 3 道</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">
+      你已经充值了，但还没做过任何预测。<br>
+      可能是不知道从哪道题开始？我帮你挑了 3 道最容易上手的：
+    </div>
+    <div class="highlight">
+      <strong>现在最热门的 3 道题：</strong><br>
+      · 📈 比特币今年年底会不会突破 $120K？（赔率 1:1.8）<br>
+      · 🏦 美联储 6 月会降息吗？（赔率 1:1.4）<br>
+      · 🗳️ 2026 年美国中期选举共和党会赢多少席？（赔率 1:2.1）
+    </div>
+    <div class="main-msg">
+      最小下注 $1，手续费 0%。做错了也没关系，下次继续。
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">去做第一笔预测 →</a>
+    </div>
+    <div class="footer-note">对了——你注册时的 $10 体验金还在账户里，第一笔预测完成后自动解锁。</div>
+  </div>
+</div>
+<div class="annotation">主题行 A/B 备选：「3 道题，帮你选第一笔预测」· 降低决策难度是关键</div>
+
+<!-- B2 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-green">2</div>
+  <div class="seq-header">
+    <div class="sh-day">充值后第 5 天</div>
+    <div class="sh-title">新手教程 — 3 分钟学会怎么预测</div>
+    <div class="sh-goal">解决"不会用"的障碍，用步骤拆解降低焦虑</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">做一笔预测只需要 3 步</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">选题 → 下注 → 等结算。真的就这么简单。</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">很多人第一次用预测市场会有点不知道从哪开始。其实流程很简单：</div>
+    <div class="highlight">
+      <strong>第 1 步：</strong>选一个你有判断的话题（政治、经济、加密、体育都有）<br>
+      <strong>第 2 步：</strong>选择"是"或"否"，输入下注金额（最小 $1）<br>
+      <strong>第 3 步：</strong>等待事件结果，预测对了自动结算到账户<br><br>
+      <strong>手续费：$0。</strong>赢了全部是你的。
+    </div>
+    <div class="main-msg">
+      第一笔预测完成后，你的 $10 体验金会自动解锁——相当于平台陪你再做一次。
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">好，我去试试 →</a>
+    </div>
+    <div class="footer-note">有任何问题直接回复这封邮件，我们团队会帮你。</div>
+  </div>
+</div>
+<div class="annotation">这封重点是消除"不会用"的心理障碍，步骤要简单，不要有任何技术术语</div>
+
+<!-- B3 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-green">3</div>
+  <div class="seq-header">
+    <div class="sh-day">充值后第 10 天</div>
+    <div class="sh-title">额外激励 — 解锁 1 笔免费预测</div>
+    <div class="sh-goal">给一个新的理由让他现在行动，不是重复旧的</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">帮你解锁了 1 笔免费预测额度</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">下注金额我们出，你只管判断对不对。</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">我们给你的账户里加了 <strong>1 笔免费预测额度（$10）</strong>，有效期 48 小时。</div>
+    <div class="reward-box">
+      <div class="rb-title">你的免费额度</div>
+      <div class="rb-row"><span class="rbl">额度金额</span><span class="rbv">$10（我们出钱，你下注）</span></div>
+      <div class="rb-row"><span class="rbl">有效期</span><span class="rbv">48 小时</span></div>
+      <div class="rb-row"><span class="rbl">怎么用</span><span class="rbv">登录后在"我的账户"→"奖励"里领取</span></div>
+      <div class="rb-row"><span class="rbl">赢了怎么算</span><span class="rbv">收益直接入账，可提现</span></div>
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">去领取免费额度 →</a>
+    </div>
+    <div class="footer-note">免费额度 48 小时后自动失效，不可延期。</div>
+  </div>
+</div>
+<div class="annotation">主题行 A/B 备选：「你的账户里多了一笔钱」· 神秘感提升打开率</div>
+
+<!-- B4 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-gray">4</div>
+  <div class="seq-header">
+    <div class="sh-day">充值后第 15 天（最终召回）</div>
+    <div class="sh-title">最后推一把 — 账户余额还在</div>
+    <div class="sh-goal">提醒他钱还在，降低"已经忘了"的流失</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">你账户里还有 $XXX，一直没动</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">钱在那里等你，随时回来都可以。</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="personalized">
+      📊 你的账户余额：<strong>$[用户充值金额]</strong>（一直在这里，没有消失）
+    </div>
+    <div class="main-msg">
+      不用压力，钱不会跑的。<br>
+      随时想回来预测，登录就能用。我们的手续费还是 0%。
+    </div>
+    <div class="main-msg">
+      这是我们最后一封提醒邮件，之后不会再打扰你。<br>
+      如果哪天想回来，直接登录就行：
+    </div>
+    <div class="cta-wrap" style="display:flex;gap:12px;align-items:center;">
+      <a class="em-cta" href="#">回去看看 →</a>
+      <a class="em-cta secondary" href="#">提现余额</a>
+    </div>
+    <div class="footer-note">提供提现选项，降低"钱被锁住了"的顾虑，反而会提升回归率。</div>
+  </div>
+</div>
+<div class="annotation">关键设计：提供提现按钮并不会增加提现，反而会因为消除顾虑而提升留存</div>
+
+
+<!-- ════════════════════════════════════════ -->
+<!--  C 段：曾活跃后流失                      -->
+<!-- ════════════════════════════════════════ -->
+<div class="sec-bar sc" style="margin-top:48px;">
+  <div>
+    <h2>C 段 — 曾活跃后流失</h2>
+    <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">30 天未登录的曾活跃用户 · 4 封邮件 · 间隔：D+30 / 37 / 44 / 51</div>
+  </div>
+  <div class="seg-meta">
+    <div class="sm-label">目标</div>
+    <div class="sm-val">回归率 ≥20%</div>
+  </div>
+</div>
+
+<!-- C1 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;">
+  <div class="seq-dot sd-orange">1</div>
+  <div class="seq-header">
+    <div class="sh-day">流失后第 30 天</div>
+    <div class="sh-title">好久不见 — 软回归，不推销</div>
+    <div class="sh-goal">不要一开口就送礼券，先建立"我们记得你"的情感连接</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">好久不见，这段时间有几道题你可能感兴趣</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">你不在的这段时间，市场上发生了不少事……</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">
+      有一段时间没看到你了。<br>
+      不催你，就是觉得你可能会对这几道新题感兴趣：
+    </div>
+    <div class="highlight">
+      <strong>最近上了几道新题，争议挺大的：</strong><br>
+      · 以太坊今年会重回 $4,000 吗？（赔率 1:2.3，74% 的人选否）<br>
+      · 稳定币监管法案 2026 年内会通过吗？（赔率 1:1.6）<br>
+      · 特朗普任期内会再推加密友好政策吗？（赔率 1:1.2）
+    </div>
+    <div class="main-msg">
+      顺便说一下，我们的手续费还是 0%，这个没变。
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">去看看有什么新题 →</a>
+    </div>
+    <div class="footer-note">只是来问个好，没有什么限时活动。随时来随时走。</div>
+  </div>
+</div>
+<div class="annotation">第一封不放优惠券——研究表明先情感连接再给奖励，比直接给奖券回归率高 30%</div>
+
+<!-- C2 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-orange">2</div>
+  <div class="seq-header">
+    <div class="sh-day">流失后第 37 天</div>
+    <div class="sh-title">专属回归礼 — 这是给你的，不是所有人的</div>
+    <div class="sh-goal">强调专属感，明确奖励内容，限时 7 天</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">专门给你准备的回归礼（7 天有效）</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">老用户专属，新用户没有这个。</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">你曾经用过 MoonX，所以我们给你准备了一份老用户专属回归礼。</div>
+    <div class="reward-box">
+      <div class="rb-title">你的专属回归礼包（仅限 7 天）</div>
+      <div class="rb-row"><span class="rbl">礼一</span><span class="rbv">3 笔免费预测额度（max $10/笔）</span></div>
+      <div class="rb-row"><span class="rbl">礼二</span><span class="rbv">回归后首次充值享额外 +5% 奖励（叠加正常充值奖励）</span></div>
+      <div class="rb-row"><span class="rbl">礼三</span><span class="rbv">专属"老用户"徽章，排行榜单独展示</span></div>
+    </div>
+    <div class="main-msg">
+      这份礼包是系统专门识别曾经活跃过的用户发出的，不是群发。<br>
+      7 天后自动过期。
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">领取我的回归礼 →</a>
+    </div>
+    <div class="footer-note">登录后在"我的账户"→"专属奖励"里领取，有效期 7 天。</div>
+  </div>
+</div>
+<div class="annotation">主题行 A/B 备选：「只有老用户才有这个」· 专属感是 C 段最有效的触发器</div>
+
+<!-- C3 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-orange">3</div>
+  <div class="seq-header">
+    <div class="sh-day">流失后第 44 天</div>
+    <div class="sh-title">个人化数据 — 你的历史成绩单</div>
+    <div class="sh-goal">用真实数据勾起记忆，社交比较激励回归</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">你的预测准确率是 [XX]%，比 78% 的用户高</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">你上次赢的那笔，赔率是 1:2.4……</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">翻了一下你的历史记录，发现你其实挺擅长预测的：</div>
+    <div class="personalized">
+      📊 你的历史数据：<br>
+      · 总预测次数：<strong>[XX] 笔</strong><br>
+      · 预测准确率：<strong>[XX]%</strong>（平台平均 51%）<br>
+      · 历史最高单笔收益：<strong>$[XX]</strong><br>
+      · 准确率超过平台 <strong>[XX]%</strong> 的用户
+    </div>
+    <div class="main-msg">
+      这段时间你不在，市场上有不少你可能判断得比大多数人准的题目。<br>
+      排行榜上你的位置还在，随时可以回来。
+    </div>
+    <div class="cta-wrap">
+      <a class="em-cta" href="#">回去看看我的排名 →</a>
+    </div>
+    <div class="footer-note">数据截至你上次登录时间。平台手续费还是 0%，这个没变。</div>
+  </div>
+</div>
+<div class="annotation">括号内 [XX] 为动态插值，需邮件系统支持个人化变量。准确率数据对回归意愿影响最大</div>
+
+<!-- C4 -->
+<div class="seq-num-wrap" style="margin-bottom:4px;margin-top:16px;">
+  <div class="seq-dot sd-gray">4</div>
+  <div class="seq-header">
+    <div class="sh-day">流失后第 51 天（最终召回）</div>
+    <div class="sh-title">最后一封 — 不打扰了，随时欢迎</div>
+    <div class="sh-goal">低压力收尾，给出最后一个理由，然后放手</div>
+  </div>
+</div>
+<div class="email-mock">
+  <div class="em-client-bar">
+    <div class="em-field"><span class="ef-label">发件人</span><span class="ef-val">MoonX &lt;hello@moonx.farm&gt;</span></div>
+    <div class="em-field"><span class="ef-label">主题</span><span class="ef-val subject">最后一封，之后不打扰了</span></div>
+    <div class="em-field"><span class="ef-label">预览文字</span><span class="ef-val preview">你的账户还在，什么时候想回来都可以。</span></div>
+  </div>
+  <div class="em-body">
+    <div class="greeting">嗨，</div>
+    <div class="main-msg">
+      这是我们最后一封邮件了，之后不会再发提醒给你。<br><br>
+      想说的只有一件事：<strong>你的账户还在，里面的余额还在，排名也还在</strong>。<br>
+      什么时候想回来预测，随时欢迎。
+    </div>
+    <div class="urgency" style="background:#E8F5E9;border-color:#C8E6C9;color:#2E7D32;">
+      你的专属回归礼包还有 <strong>48 小时</strong>到期（3 笔免费额度 + 充值 +5%）。
+    </div>
+    <div class="cta-wrap" style="display:flex;gap:12px;align-items:center;">
+      <a class="em-cta" href="#">最后来一次 →</a>
+      <a class="em-cta secondary" href="#">退订所有邮件</a>
+    </div>
+    <div class="footer-note">
+      退订后不会再收到任何营销邮件。账户不会因此关闭，随时可以登录。<br>
+      MoonX · moonx.farm
+    </div>
+  </div>
+</div>
+<div class="annotation">最后一封同时展示退订按钮，反而会因为"尊重选择"而提升最终打开率和回归率</div>
+
+</div><!-- /wrap -->
+
+<div class="sec-div"></div>
+<div class="doc-footer">
+  <strong>MoonX Farm · 流失用户邮件活动模版 V1.0</strong> · A/B/C 三段 · 共 12 封 · 2026-03-16 · Internal Confidential
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

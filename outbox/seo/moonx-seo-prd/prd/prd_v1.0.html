@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX SEO 内容体系 PRD v1.4</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.75; }
+
+/* Layout */
+.layout { display: flex; }
+.toc-sidebar {
+  width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh;
+  overflow-y: auto; background: #FAFAFA; border-right: 1px solid #EEE;
+  padding: 24px 16px;
+}
+.toc-sidebar h4 { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.toc-sidebar a { display: block; font-size: 12px; color: #555; text-decoration: none; padding: 4px 8px; border-radius: 4px; margin-bottom: 2px; }
+.toc-sidebar a:hover { background: #FFF3E0; color: #FF6B00; }
+.toc-sidebar a.active { background: #FF6B00; color: #fff; }
+.toc-sidebar .toc-sub { padding-left: 16px; font-size: 11px; color: #888; }
+
+.page { max-width: 960px; padding: 48px 56px; flex: 1; min-width: 0; }
+
+/* Cover */
+.cover { text-align: center; padding: 72px 0 56px; border-bottom: 3px solid #FF6B00; margin-bottom: 48px; }
+.cover .badge { display: inline-block; background: #FF6B00; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 12px; margin-bottom: 16px; }
+.cover h1 { font-size: 30px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.cover .subtitle { font-size: 14px; color: #888; margin-bottom: 28px; }
+.cover .meta { display: inline-flex; gap: 32px; background: #FFF8F0; padding: 16px 28px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item .label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 13px; font-weight: 600; color: #333; margin-top: 2px; }
+
+/* Version selector */
+.version-bar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 24px; }
+.version-bar select { font-size: 12px; border: 1px solid #DDD; border-radius: 4px; padding: 4px 8px; color: #555; }
+.version-bar span { font-size: 12px; color: #999; }
+
+/* Section headers */
+h2.sec { font-size: 19px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 15px; font-weight: 600; margin: 32px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 13px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+table td:first-child { font-weight: 500; color: #555; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-p0 { background: #FFEBEE; color: #C62828; }
+.tag-p1 { background: #FFF3E0; color: #E65100; }
+.tag-p2 { background: #F3E5F5; color: #6A1B9A; }
+.tag-new { background: #E3F2FD; color: #1565C0; }
+.tag-mod { background: #E8F5E9; color: #2E7D32; }
+.tag-done { background: #F1F8E9; color: #33691E; }
+
+/* Journey Map */
+.journey { overflow-x: auto; margin: 16px 0; }
+.journey table th { background: #FF6B00; color: #fff; white-space: normal; text-align: center; font-size: 12px; }
+.journey table td { text-align: center; font-size: 12px; vertical-align: top; }
+.journey table td:first-child { font-weight: 700; color: #444; background: #FAFAFA; text-align: left; white-space: nowrap; }
+.emotion { font-size: 20px; }
+.pain { color: #C62828; font-size: 11px; }
+.opportunity { background: #FFF3E0; color: #E65100; font-size: 11px; padding: 3px 6px; border-radius: 3px; font-weight: 600; }
+
+/* Notes */
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+.success { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #2E7D32; }
+.placeholder { background: #F8FAFC; border: 2px dashed #CBD5E1; padding: 20px; margin: 16px 0; border-radius: 6px; text-align: center; color: #94A3B8; font-size: 13px; }
+.placeholder strong { display: block; color: #64748B; font-size: 14px; margin-bottom: 6px; }
+
+/* Code / URL */
+code { background: #F3F3F3; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", monospace; font-size: 12px; color: #C41A16; }
+.url { background: #E3F2FD; color: #1565C0; padding: 2px 8px; border-radius: 3px; font-family: monospace; font-size: 12px; }
+.kw { background: #E8F5E9; color: #2E7D32; padding: 2px 8px; border-radius: 3px; font-size: 12px; font-weight: 500; }
+
+/* Checklist */
+.checklist { list-style: none; margin: 8px 0; }
+.checklist li { padding: 4px 0 4px 24px; position: relative; color: #333; font-size: 13px; }
+.checklist li::before { content: "☐"; position: absolute; left: 0; color: #888; }
+
+/* Version table */
+.version-table td:nth-child(3) { font-size: 12px; }
+
+p { margin: 6px 0; }
+ol, ul { margin: 6px 0 6px 20px; }
+ol li, ul li { margin: 3px 0; }
+hr { border: none; border-top: 1px solid #EEE; margin: 32px 0; }
+
+/* Inline links */
+.internal-link { background: #FFF3E0; color: #E65100; padding: 1px 6px; border-radius: 3px; font-size: 12px; font-weight: 500; text-decoration: none; }
+
+/* Sitemap tree */
+.tree { background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 16px 20px; margin: 12px 0; font-family: monospace; font-size: 12px; line-height: 1.8; color: #334155; }
+
+/* Feature badge */
+.page-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+.badge-human { background: #4CAF50; color: #fff; }
+.badge-prog { background: #2196F3; color: #fff; }
+.badge-cms { background: #9C27B0; color: #fff; }
+.badge-nav { background: #FF6B00; color: #fff; }
+
+.page-header { display: flex; align-items: center; gap: 10px; margin: 24px 0 8px; padding-bottom: 6px; border-bottom: 1px solid #EEE; }
+.page-header h4 { margin: 0; border: none; padding: 0; font-size: 14px; color: #111; }
+
+/* Wireframe styles */
+.wf { background:#F0F2F5; border:2px solid #C5CAD3; border-radius:8px; overflow:hidden; margin:14px 0; font-family:-apple-system,sans-serif; font-size:12px; }
+.wf-header { background:#374151; padding:6px 14px; font-size:10px; color:#F9FAFB; font-weight:700; letter-spacing:.5px; }
+.wf-body { padding:12px 14px; }
+.wf-row { display:flex; gap:10px; }
+.wf-col-main { flex:3; }
+.wf-col-side { flex:1.4; }
+.wf-box { background:#fff; border:1.5px dashed #9CA3AF; border-radius:4px; padding:8px 10px; margin-bottom:6px; }
+.wf-label { font-size:9px; font-weight:700; color:#6B7280; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.wf-crumb { font-size:10px; color:#9CA3AF; margin-bottom:8px; }
+.wf-tabs { display:flex; gap:0; flex-wrap:wrap; margin-bottom:6px; }
+.wf-tab { background:#E5E7EB; padding:4px 10px; font-size:10px; }
+.wf-tab.on { background:#FF6B00; color:#fff; border-bottom:2px solid #FF6B00; }
+.wf-tag { display:inline-block; background:#DBEAFE; color:#1D4ED8; border-radius:3px; padding:1px 6px; font-size:9px; margin:2px; }
+.wf-h1 { font-size:14px; font-weight:700; color:#111; margin:3px 0 5px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- TOC Sidebar -->
+<nav class="toc-sidebar">
+  <h4>目录导航</h4>
+  <a href="#cover">封面与版本记录</a>
+  <a href="#s1">一、需求背景</a>
+  <a href="#s2">二、需求目标</a>
+  <a href="#s3">三、用户与使用场景</a>
+  <a href="#s4">四、需求功能清单</a>
+  <a href="#s5">五、详细方案</a>
+  <a class="toc-sub" href="#s5-1">5.1 人工内容页面</a>
+  <a class="toc-sub" href="#s5-2">5.2 程序化页面</a>
+  <a class="toc-sub" href="#s5-3">5.3 后台管理工具</a>
+  <a class="toc-sub" href="#s5-4">5.4 SEO 技术基础</a>
+  <a class="toc-sub" href="#s5-5">5.5 产品入口补充</a>
+  <a class="toc-sub" href="#s5-6">5.6 新闻模块</a>
+  <a href="#s6">六、业务流程图</a>
+  <a href="#s7">七、异常与边界处理</a>
+  <a href="#s8">八、数据追踪与埋点</a>
+  <a href="#s9">九、未来演进规划</a>
+  <a href="#s10">十、附件</a>
+</nav>
+
+<!-- Main Content -->
+<div class="page">
+
+<!-- Version selector -->
+<div class="version-bar">
+  <span>当前版本：</span>
+  <select onchange="if(this.value!=='v1.4') alert('该版本文件尚未生成')">
+    <option value="v1.4">v1.4（当前）</option>
+    <option value="v1.3">v1.3</option>
+    <option value="v1.0">v1.0（初版）</option>
+  </select>
+</div>
+
+<!-- Cover -->
+<div class="cover" id="cover">
+  <div class="badge">产品需求文档</div>
+  <h1>MoonX SEO 内容体系</h1>
+  <div class="subtitle">覆盖预测学院、Meme学院、五类程序化SEO页面及产品入口补充需求</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">所属业务线</div><div class="value">MoonX 预测市场聚合器</div></div>
+    <div class="meta-item"><div class="label">需求负责人</div><div class="value">Kelly（市场负责人）</div></div>
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">v1.4</div></div>
+    <div class="meta-item"><div class="label">生成日期</div><div class="value">2026-03-27</div></div>
+    <div class="meta-item"><div class="label">文档状态</div><div class="value" style="color:#2E7D32">原型已确认 · 待开发评审</div></div>
+  </div>
+</div>
+
+<!-- 版本记录 -->
+<h3 class="sub">版本记录</h3>
+<table class="version-table">
+  <tr><th width="60">版本</th><th width="100">日期</th><th>更新内容</th><th width="80">负责人</th></tr>
+  <tr><td>v1.4</td><td>2026-03-27</td><td>SEO 全面补强（7 项）：① 通用技术要求补 INP ≤ 200ms / CLS ≤ 0.1 / TTFB ≤ 800ms / 图片规范；② Sitemap Index 补 news-sitemap.xml；③ Schema 表补新闻列表页 + 详情页；④ 新增 OG/Twitter Card 全页面规格表；⑤ 新增 robots.txt 规则；⑥ Learn Nav 补 Crypto News 下拉项 4；⑦ 新增 E-E-A-T 信号要求（作者简介页 / 编辑政策页 / 外部引用规范）；修正 5.6.8 分类页底部导航验收标准与 5.6.4b 不一致问题；内链架构补新闻节点。</td><td>Kelly</td></tr>
+  <tr><td>v1.3</td><td>2026-03-26</td><td>5.6 新闻模块按实际已上线页面（/en/moonx/news）全面重写：新增三页线框图（列表页 / 分类页 / 详情页）、完整页面元素规格表（列表页 8 项 + 详情页 10 项）、URL 路径对齐、分类 6 个更新为实际已上线分类、侧边栏差异规格（Browse by Topic vs All News Categories）、底部导航栏需求、详情页「← Back to News」和 More News 模块。</td><td>Kelly</td></tr>
+  <tr><td>v1.2</td><td>2026-03-26</td><td>新增 5.6 新闻模块需求（参考 MEXC News 模式）：3 个页面（Hub / 分类页 / 详情页）+ 内容来源策略 + Google News 收录规格；更新流程图 6.1 增加新闻入口节点；接口文档同步升至 V4.1。</td><td>Kelly</td></tr>
+  <tr><td>v1.1</td><td>2026-03-25</td><td>原型已完成并全面审查（13页全部确认）；嵌入4张 Mermaid 业务流程图；Section 六 从占位符替换为实际流程图内容；5.5 原型占位符替换为原型链接；附件路径更新为实际生成文件。</td><td>Kelly</td></tr>
+  <tr><td>v1.0</td><td>2026-03-25</td><td>基于 SEO PRD v5（v1.3）重构，新增用户旅程图、标准10章结构，完整纳入 5.5 产品入口补充需求（Learn Nav + Pump页 Predict 按钮）</td><td>Kelly</td></tr>
+</table>
+
+<hr>
+
+<!-- 一、需求背景 -->
+<h2 class="sec" id="s1">一、需求背景</h2>
+
+<h3 class="sub">1.1 现状与核心痛点</h3>
+<p>MoonX 是 BYDFi 旗下的预测市场聚合器产品，当前面临<strong>自然流量为零</strong>的关键增长瓶颈：</p>
+<ul>
+  <li>MoonX 全部页面为 <strong>CSR 渲染</strong>，Google 爬虫无法读取页面内容，导致零自然搜索流量</li>
+  <li>没有任何内容落地页，用户无法通过自然搜索发现 MoonX</li>
+  <li>母站 bydfi.com 整站 28 天自然流量仅 46.1K，SEO 基础薄弱</li>
+  <li>竞品 <strong>laikalabs.ai</strong>（DA 仅 19，极弱）已开始内容布局，存在先发危机</li>
+</ul>
+
+<div class="warn">核心风险：若不在 3 个月内建立 SEO 内容基础设施，MoonX 将在"预测市场聚合器"这一新兴品类关键词竞争中失去先机，流量红利将被先行者收割。</div>
+
+<h3 class="sub">1.2 为什么现在做</h3>
+<table>
+  <tr><th>维度</th><th>现状</th><th>机会窗口</th></tr>
+  <tr><td>关键词竞争</td><td>"polymarket vs kalshi"（1700/月）当前最强对手为 Reddit / NPR，内容质量弱</td><td>专业聚合器视角尚无强竞争者，6个月内可进 Top 5</td></tr>
+  <tr><td>品类认知</td><td>"prediction market aggregator" 月搜索50，极低竞争度</td><td>先入为主建立品牌权威，零成本占领品类词</td></tr>
+  <tr><td>程序化规模</td><td>竞品 polynance.ag 规模小，defirate.com 技术内容弱</td><td>MoonX 聚合多平台数据，可程序化生成数千个差异化页面</td></tr>
+  <tr><td>技术窗口</td><td>Next.js SSR 改造成本可控，团队有现成基础</td><td>现在做 SSR 改造比后期重构成本低 3-5 倍</td></tr>
+</table>
+
+<h3 class="sub">1.3 关键词矩阵（Ahrefs 验证，2026-03-12）</h3>
+<table>
+  <tr><th>页面类型</th><th>核心关键词</th><th>月搜索量（US）</th><th>竞争度</th><th>当前最强竞品</th><th>优先级</th></tr>
+  <tr><td>预测学院</td><td><span class="kw">polymarket vs kalshi</span></td><td>1,700</td><td>中</td><td>Reddit / NPR</td><td><span class="tag tag-p0">P0</span></td></tr>
+  <tr><td>预测学院</td><td><span class="kw">polymarket alternative</span></td><td>50</td><td>低</td><td>laikalabs.ai（DA 19）</td><td><span class="tag tag-p0">P0</span></td></tr>
+  <tr><td>预测学院</td><td><span class="kw">prediction market aggregator</span></td><td>50</td><td>极低</td><td>polynance.ag（小站）</td><td><span class="tag tag-p0">P0</span></td></tr>
+  <tr><td>程序化·美股预测页</td><td><span class="kw">TSLA prediction market odds</span></td><td>待测</td><td>低</td><td>Polymarket（单页）</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>程序化·Meme页</td><td><span class="kw">{TOKEN} price prediction</span></td><td>长尾累计</td><td>低</td><td>无专业聚合器</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>程序化·热门榜单</td><td><span class="kw">top prediction markets today</span></td><td>待测</td><td>中</td><td>defirate.com</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+<hr>
+
+<!-- 二、需求目标 -->
+<h2 class="sec" id="s2">二、需求目标</h2>
+
+<h3 class="sub">2.1 目标总览</h3>
+<ol>
+  <li>建立 MoonX 内容 SEO 基础设施（CMS + 程序化模板 + SSR 渲染）</li>
+  <li>发布第一批 SEO 文章，实现核心关键词排名突破</li>
+  <li>程序化页面上线，形成规模化长尾流量入口</li>
+  <li>完善产品入口（Learn Nav + Pump页 Predict 按钮），打通内容与交易转化链路</li>
+</ol>
+
+<h3 class="sub">2.2 量化目标</h3>
+<table>
+  <tr><th>目标类型</th><th>描述</th><th>衡量指标</th><th>目标值</th></tr>
+  <tr>
+    <td><strong>流量目标</strong></td>
+    <td>建立可持续自然搜索流量入口</td>
+    <td>Google Search Console 月自然点击数</td>
+    <td>M2: 200+ / M4: 3,000+ / M6: 15,000+</td>
+  </tr>
+  <tr>
+    <td><strong>排名目标</strong></td>
+    <td>核心关键词搜索排名突破</td>
+    <td>GSC Average Position</td>
+    <td>"polymarket vs kalshi" M2 进 Top 20，M4 进 Top 5</td>
+  </tr>
+  <tr>
+    <td><strong>内容收录率</strong></td>
+    <td>发布内容被 Google 快速索引</td>
+    <td>GSC 已索引数 / 发布数</td>
+    <td>≥ 95%</td>
+  </tr>
+  <tr>
+    <td><strong>程序化规模</strong></td>
+    <td>通过程序化模板形成长尾 URL 矩阵</td>
+    <td>Sitemap 有效 URL 数</td>
+    <td>M3: 500+ / M6: 5,000+</td>
+  </tr>
+  <tr>
+    <td><strong>内容转化率</strong></td>
+    <td>内容页引导用户进入 MoonX 平台</td>
+    <td>文章 CTA 点击 / 文章 UV</td>
+    <td>≥ 3%</td>
+  </tr>
+  <tr>
+    <td><strong>Predict 入口转化</strong></td>
+    <td>Pump 页 Token 卡 Predict 按钮引导预测参与</td>
+    <td>Predict 按钮点击 / Token 卡曝光</td>
+    <td>≥ 2%（上线首月）</td>
+  </tr>
+</table>
+
+<hr>
+
+<!-- 三、用户与使用场景 -->
+<h2 class="sec" id="s3">三、用户与使用场景</h2>
+
+<h3 class="sub">3.1 目标用户画像</h3>
+<table>
+  <tr><th width="100">用户类型</th><th>特征描述</th><th>典型搜索行为</th><th>对 MoonX 的价值</th></tr>
+  <tr>
+    <td><strong>预测市场研究者</strong></td>
+    <td>关注政治/经济事件，习惯用预测市场了解市场情绪；有 Polymarket 或 Kalshi 使用经验</td>
+    <td>"polymarket vs kalshi"，"polymarket alternative"</td>
+    <td>高意向用户，进入 MoonX 后直接参与下注，LTV 高</td>
+  </tr>
+  <tr>
+    <td><strong>Meme 投机者</strong></td>
+    <td>Solana 生态活跃，持续关注 Meme 代币价格走势；风险偏好高，反应速度快</td>
+    <td>"PEPE price prediction"，"BONK Polymarket odds"</td>
+    <td>高频用户，Pump 页和 Token 详情页是主要触点</td>
+  </tr>
+  <tr>
+    <td><strong>美股事件交易者</strong></td>
+    <td>关注财报、美联储决议等事件；用预测市场作为辅助判断工具</td>
+    <td>"TSLA prediction market odds"，"NVDA earnings polymarket"</td>
+    <td>中高意向，愿意为准确信息付出时间成本</td>
+  </tr>
+  <tr>
+    <td><strong>热门话题猎手</strong></td>
+    <td>泛预测市场兴趣，不局限于某类；常浏览榜单和热门事件</td>
+    <td>"top prediction markets today"，"trending prediction markets"</td>
+    <td>中等意向，需通过内容质量转化</td>
+  </tr>
+</table>
+
+<h3 class="sub">3.2 用户旅程图（User Journey Map）</h3>
+
+<h4 class="sub2">旅程 A：预测市场研究者 → 参与下注</h4>
+<div class="journey">
+<table>
+  <tr>
+    <th width="120">维度</th>
+    <th>阶段 1<br>搜索发现</th>
+    <th>阶段 2<br>内容消费</th>
+    <th>阶段 3<br>平台认知</th>
+    <th>阶段 4<br>决策行动</th>
+    <th>阶段 5<br>完成参与</th>
+  </tr>
+  <tr>
+    <td><strong>用户触点</strong></td>
+    <td>Google SERP</td>
+    <td>预测学院文章详情页</td>
+    <td>文章内 CTA 模块 + 相关文章</td>
+    <td>MoonX 市场列表页</td>
+    <td>MoonX 下注页面</td>
+  </tr>
+  <tr>
+    <td><strong>用户行为</strong></td>
+    <td>搜索 "polymarket vs kalshi"，点击 MoonX 排名结果</td>
+    <td>阅读对比文章，浏览 TOC，展开 FAQ</td>
+    <td>看到 "Compare on MoonX →" CTA，点击</td>
+    <td>浏览 Trending 市场，找到感兴趣事件</td>
+    <td>选择 YES/NO，完成下注</td>
+  </tr>
+  <tr>
+    <td><strong>用户情绪</strong></td>
+    <td class="emotion">🤔</td>
+    <td class="emotion">📖</td>
+    <td class="emotion">💡</td>
+    <td class="emotion">🎯</td>
+    <td class="emotion">✅</td>
+  </tr>
+  <tr>
+    <td><strong>痛点 / 摩擦</strong></td>
+    <td><span class="pain">无法快速判断哪个平台更好</span></td>
+    <td><span class="pain">文章太长，找不到核心结论</span></td>
+    <td><span class="pain">不清楚 MoonX 与 Polymarket 的关系</span></td>
+    <td><span class="pain">市场太多，不知道从哪入手</span></td>
+    <td><span class="pain">首次注册流程摩擦</span></td>
+  </tr>
+  <tr>
+    <td><strong>产品机会</strong></td>
+    <td><span class="opportunity">Prediction Academy 排名突破 Top 5</span></td>
+    <td><span class="opportunity">文章顶部放核心结论摘要 + TOC Sticky</span></td>
+    <td><span class="opportunity">CTA 文案精准匹配关键词，最多 2 次</span></td>
+    <td><span class="opportunity">Trending 页 Crypto 分类置顶</span></td>
+    <td><span class="opportunity">新用户引导简化（≤3步）</span></td>
+  </tr>
+</table>
+</div>
+
+<h4 class="sub2">旅程 B：Meme 投机者 → Token 下注</h4>
+<div class="journey">
+<table>
+  <tr>
+    <th width="120">维度</th>
+    <th>阶段 1<br>搜索发现</th>
+    <th>阶段 2<br>数据核验</th>
+    <th>阶段 3<br>情绪判断</th>
+    <th>阶段 4<br>决策行动</th>
+  </tr>
+  <tr>
+    <td><strong>用户触点</strong></td>
+    <td>Google SERP / Pump 页浏览</td>
+    <td>Token 价格详情页（11个工具模块）</td>
+    <td>Polymarket 赔率卡 + 社区情绪工具</td>
+    <td>MoonX Predict 入口</td>
+  </tr>
+  <tr>
+    <td><strong>用户行为</strong></td>
+    <td>搜索 "PEPE price prediction" 或在 Pump 页看到 Predict 按钮</td>
+    <td>查看价格快照、持有人分布、安全评分</td>
+    <td>看赔率 YES/NO%，看社区情绪分值</td>
+    <td>点击 "Bet on PEPE on MoonX →" 下注</td>
+  </tr>
+  <tr>
+    <td><strong>用户情绪</strong></td>
+    <td class="emotion">🔍</td>
+    <td class="emotion">📊</td>
+    <td class="emotion">⚡</td>
+    <td class="emotion">💰</td>
+  </tr>
+  <tr>
+    <td><strong>痛点 / 摩擦</strong></td>
+    <td><span class="pain">Meme 信息分散，需要多平台对比</span></td>
+    <td><span class="pain">价格数据有延迟，安全评分不透明</span></td>
+    <td><span class="pain">赔率来源单一，缺乏横向对比</span></td>
+    <td><span class="pain">从信息页到下注页跳转路径长</span></td>
+  </tr>
+  <tr>
+    <td><strong>产品机会</strong></td>
+    <td><span class="opportunity">Pump 页 Predict 按钮 + Meme 学院 SEO</span></td>
+    <td><span class="opportunity">11 个工具模块集成 + SSR 快照保速度</span></td>
+    <td><span class="opportunity">同类 Meme 对比工具（⑩）+ 社区规模（⑪）</span></td>
+    <td><span class="opportunity">CTA 一键跳转，减少中间步骤</span></td>
+  </tr>
+</table>
+</div>
+
+<h4 class="sub2">旅程 C：美股事件交易者 → 预测参与</h4>
+<div class="journey">
+<table>
+  <tr>
+    <th width="120">维度</th>
+    <th>阶段 1<br>搜索发现</th>
+    <th>阶段 2<br>数据对比</th>
+    <th>阶段 3<br>决策</th>
+  </tr>
+  <tr>
+    <td><strong>用户触点</strong></td>
+    <td>Google："{TICKER} prediction market odds"</td>
+    <td>美股预测页（赔率 + 分析师预测 + 历史记录）</td>
+    <td>CTA "Bet on TSLA on MoonX →"</td>
+  </tr>
+  <tr>
+    <td><strong>用户行为</strong></td>
+    <td>搜索特定股票预测赔率，点击 MoonX 页面</td>
+    <td>查看 Polymarket 赔率 vs 分析师平均目标价，判断差异</td>
+    <td>基于赔率差异下注，点击 CTA 进入 MoonX</td>
+  </tr>
+  <tr>
+    <td><strong>用户情绪</strong></td>
+    <td class="emotion">🔍</td>
+    <td class="emotion">🧮</td>
+    <td class="emotion">🎯</td>
+  </tr>
+  <tr>
+    <td><strong>痛点 / 摩擦</strong></td>
+    <td><span class="pain">Polymarket 无单独股票聚合页</span></td>
+    <td><span class="pain">市场赔率 vs 分析师预测缺对比维度</span></td>
+    <td><span class="pain">股票预测合法性存在认知疑虑</span></td>
+  </tr>
+  <tr>
+    <td><strong>产品机会</strong></td>
+    <td><span class="opportunity">美股预测页 SSR 排名突破</span></td>
+    <td><span class="opportunity">差异化：分析师预测 vs 市场赔率并排对比</span></td>
+    <td><span class="opportunity">FAQ 主动回答合法性问题（FAQPage Schema）</span></td>
+  </tr>
+</table>
+</div>
+
+<hr>
+
+<!-- 四、需求功能清单 -->
+<h2 class="sec" id="s4">四、需求功能清单</h2>
+
+<table>
+  <tr><th width="28">#</th><th>需求模块</th><th>分类</th><th>涉及终端</th><th>优先级</th><th>状态</th></tr>
+  <tr><td>1</td><td>【预测学院】文章列表页 + 详情页</td><td><span class="page-badge badge-human">人工内容</span></td><td>客户端</td><td><span class="tag tag-p0">P0</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>2</td><td>【Meme学院】文章列表页 + 详情页</td><td><span class="page-badge badge-human">人工内容</span></td><td>客户端</td><td><span class="tag tag-p0">P0</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>3</td><td>【内容 CMS】文章管理后台</td><td><span class="page-badge badge-cms">后台工具</span></td><td>服务端</td><td><span class="tag tag-p0">P0</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>4</td><td>全站 SEO 技术基础（SSR + Sitemap + Schema）</td><td><span class="page-badge badge-cms">服务端</span></td><td>服务端</td><td><span class="tag tag-p0">P0</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>5</td><td>顶部导航新增 Learn 下拉菜单</td><td><span class="page-badge badge-nav">产品入口</span></td><td>客户端</td><td><span class="tag tag-p0">P0</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>6</td><td>【程序化】预测事件指南页</td><td><span class="page-badge badge-prog">程序化</span></td><td>客户端</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>7</td><td>【程序化】美股预测市场页</td><td><span class="page-badge badge-prog">程序化</span></td><td>客户端</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>8</td><td>【程序化】Meme 代币预测购买页</td><td><span class="page-badge badge-prog">程序化</span></td><td>客户端</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>9</td><td>Token 价格详情页 SSR 改造 + 11个工具模块</td><td><span class="page-badge badge-prog">程序化·改造</span></td><td>客户端</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>10</td><td>Pump 页 Token 卡新增 Predict 按钮</td><td><span class="page-badge badge-nav">产品入口</span></td><td>客户端</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>11</td><td>【程序化】热门榜单页</td><td><span class="page-badge badge-prog">程序化</span></td><td>客户端</td><td><span class="tag tag-p2">P2</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+  <tr><td>12</td><td>【新闻模块】新闻 Hub + 分类页 + 详情页</td><td><span class="page-badge badge-human">人工/聚合内容</span></td><td>客户端</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-new">待开发</span></td></tr>
+</table>
+
+<div class="note"><strong>通用技术要求（所有 SEO 页面）：</strong><br>
+① 所有 SEO 页面必须 SSR 渲染，Google 爬虫能直接读取 HTML 内容<br>
+② 每个页面必须有独立的 <code>&lt;title&gt;</code>、<code>&lt;meta description&gt;</code>、<code>&lt;canonical&gt;</code><br>
+③ 所有内链使用 <code>&lt;a href&gt;</code> 标签，不使用 JS 跳转<br>
+④ Core Web Vitals 三项全部达标：LCP ≤ 2.5s（最大内容绘制）/ INP ≤ 200ms（交互响应，2024 年起纳入排名因子）/ CLS ≤ 0.1（布局偏移，图片必须写 width/height 防止 reflow）<br>
+⑤ TTFB ≤ 800ms（服务端响应时间，SSR 页面关键指标，超出 Google 会降低爬取频率）<br>
+⑥ 图片规范：所有图片必须添加 width/height 属性 + alt 文本；首屏以下图片加 <code>loading="lazy"</code>；优先使用 WebP 格式
+</div>
+
+<hr>
+
+<!-- 五、详细方案 -->
+<h2 class="sec" id="s5">五、详细方案</h2>
+
+<!-- 5.1 人工内容页面 -->
+<h3 class="sub" id="s5-1">5.1 人工内容页面</h3>
+
+<div class="page-header">
+  <span class="page-badge badge-human">人工内容</span>
+  <h4>5.1.1 预测学院 — 文章列表页</h4>
+</div>
+<p><strong>页面路径：</strong><span class="url">/en/moonx/learn/prediction/</span> &nbsp;|&nbsp; <strong>SEO 定位：</strong>预测市场内容集群入口，权重传递枢纽</p>
+<table>
+  <tr><th width="110">页面元素</th><th width="280">前端功能逻辑</th><th width="220">数据调用逻辑</th><th>其他说明</th></tr>
+  <tr><td>SEO Meta（SSR）</td><td>Title: <code>Prediction Market Academy | MoonX</code><br>Meta: Learn how prediction markets work...<br>Canonical: <code>https://www.bydfi.com/en/moonx/learn/prediction/</code></td><td>前端写死，SSR 必须</td><td>≤60 / ≤155 字符</td></tr>
+  <tr><td>H1 标题</td><td><code>Prediction Market Academy</code>，前端写死</td><td>无数据调用</td><td>页面唯一 H1</td></tr>
+  <tr><td>分类 Tab</td><td>All / Beginner / Advanced / Comparison / Guide，默认 All，点击筛选文章</td><td><code>GET /api/articles?category=prediction&amp;tag={tab}</code></td><td>Tab 切换不改 URL</td></tr>
+  <tr><td>文章卡片</td><td>封面图 + H1 + 摘要（前120字）+ 日期 + 阅读时长，每页 12 篇，SSR 渲染前 12 篇</td><td>SSR: <code>GET /api/articles?category=prediction&amp;page=1&amp;limit=12</code><br>翻页: CSR 加载</td><td>图片 alt = 文章标题</td></tr>
+  <tr><td>精选文章（大卡置顶）</td><td>最新或运营指定文章大卡展示，封面图 1200×630</td><td>CMS 字段 is_featured=true</td><td>每页最多 1 篇</td></tr>
+  <tr><td>分页</td><td>每页 12 篇，URL: <code>?page=2</code></td><td>前端分页</td><td>第 2 页以后 canonical 指向第 1 页</td></tr>
+  <tr><td>BreadcrumbList Schema</td><td>MoonX &gt; Learn &gt; Prediction</td><td>SSR 注入</td><td>必须</td></tr>
+</table>
+
+<div class="page-header">
+  <span class="page-badge badge-human">人工内容</span>
+  <h4>5.1.2 预测学院 — 文章详情页</h4>
+</div>
+<p><strong>页面路径：</strong><span class="url">/en/moonx/learn/prediction/{slug}</span></p>
+<table>
+  <tr><th width="110">页面元素</th><th width="280">前端功能逻辑</th><th width="220">数据调用逻辑</th><th>其他说明</th></tr>
+  <tr><td>SEO Meta（SSR）</td><td>Title: <code>{SEO标题} | MoonX</code>（≤60字）<br>Meta: 文章 meta 字段（≤155字）<br>Canonical + og:title / og:image</td><td>SSR 从 CMS：<code>GET /api/articles/{slug}</code></td><td>canonical 必须精确</td></tr>
+  <tr><td>面包屑</td><td>MoonX &gt; Learn &gt; Prediction &gt; {文章标题}，每级均可点击内链</td><td>前 3 级写死，最后一级取 CMS h1_title</td><td>BreadcrumbList Schema 必须</td></tr>
+  <tr><td>H1 标题</td><td>文章标题，可与 Title Tag 不同（H1 更自然）</td><td>CMS 字段 h1_title</td><td>H1 唯一</td></tr>
+  <tr><td>发布信息</td><td>发布日期 / 最近更新日期 / 作者名 / 预计阅读时间</td><td>CMS 字段，SSR 渲染</td><td>格式：Mar 12, 2026</td></tr>
+  <tr><td>文章正文</td><td>Markdown 渲染，支持 H2/H3/表格/图片/内链/代码块</td><td>CMS 富文本，SSR 渲染</td><td>图片必须有 alt；内链用相对路径</td></tr>
+  <tr><td>目录 TOC（Sticky）</td><td>自动提取 H2/H3，右侧 sticky，随滚动高亮当前章节</td><td>前端解析</td><td>移动端收起，点击展开</td></tr>
+  <tr><td>FAQ 模块</td><td>折叠式 Q&amp;A，每篇最多 10 条</td><td>CMS 字段，SSR 渲染</td><td>FAQPage Schema 必须</td></tr>
+  <tr><td>CTA 模块</td><td><code>Compare {关键词} markets on MoonX →</code>，文章内最多 2 次</td><td>CMS 字段：cta_text + cta_url</td><td>CTA 链接加 <code>rel="nofollow"</code></td></tr>
+  <tr><td>相关文章推荐</td><td>右侧栏 3 篇 + 文章底部横排 3 篇，按 tag 相关度排序</td><td><code>GET /api/articles?category=prediction&amp;exclude={slug}&amp;limit=3</code></td><td></td></tr>
+  <tr><td>Article Schema</td><td>headline / datePublished / dateModified / author</td><td>SSR 注入</td><td>配合 FAQPage Schema</td></tr>
+</table>
+
+<div class="page-header">
+  <span class="page-badge badge-human">人工内容</span>
+  <h4>5.1.3 Meme 学院 — 列表页 + 详情页</h4>
+</div>
+<p>页面结构与预测学院完全一致，差异点如下：</p>
+<table>
+  <tr><th>差异项</th><th>预测学院</th><th>Meme 学院</th></tr>
+  <tr><td>H1（列表页）</td><td>Prediction Market Academy</td><td>Meme Coin Academy</td></tr>
+  <tr><td>页面路径</td><td><span class="url">/en/moonx/learn/prediction/</span></td><td><span class="url">/en/moonx/learn/meme/</span></td></tr>
+  <tr><td>分类 Tab</td><td>All / Beginner / Comparison / Guide</td><td>All / Research / Buy Guide / Price Prediction / Community</td></tr>
+  <tr><td>CMS 分类参数</td><td><code>category=prediction</code></td><td><code>category=meme</code></td></tr>
+  <tr><td>详情页右侧栏额外模块</td><td>无</td><td>Token 价格快照卡片（价格 + 24h 涨幅 + MoonX 赔率）</td></tr>
+  <tr><td>CTA 文案</td><td>Compare on MoonX →</td><td>See {TOKEN} prediction odds on MoonX →</td></tr>
+  <tr><td>CTA 跳转</td><td><code>/en/moonx/markets/trending</code></td><td><code>/en/moonx/solana/token/{contract}</code></td></tr>
+</table>
+
+<h4 class="sub2">5.1.4 Meme 内容时效性管理策略</h4>
+<div class="warn">核心风险：Meme 代币平均活跃期 3~14 天，价格预测类内容 72 小时内即可过时。过时内容会被 Google 识别为低质量信号，拖累整站排名。</div>
+<table>
+  <tr><th>内容类型</th><th>典型文章</th><th>时效</th><th>更新频率</th><th>自动降权规则</th></tr>
+  <tr><td>常青内容</td><td>How to Trade Meme Tokens on Solana</td><td>永久</td><td>季度人工检查</td><td>不触发 noindex</td></tr>
+  <tr><td>周期热点</td><td>Top Meme Coins This Week</td><td>7 天</td><td>每周一必须更新</td><td>&gt;14天无更新→🟡 待更新；&gt;30天→自动 noindex</td></tr>
+  <tr><td>价格预测</td><td>{TOKEN} Price Prediction 2026</td><td>30 天</td><td>每月初更新价格数据</td><td>超 30 天未更新→文章顶部自动插入过时提示条</td></tr>
+  <tr><td>项目深度</td><td>Is BONK Safe to Buy?</td><td>项目活跃期</td><td>链上数据重大变化时人工触发</td><td>Token rug &gt;7天→加 noindex + 顶部警告横幅</td></tr>
+</table>
+
+<div style="margin:16px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <span style="font-size:12px;font-weight:600;color:#555;">原型切片：Meme Academy 详情页（/learn/meme/pepe）</span>
+    <a href="../prototype/prototype_v1.0.html" target="_blank" style="font-size:12px;color:#E65100;text-decoration:none;border:1px solid #FFB74D;padding:3px 10px;border-radius:4px;">新窗口打开完整原型 ↗</a>
+  </div>
+  <iframe src="../prototype/prototype_v1.0.html"
+    onload="try{this.contentWindow.showPage('meme-detail')}catch(e){}"
+    style="width:100%;height:520px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;"
+    title="Meme Academy 详情页原型"></iframe>
+  <div style="font-size:11px;color:#9ca3af;margin-top:4px;">覆盖页面：Meme Academy 详情页（含 Token Price Snapshot 侧栏 / See Odds on MoonX CTA / Related Articles）</div>
+</div>
+
+<hr>
+
+<!-- 5.2 程序化页面 -->
+<h3 class="sub" id="s5-2">5.2 程序化 SEO 页面</h3>
+
+<div class="note">程序化页面通用规则：① 所有模板变量用 <code>{变量名}</code> 标注，服务端渲染时自动填充；② Title / H1 / Meta 均为程序化生成，每页唯一；③ 所有价格/赔率数据：SSR 生成静态快照（Google 可读），CSR 负责实时更新；④ noindex 规则：事件结束 &gt;30天 / Token 已 rug / 数据缺失 → 自动加 noindex</div>
+
+<div class="page-header">
+  <span class="page-badge badge-prog">程序化</span>
+  <h4>5.2.1 预测事件指南页</h4>
+</div>
+<p><strong>路径：</strong><span class="url">/en/moonx/guide/prediction/{event-slug}</span> &nbsp;|&nbsp; <strong>触发条件：</strong>Polymarket Volume ≥ $100K 或 Kalshi Volume ≥ $50K</p>
+<table>
+  <tr><th>页面元素</th><th>前端功能逻辑</th><th>数据调用逻辑</th><th>说明</th></tr>
+  <tr><td>SEO Meta（SSR）</td><td>Title: <code>{事件名称}: Prediction Market Odds | MoonX</code><br>Meta: 包含赔率数字，提升 CTR</td><td>SSR，Polymarket/Kalshi API，每日重生成</td><td></td></tr>
+  <tr><td>当前赔率卡片</td><td>YES%/NO% 进度条 + Polymarket/Kalshi 赔率 + Volume + Open Interest</td><td>SSR 快照 + CSR 每 60 秒刷新</td><td>SSR 快照保证 Google 索引初始赔率</td></tr>
+  <tr><td>事件背景介绍</td><td>2~3 段程序化模板 + 事件标题/截止日期动态填充</td><td>SSR 模板 + API 变量替换</td><td></td></tr>
+  <tr><td>如何参与（3步）</td><td>① 访问 MoonX ② 搜索市场 ③ 选方向下注</td><td>前端写死 + MoonX 跳转链接</td><td></td></tr>
+  <tr><td>平台赔率对比</td><td>Polymarket / Kalshi 赔率 / 手续费 / 流动性对比表</td><td>SSR + CSR 实时更新</td><td></td></tr>
+  <tr><td>FAQ</td><td>程序化 3~5 条（截止日期/如何交易/赔率来源）</td><td>模板+变量，SSR，FAQPage Schema</td><td></td></tr>
+</table>
+
+<div class="page-header">
+  <span class="page-badge badge-prog">程序化</span>
+  <h4>5.2.2 美股预测市场页</h4>
+</div>
+<p><strong>路径：</strong><span class="url">/en/moonx/markets/stocks/{ticker}</span> &nbsp;|&nbsp; Phase 1：TSLA · GOOGL · AAPL · MSFT · NVDA · META · AMZN · SPY（共 8 个）</p>
+<table>
+  <tr><th>页面元素</th><th>前端功能逻辑</th><th>数据调用逻辑</th><th>说明</th></tr>
+  <tr><td>SEO Meta（SSR）</td><td>Title: <code>{公司名} ({TICKER}) Prediction Market: Polymarket Odds | MoonX</code><br>Meta: 包含当前赔率</td><td>SSR，Polymarket API，每日重生成</td><td></td></tr>
+  <tr><td>实时股价卡片</td><td>当前股价 / 涨跌幅 / 市值 / 52周高低</td><td>SSR 快照（T-1 收盘价）+ CSR Yahoo Finance / Polygon.io 实时刷新</td><td></td></tr>
+  <tr><td>Polymarket 市场列表</td><td>该股票所有活跃预测市场，YES% 进度条 + Volume + 截止日期，点击跳转 MoonX</td><td>SSR + CSR 每 30 分钟更新赔率</td><td></td></tr>
+  <tr><td>分析师预测对比</td><td>分析师平均目标价 / 评级 / 人数，与预测市场赔率并排对比</td><td>Yahoo Finance API</td><td>差异化内容，提升停留时间</td></tr>
+  <tr><td>历史预测记录</td><td>该股票过去 3 次市场结果（差异化防降权）</td><td>Polymarket 历史 API</td><td>每个 ticker 唯一</td></tr>
+  <tr><td>FAQ</td><td>"Is it legal to bet on {TICKER}?" / "What are current {TICKER} prediction market odds?"</td><td>模板+变量，FAQPage Schema</td><td></td></tr>
+</table>
+
+<div class="page-header">
+  <span class="page-badge badge-prog">程序化</span>
+  <h4>5.2.3 Meme 代币预测购买页</h4>
+</div>
+<p><strong>路径：</strong><span class="url">/en/moonx/guide/buy/{token-slug}</span> &nbsp;|&nbsp; <strong>定位：</strong>不正面竞争 "how to buy"，改为 "{TOKEN} 预测市场赔率 + 如何在 MoonX 下注"</p>
+<table>
+  <tr><th>准入条件</th><th>规则</th></tr>
+  <tr><td>最低市值</td><td>≥ $10M</td></tr>
+  <tr><td>预测市场关联</td><td>近 7 日有 Polymarket/MoonX 相关市场，或 CoinGecko 日均成交量 ≥ $1M</td></tr>
+  <tr><td>下架规则</td><td>已 rug / 停止交易 &gt;30 天 → 加 noindex</td></tr>
+</table>
+
+<div class="page-header">
+  <span class="page-badge badge-prog">程序化·改造</span>
+  <h4>5.2.4 Token 价格详情页 SSR 改造 + 11 个工具模块</h4>
+</div>
+<p><strong>路径：</strong><span class="url">/en/moonx/solana/token/{contract}</span>（现有页面，SSR 改造）</p>
+<table>
+  <tr><th>改造项</th><th>现状</th><th>目标</th></tr>
+  <tr><td>渲染方式</td><td>CSR（Google 无法爬取）</td><td>SSR + CSR 混合</td></tr>
+  <tr><td>Title</td><td>无/通用标题</td><td><code>{TOKEN} Price Today: ${price} | MoonX</code></td></tr>
+  <tr><td>H1</td><td>无</td><td><code>{TOKEN NAME} ({TICKER}) Price</code></td></tr>
+  <tr><td>Schema</td><td>无</td><td>FinancialProduct Schema + BreadcrumbList Schema</td></tr>
+  <tr><td>Sitemap</td><td>未收录</td><td>满足准入条件自动加入 sitemap_moonx_tokens.xml</td></tr>
+</table>
+
+<h4 class="sub2">11 个工具模块规格</h4>
+<table>
+  <tr><th>#</th><th>工具名称</th><th>状态</th><th>前端功能逻辑</th><th>数据来源</th><th>渲染方式</th></tr>
+  <tr><td>①</td><td>Polymarket 赔率</td><td><span class="tag tag-mod">已有</span></td><td>YES/NO 进度条、成交量、截止日期；无关联市场显示占位内链</td><td>Polymarket Gamma API</td><td>SSR快照 + CSR 60s刷新</td></tr>
+  <tr><td>②</td><td>安全评分</td><td><span class="tag tag-mod">已有</span></td><td>0-100分评分条、SAFE/MODERATE/RISKY/RUGGED 评级、风险点列表（最多3条）</td><td>RugCheck API</td><td>SSR快照 + CSR 5min刷新</td></tr>
+  <tr><td>③</td><td>Token 生命周期</td><td><span class="tag tag-mod">已有</span></td><td>上线时间 → 评估阶段（0-2h 极高风险/2-24h 早鸟/1-7d 趋势/7d+ 老币）</td><td>链上 launchedAt + Volume</td><td>SSR</td></tr>
+  <tr><td>④</td><td>持有人分布图</td><td><span class="tag tag-mod">已有</span></td><td>饼图 Top10 持有人占比；Top1 &gt;20% 显示红色警告</td><td>Solscan public API</td><td>SSR快照 + CSR 5min</td></tr>
+  <tr><td>⑤</td><td>盈亏计算器</td><td><span class="tag tag-mod">已有</span></td><td>输入买入金额+目标价 → 预期收益；内置 2x/5x/10x 快速按钮</td><td>前端计算</td><td>CSR（纯前端）</td></tr>
+  <tr><td>⑥</td><td>社区情绪</td><td><span class="tag tag-mod">已有</span></td><td>Bullish/Neutral/Bearish/Hype 四级情绪 + 0-100分，展示代表性关键词 3 个</td><td>Twitter/CT 关键词评分</td><td>CSR</td></tr>
+  <tr><td>⑦</td><td>Smart Money 追踪</td><td><span class="tag tag-mod">已有</span></td><td>最近 5 笔大额交易（钱包脱敏、方向、金额、历史 PnL%）</td><td>Helius API</td><td>CSR 实时推送</td></tr>
+  <tr><td>⑧</td><td>价格趋势图</td><td><span class="tag tag-new">新增</span></td><td>迷你K线，支持 24h / 7d 切换；价格区间显示；涨跌色联动（绿/红）</td><td>DexScreener API OHLCV</td><td>CSR（recharts）</td></tr>
+  <tr><td>⑨</td><td>DEX 最优报价</td><td><span class="tag tag-new">新增</span></td><td>Jupiter / Raydium / Orca 买入报价对比，高亮最优，点击直跳 DEX；LP &lt; $5K 时自动隐藏</td><td>Jupiter Quote API + Raydium API</td><td>CSR 30s刷新</td></tr>
+  <tr><td>⑩</td><td>同类 Meme 对比</td><td><span class="tag tag-new">新增</span></td><td>按 Token 标签（dog/frog/cat/ai）匹配同类 3 个，横向对比：价格涨幅/市值/安全评分/Smart Money 热度</td><td>MoonX 内部 TokenSnapshot 按 tag 匹配</td><td>SSR快照 + CSR 5min</td></tr>
+  <tr><td>⑪</td><td>社区规模追踪</td><td><span class="tag tag-new">新增</span></td><td>Twitter 关注数 + TG 群人数 + 7日环比增长率；增长 &gt;20% 显示 🔥；增长为负显示 ⚠️；无官方账号则模块自动隐藏</td><td>Twitter API v2 / TG API</td><td>CSR，每日更新</td></tr>
+</table>
+
+<div class="note">移动端适配：11 个工具默认展示 ①②③⑦（核心决策工具），其余点击「查看更多工具」展开。</div>
+
+<div class="page-header">
+  <span class="page-badge badge-prog">程序化</span>
+  <h4>5.2.5 热门榜单页</h4>
+</div>
+<p><strong>路径：</strong><span class="url">/en/moonx/markets/trending/{category}</span></p>
+<table>
+  <tr><th>分类</th><th>URL</th><th>目标关键词</th></tr>
+  <tr><td>全部主榜单</td><td><span class="url">/en/moonx/markets/trending/</span></td><td>top prediction markets today</td></tr>
+  <tr><td>加密货币</td><td><span class="url">/en/moonx/markets/trending/crypto</span></td><td>top crypto prediction markets</td></tr>
+  <tr><td>政治</td><td><span class="url">/en/moonx/markets/trending/politics</span></td><td>political prediction markets</td></tr>
+  <tr><td>体育</td><td><span class="url">/en/moonx/markets/trending/sports</span></td><td>sports prediction markets</td></tr>
+  <tr><td>美股</td><td><span class="url">/en/moonx/markets/trending/stocks</span></td><td>stock prediction markets</td></tr>
+  <tr><td>科学</td><td><span class="url">/en/moonx/markets/trending/science</span></td><td>science prediction markets</td></tr>
+</table>
+<p>市场卡片：显示市场标题 / YES% 进度条 / Volume / 截止日期 / 来源平台图标，按 Volume 降序，最多 Top 20，点击跳转 MoonX。每个分类页包含 200 字 SEO 描述段落，每日 SSR 重新生成（含当日热门市场名称和赔率数字，保证内容新鲜度信号）。</p>
+
+<div style="margin:16px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <span style="font-size:12px;font-weight:600;color:#555;">原型切片：程序化页面（Trending / Meme 市场详情 / Token 索引）</span>
+    <a href="../prototype/prototype_v1.0.html" target="_blank" style="font-size:12px;color:#E65100;text-decoration:none;border:1px solid #FFB74D;padding:3px 10px;border-radius:4px;">新窗口打开完整原型 ↗</a>
+  </div>
+  <iframe src="../prototype/prototype_v1.0.html"
+    onload="try{this.contentWindow.showPage('trending')}catch(e){}"
+    style="width:100%;height:520px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;"
+    title="程序化页面原型"></iframe>
+  <div style="font-size:11px;color:#9ca3af;margin-top:4px;">覆盖页面：热门榜单页（Prediction / Crypto / Meme / Stocks 四个 Tab）/ Meme 市场详情页 / Token 索引页 · 可在原型内自由导航</div>
+</div>
+
+<hr>
+
+<!-- 5.3 后台管理工具 -->
+<h3 class="sub" id="s5-3">5.3 后台管理工具</h3>
+
+<div class="page-header">
+  <span class="page-badge badge-cms">后台工具</span>
+  <h4>5.3.1 内容 CMS — 文章管理</h4>
+</div>
+
+<h4 class="sub2">文章字段规格</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+  <tr><td>文章分类</td><td>下拉</td><td>是</td><td>prediction / meme，决定 URL 前缀</td></tr>
+  <tr><td>Slug（URL）</td><td>文本</td><td>是</td><td>字母+连字符，系统自动校验唯一性</td></tr>
+  <tr><td>H1 标题</td><td>文本</td><td>是</td><td>≤80 字符，前端页面展示标题</td></tr>
+  <tr><td>SEO Title</td><td>文本</td><td>是</td><td>≤60 字符，实时字符计数，超出红色警告</td></tr>
+  <tr><td>Meta Description</td><td>文本</td><td>是</td><td>≤155 字符，实时字符计数，超出红色警告</td></tr>
+  <tr><td>封面图</td><td>图片上传</td><td>是</td><td>自动生成 alt = H1 标题；推荐尺寸 1200×630</td></tr>
+  <tr><td>文章正文</td><td>Markdown 富文本</td><td>是</td><td>支持 H2/H3/表格/图片/内链/代码块</td></tr>
+  <tr><td>FAQ 模块</td><td>动态 Q&amp;A 组</td><td>否</td><td>生成 FAQPage Schema，最多 10 条</td></tr>
+  <tr><td>CTA 文案 + CTA 跳转 URL</td><td>文本</td><td>是</td><td>默认："Compare on MoonX →"</td></tr>
+  <tr><td>标签（Tags）</td><td>多选/自由输入</td><td>是</td><td>用于相关文章推荐匹配</td></tr>
+  <tr><td>难度等级</td><td>下拉</td><td>是</td><td>Beginner / Advanced</td></tr>
+  <tr><td>发布状态</td><td>下拉</td><td>是</td><td>草稿 / 待审核 / 已发布，状态流转需操作记录</td></tr>
+  <tr><td>发布时间</td><td>日期选择器</td><td>是</td><td>支持定时发布（未来时间自动上线）</td></tr>
+</table>
+
+<h4 class="sub2">CMS 审核工作流</h4>
+<table>
+  <tr><th>状态</th><th>操作人</th><th>SLA</th><th>说明</th></tr>
+  <tr><td>草稿</td><td>内容编辑</td><td>—</td><td>仅本人可见，不对外展示</td></tr>
+  <tr><td>待审核</td><td>内容编辑提交</td><td>—</td><td>自动通知审核人（Lark/邮件）；编辑不可再修改</td></tr>
+  <tr><td>审核中</td><td>SEO 负责人 / Kelly</td><td>48 小时内</td><td>审核项：SEO Title 字数 / H1 含关键词 / 内链≥3条 / FAQ≥3条 / 无明显错误</td></tr>
+  <tr><td>已发布</td><td>审核人</td><td>—</td><td>立即可访问；自动提交 Sitemap + GSC 索引请求</td></tr>
+  <tr><td>已退回</td><td>审核人</td><td>退回时必须填写原因</td><td>文章回草稿状态，编辑收到通知 + 退回原因</td></tr>
+  <tr><td>已下线</td><td>SEO 负责人 / 技术</td><td>—</td><td>自动从 Sitemap 移除；如需保留历史 URL 可设 301</td></tr>
+</table>
+
+<h4 class="sub2">实时数据 API 失败降级策略</h4>
+<table>
+  <tr><th>数据类型</th><th>一级降级</th><th>二级降级</th><th>缓存有效期</th></tr>
+  <tr><td>预测市场赔率</td><td>展示上次缓存数据 + "数据更新于 X 分钟前"</td><td>显示灰色占位框 + 友好提示；不加 noindex</td><td>60 分钟</td></tr>
+  <tr><td>实时股价</td><td>展示 T-1 日 SSR 快照价格 + "收盘价 · {日期}"</td><td>显示"价格数据暂时不可用"占位</td><td>每日重建</td></tr>
+  <tr><td>代币实时价格</td><td>展示上次缓存价格 + 时间戳</td><td>显示"价格数据更新中"；不影响 SEO 元素</td><td>5 分钟</td></tr>
+  <tr><td>热门市场列表</td><td>展示上次缓存列表 + 更新时间戳</td><td>显示"榜单更新中"；SEO 描述段落仍正常展示</td><td>30 分钟</td></tr>
+</table>
+<p><strong>关键原则：</strong>Title / H1 / Meta 不依赖实时 API；API 短暂失败不自动加 noindex；任意 API 连续失败 &gt;15 分钟，触发 Lark 告警。</p>
+
+<hr>
+
+<!-- 5.4 SEO 技术基础 -->
+<h3 class="sub" id="s5-4">5.4 SEO 技术基础要求</h3>
+
+<h4 class="sub2">Sitemap 结构</h4>
+<div class="tree">sitemap_index.xml
+├── sitemap_moonx_articles.xml      预测学院 + Meme学院文章（发布/更新时实时更新）
+├── sitemap_moonx_guides.xml        程序化·事件指南 + Meme购买页（每日凌晨重建）
+├── sitemap_moonx_stocks.xml        美股预测页（每日凌晨重建）
+├── sitemap_moonx_tokens.xml        Token价格页，满足准入条件（每日凌晨重建）
+├── sitemap_moonx_trending.xml      热门榜单页（每日凌晨重建）
+└── news-sitemap.xml                新闻文章（仅含 48h 内发布，Route Handler，s-maxage=300）← 独立提交 GSC</div>
+<div class="note" style="margin-top:8px"><strong>注意：</strong><code>news-sitemap.xml</code> 需在 Google Search Console「Sitemaps」单独提交，并在 Google News Publisher Center 完成媒体注册，才能进入 Google News / Discover 流量池。</div>
+
+<h4 class="sub2">Schema 类型对应</h4>
+<table>
+  <tr><th>页面类型</th><th>Schema</th></tr>
+  <tr><td>文章详情页（预测学院 / Meme学院）</td><td>Article + FAQPage + BreadcrumbList</td></tr>
+  <tr><td>程序化·事件指南</td><td>Article + FAQPage + BreadcrumbList</td></tr>
+  <tr><td>程序化·美股预测页</td><td>FinancialProduct + FAQPage + BreadcrumbList</td></tr>
+  <tr><td>程序化·Meme代币页</td><td>Article + FAQPage + BreadcrumbList</td></tr>
+  <tr><td>Token 价格详情页</td><td>FinancialProduct + BreadcrumbList</td></tr>
+  <tr><td>热门榜单页</td><td>ItemList + BreadcrumbList</td></tr>
+  <tr><td>新闻列表页 / 分类页</td><td>ItemList + BreadcrumbList（分类页多一层面包屑）</td></tr>
+  <tr><td>新闻详情页</td><td>NewsArticle + FAQPage + BreadcrumbList（NewsArticle 含 publisher.logo / keywords / image）</td></tr>
+</table>
+
+<h4 class="sub2">OG / Twitter Card 规格（所有 SEO 页面）</h4>
+<table>
+  <tr><th>页面类型</th><th>og:type</th><th>og:title</th><th>og:description</th><th>og:image</th><th>twitter:card</th></tr>
+  <tr><td>文章详情页（预测学院 / Meme学院）</td><td>article</td><td>SEO Title</td><td>Meta Description</td><td>封面图（1200×630，SSR 读 CMS）</td><td>summary_large_image</td></tr>
+  <tr><td>新闻详情页</td><td>article</td><td>文章标题</td><td>文章 excerpt</td><td><code>/api/og/news/{slug}</code> 动态生成（1200×630）</td><td>summary_large_image</td></tr>
+  <tr><td>新闻列表页 / 分类页</td><td>website</td><td>"Crypto News | MoonX" / "{Category} News | MoonX"</td><td>固定文案</td><td>静态 OG 图（通用新闻封面，1200×630）</td><td>summary_large_image</td></tr>
+  <tr><td>程序化页面（事件指南 / 美股 / Meme代币）</td><td>website</td><td>页面 SEO Title</td><td>含赔率/价格数字的 Meta Description</td><td>程序化动态生成（含标题 + 赔率）</td><td>summary_large_image</td></tr>
+  <tr><td>热门榜单页</td><td>website</td><td>分类 Title</td><td>含当日热门市场名</td><td>静态通用封面</td><td>summary</td></tr>
+</table>
+<div class="note">所有页面必须同时包含 <code>twitter:site=@moonx_bydfi</code>、<code>twitter:title</code>、<code>twitter:description</code>、<code>twitter:image</code>，OG 与 Twitter Card 可复用同一 image URL。</div>
+
+<h4 class="sub2">robots.txt 规则</h4>
+<table>
+  <tr><th>规则</th><th>路径</th><th>说明</th></tr>
+  <tr><td>Disallow（禁止爬取）</td><td><code>/api/</code></td><td>接口路由，无 SEO 价值；节省爬取配额</td></tr>
+  <tr><td>Disallow</td><td><code>/en/moonx/admin/</code></td><td>CMS 后台路由</td></tr>
+  <tr><td>Disallow</td><td><code>/*?*</code>（除分页参数外）</td><td>防止 URL 参数产生重复内容；分页 <code>?page=</code> 单独 allow</td></tr>
+  <tr><td>Allow</td><td><code>/*?page=</code></td><td>显式允许分页参数，确保第 2 页以后可被爬取</td></tr>
+  <tr><td>Sitemap</td><td><code>https://www.bydfi.com/sitemap_index.xml</code></td><td>在 robots.txt 末行声明 Sitemap 入口</td></tr>
+</table>
+
+<h4 class="sub2">站点内链架构</h4>
+<div class="tree">MoonX 首页 (/en/moonx/markets/trending)
+  │
+  ├──▶ 预测学院 列表页 (/learn/prediction/)            ← 权重枢纽
+  │       │
+  │       ├──▶ 详情页 A (polymarket-vs-kalshi)          ──▶ 热门榜单页
+  │       ├──▶ 详情页 B (polymarket-alternatives)       ──▶ 事件指南页
+  │       └──▶ 详情页 N ... (每篇含 ≥3 条内链)
+  │
+  ├──▶ Meme学院 列表页 (/learn/meme/)                 ← 权重枢纽
+  │       │
+  │       ├──▶ Meme详情页 A ──▶ Meme代币页 (/guide/buy/{token})
+  │       └──▶ Meme详情页 B ──▶ Token价格页 (/solana/token/{contract})
+  │
+  ├──▶ 热门榜单页 (/markets/trending/{cat})
+  │       ├──▶ 事件指南页 (/guide/prediction/{event})
+  │       └──▶ 预测学院 详情页（相关文章推荐）
+  │
+  ├──▶ 美股预测页 (/markets/stocks/{ticker})
+  │       └──▶ 事件指南页（该股票相关事件）
+  │
+  └──▶ 新闻列表页 (/news)                          ← Learn Nav 入口
+          ├──▶ 新闻分类页 (/news/category/{cat})
+          │       └──▶ 新闻详情页 (/news/{slug})
+          └──▶ 新闻详情页（正文内链）→ Token 价格页 / 事件指南页</div>
+
+<h4 class="sub2">E-E-A-T 信号要求（金融/投资类内容必须）</h4>
+<div class="warn">MoonX 内容属 YMYL（Your Money or Your Life）范畴，Google 对此类内容的 E-E-A-T（经验 / 专业 / 权威 / 可信）审查严格，缺少信任信号会导致整站质量评分下降。</div>
+<table>
+  <tr><th width="160">信号类型</th><th>要求</th><th>优先级</th></tr>
+  <tr><td>作者简介页</td><td>每位内容作者需有独立简介页（姓名 / 职位 / 相关领域年限 / 外部个人主页链接），URL 格式：<code>/en/moonx/authors/{name}</code>；文章页 byline 链接至该页</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>编辑政策页</td><td>发布一篇 Editorial Policy 页面（说明内容选题标准、事实核查流程、利益冲突披露），URL：<code>/en/moonx/editorial-policy</code>；页脚添加固定链接</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>外部引用规范</td><td>预测学院和 Meme 学院文章正文须引用至少 2 条外部权威来源（CoinDesk / The Block / Decrypt / Polymarket 官方 / 链上数据）；引用链接使用 <code>rel="nofollow"</code></td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>Article Schema — author</td><td>NewsArticle / Article Schema 中 author 字段必须包含 name + url（指向作者简介页）</td><td><span class="tag tag-p0">P0</span></td></tr>
+  <tr><td>About 页 / 版权声明</td><td>网站需有 About MoonX 页 + 版权声明页；页脚固定入口；有助于 Google 识别发布者身份</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+<hr>
+
+<!-- 5.5 产品入口补充需求 -->
+<h3 class="sub" id="s5-5">5.5 产品入口补充需求 <span class="tag tag-new">NEW</span></h3>
+
+<div class="page-header">
+  <span class="page-badge badge-nav">产品入口</span>
+  <h4>5.5.1 顶部导航新增 Learn 下拉菜单</h4>
+</div>
+<p><strong>需求描述：</strong>在顶部导航 <code>Markets</code> 和 <code>Trade</code> 之间新增 <code>Learn</code> 下拉菜单，作为所有 SEO 内容页面的顶级入口。</p>
+<table>
+  <tr><th width="140">字段</th><th>规格</th></tr>
+  <tr><td>导航位置</td><td>Markets 右侧、Trade 左侧</td></tr>
+  <tr><td>触发方式</td><td>桌面端：hover 展开；移动端：点击展开</td></tr>
+  <tr><td>下拉项 1</td><td><strong>Prediction Academy</strong> → <code>/en/moonx/learn/prediction/</code></td></tr>
+  <tr><td>下拉项 2</td><td><strong>Meme Academy</strong> → <code>/en/moonx/learn/meme/</code></td></tr>
+  <tr><td>下拉项 3</td><td><strong>Trending Markets</strong> → <code>/en/moonx/markets/trending</code></td></tr>
+  <tr><td>下拉项 4</td><td><strong>Crypto News</strong> → <code>/en/moonx/news</code>（已上线，作为独立内容支柱必须有导航入口）</td></tr>
+  <tr><td>SEO 价值</td><td>提升内容页面入链权重；News 入口保证新闻列表页从首页获得权重传递，提升爬取深度；Trending Markets 增加程序化页面首屏曝光</td></tr>
+  <tr><td>优先级</td><td><span class="tag tag-p0">P0</span></td></tr>
+</table>
+
+<div class="page-header">
+  <span class="page-badge badge-nav">产品入口</span>
+  <h4>5.5.2 Pump 页 Token 卡新增 Predict 按钮</h4>
+</div>
+<p><strong>需求描述：</strong>在 Pump 页（<span class="url">/en/moonx/solana</span>）每个 Token 卡片上新增 <code>Predict</code> 按钮，引导用户进入对应 Token 的预测市场或价格详情页。</p>
+<table>
+  <tr><th width="140">字段</th><th>规格</th></tr>
+  <tr><td>按钮文案</td><td>Predict</td></tr>
+  <tr><td>按钮位置</td><td>现有 Trade 按钮右侧</td></tr>
+  <tr><td>跳转逻辑</td><td>若存在对应 Polymarket/MoonX 预测市场 → 跳转 Token 价格详情页（含预测市场模块）；否则跳转 Token 价格详情页</td></tr>
+  <tr><td>数据来源</td><td>Polymarket Gamma API（判断是否存在关联市场）</td></tr>
+  <tr><td>渲染方式</td><td>CSR，Predict 按钮异步加载赔率数据</td></tr>
+  <tr><td>SEO 价值</td><td>提升 Token 价格详情页访问量；增加内链权重传递路径</td></tr>
+  <tr><td>优先级</td><td><span class="tag tag-p1">P1</span></td></tr>
+</table>
+
+<div class="success">
+  <strong>原型已确认（2026-03-25）</strong><br>
+  高保真原型（13页完整交互）已完成审查，页面逻辑全部验证通过。<br>
+  原型文件：<a href="../prototype/prototype_v1.0.html" style="color:#1565C0">prototype/prototype_v1.0.html</a>
+  — 包含页面：Learn Nav 下拉菜单（prediction-list / meme-list / trending）、Pump 页 Predict 按钮（has_market / no_market 两种状态）、Token 详情页 11 工具完整布局。
+</div>
+
+<!-- 5.6 新闻模块 -->
+<h3 class="sub" id="s5-6">5.6 新闻模块 <span class="tag tag-new">V1.3 更新</span></h3>
+
+<div class="note">
+  <strong>设计原则：</strong>新闻模块作为独立内容支柱，不与 Token 工具组件绑定。核心 SEO 价值来自 Google News / Discover 流量入口、高频爬取提升全站权重、长尾新闻关键词捕获三个方向。Token 关联通过正文自然内链实现，不嵌入实时价格 widget（避免影响 Google News 收录资格）。<br><br>
+  <strong>V1.3 更新：</strong>本节线框图和需求规格已按实际已上线页面（<code>/en/moonx/news</code>）全面重写。
+</div>
+
+<!-- 5.6.1 页面结构与 URL -->
+<h4 class="sub2">5.6.1 页面结构与 URL</h4>
+<table>
+  <tr><th>页面</th><th>URL</th><th>渲染类型</th><th>优先级</th></tr>
+  <tr><td>新闻列表页</td><td><code>/en/moonx/news</code></td><td>SSR，revalidate 300s</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>分类页 × 6</td><td><code>/en/moonx/news/category/{cat}</code></td><td>SSR，generateStaticParams</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>文章详情页</td><td><code>/en/moonx/news/{slug}</code></td><td>SSR，generateStaticParams</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>动态 OG 图</td><td><code>/api/og/news/{slug}</code></td><td>Edge Runtime，next/og</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>Google News Sitemap</td><td><code>/news-sitemap.xml</code></td><td>Route Handler，48h 内文章</td><td><span class="tag tag-p0">P0</span></td></tr>
+</table>
+<p>分类共 6 个：<code>bitcoin</code> / <code>ethereum</code> / <code>solana</code> / <code>altcoin</code> / <code>defi</code> / <code>crypto-headlines</code></p>
+
+<!-- 5.6.2 线框图 -->
+<h4 class="sub2">5.6.2 线框图</h4>
+
+<!-- ① 列表页 -->
+<div class="page-header">
+  <span class="page-badge badge-human">① 列表页</span>
+  <code>/en/moonx/news</code>
+</div>
+<div class="wf">
+  <div class="wf-header">CRYPTO NEWS — LIST PAGE</div>
+  <div class="wf-body">
+    <div class="wf-crumb">MoonX › Crypto News</div>
+    <!-- Hero -->
+    <div style="background:#1C2233;border-radius:6px;padding:10px 14px;margin-bottom:8px;position:relative;overflow:hidden">
+      <div style="font-size:9px;color:#9CA3AF;margin-bottom:3px">Thursday, March 26, 2026</div>
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+        <span>📰</span>
+        <span style="font-size:14px;font-weight:800;color:#fff">Crypto News</span>
+      </div>
+      <div style="font-size:9px;color:#9CA3AF">The hottest crypto news and market updates — curated for traders on MoonX.</div>
+      <div style="position:absolute;right:10px;top:8px;display:flex;gap:4px;opacity:.25">
+        <div style="width:28px;height:28px;border-radius:50%;background:#FF6B00"></div>
+        <div style="width:18px;height:18px;border-radius:50%;background:#3B82F6;margin-top:8px"></div>
+      </div>
+    </div>
+    <!-- 分类 Tab -->
+    <div class="wf-tabs" style="border-bottom:2px solid #E5E7EB;margin-bottom:10px">
+      <span class="wf-tab on">All</span>
+      <span class="wf-tab">Bitcoin</span>
+      <span class="wf-tab">Ethereum</span>
+      <span class="wf-tab">Solana</span>
+      <span class="wf-tab">Altcoin</span>
+      <span class="wf-tab">DeFi</span>
+      <span class="wf-tab">Crypto Headlines</span>
+    </div>
+    <!-- 2 列布局 -->
+    <div class="wf-row" style="align-items:flex-start">
+      <!-- 主列 -->
+      <div class="wf-col-main">
+        <div class="wf-label">主列（2/3 宽）— 文章列表</div>
+        <div style="border-top:1px solid #E5E7EB">
+          <!-- 文章卡片示例 -->
+          <div class="wf-row" style="padding:8px 0;border-bottom:1px solid #F3F4F6;align-items:flex-start;gap:8px">
+            <div style="width:72px;height:50px;flex-shrink:0;border-radius:6px;background:linear-gradient(135deg,#F97316,#EAB308);display:flex;align-items:center;justify-content:center">
+              <span style="color:#fff;font-weight:800;font-size:10px">BTC</span>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:700;line-height:1.3;margin-bottom:3px">Bitcoin Hits New ATH as Institutional Inflows Surpass $2B in a Single Week</div>
+              <div style="font-size:9px;color:#6B7280;margin-bottom:4px">Spot Bitcoin ETFs recorded their largest single-week inflow since launch…</div>
+              <div style="display:flex;gap:10px;font-size:9px;color:#9CA3AF">
+                <span style="color:#F97316;font-weight:500">Author: CoinDesk</span>
+                <span>⏱ 7h ago</span>
+                <span>2 min read</span>
+                <span style="margin-left:auto">↗ Share</span>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:9px;color:#9CA3AF;padding:5px 0;text-align:center">… 继续列出更多文章卡片 …</div>
+        </div>
+      </div>
+      <!-- 侧边栏 -->
+      <div class="wf-col-side">
+        <div class="wf-label">侧边栏（1/3 宽）</div>
+        <!-- CTA -->
+        <div style="background:linear-gradient(135deg,#FF6B00,#FF8C00);border-radius:6px;padding:10px;margin-bottom:6px">
+          <div style="font-size:8px;color:#fff;opacity:.85">Start Trading on MoonX</div>
+          <div style="font-size:18px;font-weight:900;color:#fff">$50 Bonus</div>
+          <div style="font-size:8px;color:#fff;opacity:.85;margin:2px 0 6px">For new users. Prediction markets + meme tokens.</div>
+          <div style="background:#fff;color:#FF6B00;font-weight:700;font-size:9px;padding:4px 10px;border-radius:4px;display:inline-block">Start Now →</div>
+        </div>
+        <!-- Trending Markets -->
+        <div class="wf-box" style="margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:4px;margin-bottom:5px"><span>📈</span><span style="font-size:10px;font-weight:700">Trending Markets</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will BTC reach $150K by June?<span>→</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will ETH flip BTC in 2026?<span>→</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will Solana ETF launch in Q2?<span>→</span></div>
+          <div style="font-size:9px;color:#FF6B00;font-weight:600;padding-top:4px">View all markets →</div>
+        </div>
+        <!-- Browse by Topic（列表页 / 分类页专用） -->
+        <div class="wf-box">
+          <div style="font-size:10px;font-weight:700;margin-bottom:5px">Browse by Topic</div>
+          <div>
+            <span class="wf-tag">Bitcoin</span><span class="wf-tag">Ethereum</span><span class="wf-tag">Solana</span>
+            <span class="wf-tag">Altcoin</span><span class="wf-tag">DeFi</span><span class="wf-tag">Crypto Headlines</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 底部导航栏 -->
+    <div style="border-top:1px solid #E5E7EB;margin-top:12px;padding-top:8px;display:flex;gap:16px">
+      <span style="font-size:9px;color:#374151;font-weight:600">Prediction Markets →</span>
+      <span style="font-size:9px;color:#374151;font-weight:600">Prediction Academy →</span>
+      <span style="font-size:9px;color:#374151;font-weight:600">Meme Academy →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ② 分类页 -->
+<div class="page-header" style="margin-top:20px">
+  <span class="page-badge badge-human">② 分类页</span>
+  <code>/en/moonx/news/category/{cat}</code>（以 Bitcoin 为例）
+</div>
+<div class="wf">
+  <div class="wf-header">CRYPTO NEWS — CATEGORY PAGE</div>
+  <div class="wf-body">
+    <!-- 面包屑（3层，第三层不可点） -->
+    <div class="wf-crumb">MoonX › <span style="color:#F97316">Crypto News</span> › Bitcoin</div>
+    <!-- Hero（与列表页不同：无日期、无装饰圆、H1 为分类名、专属描述、文章数） -->
+    <div style="background:#1C2233;border-radius:6px;padding:10px 14px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+        <span>🔶</span>
+        <span style="font-size:14px;font-weight:800;color:#fff">Bitcoin News</span>
+      </div>
+      <div style="font-size:9px;color:#9CA3AF;margin-bottom:3px">Price analysis, ETF inflows, institutional adoption, and on-chain data.</div>
+      <div style="font-size:9px;color:#6B7280">2 articles</div>
+    </div>
+    <!-- 分类 Tab（当前分类橙色下划线） -->
+    <div class="wf-tabs" style="border-bottom:2px solid #E5E7EB;margin-bottom:10px">
+      <span class="wf-tab">All</span>
+      <span class="wf-tab on">Bitcoin</span>
+      <span class="wf-tab">Ethereum</span>
+      <span class="wf-tab">Solana</span>
+      <span class="wf-tab">Altcoin</span>
+      <span class="wf-tab">DeFi</span>
+      <span class="wf-tab">Crypto Headlines</span>
+    </div>
+    <!-- 2 列布局（与列表页相同结构） -->
+    <div class="wf-row" style="align-items:flex-start">
+      <!-- 主列：仅该分类文章 -->
+      <div class="wf-col-main">
+        <div class="wf-label">主列（2/3 宽）— 仅 Bitcoin 分类文章</div>
+        <div style="border-top:1px solid #E5E7EB">
+          <div class="wf-row" style="padding:8px 0;border-bottom:1px solid #F3F4F6;align-items:flex-start;gap:8px">
+            <div style="width:72px;height:50px;flex-shrink:0;border-radius:6px;background:linear-gradient(135deg,#F97316,#EAB308);display:flex;align-items:center;justify-content:center">
+              <span style="color:#fff;font-weight:800;font-size:10px">BTC</span>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:700;line-height:1.3;margin-bottom:3px">Bitcoin Hits New ATH as Institutional Inflows Surpass $2B in a Single Week</div>
+              <div style="font-size:9px;color:#6B7280;margin-bottom:4px">Spot Bitcoin ETFs recorded their largest single-week inflow since launch…</div>
+              <div style="display:flex;gap:10px;font-size:9px;color:#9CA3AF">
+                <span style="color:#F97316;font-weight:500">Author: CoinDesk</span>
+                <span>⏱ 7h ago</span>
+                <span>2 min read</span>
+                <span style="margin-left:auto">↗ Share</span>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:9px;color:#9CA3AF;padding:5px 0;text-align:center">… 同分类更多文章 …</div>
+        </div>
+      </div>
+      <!-- 侧边栏 -->
+      <div class="wf-col-side">
+        <div class="wf-label">侧边栏（1/3 宽）</div>
+        <!-- CTA（同列表页） -->
+        <div style="background:linear-gradient(135deg,#FF6B00,#FF8C00);border-radius:6px;padding:10px;margin-bottom:6px">
+          <div style="font-size:8px;color:#fff;opacity:.85">Start Trading on MoonX</div>
+          <div style="font-size:18px;font-weight:900;color:#fff">$50 Bonus</div>
+          <div style="font-size:8px;color:#fff;opacity:.85;margin:2px 0 6px">For new users. Prediction markets + meme tokens.</div>
+          <div style="background:#fff;color:#FF6B00;font-weight:700;font-size:9px;padding:4px 10px;border-radius:4px;display:inline-block">Start Now →</div>
+        </div>
+        <!-- Trending Markets（同列表页） -->
+        <div class="wf-box" style="margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:4px;margin-bottom:5px"><span>📈</span><span style="font-size:10px;font-weight:700">Trending Markets</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will BTC reach $150K by June?<span>→</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will ETH flip BTC in 2026?<span>→</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will Solana ETF launch in Q2?<span>→</span></div>
+          <div style="font-size:9px;color:#FF6B00;font-weight:600;padding-top:4px">View all markets →</div>
+        </div>
+        <!-- All Categories（竖向列表，当前分类高亮；与详情页相同结构） -->
+        <div class="wf-box">
+          <div style="font-size:10px;font-weight:700;margin-bottom:5px">All Categories</div>
+          <div style="background:#FFF3E0;color:#EA580C;font-size:9px;font-weight:600;padding:3px 7px;border-radius:3px;margin-bottom:2px">● Bitcoin</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Ethereum</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Solana</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Altcoin</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">DeFi</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Crypto Headlines</div>
+        </div>
+      </div>
+    </div>
+    <!-- 底部导航（与列表页不同：第一个是 All News，无 Prediction Academy） -->
+    <div style="border-top:1px solid #E5E7EB;margin-top:12px;padding-top:8px;display:flex;gap:16px">
+      <span style="font-size:9px;color:#374151;font-weight:600">All News →</span>
+      <span style="font-size:9px;color:#374151;font-weight:600">Prediction Markets →</span>
+      <span style="font-size:9px;color:#374151;font-weight:600">Meme Academy →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 详情页 -->
+<div class="page-header" style="margin-top:20px">
+  <span class="page-badge badge-human">③ 详情页</span>
+  <code>/en/moonx/news/{slug}</code>
+</div>
+<div class="wf">
+  <div class="wf-header">CRYPTO NEWS — DETAIL PAGE</div>
+  <div class="wf-body">
+    <!-- 面包屑（4层） -->
+    <div class="wf-crumb">MoonX › <span style="color:#F97316">Crypto News</span> › <span style="color:#F97316">Bitcoin</span> › Bitcoin Hits New ATH…</div>
+    <div class="wf-row" style="align-items:flex-start">
+      <!-- 主列 -->
+      <div class="wf-col-main">
+        <!-- Back to News -->
+        <div style="font-size:9px;color:#6B7280;margin-bottom:7px">← Back to News</div>
+        <!-- 分类徽章 + Ticker 徽章 -->
+        <div style="display:flex;gap:5px;margin-bottom:6px;align-items:center">
+          <span style="background:#FFF3E0;color:#EA580C;font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px">🔶 Bitcoin</span>
+          <span style="background:linear-gradient(135deg,#F97316,#EAB308);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px">BTC</span>
+        </div>
+        <!-- H1 -->
+        <div class="wf-h1">Bitcoin Hits New ATH as Institutional Inflows Surpass $2B in a Single Week</div>
+        <!-- Meta 行 -->
+        <div style="display:flex;align-items:center;gap:10px;font-size:9px;color:#9CA3AF;padding:5px 0;border-bottom:1px solid #E5E7EB;margin-bottom:7px">
+          <span style="color:#374151;font-weight:600">CoinDesk</span>
+          <span>⏱ March 26, 2026 at 01:30 PM</span>
+          <span>📖 2 min read</span>
+          <span style="margin-left:auto;background:#F3F4F6;padding:2px 7px;border-radius:3px">↗ Share</span>
+        </div>
+        <!-- Hero 图 -->
+        <div style="height:60px;background:linear-gradient(135deg,#F97316,#EAB308);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+          <span style="color:#fff;font-weight:900;font-size:20px;opacity:.3">BTC</span>
+        </div>
+        <!-- 正文 -->
+        <div style="font-size:10px;color:#374151;line-height:1.7">
+          <p style="margin-bottom:4px">Spot Bitcoin ETFs recorded their largest single-week inflow since launch last week…</p>
+          <p style="font-weight:700;margin:5px 0 3px">What's driving the rally?</p>
+          <p style="margin-bottom:4px">Analysts point to several converging factors…</p>
+          <p style="font-weight:700;margin:5px 0 3px">Prediction market outlook</p>
+          <p>On Polymarket, the probability of Bitcoin reaching $150,000 by June 2026 is 62%…</p>
+        </div>
+        <!-- 关键词 Tag × 5 -->
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding-top:7px;border-top:1px solid #F3F4F6">
+          <span class="wf-tag">Bitcoin ATH</span><span class="wf-tag">Bitcoin ETF inflows</span><span class="wf-tag">BlackRock IBIT</span><span class="wf-tag">BTC price 2026</span><span class="wf-tag">institutional Bitcoin</span>
+        </div>
+        <!-- FAQ × 3 -->
+        <div style="margin-top:10px;border-top:1px solid #E5E7EB;padding-top:8px">
+          <div style="font-size:11px;font-weight:700;margin-bottom:6px">Frequently Asked Questions</div>
+          <div class="wf-box" style="margin-bottom:4px"><div style="font-size:9px;font-weight:700;margin-bottom:2px">Why is Bitcoin hitting a new all-time high?</div><div style="font-size:9px;color:#6B7280">Spot Bitcoin ETFs are driving record institutional inflows — over $2B in a single week…</div></div>
+          <div class="wf-box" style="margin-bottom:4px"><div style="font-size:9px;font-weight:700;margin-bottom:2px">What is IBIT and why does it matter?</div><div style="font-size:9px;color:#6B7280">IBIT is BlackRock's iShares Bitcoin Trust, the world's largest spot Bitcoin ETF…</div></div>
+          <div class="wf-box"><div style="font-size:9px;font-weight:700;margin-bottom:2px">What does the prediction market say about Bitcoin's price?</div><div style="font-size:9px;color:#6B7280">Polymarket currently gives 62% probability that BTC will reach $150K by June 2026…</div></div>
+        </div>
+        <!-- More Bitcoin News -->
+        <div style="margin-top:10px;border-top:1px solid #E5E7EB;padding-top:8px">
+          <div style="font-size:11px;font-weight:700;margin-bottom:6px">More Bitcoin News</div>
+          <div class="wf-row" style="gap:6px">
+            <div class="wf-box" style="flex:1">
+              <div style="height:26px;background:linear-gradient(135deg,#F97316,#EAB308);border-radius:3px;display:flex;align-items:center;justify-content:center;margin-bottom:4px"><span style="color:#fff;font-size:8px;font-weight:700">BTC</span></div>
+              <div style="font-size:9px;font-weight:600;margin-bottom:2px">BlackRock Adds $500M More Bitcoin to IBIT ETF in Single Day</div>
+              <div style="font-size:8px;color:#9CA3AF">Reuters · 2 min read</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 侧边栏（详情页专用） -->
+      <div class="wf-col-side">
+        <div class="wf-label">侧边栏（1/3 宽）</div>
+        <!-- CTA -->
+        <div style="background:linear-gradient(135deg,#FF6B00,#FF8C00);border-radius:6px;padding:10px;margin-bottom:6px">
+          <div style="font-size:8px;color:#fff;opacity:.85">Start Trading on MoonX</div>
+          <div style="font-size:18px;font-weight:900;color:#fff">$50 Bonus</div>
+          <div style="font-size:8px;color:#fff;opacity:.85;margin:2px 0 6px">For new users. Prediction markets + meme tokens.</div>
+          <div style="background:#fff;color:#FF6B00;font-weight:700;font-size:9px;padding:4px 10px;border-radius:4px;display:inline-block">Start Now →</div>
+        </div>
+        <!-- Trending Markets -->
+        <div class="wf-box" style="margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:4px;margin-bottom:5px"><span>📈</span><span style="font-size:10px;font-weight:700">Trending Markets</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will BTC reach $150K by June?<span>→</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will ETH flip BTC in 2026?<span>→</span></div>
+          <div style="font-size:9px;color:#374151;padding:2px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between">Will Solana ETF launch in Q2?<span>→</span></div>
+          <div style="font-size:9px;color:#FF6B00;font-weight:600;padding-top:4px">View all markets →</div>
+        </div>
+        <!-- All News Categories（详情页专用，当前分类高亮） -->
+        <div class="wf-box">
+          <div style="font-size:10px;font-weight:700;margin-bottom:5px">All News Categories</div>
+          <div style="background:#FFF3E0;color:#EA580C;font-size:9px;font-weight:600;padding:3px 7px;border-radius:3px;margin-bottom:2px">● Bitcoin</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Ethereum</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Solana</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Altcoin</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">DeFi</div>
+          <div style="font-size:9px;color:#374151;padding:2px 7px">Crypto Headlines</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 原型切片：新闻三页 -->
+<div style="margin:16px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <span style="font-size:12px;font-weight:600;color:#555;">原型切片：新闻 Hub 页（/en/moonx/news）</span>
+    <a href="../prototype/prototype_v1.0.html" target="_blank" style="font-size:12px;color:#E65100;text-decoration:none;border:1px solid #FFB74D;padding:3px 10px;border-radius:4px;">新窗口打开完整原型 ↗</a>
+  </div>
+  <iframe src="../prototype/prototype_v1.0.html"
+    onload="try{this.contentWindow.showPage('news-hub')}catch(e){}"
+    style="width:100%;height:520px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;"
+    title="新闻 Hub 页原型"></iframe>
+  <div style="font-size:11px;color:#9ca3af;margin-top:4px;">覆盖页面：新闻列表页（All / Bitcoin / Ethereum / Solana / Altcoin / DeFi / Crypto Headlines 分类 Tab）· 可在原型内点击文章跳转详情页</div>
+</div>
+
+<div style="margin:16px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <span style="font-size:12px;font-weight:600;color:#555;">原型切片：新闻分类页（/en/moonx/news/category/bitcoin）</span>
+  </div>
+  <iframe src="../prototype/prototype_v1.0.html"
+    onload="try{this.contentWindow.showPage('news-category')}catch(e){}"
+    style="width:100%;height:520px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;"
+    title="新闻分类页原型"></iframe>
+  <div style="font-size:11px;color:#9ca3af;margin-top:4px;">覆盖页面：Bitcoin News 分类页（H1 = "Bitcoin News"，侧边栏 All Categories 竖向列表，底部导航 All News / Prediction Markets / Meme Academy）</div>
+</div>
+
+<div style="margin:16px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <span style="font-size:12px;font-weight:600;color:#555;">原型切片：新闻详情页（/en/moonx/news/{slug}）</span>
+  </div>
+  <iframe src="../prototype/prototype_v1.0.html"
+    onload="try{this.contentWindow.showPage('news-detail')}catch(e){}"
+    style="width:100%;height:520px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;"
+    title="新闻详情页原型"></iframe>
+  <div style="font-size:11px;color:#9ca3af;margin-top:4px;">覆盖页面：新闻详情页（← Back to News / 双徽章 / 正文 / 5 关键词芯片 / FAQ 展开 / More Bitcoin News / 侧边栏 $50 Bonus + Trending Markets + All News Categories）</div>
+</div>
+
+<hr>
+
+<!-- 5.6.3 SEO 配置 -->
+<h4 class="sub2">5.6.3 SEO 配置</h4>
+<table>
+  <tr><th>配置项</th><th>列表页</th><th>分类页</th><th>详情页</th></tr>
+  <tr><td>URL</td><td><code>/en/moonx/news</code></td><td><code>/en/moonx/news/category/{cat}</code></td><td><code>/en/moonx/news/{slug}</code></td></tr>
+  <tr><td>Title</td><td>Crypto News — Latest Updates | MoonX</td><td>Crypto News — {Category} — Latest Updates | MoonX</td><td>{文章标题} | MoonX（≤60 字符）</td></tr>
+  <tr><td>Description</td><td>"The hottest crypto news and market updates — curated for traders on MoonX."</td><td>各分类独立定制（含分类关键词）</td><td>文章 excerpt（≤ 155 字符）</td></tr>
+  <tr><td>H1</td><td>"Crypto News"（写死）</td><td>"{Category} News"（如 "Bitcoin News"，动态渲染）</td><td>文章标题</td></tr>
+  <tr><td>Canonical</td><td><code>/en/moonx/news</code></td><td><code>/en/moonx/news/category/{cat}</code>（path 路由，非 query param）</td><td><code>/en/moonx/news/{slug}</code></td></tr>
+  <tr><td>OG Image</td><td>og-default.png</td><td>og-default.png</td><td>动态生成 <code>/api/og/news/{slug}</code>（1200×630，Edge Runtime；含标题 / 分类 / 来源）</td></tr>
+  <tr><td>Schema</td><td>BreadcrumbList</td><td>BreadcrumbList</td><td>NewsArticle + FAQPage + BreadcrumbList</td></tr>
+  <tr><td>revalidate</td><td>300s</td><td>300s</td><td>300s</td></tr>
+</table>
+
+<!-- 5.6.4 页面元素规格 -->
+<h4 class="sub2">5.6.4 页面元素规格 — 列表页</h4>
+<table>
+  <tr><th width="130">元素</th><th width="280">前端功能逻辑</th><th>数据说明</th></tr>
+  <tr><td>面包屑</td><td>MoonX &gt; Crypto News（当前页不可点）</td><td>注入 BreadcrumbList Schema</td></tr>
+  <tr><td>Hero 区</td><td>深色背景（<code>#1C2233</code>）：当前日期 / 📰 图标 / H1 "Crypto News" / 描述副标题（"The hottest crypto news…"）/ 右侧装饰圆形色块</td><td>日期用客户端渲染（防水合不匹配）</td></tr>
+  <tr><td>分类 Tab（7 个）</td><td>All → <code>/en/moonx/news</code>（当前页，橙色下划线）；其余各分类 → 对应分类 URL；每个 Tab 为 <code>&lt;a href&gt;</code></td><td>Tab 列表前端写死；激活状态由 pathname 判断</td></tr>
+  <tr><td>文章卡片</td><td>横向布局：72×50px 渐变缩略图（Ticker 大字）+ H2 标题（点击跳详情页）+ 摘要 + Meta 行（来源橙色 / Xh ago / X min read / Share 按钮）</td><td>全部 SSR 渲染；"Xh ago" 由客户端计算</td></tr>
+  <tr><td>侧边栏 — CTA</td><td>橙色渐变卡片：$50 Bonus + 描述 + "Start Now →" 按钮 → <code>https://www.bydfi.com</code></td><td>前端写死</td></tr>
+  <tr><td>侧边栏 — Trending Markets</td><td>3 条热门市场问题 + 箭头 + "View all markets →"；全部链接 → <code>/en/moonx/markets/trending</code></td><td>前端写死</td></tr>
+  <tr><td>侧边栏 — Browse by Topic</td><td>6 个分类 Tag 云；每个为 <code>&lt;a href&gt;</code> 链接至对应分类 URL</td><td>前端写死</td></tr>
+  <tr><td>底部导航栏</td><td>Prediction Markets → / Prediction Academy → / Meme Academy →</td><td>前端写死；SEO 内链入口</td></tr>
+</table>
+
+<h4 class="sub2">5.6.4b 页面元素规格 — 分类页</h4>
+<div class="note"><strong>与列表页的差异（7 处）：</strong>Hero 无日期和装饰圆 / H1 改为"{Category} News" / Hero 描述为分类专属文案 / Hero 显示文章数 / 侧边栏第 3 块改为"All Categories"竖向列表 / 底部导航第一项改为"All News →" / 面包屑新增第三层</div>
+<table>
+  <tr><th width="130">元素</th><th width="280">前端功能逻辑</th><th>数据说明</th></tr>
+  <tr><td>面包屑</td><td>MoonX &gt; Crypto News &gt; {分类名}（前两层可点击，当前分类不可点）</td><td>注入 BreadcrumbList Schema</td></tr>
+  <tr><td>Hero 区</td><td>深色背景（<code>#1C2233</code>）：分类图标 + H1 "{Category} News" + 分类专属描述文案 + 文章总数（"X articles"）；无日期、无装饰圆</td><td>H1 和描述按分类预设，文章数从数据中动态计算</td></tr>
+  <tr><td>分类 Tab（7 个）</td><td>All → <code>/en/moonx/news</code>；当前分类 Tab 橙色下划线高亮；其余分类 → 对应分类 URL</td><td>激活状态由 pathname 中 <code>{cat}</code> 参数判断</td></tr>
+  <tr><td>文章卡片</td><td>仅展示当前分类文章；结构与列表页完全相同</td><td>按 <code>category</code> 字段过滤</td></tr>
+  <tr><td>侧边栏 — CTA</td><td>同列表页</td><td>前端写死</td></tr>
+  <tr><td>侧边栏 — Trending Markets</td><td>同列表页</td><td>前端写死</td></tr>
+  <tr><td>侧边栏 — All Categories</td><td>竖向列出全部 6 分类；当前分类橙色背景高亮；其余为普通文字链接（与详情页侧边栏结构相同）</td><td>当前分类由 pathname <code>{cat}</code> 判断</td></tr>
+  <tr><td>底部导航栏</td><td>All News → / Prediction Markets → / Meme Academy →（注意：无 Prediction Academy，第一项为返回全部新闻）</td><td>前端写死</td></tr>
+</table>
+
+<h4 class="sub2">5.6.4b 页面元素规格 — 详情页</h4>
+<table>
+  <tr><th width="130">元素</th><th width="280">前端功能逻辑</th><th>数据说明</th></tr>
+  <tr><td>面包屑（4 层）</td><td>MoonX &gt; Crypto News &gt; {分类} &gt; {标题截断}；前 3 层可点击</td><td>注入 BreadcrumbList Schema</td></tr>
+  <tr><td>← Back to News</td><td>主列顶部返回链接 → <code>/en/moonx/news</code></td><td>前端写死</td></tr>
+  <tr><td>分类 + Ticker 徽章</td><td>分类徽章（橙色背景 + 🔶 + 分类名，可点击跳分类页）+ Ticker 徽章（渐变色 + Ticker 文字）</td><td>来自 <code>category</code> + <code>tag</code> 字段</td></tr>
+  <tr><td>H1 标题</td><td>文章标题，页面唯一 H1</td><td>来自 <code>title</code> 字段</td></tr>
+  <tr><td>Meta 行</td><td>来源名 / 精确时间（"Month DD, YYYY at HH:MM AM"）/ 阅读时间 / Share 按钮（Web Share API，fallback 复制链接）</td><td>时间格式化由客户端处理</td></tr>
+  <tr><td>Hero 图</td><td>按文章分类对应渐变色块，居中显示 Ticker 大字（低透明度），高度约 180px</td><td>颜色来自 <code>color</code> 字段</td></tr>
+  <tr><td>正文</td><td>段落 + 加粗小标题（<code>&lt;strong&gt;</code>），支持 <code>&lt;a href&gt;</code> 内链</td><td>来自 <code>content</code> 字段，Markdown-like 解析</td></tr>
+  <tr><td>关键词 Tag × 5</td><td>显示于正文底部，不可点击，仅展示</td><td>来自 <code>keywords</code> 字段；同步注入 meta keywords 和 NewsArticle Schema</td></tr>
+  <tr><td>FAQ × 3</td><td>H2 "Frequently Asked Questions" + 3 条（H3 问题 + 段落答案）</td><td>来自 <code>faqs</code> 字段；注入 FAQPage Schema</td></tr>
+  <tr><td>More [分类] News</td><td>H2 "More {Category} News" + 同分类文章卡片（缩略图 / 标题 / 来源 · 阅读时间），最多 3 篇，排除当前文章</td><td>从文章数据按同分类过滤</td></tr>
+  <tr><td>侧边栏 — All News Categories</td><td>竖向列出全部 6 分类；当前文章分类橙色背景高亮；其余为普通文字链接</td><td>当前分类由 <code>category</code> 字段判断</td></tr>
+</table>
+
+<!-- 5.6.5 数据结构 -->
+<h4 class="sub2">5.6.5 文章数据结构</h4>
+<table>
+  <tr><th width="120">字段</th><th width="160">类型</th><th>说明</th></tr>
+  <tr><td>slug</td><td>string</td><td>URL 标识符，kebab-case，发布后不可修改</td></tr>
+  <tr><td>title</td><td>string（≤80 字符）</td><td>文章标题，渲染为 H1 + meta title</td></tr>
+  <tr><td>excerpt</td><td>string（≤155 字符）</td><td>摘要，用于列表卡片展示 + meta description</td></tr>
+  <tr><td>content</td><td>string</td><td>正文，段落以 <code>\n\n</code> 分隔；加粗小标题用 <code>**text**</code> 标记</td></tr>
+  <tr><td>keywords</td><td>string[5]</td><td>5 个 SEO 关键词，注入 meta + NewsArticle Schema + Google News Sitemap</td></tr>
+  <tr><td>faqs</td><td>{q, a}[3]</td><td>3 条 FAQ，渲染 FAQPage Schema，抢占 People Also Ask</td></tr>
+  <tr><td>category</td><td>string</td><td>bitcoin / ethereum / solana / altcoin / defi / crypto-headlines</td></tr>
+  <tr><td>date</td><td>ISO 8601</td><td>发布时间，决定 Google News Sitemap 收录 + 列表页「Xh ago」显示</td></tr>
+  <tr><td>source</td><td>string</td><td>来源媒体名称，显示于 Meta 行</td></tr>
+  <tr><td>color</td><td>string（Tailwind 渐变）</td><td>缩略图和 Hero 图渐变色；按分类预设</td></tr>
+  <tr><td>tag</td><td>string</td><td>资产 Ticker（BTC / ETH / SOL / XRP / UNI / ETF / AVAX / AAVE / L2 等）</td></tr>
+</table>
+
+<!-- 5.6.6 Google News Sitemap -->
+<h4 class="sub2">5.6.6 Google News Sitemap</h4>
+<p>路径：<code>/news-sitemap.xml</code>（Route Handler，Cache-Control: s-maxage=300）；仅收录 <strong>48 小时内</strong>发布的文章（Google News 要求）。</p>
+<table>
+  <tr><th>XML 字段</th><th>值</th></tr>
+  <tr><td><code>news:publication &gt; name</code></td><td>MoonX by BYDFi</td></tr>
+  <tr><td><code>news:publication &gt; language</code></td><td>en</td></tr>
+  <tr><td><code>news:publication_date</code></td><td>ISO 8601 格式</td></tr>
+  <tr><td><code>news:title</code></td><td>CDATA 包裹文章标题</td></tr>
+  <tr><td><code>news:keywords</code></td><td>逗号分隔的 5 个关键词</td></tr>
+</table>
+<div class="note"><strong>GSC 操作：</strong>上线后在 Google Search Console「Sitemaps」提交 <code>https://www.bydfi.com/news-sitemap.xml</code>，并在 Google News Publisher Center 完成媒体注册，才能进入 Google News / Discover 流量池。</div>
+
+<!-- 5.6.7 内容来源策略 -->
+<h4 class="sub2">5.6.7 内容来源策略</h4>
+<table>
+  <tr><th width="160">来源类型</th><th width="240">渠道</th><th>说明</th></tr>
+  <tr><td>上线初期（静态）</td><td><code>data.ts</code> 静态数组</td><td>已内置 10 篇高质量文章，含 keywords + FAQs + content，开发无需后端</td></tr>
+  <tr><td>扩展阶段（接口）</td><td>CryptoPanic API / CoinGecko News API</td><td>替换静态数组，页面结构不变；revalidate 改为 60s</td></tr>
+  <tr><td>长期（CMS）</td><td>Prisma CMS 后台（Article 表新增 type = 'news'）</td><td>编辑手动发布精选新闻，与学院文章共享一套后台</td></tr>
+  <tr><td>RSS 聚合</td><td>CoinTelegraph / Decrypt / The Block / CoinDesk</td><td>摘要 + 来源链接 + 原创解读；须标注原文来源，不全文转载</td></tr>
+</table>
+
+<div class="warn">
+  <strong>不嵌入 Token 价格 widget（设计决策）：</strong>文章详情页不内嵌实时价格组件。原因：① 影响 Google News 收录资格（偏商业组件会降低收录概率）；② Token 关联通过正文自然内链传递，SEO 权重传递更优；③ 减少 CSR 依赖，利于爬虫全量抓取。
+</div>
+
+<!-- 5.6.8 验收标准 -->
+<h4 class="sub2">5.6.8 验收标准</h4>
+<table>
+  <tr><th>验收项</th><th>标准</th></tr>
+  <tr><td>列表页渲染</td><td>SSR 200，&lt;h1&gt; = "Crypto News"，文章卡片含标题 / 来源 / Xh ago / X min read / Share</td></tr>
+  <tr><td>分类 Tab 导航</td><td>点击 Tab 跳转 <code>/en/moonx/news/category/{cat}</code>，当前 Tab 橙色下划线，meta title 含分类名</td></tr>
+  <tr><td>底部导航栏 — 列表页</td><td>「Prediction Markets → / Prediction Academy → / Meme Academy →」</td></tr>
+  <tr><td>底部导航栏 — 分类页</td><td>「All News → / Prediction Markets → / Meme Academy →」（注意：第一项为返回全部新闻，无 Prediction Academy）</td></tr>
+  <tr><td>← Back to News</td><td>详情页主列顶部有返回链接，点击跳转 <code>/en/moonx/news</code></td></tr>
+  <tr><td>详情页正文</td><td>段落正常渲染，加粗小标题正常显示，关键词 Tag × 5 显示在正文底部</td></tr>
+  <tr><td>FAQ 区</td><td>详情页展示 3 条 FAQ（H3 问题 + 段落答案）</td></tr>
+  <tr><td>More [分类] News</td><td>同分类相关文章卡片显示，不含当前文章，最多 3 篇</td></tr>
+  <tr><td>侧边栏差异</td><td>列表页 / 分类页侧边栏第 3 块为"Browse by Topic"（Tag 云）；详情页为"All News Categories"（竖向列表 + 当前分类高亮）</td></tr>
+  <tr><td>NewsArticle Schema</td><td>Google Rich Results Test 通过，含 publisher.name / logo / image / keywords / datePublished</td></tr>
+  <tr><td>FAQPage Schema</td><td>Google Rich Results Test 通过，含 3 条 Question + Answer</td></tr>
+  <tr><td>Google News Sitemap</td><td><code>/news-sitemap.xml</code> 返回 200，XML 含 <code>news:news</code> 标签，keywords 非空</td></tr>
+  <tr><td>动态 OG 图</td><td><code>/api/og/news/{slug}</code> 返回 200，尺寸 1200×630，含标题 / 分类 / 来源</td></tr>
+</table>
+
+<hr>
+
+<!-- 六、业务流程图 -->
+<h2 class="sec" id="s6">六、业务流程图</h2>
+
+<p style="font-size:13px;color:#555;margin-bottom:20px">以下 4 张流程图对应 Step 5 产出（<a href="../flowcharts/flowcharts_v1.0.html" style="color:#E65100">flowcharts_v1.0.html</a>），覆盖核心用户旅程与关键判断逻辑。</p>
+
+<!-- 流程图 ① 用户入口主流程 -->
+<h3 class="sub">6.1 用户入口主流程</h3>
+<p style="font-size:13px;color:#666;margin-bottom:12px">三类核心用户（预测研究者 / Meme 投机者 / 美股交易者）如何通过 SEO 进入 MoonX 各功能页面，以及页面间的跳转关系。新增 Meme 市场详情页节点。</p>
+<div class="mermaid" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:8px">
+flowchart TD
+    SEO["🌐 Google 搜索 / 外部流量"]
+
+    SEO -->|"搜索「Polymarket vs Kalshi」" | PA_LIST["📚 Prediction Academy 列表页\n/learn/prediction"]
+    SEO -->|"搜索「PEPE price prediction 2026」"| MEME["📖 Meme Academy 详情页\n/learn/meme/[token]"]
+    SEO -->|"搜索「crypto prediction markets 2026」"| TRENDING["📊 Trending 榜单页\n/markets/trending"]
+    SEO -->|"直接访问 Token 详情"| TD["🪙 Token 详情页\n/token/[symbol]"]
+    SEO -->|"搜索「PEPE news today」"| NEWS["📰 新闻列表/分类页\n/news/[category]"]
+
+    NEWS -->|"点击文章卡片"| NEWS_D["📄 新闻详情页\n/news/[slug]"]
+    NEWS_D -->|"正文内链（Token name）"| TD
+
+    PA_LIST -->|"点击文章卡片"| PA_DETAIL["📄 Prediction Academy 详情页\n/learn/prediction/[slug]"]
+    PA_DETAIL -->|"文中 CTA 按钮"| TD
+    PA_DETAIL -->|"Related Articles"| PA_LIST
+
+    MEME -->|"侧边栏「See Odds on MoonX」"| MEME_MARKET["🎯 Meme 市场详情页\n/markets/meme/[slug]"]
+    MEME -->|"文中 CTA 按钮"| TD
+
+    TRENDING -->|"Prediction tab 市场卡片"| TD
+    TRENDING -->|"Meme tab 市场卡片"| MEME_MARKET
+    TRENDING -->|"Related Reading 内链"| PA_DETAIL
+
+    MEME_MARKET -->|"Bet on MoonX"| BET["💸 下注页面\n(交易入口)"]
+    MEME_MARKET -->|"查看 Token 详情"| TD
+
+    TD -->|"工具① Polymarket Odds\nBet on MoonX 按钮"| BET
+    TD -->|"工具⑨ DEX Best Quote\nSwap on Jupiter"| SWAP["🔄 DEX 交易"]
+
+    PUMP["⚡ Pump 页\n/pump"] -->|"Predict 按钮（有预测市场）"| TD
+
+    style SEO fill:#fff7ed,stroke:#fed7aa,color:#c2410c
+    style TD fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style MEME_MARKET fill:#fef9c3,stroke:#fde68a,color:#854d0e,stroke-width:2px
+    style BET fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+    style SWAP fill:#eff6ff,stroke:#bfdbfe,color:#1d4ed8
+    style PUMP fill:#f5f3ff,stroke:#ddd6fe,color:#6d28d9
+    style NEWS fill:#f0fdf4,stroke:#bbf7d0,color:#166534
+    style NEWS_D fill:#f0fdf4,stroke:#bbf7d0,color:#166534
+</div>
+
+<!-- 流程图 ② Learn 导航树 -->
+<h3 class="sub">6.2 Learn 导航树结构（5.5.1）</h3>
+<p style="font-size:13px;color:#666;margin-bottom:12px">新增 Learn 导航下拉菜单的完整结构，包含四个内容频道（原型审查后补充 Platform Comparison 入口）、各自的 URL 路径与页面类型。</p>
+<div class="mermaid" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:8px">
+flowchart LR
+    NAV["🔗 全局导航 Nav\nLearn ▾ 按钮 (NEW)"]
+
+    NAV --> CH1["📚 Prediction Academy\n预测市场学院"]
+    NAV --> CH2["🐸 Meme Academy\nMeme 币学院"]
+    NAV --> CH3["📊 Trending Markets\n热门市场榜单"]
+    NAV --> CH4["🔬 Platform Comparison\n平台对比"]
+
+    CH1 --> CH1_LIST["/learn/prediction\n列表页（分类 Tab）"]
+    CH1 --> CH1_ART["/learn/prediction/[slug]\n文章详情页（含 TOC + FAQ + CTA）"]
+    CH1_LIST -->|"点击文章卡片"| CH1_ART
+
+    CH2 --> CH2_LIST["/learn/meme\n列表页（按 Token 筛选）"]
+    CH2 --> CH2_ART["/learn/meme/[token]\n文章详情页（含 Token Price Snapshot 侧栏）"]
+    CH2_LIST -->|"点击文章卡片"| CH2_ART
+
+    CH3 --> CH3_PAGE["/markets/trending\n榜单页（分类 Tab + 市场卡片）"]
+
+    CH4 --> CH4_PAGE["/platforms\n平台对比页（Polymarket / Kalshi / Manifold）"]
+
+    CH1_ART -->|"内链 CTA"| TOKEN["🪙 Token 详情页"]
+    CH2_ART -->|"侧栏 CTA"| MEME_MKT["🎯 Meme 市场详情页"]
+    CH3_PAGE -->|"Prediction tab Bet on MoonX"| TOKEN
+    CH3_PAGE -->|"Meme tab 市场卡片"| MEME_MKT
+    MEME_MKT -->|"Bet / 查看 Token"| TOKEN
+
+    style NAV fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style CH1 fill:#eff6ff,stroke:#bfdbfe,color:#1d4ed8
+    style CH2 fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+    style CH3 fill:#fef9c3,stroke:#fde68a,color:#854d0e
+    style CH4 fill:#f5f3ff,stroke:#ddd6fe,color:#6d28d9
+    style TOKEN fill:#fff7ed,stroke:#ff6b00,color:#c2410c
+    style MEME_MKT fill:#fef9c3,stroke:#fde68a,color:#854d0e
+</div>
+
+<!-- 流程图 ③ Predict 按钮逻辑 -->
+<h3 class="sub">6.3 Pump 页 Predict 按钮判断逻辑（5.5.2）</h3>
+<p style="font-size:13px;color:#666;margin-bottom:12px">针对 Pump 页每个 Token 行，根据「是否存在活跃预测市场」决定按钮样式与行为，共三种状态。</p>
+<div class="mermaid" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:8px">
+flowchart TD
+    START["每个 Token 行渲染"]
+    CHECK{"是否存在\n活跃预测市场？\n（来源：Polymarket / Kalshi / Manifold）"}
+
+    START --> CHECK
+
+    CHECK -->|"是"| HAS_MARKET{"获取 YES 概率\n（≤2 位数%）"}
+    CHECK -->|"否"| NO_MARKET["渲染：灰色 Predict 按钮\n样式：border-gray-200\n行为：→ Token 详情页（无 odds badge）\n提示：No active prediction market"]
+
+    HAS_MARKET --> ODDS["渲染：橙色 Predict ▶ 按钮\n+ 橙色 Badge 显示 YES%\n样式：border-moonx + predict-pulse\n行为：→ Token 详情页（工具① 自动展开）"]
+
+    ODDS --> INLINE{"是否展示\nInline 预览条？"}
+    INLINE -->|"有活跃市场"| PREVIEW["渲染市场名 + 进度条 + YES%\n呈现在 Token 行底部"]
+    INLINE -->|"否"| SKIP["不渲染预览区域"]
+
+    style CHECK fill:#fff7ed,stroke:#fed7aa,color:#c2410c
+    style ODDS fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style NO_MARKET fill:#f9fafb,stroke:#e5e7eb,color:#6b7280
+    style PREVIEW fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+</div>
+
+<!-- 流程图 ④ Token 详情页工具渲染条件 -->
+<h3 class="sub">6.4 Token 详情页 — 11 工具渲染条件</h3>
+<p style="font-size:13px;color:#666;margin-bottom:12px">Token 详情页各工具模块的数据来源与条件渲染规则，重点标注 ⑪ 社区模块的自动显示/隐藏逻辑。</p>
+<div class="mermaid" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:8px">
+flowchart TD
+    TOKEN_PAGE["🪙 Token 详情页 进入"]
+
+    TOKEN_PAGE --> T1["① Polymarket Odds\n数据源：Polymarket API\n条件：有活跃市场 → 显示；否则 → 隐藏"]
+    TOKEN_PAGE --> T2["② Safety Score\n数据源：RugCheck\n条件：始终渲染"]
+    TOKEN_PAGE --> T3["③ Token Lifecycle\n数据源：链上数据\n条件：始终渲染"]
+    TOKEN_PAGE --> T4["④ Holder Distribution\n数据源：链上持仓\n条件：始终渲染"]
+    TOKEN_PAGE --> T5["⑤ P&L Calculator\n数据源：当前价格\n条件：始终渲染（纯前端计算）"]
+    TOKEN_PAGE --> T6["⑥ Community Sentiment\n数据源：Twitter / TG 情绪分析\n条件：始终渲染"]
+    TOKEN_PAGE --> T7["⑦ Smart Money Tracker\n数据源：链上大额交易\n条件：始终渲染 LIVE 数据"]
+    TOKEN_PAGE --> T8["⑧ Price Trend\n数据源：行情 API\n条件：始终渲染（24h / 7d 切换）"]
+    TOKEN_PAGE --> T9["⑨ DEX Best Quote\n数据源：Jupiter / Raydium / Orca\n条件：始终渲染（最优价高亮）"]
+    TOKEN_PAGE --> T10["⑩ Similar Meme Comparison\n数据源：同类 Token 排行\n条件：始终渲染（横向对比）"]
+    TOKEN_PAGE --> T11_CHECK{"⑪ Community Scale Tracker\n是否存在官方 Twitter / Telegram 账号？"}
+
+    T11_CHECK -->|"是"| T11_SHOW["✅ 渲染 Community Scale 模块\n显示：粉丝数 / 成员数 / 7d 帖子数 + 增长率"]
+    T11_CHECK -->|"否"| T11_HIDE["🔇 模块自动隐藏\n不渲染空占位\n（避免展示无意义的 0 数据）"]
+
+    style TOKEN_PAGE fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style T1 fill:#eff6ff,stroke:#bfdbfe,color:#1d4ed8
+    style T11_CHECK fill:#fff7ed,stroke:#fed7aa,color:#c2410c
+    style T11_SHOW fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+    style T11_HIDE fill:#f9fafb,stroke:#e5e7eb,color:#9ca3af
+</div>
+
+<hr>
+
+<!-- 七、异常与边界处理 -->
+<h2 class="sec" id="s7">七、异常与边界处理</h2>
+
+<table>
+  <tr><th width="180">场景</th><th>处理方式</th><th>产品表现</th></tr>
+  <tr><td>API 超时/失败（赔率/价格）</td><td>展示缓存数据 + 时间戳；缓存也失效则显示友好占位</td><td>用户看到"数据更新中"，不看到 500 或空白</td></tr>
+  <tr><td>Token 已 rug</td><td>停止交易 &gt;7天 → 自动加 noindex + 顶部警告横幅</td><td>"⚠️ This token is no longer active"</td></tr>
+  <tr><td>事件已结束 &gt;30天</td><td>自动加 noindex，保留页面 URL（保护入站链接）</td><td>页面可访问但不被索引</td></tr>
+  <tr><td>Meme 内容时效超期</td><td>周期热点 &gt;14天 → 标记待审；&gt;30天 → 自动 noindex</td><td>CMS 每日 08:00 发送 Lark 过期提醒</td></tr>
+  <tr><td>SEO Title 超字数</td><td>CMS 后台实时红色警告，阻止发布</td><td>Title 超 60 字符时字符计数变红</td></tr>
+  <tr><td>Slug 重复</td><td>后台报错提示，阻止保存</td><td>"This URL slug already exists"</td></tr>
+  <tr><td>Token 无官方社媒账号</td><td>工具 ⑪（社区规模追踪）自动隐藏，不显示空状态</td><td>模块不渲染</td></tr>
+  <tr><td>DEX 流动性不足（LP &lt; $5K）</td><td>工具 ⑨（DEX 最优报价）自动隐藏</td><td>模块不渲染</td></tr>
+  <tr><td>文章无任何内链（孤立页）</td><td>每月爬虫检查，发现孤立页面强制通知运营补充内链</td><td>内部运营工单触发</td></tr>
+  <tr><td>程序化页面内容相似度过高</td><td>上线前抽查同类型 3 个页面，正文差异度需 &gt;40%</td><td>（工具：DiffChecker 或人工审核）</td></tr>
+</table>
+
+<hr>
+
+<!-- 八、数据追踪与埋点 -->
+<h2 class="sec" id="s8">八、数据追踪与埋点</h2>
+
+<table>
+  <tr><th>埋点事件</th><th>触发条件</th><th>核心参数</th><th>用途</th></tr>
+  <tr><td>article_view</td><td>内容页加载完成</td><td>category / slug / traffic_source</td><td>内容流量归因</td></tr>
+  <tr><td>cta_click</td><td>用户点击文章 CTA 按钮</td><td>cta_text / cta_url / article_slug / position（1st/2nd）</td><td>内容→平台转化率</td></tr>
+  <tr><td>toc_click</td><td>用户点击目录 TOC 锚点</td><td>anchor_text / scroll_depth_before</td><td>内容消费深度</td></tr>
+  <tr><td>faq_expand</td><td>用户展开 FAQ 折叠项</td><td>question_text / article_slug</td><td>用户关注点分析</td></tr>
+  <tr><td>predict_button_click</td><td>Pump 页 Predict 按钮点击</td><td>token_contract / has_prediction_market / target_url</td><td>5.5.2 入口转化率</td></tr>
+  <tr><td>tool_view</td><td>Token 详情页工具模块曝光（#1~11）</td><td>tool_id / token_contract</td><td>11个工具使用率</td></tr>
+  <tr><td>search_impression_rank</td><td>GSC 数据定期同步</td><td>keyword / position / clicks / impressions</td><td>SEO 排名监控</td></tr>
+</table>
+
+<hr>
+
+<!-- 九、未来演进规划 -->
+<h2 class="sec" id="s9">九、未来演进规划（Roadmap）</h2>
+
+<table>
+  <tr><th>阶段</th><th>时间线</th><th>核心交付物</th><th>成功指标</th></tr>
+  <tr>
+    <td><strong>Phase 1</strong><br>SEO 基础建设</td>
+    <td>M1-M2</td>
+    <td>预测学院（3篇 P0 文章）+ Meme 学院（3篇）+ CMS + SSR 技术基础 + Learn Nav</td>
+    <td>月自然流量 200+；"polymarket vs kalshi" 进 Top 20</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 2</strong><br>程序化扩规模</td>
+    <td>M3-M4</td>
+    <td>美股预测页 8 个 + Meme 代币页 100+ + Token 详情页 SSR 改造 + Pump 页 Predict 按钮 + 热门榜单页</td>
+    <td>Sitemap 有效 URL 500+；月流量 3,000+</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 3</strong><br>内容规模扩张</td>
+    <td>M5-M6</td>
+    <td>预测学院 20 篇 + Meme 学院 20 篇 + 程序化页面 5,000+</td>
+    <td>月自然流量 15,000+；内容→平台转化率 ≥3%</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 4</strong><br>智能化与国际化</td>
+    <td>M7+</td>
+    <td>多语言 SEO（中文/西班牙语）+ AI 辅助内容生产 + 个性化内容推荐</td>
+    <td>全球自然流量 50,000+</td>
+  </tr>
+</table>
+
+<hr>
+
+<!-- 十、附件 -->
+<h2 class="sec" id="s10">十、附件</h2>
+
+<table>
+  <tr><th>附件名称</th><th>说明</th><th>文件路径</th></tr>
+  <tr><td>SEO PRD v5（原始版本）</td><td>本文档重构来源，包含完整技术细节和验收标准</td><td><code>annex/MoonX_SEO_PRD_v5_source.html</code></td></tr>
+  <tr><td>SEO 接口需求文档 v3</td><td>前后端接口规格（API 字段、请求格式、响应结构）</td><td><code>annex/MoonX_SEO_接口需求文档_v3_source.html</code></td></tr>
+  <tr><td>关键词矩阵（Ahrefs 验证数据）</td><td>2026-03-12 Ahrefs 关键词调研报告</td><td>待补充</td></tr>
+  <tr><td>SERP 分析报告</td><td>核心关键词 SERP 竞品分析</td><td><code>annex/serp_analysis_report.md</code>（待整理）</td></tr>
+  <tr><td>高保真原型 v1.0</td><td>13 页完整交互原型（SPA，Tailwind CSS），原型已通过审查</td><td><a href="../prototype/prototype_v1.0.html" style="color:#1565C0;font-family:monospace;font-size:12px">../prototype/prototype_v1.0.html</a></td></tr>
+  <tr><td>业务流程图 v1.0</td><td>4 张 Mermaid 流程图（独立文件），同时嵌入 Section 六</td><td><a href="../flowcharts/flowcharts_v1.0.html" style="color:#1565C0;font-family:monospace;font-size:12px">../flowcharts/flowcharts_v1.0.html</a></td></tr>
+</table>
+
+<hr>
+
+<p style="color:#999;font-size:12px;text-align:center;margin-top:32px">
+  文档版本：v1.4 · 更新日期：2026-03-27 · 需求负责人：Kelly · 工作流：Agile PM Workflow<br>
+  原型已于 2026-03-25 完成审查（13页全部确认）。业务流程图已嵌入 Section 六。下一步：开发评审。
+</p>
+
+</div><!-- end page -->
+</div><!-- end layout -->
+
+<script>
+// Mermaid initialization
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor: '#fff7ed',
+    primaryBorderColor: '#FF6B00',
+    primaryTextColor: '#111827',
+    lineColor: '#9ca3af',
+    secondaryColor: '#f9fafb',
+    tertiaryColor: '#f5f3ff',
+    fontFamily: '-apple-system, PingFang SC, sans-serif',
+    fontSize: '13px'
+  },
+  flowchart: { curve: 'basis', padding: 20, nodeSpacing: 40, rankSpacing: 50 }
+});
+</script>
+
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id^="s"]');
+const links = document.querySelectorAll('.toc-sidebar a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  links.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>

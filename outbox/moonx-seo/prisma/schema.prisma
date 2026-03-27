@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id          String    @id @default(cuid())
+  category    String    // prediction | meme
+  slug        String    @unique
+  h1          String
+  seoTitle    String
+  metaDesc    String
+  coverImage  String?
+  content     String    // Markdown
+  author      String    @default("MoonX Team")
+  tags        String    @default("[]")  // JSON array
+  faqs        String    @default("[]")  // JSON array [{q, a}]
+  ctaText     String?
+  ctaUrl      String?
+  status      String    @default("draft")  // draft|in_review|reviewing|published|rejected|scheduled
+  scheduledAt DateTime?
+  publishedAt DateTime?
+  reviewNote  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model ProgrammaticTemplate {
+  id          String   @id @default(cuid())
+  pageType    String   // event|stock|meme_token|trending
+  titleTpl    String   // {EVENT} Prediction Market Odds | MoonX
+  descTpl     String
+  contentTpl  String   // Markdown template with {variables}
+  faqTpl      String   @default("[]")  // JSON
+  noindexDays Int      @default(30)
+  volumeMin   Int      @default(100000)
+  updatedAt   DateTime @updatedAt
+}
+
+model Banner {
+  id        String    @id @default(cuid())
+  pages     String    // JSON list of page types/URLs
+  imageUrl  String
+  linkUrl   String
+  altText   String
+  position  String    // sidebar_top|sidebar_bottom|in_article
+  startsAt  DateTime?
+  endsAt    DateTime?
+  active    Boolean   @default(true)
+}
+
+model TokenSnapshot {
+  contract    String   @id
+  symbol      String
+  name        String
+  price       Float    @default(0)
+  priceChange Float    @default(0)
+  volume24h   Float    @default(0)
+  mcap        Float    @default(0)
+  holders     Int      @default(0)
+  lpUsd       Float    @default(0)
+  launchedAt  DateTime
+  polyOdds    String?  // JSON
+  riskScore   String?  // JSON from RugCheck
+  noindex     Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+}

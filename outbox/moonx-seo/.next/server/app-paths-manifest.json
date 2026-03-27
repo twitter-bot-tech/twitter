@@ -1,0 +1,8 @@
+{
+  "/api/og/news/[slug]/route": "app/api/og/news/[slug]/route.js",
+  "/en/moonx/news/page": "app/en/moonx/news/page.js",
+  "/en/moonx/news/category/[cat]/page": "app/en/moonx/news/category/[cat]/page.js",
+  "/en/moonx/learn/prediction/page": "app/en/moonx/learn/prediction/page.js",
+  "/en/moonx/news/[slug]/page": "app/en/moonx/news/[slug]/page.js",
+  "/en/moonx/markets/trending/page": "app/en/moonx/markets/trending/page.js"
+}

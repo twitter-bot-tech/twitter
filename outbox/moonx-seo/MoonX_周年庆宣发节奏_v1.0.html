@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX × BYDFi 6周年 宣发节奏 v1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.8; }
+.page { max-width: 1100px; margin: 0 auto; padding: 56px 64px; }
+
+/* Cover */
+.cover { text-align: center; padding: 64px 0 48px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover .eyebrow { font-size: 11px; color: #FF6B00; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+.cover h1 { font-size: 30px; font-weight: 800; color: #111; margin-bottom: 8px; }
+.cover .sub { font-size: 14px; color: #888; margin-bottom: 28px; }
+.cover .meta { display: inline-flex; gap: 32px; background: #FFF8F0; padding: 14px 28px; border-radius: 8px; border: 1px solid #FFD9B3; flex-wrap: wrap; justify-content: center; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 13px; font-weight: 600; color: #333; margin-top: 2px; }
+
+/* Section headers */
+h2.sec { font-size: 18px; font-weight: 700; margin: 44px 0 14px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 14px; font-weight: 600; margin: 24px 0 10px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+
+/* Notes */
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 10px 16px; margin: 10px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.tip  { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 10px 16px; margin: 10px 0; border-radius: 4px; font-size: 13px; color: #1B5E20; }
+.highlight-box { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: 8px; padding: 16px 20px; margin: 12px 0; }
+.highlight-box h4 { color: #E65100; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.tag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; }
+.tag-gray   { background: #F5F5F5; color: #555; border: 1px solid #DDD; }
+.tag-launch { background: #FF6B00; color: #fff; border: 1px solid #FF6B00; }
+.tag-blue   { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+
+p { margin-bottom: 8px; color: #333; }
+ul, ol { padding-left: 20px; margin: 6px 0; }
+li { margin-bottom: 4px; color: #333; }
+ul li::marker { color: #FF6B00; }
+hr.sec-div { border: none; border-top: 2px solid #FF6B00; margin: 44px 0; }
+hr.div     { border: none; border-top: 1px solid #F0E8E0; margin: 24px 0; }
+
+/* Channel chips */
+.ch { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin: 1px 2px 1px 0; }
+.ch-x     { background: #111; color: #fff; }
+.ch-email { background: #E3F2FD; color: #1565C0; }
+.ch-push  { background: #F3E5F5; color: #6A1B9A; }
+.ch-kol   { background: #E8F5E9; color: #2E7D32; }
+.ch-tg    { background: #E0F7FA; color: #006064; }
+
+/* Legend */
+.legend { display: flex; gap: 20px; margin: 10px 0 18px; flex-wrap: wrap; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #555; }
+.legend-swatch { width: 16px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+/* ===== MAIN TIMELINE TABLE ===== */
+table.tl { width: 100%; border-collapse: collapse; margin: 6px 0 20px; font-size: 12.5px; }
+table.tl > thead > tr > th {
+  background: #FF6B00; color: #fff; padding: 10px 12px;
+  text-align: left; font-weight: 700; font-size: 11px;
+  letter-spacing: .5px; border: 1px solid #E65100;
+}
+
+/* Phase separator */
+tr.phase td {
+  background: #333; color: #fff; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 6px 12px; border: none;
+}
+
+/* Year anniversary rows (gray) */
+tr.ann > td {
+  background: #FAFAFA; border: 1px solid #EBEBEB;
+  padding: 9px 12px; vertical-align: top; color: #555;
+}
+tr.ann > td:first-child { color: #777; font-weight: 600; }
+
+/* MoonX rows (orange tint) */
+tr.mx > td {
+  background: #FFFAF5; border: 1px solid #FFE0B2;
+  padding: 9px 12px; vertical-align: top; color: #333;
+}
+tr.mx > td:first-child { color: #E65100; font-weight: 700; }
+
+/* MoonX LAUNCH row */
+tr.launch > td {
+  background: #FFF3E0; border: 1px solid #FFB74D;
+  padding: 10px 12px; vertical-align: top;
+}
+tr.launch > td:first-child { color: #E65100; font-weight: 800; }
+tr.launch .launch-title { font-weight: 700; color: #BF360C; font-size: 13px; }
+
+/* Hook cell */
+.hook { font-size: 11px; color: #E65100; font-weight: 600; margin-top: 4px; padding: 3px 7px; background: #FFF3E0; border-left: 2px solid #FF6B00; border-radius: 2px; }
+
+/* General table */
+table.std { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 13px; }
+table.std th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; }
+table.std td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table.std tr:nth-child(even) td { background: #FAFAFA; }
+
+/* Content templates */
+.tpl { border: 1px solid #E8E8E8; border-radius: 6px; padding: 14px 18px; margin: 8px 0; }
+.tpl .tpl-label { font-size: 10px; font-weight: 700; color: #999; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.tpl .tpl-body { font-size: 12.5px; color: #333; line-height: 1.8; white-space: pre-wrap; }
+
+/* Footer */
+.footer { margin-top: 64px; padding-top: 20px; border-top: 2px solid #FF6B00; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #999; }
+.footer .brand { font-weight: 700; color: #FF6B00; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div class="eyebrow">MoonX × BYDFi 6th Anniversary</div>
+  <h1>MoonX 蹭周年庆宣发节奏方案</h1>
+  <div class="sub">借助 6 周年活动现有宣发节点，同步推广 MoonX 预测市场上线</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">年庆活动周期</div><div class="value">2026/04/01 — 04/30</div></div>
+    <div class="meta-item"><div class="label">MoonX 上线日</div><div class="value">2026/04/07</div></div>
+    <div class="meta-item"><div class="label">年庆总奖池</div><div class="value">$2,390,000</div></div>
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">v1.0 · 2026-03-23</div></div>
+  </div>
+</div>
+
+<!-- 策略说明 -->
+<h2 class="sec">1. 核心策略</h2>
+
+<p>BYDFi 6周年活动（4/1—4/30，奖池 $2,390,000）在 3/25 就开始预热邮件，已有完整宣发排期。MoonX 预测市场 <strong>4/7 上线</strong>，恰好落在年庆"活动数据公布"节点，流量势头正旺。</p>
+
+<div class="highlight-box">
+  <h4>蹭车逻辑：不另起炉灶，在年庆每个节点挂靠 MoonX 内容</h4>
+  <ul>
+    <li><strong>上线前（3/25—4/6）</strong>：在年庆预热内容里埋 MoonX 悬念钩子，引导用户关注</li>
+    <li><strong>上线当天（4/7）</strong>：年庆"活动数据公布"邮件 + MoonX 上线公告同步发出，双线联动</li>
+    <li><strong>上线后（4/8—4/30）</strong>：每次年庆触达，同步附上 MoonX 活动进度，保持曝光</li>
+  </ul>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#FAFAFA;border:1px solid #DDD;"></div>BYDFi 年庆原有节点</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#FFFAF5;border:1px solid #FFE0B2;"></div>MoonX 新增插入节点</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#FF6B00;"></div>MoonX 上线日（4/7）</div>
+</div>
+
+<hr class="div">
+
+<!-- 整合节点总表 -->
+<h2 class="sec">2. 整合宣发节点总表</h2>
+
+<table class="tl">
+  <thead>
+    <tr>
+      <th style="width:72px">日期</th>
+      <th style="width:80px">类型</th>
+      <th style="width:200px">宣发内容</th>
+      <th>执行说明</th>
+      <th style="width:110px">渠道</th>
+      <th style="width:72px">负责人</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- PHASE 0 -->
+    <tr class="phase"><td colspan="6">PHASE 0 &nbsp;·&nbsp; 预热期 &nbsp;3/25 — 3/31</td></tr>
+
+    <tr class="ann">
+      <td>3/25</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>6周年倒计时 Push</td>
+      <td>BYDFi 六周年活动即将开启，总奖池 $2.39M！关注 X 抽 100U。</td>
+      <td><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>3/25</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>Push 底部加 MoonX 预告</td>
+      <td>在上方年庆 Push 底部追加一行：「全新产品 MoonX 预测市场即将上线，敬请期待」。不抢年庆主角，只埋钩子。</td>
+      <td><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+
+    <tr class="ann">
+      <td>3/28</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>倒计时4天 Push</td>
+      <td>距六周年仅剩4天！三大活动 + 每周 X 抽奖，点击了解。</td>
+      <td><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>3/28</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>X 推文：MoonX 预告 #1</td>
+      <td>独立推文，神秘口吻：「Something new is coming on April 7. Stay tuned. @moonx_bydfi」配模糊 UI 图，引导关注 MoonX 账号。</td>
+      <td><span class="ch ch-x">X</span></td>
+      <td>社媒</td>
+    </tr>
+
+    <tr class="ann">
+      <td>3/31</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>倒计时1天 Push</td>
+      <td>BYDFi 六周年明日上线！$2.39M 奖池等你瓜分，速来报名。</td>
+      <td><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>3/31</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>X 推文：MoonX 预告 #2</td>
+      <td>「7 days until MoonX Prediction Market goes live. Predict. Win. No liquidation risk.」悬念递进，开始提 USP，但不透露活动规则。</td>
+      <td><span class="ch ch-x">X</span></td>
+      <td>社媒</td>
+    </tr>
+
+    <!-- PHASE 1 -->
+    <tr class="phase"><td colspan="6">PHASE 1 &nbsp;·&nbsp; 年庆启动 + MoonX 倒计时 &nbsp;4/1 — 4/6</td></tr>
+
+    <tr class="ann">
+      <td>4/1</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件 + Push：年庆正式开启</td>
+      <td>宣告六周年活动启动，引导用户报名，附三大活动简介，总奖池 $2.39M。</td>
+      <td><span class="ch ch-email">邮件</span><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/1</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>年庆邮件底部加 MoonX 模块</td>
+      <td>在年庆开启邮件末尾插入一个小模块：「New product alert — MoonX Prediction Market launches April 7. Predict crypto prices, win real rewards. 加入等待名单 → [链接]」。不超过3行，不抢主体位置。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+
+    <tr class="ann">
+      <td>4/3</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件：BYDFi 六周年公开信</td>
+      <td>以平台运营视角致谢用户，增强情感连接，回顾6年发展历程，再次宣传三大活动，表达未来愿景。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/3</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>公开信中嵌入 MoonX 一句话</td>
+      <td>在公开信"未来展望"段落中加一句：「We're also proud to introduce MoonX Prediction Market on April 7 — a new way to engage with the market, without liquidation risk.」自然植入，不突兀。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+
+    <tr class="mx">
+      <td>4/5</td>
+      <td><span class="tag tag-orange">MoonX 独立</span></td>
+      <td>X Thread：四大活动规则预告</td>
+      <td>MoonX 独立推文，公布四大上线活动轮廓：「老用户免费体验包 / 新用户注册礼 / 合约量阶梯奖励 / 预测达标送体验券」。只说奖励类型，不公布具体金额，制造期待。</td>
+      <td><span class="ch ch-x">X</span><span class="ch ch-kol">KOL简报</span></td>
+      <td>社媒 + KOL</td>
+    </tr>
+
+    <tr class="mx">
+      <td>4/6</td>
+      <td><span class="tag tag-orange">MoonX 独立</span></td>
+      <td>X 推文：倒计时24小时 + 完整规则</td>
+      <td>「MoonX launches tomorrow.」发布四大活动完整规则，附奖励金额。同步向已沟通 KOL 确认明日发布时间。</td>
+      <td><span class="ch ch-x">X</span><span class="ch ch-push">Push</span></td>
+      <td>社媒</td>
+    </tr>
+
+    <!-- PHASE 2 LAUNCH -->
+    <tr class="phase"><td colspan="6">PHASE 2 &nbsp;·&nbsp; MoonX 上线日 4/7（关键节点）</td></tr>
+
+    <tr class="ann">
+      <td>4/7</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件：活动数据公布</td>
+      <td>展示当前参与热度，制造紧迫感，激励未参与用户。已有 XX 人参与，奖池剩余不多，点击立即报名瓜分奖励。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="launch">
+      <td>4/7 早</td>
+      <td><span class="tag tag-launch">上线</span></td>
+      <td class="launch-title">MoonX 正式上线公告</td>
+      <td>X 置顶推文：「MoonX Prediction Market is live. Predict. Win. No liquidation risk.」附上线链接。同步 TG 群公告、Push 通知全量用户。<br><span class="hook">联动钩子：年庆邮件中加入 MoonX 上线高亮模块「今日同步上线，年庆期间首笔交易 ≥100U 即领 $10 体验金」</span></td>
+      <td><span class="ch ch-x">X</span><span class="ch ch-push">Push</span><span class="ch ch-tg">TG</span><span class="ch ch-email">邮件</span></td>
+      <td>社媒 + 运营</td>
+    </tr>
+    <tr class="launch">
+      <td>4/7 中</td>
+      <td><span class="tag tag-launch">上线</span></td>
+      <td class="launch-title">四大活动正式开始推文</td>
+      <td>单独推文列出四大活动参与入口，明确与年庆联动：「MoonX 交易 ≥300 USDT 同时获得年庆射门抽奖额外机会」，两个活动互相引流。</td>
+      <td><span class="ch ch-x">X</span></td>
+      <td>社媒</td>
+    </tr>
+    <tr class="launch">
+      <td>4/7 全天</td>
+      <td><span class="tag tag-launch">上线</span></td>
+      <td class="launch-title">KOL 内容矩阵释放</td>
+      <td>提前约定的 KOL 在 4/7 当天集中发布 MoonX 体验内容（操作教程、首单截图、胜率分享）。建议 ≥3 个 KOL 错开时间发，保持全天热度。</td>
+      <td><span class="ch ch-kol">KOL</span></td>
+      <td>KOL 团队</td>
+    </tr>
+
+    <!-- PHASE 3 -->
+    <tr class="phase"><td colspan="6">PHASE 3 &nbsp;·&nbsp; 上线后运营 + 年庆冲刺 &nbsp;4/8 — 4/30</td></tr>
+
+    <tr class="mx">
+      <td>4/8—4/9</td>
+      <td><span class="tag tag-orange">MoonX 独立</span></td>
+      <td>上线首日/首周战报推文</td>
+      <td>精选第一批用户预测截图，发布 1—2 条 UGC 内容。「MoonX has been live for 24 hours — here's what happened.」哪怕数据小也要发，证明产品有人用。</td>
+      <td><span class="ch ch-x">X</span></td>
+      <td>社媒</td>
+    </tr>
+
+    <tr class="ann">
+      <td>4/10</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>Push：未报名用户二次宣发</td>
+      <td>针对访问过活动页但未报名的用户，提醒完成报名，强调「现在报名仍来得及」。</td>
+      <td><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/10</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>MoonX 上线3天进度更新</td>
+      <td>在年庆 Push 同期发送 MoonX 进度：「MoonX Day 3 — 已有 XXX 人完成首笔预测，活动一老用户体验包剩余 XX 份」。提醒尚未激活的老用户。</td>
+      <td><span class="ch ch-push">Push</span><span class="ch ch-x">X</span></td>
+      <td>运营</td>
+    </tr>
+
+    <tr class="ann">
+      <td>4/15</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件 + Push：活动进程过半 + 金球杯第2场开启</td>
+      <td>回顾上半场活动数据，宣布金球杯第2期启动，提醒活动剩余时间（15天），鼓励继续参与，预告后续 X 平台活动。</td>
+      <td><span class="ch ch-email">邮件</span><span class="ch ch-push">Push</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/15</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>MoonX 上线8天里程碑</td>
+      <td>在年庆"进程过半"邮件中加入 MoonX 模块：「MoonX 上线8天战报 — XXX 笔预测，$XXX 总奖励已发放。活动截止 4/30，还剩 15 天。」顺带提醒年庆联动奖励。</td>
+      <td><span class="ch ch-email">邮件</span><span class="ch ch-x">X</span></td>
+      <td>运营 + 社媒</td>
+    </tr>
+
+    <tr class="ann">
+      <td>4/18</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件：已报名未参与提醒</td>
+      <td>告知奖池已消耗过半，营造稀缺感，促进快速行动。「$50,000 BTC 大奖仍在！完成交易抽奖，别错过。」</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/18</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>MoonX 老用户促活邮件</td>
+      <td>独立邮件，针对尚未激活 MoonX 的老用户：简化操作步骤（3步），强调「免费体验包剩余名额有限，4/30 前可领」。与年庆促活邮件同日发，互不干扰（分开独立邮件）。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+
+    <tr class="ann">
+      <td>4/24</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件：活动仅限7天</td>
+      <td>最后7天！BYDFi 六周年活动倒计时，再次概括三大活动核心利益点，鼓励报名未完成任务的用户立即行动。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/24</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>年庆邮件内嵌 MoonX 倒计时</td>
+      <td>在年庆"仅限7天"邮件末尾插入：「MoonX 活动同步倒计时 — 7 天后截止。当前各档完成进度：活动二已达标 XXX 人，活动三 $5K 档剩余 XX 名额。」</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+
+    <tr class="ann">
+      <td>4/27</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件：最后3天倒计时</td>
+      <td>仅剩3天！强调这是最后参与机会，简要列出最吸引人的奖项，附报名链接和快速操作指引，制造 FOMO。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>4/27</td>
+      <td><span class="tag tag-orange">MoonX 独立</span></td>
+      <td>MoonX 最后72小时全渠道冲刺</td>
+      <td>X + Push + TG 全渠道：「MoonX activities close in 72 hours.」重点提醒最容易达标的活动（活动四 Scheme A：满5单预测）。提示年庆联动奖励窗口同步关闭。</td>
+      <td><span class="ch ch-x">X</span><span class="ch ch-push">Push</span><span class="ch ch-tg">TG</span></td>
+      <td>社媒 + 运营</td>
+    </tr>
+
+    <tr class="ann">
+      <td>5/1</td>
+      <td><span class="tag tag-gray">年庆</span></td>
+      <td>邮件：活动结束/致谢</td>
+      <td>六周年圆满落幕，感恩同行，奖励已发，参考公关稿。</td>
+      <td><span class="ch ch-email">邮件</span></td>
+      <td>运营</td>
+    </tr>
+    <tr class="mx">
+      <td>5/1</td>
+      <td><span class="tag tag-orange">MoonX 挂靠</span></td>
+      <td>MoonX 月度总结推文</td>
+      <td>与年庆结束同步发布 MoonX 4月战报：参与人数、总奖励发放金额、最高胜率用户（可脱敏），预告5月新市场/活动。</td>
+      <td><span class="ch ch-x">X</span><span class="ch ch-email">邮件</span></td>
+      <td>社媒</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<hr class="sec-div">
+
+<!-- 执行节点一览 -->
+<h2 class="sec">3. MoonX 专属节点一览（提炼版）</h2>
+
+<p>下表仅列 MoonX 相关行，方便执行人单独跟进。</p>
+
+<table class="std">
+  <thead>
+    <tr><th style="width:80px">日期</th><th style="width:100px">方式</th><th>核心动作</th><th style="width:90px">负责人</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>3/25</td><td>Push 底部挂靠</td><td>埋 MoonX 上线钩子，不透露细节</td><td>运营</td></tr>
+    <tr><td>3/28</td><td>X 独立推文</td><td>神秘预告 #1，引导关注 @moonx_bydfi</td><td>社媒</td></tr>
+    <tr><td>3/31</td><td>X 独立推文</td><td>神秘预告 #2，开始提 USP「不会爆仓」</td><td>社媒</td></tr>
+    <tr><td>4/1</td><td>邮件底部模块</td><td>年庆开启邮件末尾加 MoonX 等待名单入口</td><td>运营</td></tr>
+    <tr><td>4/3</td><td>邮件嵌入一句话</td><td>公开信"未来展望"段落植入 MoonX 上线信息</td><td>运营</td></tr>
+    <tr><td>4/5</td><td>X Thread</td><td>公布四大活动轮廓，不透露金额，KOL 发简报</td><td>社媒 + KOL</td></tr>
+    <tr><td>4/6</td><td>X + Push</td><td>倒计时24小时，发布完整规则和奖励金额</td><td>社媒</td></tr>
+    <tr><td><strong>4/7</strong></td><td><strong>全渠道</strong></td><td><strong>上线公告 + 四大活动开始 + KOL 矩阵 + 年庆邮件联动模块</strong></td><td><strong>全员</strong></td></tr>
+    <tr><td>4/8—4/9</td><td>X</td><td>首日/首周战报，UGC 截图内容</td><td>社媒</td></tr>
+    <tr><td>4/10</td><td>Push</td><td>上线3天进度提醒，挂靠年庆二次宣发</td><td>运营</td></tr>
+    <tr><td>4/15</td><td>邮件模块</td><td>年庆"过半"邮件内嵌 MoonX 8天战报</td><td>运营</td></tr>
+    <tr><td>4/18</td><td>独立邮件</td><td>老用户促活，简化3步操作，剩余名额提示</td><td>运营</td></tr>
+    <tr><td>4/24</td><td>邮件尾部</td><td>年庆"仅7天"邮件内嵌 MoonX 档位进度</td><td>运营</td></tr>
+    <tr><td>4/27</td><td>X + Push + TG</td><td>最后72小时冲刺，强调最易达标的活动四 Scheme A</td><td>社媒 + 运营</td></tr>
+    <tr><td>5/1</td><td>X + 邮件</td><td>月度战报 + 预告5月</td><td>社媒</td></tr>
+  </tbody>
+</table>
+
+<hr class="sec-div">
+
+<!-- 关键文案模版 -->
+<h2 class="sec">4. 关键节点文案示例</h2>
+
+<h3 class="sub">4/7 上线公告推文（X）</h3>
+<div class="tpl">
+  <div class="tpl-label">英文版（发布用）</div>
+  <div class="tpl-body">MoonX Prediction Market is live.
+
+Predict crypto prices. Win real rewards. No liquidation risk.
+
+4 launch activities running through April 30:
+→ Free trial pack for existing traders
+→ New user welcome bonus
+→ Volume-tiered cash rewards
+→ Hit prediction targets = futures vouchers
+
+Plus: trading on MoonX earns you extra lottery entries in the BYDFi 6th Anniversary $2.39M prize pool.
+
+Start predicting → [link]</div>
+</div>
+<div class="tpl">
+  <div class="tpl-label">中文版（参考用，不发布）</div>
+  <div class="tpl-body">MoonX 预测市场今日正式上线。
+
+预测加密市场走势，赢取真实奖励，没有爆仓风险。
+
+4月30日前四大活动同步进行：
+→ 老用户免费体验包
+→ 新用户注册专属奖励
+→ 合约量阶梯返现
+→ 预测达标送合约体验券
+
+彩蛋：MoonX 交易量满足条件，同时获得 BYDFi 六周年 $2.39M 奖池额外抽奖机会。
+
+立即参与 → [链接]</div>
+</div>
+
+<h3 class="sub">4/1 年庆开启邮件底部 MoonX 模块</h3>
+<div class="tpl">
+  <div class="tpl-label">英文版（嵌入年庆邮件末尾）</div>
+  <div class="tpl-body">---
+🔮 Coming April 7: MoonX Prediction Market
+
+Predict crypto price movements. Win rewards. Zero liquidation risk.
+Join the waitlist → [link]
+---</div>
+</div>
+
+<h3 class="sub">4/27 最后72小时推文（X）</h3>
+<div class="tpl">
+  <div class="tpl-label">英文版（发布用）</div>
+  <div class="tpl-body">72 hours left in MoonX's April activities.
+
+Easiest win still available:
+✅ Make 5 correct predictions → earn a futures voucher
+
+Check your progress → [link]
+
+(BYDFi 6th Anniversary prize pool also closes April 30.)</div>
+</div>
+
+<hr class="sec-div">
+
+<!-- 注意事项 -->
+<h2 class="sec">5. 执行注意事项</h2>
+
+<ul>
+  <li><strong>挂靠内容不抢主位</strong>：在年庆邮件中，MoonX 模块始终放在底部或末尾，主体内容保持年庆主题不变</li>
+  <li><strong>4/18 老用户邮件单独发</strong>：不合并进年庆邮件，避免信息过载；但发送时间可与年庆同日</li>
+  <li><strong>账号统一格式</strong>：所有 MoonX 物料中账号统一写 <strong>@moonx_bydfi</strong>（全小写），严禁写成 @MoonXBYDFi</li>
+  <li><strong>KOL 简报 4/5 发出</strong>：约定 4/7 统一发布，避免提前泄露信息导致流量分散</li>
+  <li><strong>年庆联动卖点</strong>：每次 MoonX 推文中至少提一次「MoonX 交易可叠加年庆抽奖机会」，两边互相引流</li>
+</ul>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="brand">MoonX × BYDFi</div>
+  <div>周年庆宣发节奏方案 v1.0 &nbsp;·&nbsp; 2026-03-23 &nbsp;·&nbsp; 机密文件，仅供内部使用</div>
+</div>
+
+</div>
+</body>
+</html>

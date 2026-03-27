@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX Twitter Insights — 03-18 ~ 03-25</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+
+  .header {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+    color: white;
+    padding: 40px 48px;
+  }
+  .header-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .header .period { font-size: 15px; opacity: 0.85; }
+  .header .account { margin-top: 12px; font-size: 13px; opacity: 0.75; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Overview cards */
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .card-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .card-value { font-size: 32px; font-weight: 700; color: #1a1a1a; line-height: 1; }
+  .card-sub { font-size: 12px; color: #888; margin-top: 6px; }
+  .card-warning { border-left: 3px solid #FF6B00; }
+
+  /* Section */
+  .section { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .section-title {
+    font-size: 14px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    color: #FF6B00; border-bottom: 2px solid #FFF3E0; padding-bottom: 12px; margin-bottom: 20px;
+  }
+
+  /* Tweet rows */
+  .tweet-row { padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+  .tweet-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .tweet-rank { font-size: 11px; font-weight: 700; color: #FF6B00; margin-bottom: 6px; }
+  .tweet-text { font-size: 14px; color: #1a1a1a; line-height: 1.5; margin-bottom: 10px; }
+  .tweet-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .metric { font-size: 12px; color: #555; }
+  .metric span { font-weight: 700; color: #1a1a1a; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .tag-ok { background: #FFF3E0; color: #FF6B00; }
+  .tag-bad { background: #FEE2E2; color: #DC2626; }
+  .tag-warn { background: #FEF3C7; color: #D97706; }
+
+  /* Alert box */
+  .alert { background: #FFF3E0; border-left: 4px solid #FF6B00; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 12px; }
+  .alert-title { font-size: 13px; font-weight: 700; color: #FF6B00; margin-bottom: 4px; }
+  .alert-body { font-size: 13px; color: #555; line-height: 1.5; }
+
+  .alert-red { background: #FEF2F2; border-left-color: #DC2626; }
+  .alert-red .alert-title { color: #DC2626; }
+
+  /* Insight rows */
+  .insight-row { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+  .insight-row:last-child { border-bottom: none; }
+  .insight-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .insight-content { flex: 1; }
+  .insight-title { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .insight-body { font-size: 13px; color: #555; line-height: 1.5; }
+  .insight-data { font-size: 12px; color: #FF6B00; font-weight: 600; margin-top: 4px; }
+
+  /* Recommendations */
+  .rec { background: #FFF8F0; border: 1px solid #FFE0B2; border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; }
+  .rec-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #FF6B00; margin-bottom: 6px; }
+  .rec-action { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+  .rec-arrow { color: #FF6B00; }
+  .rec-reason { font-size: 13px; color: #666; line-height: 1.5; }
+  .rec-reason strong { color: #1a1a1a; }
+
+  /* Bar chart */
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .bar-label { font-size: 12px; color: #555; width: 120px; flex-shrink: 0; }
+  .bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 8px; }
+  .bar-fill { height: 8px; border-radius: 4px; background: #FF6B00; }
+  .bar-fill.grey { background: #d0d0d0; }
+  .bar-val { font-size: 12px; font-weight: 700; color: #1a1a1a; width: 40px; text-align: right; }
+
+  /* CLAUDE.md notice */
+  .update-notice { background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 16px 20px; }
+  .update-notice .title { font-size: 13px; font-weight: 700; color: #16A34A; margin-bottom: 8px; }
+  .update-notice ul { list-style: none; }
+  .update-notice li { font-size: 13px; color: #444; padding: 3px 0; }
+  .update-notice li::before { content: "✓ "; color: #16A34A; font-weight: 700; }
+
+  .footer { text-align: center; font-size: 12px; color: #aaa; padding: 24px 0 40px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">Weekly Insights Report</div>
+  <h1>MoonX Twitter 本周表现分析</h1>
+  <div class="period">03-18 ~ 03-25，2026</div>
+  <div class="account">@moonx_bydfi · 生成日期：2026-03-25</div>
+</div>
+
+<div class="container">
+
+  <!-- Overview -->
+  <div class="overview-grid">
+    <div class="card">
+      <div class="card-label">本周发推</div>
+      <div class="card-value">12</div>
+      <div class="card-sub">含 1 个 7 推 Thread</div>
+    </div>
+    <div class="card">
+      <div class="card-label">总曝光</div>
+      <div class="card-value">105</div>
+      <div class="card-sub">极低，需关注</div>
+    </div>
+    <div class="card card-warning">
+      <div class="card-label">真实互动</div>
+      <div class="card-value" style="color:#FF6B00">0</div>
+      <div class="card-sub">Like / RT 均为 0</div>
+    </div>
+    <div class="card">
+      <div class="card-label">API 可读推文</div>
+      <div class="card-value">9</div>
+      <div class="card-sub">3 条返回异常</div>
+    </div>
+  </div>
+
+  <!-- Warning -->
+  <div class="section">
+    <div class="section-title">⚠️ 数据置信度说明</div>
+    <div class="alert alert-red">
+      <div class="alert-title">ER 数字完全失真，不可作为决策依据</div>
+      <div class="alert-body">Thread 子推曝光仅 2-4，单个 reply 就能将 ER 推到 25-50%。这是样本极小导致的统计噪音，不代表内容质量。本报告重点分析格式与结构问题，而非 ER 数值比较。</div>
+    </div>
+  </div>
+
+  <!-- Top tweets -->
+  <div class="section">
+    <div class="section-title">📊 本周推文表现明细</div>
+
+    <div class="tweet-row">
+      <div class="tweet-rank">最高曝光 · 独立推文</div>
+      <div class="tweet-text">Market just locked in: Fed won't move today (99.7% certain). But $10.9M is pouring into the 'cut 50bps' market…</div>
+      <div class="tweet-meta">
+        <div class="metric">👁 <span>22</span> 曝光</div>
+        <div class="metric">👍 <span>0</span></div>
+        <div class="metric">🔁 <span>0</span></div>
+        <div class="metric">💬 <span>0</span></div>
+        <div class="tag tag-ok">独立推文</div>
+        <div class="tag tag-warn">宏观/加密</div>
+      </div>
+    </div>
+
+    <div class="tweet-row">
+      <div class="tweet-rank">Thread 开篇（最高 Thread 曝光）</div>
+      <div class="tweet-text">🧵 MoonX Market Brief — 99.7% of the market says no Fed move in March. When consensus gets this tight…</div>
+      <div class="tweet-meta">
+        <div class="metric">👁 <span>21</span> 曝光</div>
+        <div class="metric">👍 <span>0</span></div>
+        <div class="metric">💬 <span>1</span> reply</div>
+        <div class="tag tag-warn">Thread 开篇</div>
+      </div>
+    </div>
+
+    <div class="tweet-row">
+      <div class="tweet-rank">表现最差 · 纯 CTA</div>
+      <div class="tweet-text">Follow @moonx_bydfi for daily market signals. Track it live → bydfi.com/en/moonx</div>
+      <div class="tweet-meta">
+        <div class="metric">👁 <span>12</span> 曝光</div>
+        <div class="metric">👍 <span>0</span></div>
+        <div class="metric">🔁 <span>0</span></div>
+        <div class="metric">💬 <span>0</span></div>
+        <div class="tag tag-bad">纯 CTA</div>
+      </div>
+    </div>
+
+    <div class="tweet-row">
+      <div class="tweet-rank">Thread 子推（代表性样本）</div>
+      <div class="tweet-text">Bitcoin hits $150k in 7 days? Market says 0.2%. That's less likely than a coin landing on its edge.</div>
+      <div class="tweet-meta">
+        <div class="metric">👁 <span>2</span> 曝光</div>
+        <div class="metric">💬 <span>1</span> reply</div>
+        <div class="tag tag-bad">Thread 子推</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Format comparison -->
+  <div class="section">
+    <div class="section-title">📈 格式对比：独立推文 vs Thread 子推</div>
+    <div style="margin-bottom: 20px;">
+      <div class="bar-row">
+        <div class="bar-label">独立推文（avg）</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="bar-val">17.5</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Thread 开篇</div>
+        <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+        <div class="bar-val">21</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Thread 子推（avg）</div>
+        <div class="bar-track"><div class="bar-fill grey" style="width:18%"></div></div>
+        <div class="bar-val">3.2</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">纯 CTA</div>
+        <div class="bar-track"><div class="bar-fill grey" style="width:40%"></div></div>
+        <div class="bar-val">12</div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">结论：Thread 子推曝光仅为独立推文的 1/5</div>
+      <div class="alert-body">17.5（独立）vs 3.2（Thread 子推），差距 5.5 倍。将 Thread 内容拆成独立推文，预计可将总曝光提升 3-4 倍。</div>
+    </div>
+  </div>
+
+  <!-- Key insights -->
+  <div class="section">
+    <div class="section-title">💡 核心发现</div>
+
+    <div class="insight-row">
+      <div class="insight-icon">🔴</div>
+      <div class="insight-content">
+        <div class="insight-title">Thread 格式是当前最大分发瓶颈</div>
+        <div class="insight-body">本周 7 条 Thread 子推消耗了大量创作资源，但贡献的总曝光仅约 22（不含开篇）。同等内容做成独立推文预估曝光 >120。</div>
+        <div class="insight-data">数据支撑：Thread 子推 avg 3.2 曝光 vs 独立推文 avg 17.5</div>
+      </div>
+    </div>
+
+    <div class="insight-row">
+      <div class="insight-icon">🔴</div>
+      <div class="insight-content">
+        <div class="insight-title">纯 CTA 推文无任何价值</div>
+        <div class="insight-body">"Follow @moonx_bydfi" 推文是本周曝光第二低（12），且 0 互动。此类推文不仅无效，还可能拉低账号质量信号。</div>
+        <div class="insight-data">数据支撑：12 曝光，0 like，0 RT，0 reply</div>
+      </div>
+    </div>
+
+    <div class="insight-row">
+      <div class="insight-icon">🟡</div>
+      <div class="insight-content">
+        <div class="insight-title">内容角度有潜力，分发方式错了</div>
+        <div class="insight-body">Chelsea 0.1% odds 撬动 $6.7M、Netanyahu 2.6% 等话题角度本身很强（反常识 + 大众话题），但 API 返回异常（可能被删或限流），无法验证实际表现。</div>
+        <div class="insight-data">Chelsea/Netanyahu 3 条推文 API 返回 NoneType，建议检查是否被误删</div>
+      </div>
+    </div>
+
+    <div class="insight-row">
+      <div class="insight-icon">⚪</div>
+      <div class="insight-content">
+        <div class="insight-title">当前阶段 ER 指标意义有限</div>
+        <div class="insight-body">账号粉丝基础尚小，所有曝光依赖算法推荐而非粉丝 timeline。建议当前阶段重点追踪「曝光量」而非「互动率」，待单推曝光稳定 >200 后再分析 ER 规律。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div class="section">
+    <div class="section-title">🎯 下周优化建议</div>
+
+    <div class="rec">
+      <div class="rec-label">建议 1 · 格式</div>
+      <div class="rec-action">停用 Thread，改为独立推文 <span class="rec-arrow">→</span> 每条推文自成一体，完整表达一个观点</div>
+      <div class="rec-reason"><strong>理由：</strong>Thread 子推平均 3.2 曝光 vs 独立推文 17.5，差距 5.5 倍。同等创作量，独立推文分发效率高 5 倍。</div>
+    </div>
+
+    <div class="rec">
+      <div class="rec-label">建议 2 · 文案结构</div>
+      <div class="rec-action">每条推文加"钩子结尾" <span class="rec-arrow">→</span> 数据陈述后加 1 个开放问句或反常识追问</div>
+      <div class="rec-reason"><strong>理由：</strong>本周 9 条推文均以陈述句结尾，0 互动。引导回复是早期增长账号获取算法信号最有效的方式。例："Chelsea 0.1%，你觉得值得押注吗？"</div>
+    </div>
+
+    <div class="rec">
+      <div class="rec-label">建议 3 · 内容清理</div>
+      <div class="rec-action">删掉纯 CTA 推文 <span class="rec-arrow">→</span> 将 Follow 引导融入有内容的推文末尾一句话</div>
+      <div class="rec-reason"><strong>理由：</strong>纯 CTA 12 曝光 0 互动，是所有格式中最差表现，且会向算法传递低质量信号。</div>
+    </div>
+  </div>
+
+  <!-- CLAUDE.md update -->
+  <div class="section">
+    <div class="section-title">🔧 已更新 CLAUDE.md</div>
+    <div class="update-notice">
+      <div class="title">本次 Insights 触发以下规则更新</div>
+      <ul>
+        <li>禁止连续 Thread 格式（子推曝光仅为独立推文 1/5）</li>
+        <li>禁止纯 CTA 推文（"Follow @moonx_bydfi" 类，0 互动已证明无效）</li>
+        <li>每条推文必须有钩子（数据后加开放问句，不能只摆数字就结束）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">MoonX Twitter Insights · 生成于 2026-03-25 · 下次运行建议：2026-04-01</div>
+</div>
+
+</body>
+</html>

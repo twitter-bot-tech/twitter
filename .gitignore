@@ -3,3 +3,4 @@ chart.png
 logs/
 __pycache__/
 *.pyc
+.gstack/

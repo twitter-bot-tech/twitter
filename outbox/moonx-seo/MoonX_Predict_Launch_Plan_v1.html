@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 预测功能上线宣发方案 v1.0</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+
+  .header { background: linear-gradient(135deg, #FF6B00, #FF8C00); color: white; padding: 48px 64px; }
+  .header h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+  .header .meta { font-size: 14px; opacity: 0.85; display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  .header .meta span { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
+
+  .section { background: white; border-radius: 12px; padding: 36px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .section-title { font-size: 20px; font-weight: 700; color: #FF6B00; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid #FFF3E0; display: flex; align-items: center; gap: 10px; }
+  .section-title .num { background: #FF6B00; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .summary-card { background: #FFF3E0; border-radius: 10px; padding: 20px; text-align: center; }
+  .summary-card .val { font-size: 26px; font-weight: 800; color: #FF6B00; }
+  .summary-card .label { font-size: 12px; color: #888; margin-top: 4px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #FFF3E0; color: #FF6B00; font-weight: 700; padding: 12px 16px; text-align: left; }
+  td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FAFAFA; }
+
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: #FFD0A0; }
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-dot { position: absolute; left: -26px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #FF6B00; border: 2px solid white; box-shadow: 0 0 0 2px #FF6B00; }
+  .tl-dot.launch { width: 18px; height: 18px; left: -28px; box-shadow: 0 0 0 3px #FFD0A0; }
+  .tl-date { font-size: 12px; font-weight: 700; color: #FF6B00; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tl-title { font-size: 15px; font-weight: 700; margin: 2px 0 6px; }
+  .tl-items { list-style: none; }
+  .tl-items li { font-size: 13px; color: #555; padding: 2px 0; padding-left: 14px; position: relative; }
+  .tl-items li::before { content: '→'; position: absolute; left: 0; color: #FF6B00; }
+
+  .channel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .channel-card { border: 1px solid #f0f0f0; border-radius: 10px; padding: 20px; }
+  .channel-card h4 { font-size: 14px; font-weight: 700; color: #FF6B00; margin-bottom: 12px; }
+  .channel-card ul { list-style: none; }
+  .channel-card ul li { font-size: 13px; color: #555; padding: 4px 0; padding-left: 14px; position: relative; border-bottom: 1px solid #f9f9f9; }
+  .channel-card ul li:last-child { border-bottom: none; }
+  .channel-card ul li::before { content: '•'; position: absolute; left: 0; color: #FF6B00; }
+
+  .tweet-block { background: #f9f9f9; border-left: 3px solid #FF6B00; border-radius: 0 8px 8px 0; padding: 16px 20px; margin-bottom: 16px; }
+  .tweet-block .phase { font-size: 11px; font-weight: 700; color: #FF6B00; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .tweet-block .content { font-size: 14px; color: #1a1a1a; white-space: pre-wrap; line-height: 1.7; }
+  .tweet-block .note { font-size: 12px; color: #888; margin-top: 8px; font-style: italic; }
+
+  .script-section { margin-bottom: 20px; }
+  .script-section h4 { font-size: 13px; font-weight: 700; color: #FF6B00; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .script-box { background: #f9f9f9; border-radius: 8px; padding: 16px; font-size: 13px; color: #333; line-height: 1.8; white-space: pre-wrap; }
+
+  .outreach-block { background: #f9f9f9; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .outreach-block h4 { font-size: 13px; font-weight: 700; color: #FF6B00; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .outreach-block p { font-size: 13px; color: #333; line-height: 1.8; white-space: pre-wrap; }
+
+  .budget-item { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .budget-label { font-size: 13px; font-weight: 600; width: 140px; flex-shrink: 0; }
+  .budget-bar-wrap { flex: 1; background: #f0f0f0; border-radius: 20px; height: 10px; }
+  .budget-bar { height: 10px; background: linear-gradient(90deg, #FF6B00, #FFB347); border-radius: 20px; }
+  .budget-amount { font-size: 13px; font-weight: 700; color: #FF6B00; width: 100px; text-align: right; flex-shrink: 0; }
+
+  .tag { display: inline-block; background: #FFF3E0; color: #FF6B00; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
+  .highlight { background: #FFF3E0; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #555; margin-top: 12px; }
+  .highlight strong { color: #FF6B00; }
+  .footer { text-align: center; padding: 32px; color: #aaa; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>MoonX 预测功能上线宣发方案</h1>
+  <p style="opacity:0.8; margin-top:6px; font-size:15px;">Predict Feature Launch — Full-Channel Marketing Playbook</p>
+  <div class="meta">
+    <span>上线日期：2026年4月7日</span>
+    <span>活动期：4/7 — 4/30</span>
+    <span>奖池：6万 USDT</span>
+    <span>KOL 预算：7000 USDT</span>
+    <span>版本：v1.0</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 核心主张 -->
+  <div class="section">
+    <div class="section-title"><span class="num">0</span>核心主张</div>
+    <div style="font-size:22px; font-weight:800; color:#1a1a1a; text-align:center; padding: 20px 0; background:#FFF3E0; border-radius:10px;">
+      不是"预测功能上线"，是<span style="color:#FF6B00;">「你现在就能赢走 6万 USDT」</span>
+    </div>
+    <div class="highlight" style="margin-top:16px;">
+      <strong>原则：</strong>所有渠道内容统一围绕奖池说话。功能介绍是附属信息，钱是主角。
+    </div>
+    <div class="summary-grid" style="margin-top:20px;">
+      <div class="summary-card"><div class="val">12天</div><div class="label">预热窗口</div></div>
+      <div class="summary-card"><div class="val">$60,000</div><div class="label">USDT 奖池</div></div>
+      <div class="summary-card"><div class="val">$7,000</div><div class="label">KOL + 媒体预算</div></div>
+      <div class="summary-card"><div class="val">6大</div><div class="label">覆盖渠道</div></div>
+      <div class="summary-card"><div class="val">4月底</div><div class="label">活动截止</div></div>
+    </div>
+  </div>
+
+  <!-- 预算 -->
+  <div class="section">
+    <div class="section-title"><span class="num">1</span>预算分配</div>
+    <div class="budget-item">
+      <div class="budget-label">Tier 1 KOL</div>
+      <div class="budget-bar-wrap"><div class="budget-bar" style="width:43%"></div></div>
+      <div class="budget-amount">3,000 USDT</div>
+    </div>
+    <div class="budget-item">
+      <div class="budget-label">Tier 2 KOL</div>
+      <div class="budget-bar-wrap"><div class="budget-bar" style="width:29%"></div></div>
+      <div class="budget-amount">2,000 USDT</div>
+    </div>
+    <div class="budget-item">
+      <div class="budget-label">媒体投放</div>
+      <div class="budget-bar-wrap"><div class="budget-bar" style="width:21%"></div></div>
+      <div class="budget-amount">1,500 USDT</div>
+    </div>
+    <div class="budget-item">
+      <div class="budget-label">应急备用</div>
+      <div class="budget-bar-wrap"><div class="budget-bar" style="width:7%"></div></div>
+      <div class="budget-amount">500 USDT</div>
+    </div>
+    <table style="margin-top:20px;">
+      <tr><th>层级</th><th>目标媒体/KOL</th><th>数量</th><th>单价参考</th><th>预期效果</th></tr>
+      <tr><td><strong>媒体</strong></td><td>CoinTelegraph、BeInCrypto、CryptoSlate</td><td>2-3篇</td><td>500-800 USDT/篇</td><td>品牌背书，提升可信度</td></tr>
+      <tr><td><strong>Tier 1 KOL</strong></td><td>加密分析师，5-20万粉，Twitter 为主</td><td>2-3人</td><td>800-1500 USDT/人</td><td>上线日引爆流量</td></tr>
+      <tr><td><strong>Tier 2 KOL</strong></td><td>交易员/DeFi KOL，1-5万粉，Twitter+YouTube</td><td>5-8人</td><td>200-500 USDT/人</td><td>覆盖长尾，持续发酵</td></tr>
+      <tr><td><strong>YouTube KOL</strong></td><td>英文加密交易教程频道</td><td>2-3人</td><td>含在 Tier 2 预算内</td><td>中后期持续引流</td></tr>
+    </table>
+  </div>
+
+  <!-- 时间轴 -->
+  <div class="section">
+    <div class="section-title"><span class="num">2</span>宣发时间轴</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3月26-28日 · 准备期</div>
+        <div class="tl-title">签约 & 素材准备</div>
+        <ul class="tl-items">
+          <li>媒体 & KOL 接洽，签约并锁定发布时间</li>
+          <li>设计预测结果卡视觉模板（带 @moonx_bydfi 水印）</li>
+          <li>准备排行榜截图模板</li>
+          <li>确认 Telegram/Discord/Reddit 账号就绪</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3月29日 - 4月2日 · 预热期</div>
+        <div class="tl-title">悬念造势</div>
+        <ul class="tl-items">
+          <li>官号每天发一条倒计时悬念推文，不透露功能细节</li>
+          <li>KOL 发「我收到内测邀请了」预告内容</li>
+          <li>Telegram/Discord 建「预测内测白名单群」制造稀缺感</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">4月3-6日 · 引爆前夜</div>
+        <div class="tl-title">媒体上线 + KOL 预热</div>
+        <ul class="tl-items">
+          <li>媒体文章上线（作为上线日背书素材）</li>
+          <li>Tier 1 KOL 发「我拿到白名单，4月7日见」</li>
+          <li>官号转发媒体报道，增加可信度</li>
+          <li>Discord/Telegram 倒计时推送</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot launch"></div>
+        <div class="tl-date">4月7日 · 上线日</div>
+        <div class="tl-title">全渠道同步爆发</div>
+        <ul class="tl-items">
+          <li>官号发正式公告（钱的语言，非功能语言）</li>
+          <li>所有 Tier 1 KOL 时间对齐，同步发内容</li>
+          <li>Reddit 同步发帖（r/CryptoMarkets、r/defi）</li>
+          <li>Telegram/Discord 正式公告</li>
+          <li>Tier 2 KOL 当天或次日跟进</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">4月8-20日 · 持续发酵</div>
+        <div class="tl-title">UGC + 排行榜驱动</div>
+        <ul class="tl-items">
+          <li>每日发排行榜截图（官号 + 社群）</li>
+          <li>转发用户晒单，放大 UGC</li>
+          <li>4月10日前后做 Reddit AMA</li>
+          <li>YouTube KOL 实操测评视频上线（4月中旬）</li>
+          <li>有大行情时蹭热点，发对应预测话题</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">4月21-30日 · 冲刺收尾</div>
+        <div class="tl-title">FOMO 二次引爆</div>
+        <ul class="tl-items">
+          <li>「最后10天，奖池还剩 X USDT 未分配」倒计时内容</li>
+          <li>追投表现好的 Tier 2 KOL（动用备用预算）</li>
+          <li>获奖预告内容预热</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">4月底 · 收割期</div>
+        <div class="tl-title">获奖公示 + 二次传播</div>
+        <ul class="tl-items">
+          <li>获奖用户公示，官号发「恭喜」内容</li>
+          <li>收集获奖者故事，制作案例内容</li>
+          <li>数据复盘，沉淀下次活动打法</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 渠道策略 -->
+  <div class="section">
+    <div class="section-title"><span class="num">3</span>各渠道内容策略</div>
+    <div class="channel-grid">
+      <div class="channel-card">
+        <h4>Twitter <span class="tag">主阵地</span></h4>
+        <ul>
+          <li>预热期：悬念图，「Something big is coming. $60,000 USDT.」</li>
+          <li>上线日：正式公告，钱的语言，附首批入场者截图</li>
+          <li>发酵期：每日排行榜截图，转发用户晒单</li>
+          <li>热点绑定：大行情时发对应预测话题</li>
+          <li>冲刺期：「还剩X天」倒计时制造紧迫感</li>
+        </ul>
+      </div>
+      <div class="channel-card">
+        <h4>Telegram / Discord</h4>
+        <ul>
+          <li>上线前建「预测内测白名单群」制造稀缺感</li>
+          <li>每日推送排行榜，活跃社群氛围</li>
+          <li>设置机器人自动播报大额预测动态</li>
+          <li>社群专属福利，激励早期用户</li>
+        </ul>
+      </div>
+      <div class="channel-card">
+        <h4>Reddit</h4>
+        <ul>
+          <li>目标版块：r/CryptoMarkets、r/defi、r/Crypto_com</li>
+          <li>内容风格：用户视角分享，不像广告</li>
+          <li>4月10日前后做 AMA</li>
+          <li>持续在相关帖子下参与讨论</li>
+        </ul>
+      </div>
+      <div class="channel-card">
+        <h4>YouTube <span class="tag">英文</span></h4>
+        <ul>
+          <li>找 2-3 个加密交易教程频道</li>
+          <li>格式：「我用 MoonX 预测功能实操赚了 X USDT」</li>
+          <li>上线时间：4月中旬，延长活动曝光</li>
+          <li>视频生命周期长，持续带来自然搜索流量</li>
+        </ul>
+      </div>
+      <div class="channel-card">
+        <h4>加密媒体</h4>
+        <ul>
+          <li>目标：CoinTelegraph、BeInCrypto、CryptoSlate</li>
+          <li>角度：「预测市场新玩家，6万 USDT 奖池引爆」</li>
+          <li>发布时间：4/3-4/6，作为上线日背书素材</li>
+          <li>官号转发媒体报道增加可信度</li>
+        </ul>
+      </div>
+      <div class="channel-card">
+        <h4>UGC 自传播机制</h4>
+        <ul>
+          <li>预测结果卡：生成带品牌水印的分享卡</li>
+          <li>排行榜：实时公开收益排名 Top 10</li>
+          <li>晒单激励：转发晒单额外奖励</li>
+          <li>邀请机制：邀请好友得额外奖励</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Twitter 脚本 -->
+  <div class="section">
+    <div class="section-title"><span class="num">4</span>Twitter 推文脚本</div>
+
+    <div class="tweet-block">
+      <div class="phase">预热期 · D-7（3月31日）</div>
+      <div class="content">Something is coming to @moonx_bydfi.
+
+$60,000 USDT on the line.
+
+April 7. Are you ready?</div>
+      <div class="note">配图：模糊处理的预测界面截图，营造悬念感</div>
+    </div>
+
+    <div class="tweet-block">
+      <div class="phase">预热期 · D-4（4月3日）</div>
+      <div class="content">The waitlist is filling up.
+
+Early access to @moonx_bydfi's new Predict feature drops in 4 days.
+
+$60,000 USDT prize pool. First movers have the edge.
+
+Link in bio to get on the list.</div>
+      <div class="note">配图：排行榜模板（空白占位），暗示已有人在等待</div>
+    </div>
+
+    <div class="tweet-block">
+      <div class="phase">上线日 · 4月7日</div>
+      <div class="content">It's live.
+
+@moonx_bydfi Predict is now open — and $60,000 USDT is waiting to be won.
+
+Make your first prediction. Climb the leaderboard. Take your share.
+
+No fluff. No promises. Just put your conviction on the line.
+
+[link]</div>
+      <div class="note">上线后30分钟内发，配排行榜截图（展示首批用户已入场）</div>
+    </div>
+
+    <div class="tweet-block">
+      <div class="phase">发酵期 · 每日排行榜（4月8日起）</div>
+      <div class="content">Day 2 leaderboard.
+
+Top predictors on @moonx_bydfi right now:
+
+#1 — [username] +$X,XXX
+#2 — [username] +$X,XXX
+#3 — [username] +$X,XXX
+
+$60,000 USDT prize pool. Still plenty left.
+
+Where are you on the board?</div>
+      <div class="note">每日更新真实数据截图发出</div>
+    </div>
+
+    <div class="tweet-block">
+      <div class="phase">热点绑定 · 行情事件时发</div>
+      <div class="content">BTC just broke [price].
+
+Is this the start of a new leg up — or a bull trap?
+
+Make your call on @moonx_bydfi Predict. $60,000 USDT in the pool.
+
+The market doesn't care about your opinion. But your wallet might.</div>
+      <div class="note">遇到大行情事件立即发，BTC/ETH 重大突破均适用</div>
+    </div>
+
+    <div class="tweet-block">
+      <div class="phase">冲刺期 · D+21（4月28日）</div>
+      <div class="content">3 days left.
+
+$60,000 USDT. @moonx_bydfi Predict closes April 30.
+
+If you've been watching from the sidelines — this is your last window.
+
+Top 3 on the leaderboard take home the biggest share. Clock's ticking.</div>
+      <div class="note">最后3天倒计时，制造 FOMO</div>
+    </div>
+  </div>
+
+  <!-- YouTube 脚本 -->
+  <div class="section">
+    <div class="section-title"><span class="num">5</span>YouTube KOL 视频文案框架（英文）</div>
+    <div class="highlight" style="margin-bottom:20px;">
+      <strong>适用场景：</strong>2-3个英文加密交易教程 YouTube KOL，实操测评格式，时长 8-15 分钟，上线时间 4月中旬。
+    </div>
+
+    <div class="script-section">
+      <h4>Hook（0-30秒）</h4>
+      <div class="script-box">So I've been testing this new prediction feature on MoonX for the past week — and honestly, I wasn't expecting much. But then I looked at the prize pool. $60,000 USDT. Real money. And I thought, okay, let me actually take this seriously.
+
+In this video I'm going to walk you through exactly how it works, what I tested, and whether it's actually worth your time.</div>
+    </div>
+
+    <div class="script-section">
+      <h4>问题引入（30秒-2分钟）</h4>
+      <div class="script-box">Here's the thing about prediction markets in crypto — most of them are either too complicated, too illiquid, or the rewards aren't worth the risk. Polymarket is great but it's not built for active traders. So when MoonX launched their Predict feature, I was curious if they'd actually solved that problem.
+
+Let me show you the interface first.</div>
+    </div>
+
+    <div class="script-section">
+      <h4>产品展示（2-8分钟）</h4>
+      <div class="script-box">[Screen recording walkthrough]
+
+So here's how it works. You pick an asset — BTC, ETH, whatever you have conviction on. You pick a direction. You set your amount. You're in.
+
+What I like is [specific feature]. What I found interesting is [observation]. The prize pool is distributed based on accuracy and position size — so the earlier you're right and the more confident your position, the bigger your share.
+
+I made [X] predictions over the past week. Here's how they went...
+
+[show actual results / leaderboard position]</div>
+    </div>
+
+    <div class="script-section">
+      <h4>评价与建议（8-12分钟）</h4>
+      <div class="script-box">Okay, my honest take.
+
+The good: [2-3 genuine positives — keep it real, credibility matters]
+
+What could be better: [1-2 honest critiques — this makes the whole review more trustworthy]
+
+Who this is for: If you already have strong market conviction, this is a way to put that to work beyond just trading. Different risk profile — and with $60,000 USDT running through April 30th, the timing is right to try it.
+
+My approach: Only predict on high-conviction setups. Don't chase every move.</div>
+    </div>
+
+    <div class="script-section">
+      <h4>CTA（最后30秒）</h4>
+      <div class="script-box">The prize pool closes April 30th. Link in the description to get started on MoonX — it's free to sign up.
+
+If you try it, drop your leaderboard position in the comments. I'm curious how you guys do.
+
+Subscribe if you found this useful — I cover DeFi tools and trading platforms like this every week.</div>
+    </div>
+
+    <div class="highlight">
+      <strong>给 KOL 的 Brief 要点：</strong>保持自己风格，不需要照稿；必须提及奖池金额 $60,000 USDT 和截止日期 4月30日；鼓励展示真实使用数据；视频描述区必须放 MoonX 注册链接。
+    </div>
+  </div>
+
+  <!-- KOL 外联 -->
+  <div class="section">
+    <div class="section-title"><span class="num">6</span>KOL 外联话术</div>
+
+    <div class="outreach-block">
+      <h4>英文版（DM_TEMPLATE_EN · 实际发送）</h4>
+      <p>Hey [Name],
+
+Big fan of your content — especially [specific recent post/video].
+
+We're launching MoonX Predict on April 7th — a live prediction market with a $60,000 USDT prize pool running through April 30th. Real money, real stakes.
+
+We'd love to have you participate authentically — make real predictions, share your results with your audience. We're offering [fee] USDT for a post/video during the launch window.
+
+No scripted promo required. Just your honest take and real results.
+
+Interested? Happy to send over more details.
+
+— MoonX Team
+@moonx_bydfi</p>
+    </div>
+
+    <div class="outreach-block">
+      <h4>中文版（DM_TEMPLATE_ZH · 仅供参考，不发出去）</h4>
+      <p>嗨 [名字]，
+
+我们一直在关注你的内容，特别是 [具体近期帖子/视频]，很有价值。
+
+MoonX 将于4月7日上线预测功能，配套 6万 USDT 奖池，活动持续到4月30日。真实资金，真实结果。
+
+我们希望你以真实参与的方式来合作——自己做预测，把结果分享给你的受众。上线窗口期内发一条推文/视频，我们提供 [费用] USDT 报酬。
+
+不需要照稿宣传，只要你真实的观点和真实的结果。
+
+有兴趣的话可以聊聊，我可以发更多详情给你。
+
+— MoonX 团队
+@moonx_bydfi</p>
+    </div>
+  </div>
+
+  <!-- KPI -->
+  <div class="section">
+    <div class="section-title"><span class="num">7</span>关键成功指标</div>
+    <table>
+      <tr><th>指标</th><th>目标</th><th>衡量方式</th></tr>
+      <tr><td>上线48h Twitter 曝光量</td><td>50万+</td><td>官号 + KOL 内容触达总和</td></tr>
+      <tr><td>KOL 参与数</td><td>Tier 1+2 合计 ≥15人</td><td>发布内容数量追踪</td></tr>
+      <tr><td>用户晒单 UGC</td><td>活动期间 ≥500条</td><td>话题标签监控</td></tr>
+      <tr><td>新增注册用户</td><td>活动带来 ≥5000人</td><td>注册来源追踪</td></tr>
+      <tr><td>活动参与用户数</td><td>≥2000人完成首次预测</td><td>产品数据</td></tr>
+      <tr><td>媒体报道数</td><td>≥3篇主流媒体</td><td>媒体追踪</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  MoonX 预测功能上线宣发方案 v1.0 · 2026-03-26 · @moonx_bydfi
+</div>
+
+</body>
+</html>

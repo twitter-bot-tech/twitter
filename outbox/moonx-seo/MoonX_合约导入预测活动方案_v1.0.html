@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX 合约用户导入预测市场活动方案 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.8; }
+.page { max-width: 1080px; margin: 0 auto; padding: 56px 64px; }
+
+.cover { text-align: center; padding: 72px 0 52px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover .eyebrow { font-size: 11px; color: #FF6B00; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.cover h1 { font-size: 30px; font-weight: 800; color: #111; margin-bottom: 10px; }
+.cover .sub { font-size: 15px; color: #888; margin-bottom: 28px; }
+.cover .meta { display: inline-flex; gap: 32px; background: #FFF8F0; padding: 14px 28px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item .label { font-size: 10px; color: #999; letter-spacing: .5px; text-transform: uppercase; }
+.cover .meta-item .value { font-size: 13px; font-weight: 700; color: #333; margin-top: 2px; }
+
+h2.sec { font-size: 19px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 15px; font-weight: 600; margin: 28px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 13px; font-weight: 600; margin: 16px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+
+.tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #FFB74D; }
+.tag-blue { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+.tag-green { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+.tag-purple { background: #F3E5F5; color: #6A1B9A; border: 1px solid #CE93D8; }
+.tag-gray { background: #F5F5F5; color: #555; border: 1px solid #DDD; }
+.tag-teal { background: #E0F7FA; color: #00695C; border: 1px solid #80CBC4; }
+
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.tip { background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #1B5E20; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+
+.highlight-box { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: 8px; padding: 18px 22px; margin: 14px 0; }
+.highlight-box h4 { color: #E65100; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 14px 0; }
+
+.card { background: #FAFAFA; border: 1.5px solid #E8E8E8; border-radius: 10px; padding: 16px 18px; }
+.card.orange { background: #FFF8F0; border-color: #FFB74D; }
+.card.blue { background: #EFF6FF; border-color: #93C5FD; }
+.card.green { background: #F0FDF4; border-color: #86EFAC; }
+.card.teal { background: #F0FDFA; border-color: #5EEAD4; }
+.card h4 { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px; }
+
+/* 活动大卡片 */
+.act-card { border-radius: 14px; border: 2px solid #E8E8E8; margin: 32px 0; overflow: hidden; }
+.act-header { padding: 22px 26px; display: flex; align-items: flex-start; gap: 18px; background: linear-gradient(135deg, #FFF3E0, #FFF8F0); }
+.act-num { min-width: 44px; height: 44px; background: #FF6B00; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.act-title-wrap .act-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 4px; }
+.act-title-wrap .act-desc { font-size: 13px; color: #666; }
+.act-title-wrap .act-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.act-body { padding: 22px 26px; }
+
+.act-card.blue .act-header { background: linear-gradient(135deg, #EFF6FF, #DBEAFE); }
+.act-card.blue .act-num { background: #2563EB; }
+.act-card.purple .act-header { background: linear-gradient(135deg, #F5F3FF, #EDE9FE); }
+.act-card.purple .act-num { background: #7C3AED; }
+.act-card.teal .act-header { background: linear-gradient(135deg, #F0FDFA, #CCFBF1); }
+.act-card.teal .act-num { background: #0D9488; }
+.act-card.green .act-header { background: linear-gradient(135deg, #F0FDF4, #DCFCE7); }
+.act-card.green .act-num { background: #16A34A; }
+
+/* 流程步骤 */
+.steps { margin: 12px 0; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+.step-dot { min-width: 24px; height: 24px; background: #FF6B00; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; margin-top: 2px; }
+.step-dot.blue { background: #2563EB; }
+.step-dot.purple { background: #7C3AED; }
+.step-dot.teal { background: #0D9488; }
+.step-dot.green { background: #16A34A; }
+.step-content { font-size: 13px; color: #444; line-height: 1.7; }
+.step-content strong { color: #111; }
+
+/* 阶梯奖励 */
+.tier-row { display: flex; gap: 12px; margin: 12px 0; }
+.tier { flex: 1; border-radius: 10px; padding: 14px 16px; text-align: center; }
+.tier .tier-cond { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+.tier .tier-reward { font-size: 18px; font-weight: 800; }
+.tier .tier-note { font-size: 11px; margin-top: 4px; opacity: .8; }
+.tier.t1 { background: #FFF3E0; border: 1.5px solid #FFB74D; }
+.tier.t1 .tier-cond { color: #E65100; }
+.tier.t1 .tier-reward { color: #BF360C; }
+.tier.t2 { background: #F0F9FF; border: 1.5px solid #7DD3FC; }
+.tier.t2 .tier-cond { color: #0369A1; }
+.tier.t2 .tier-reward { color: #0C4A6E; }
+.tier.t3 { background: #F0FDF4; border: 1.5px solid #86EFAC; }
+.tier.t3 .tier-cond { color: #166534; }
+.tier.t3 .tier-reward { color: #14532D; }
+
+/* 排名奖励 */
+.rank-row { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
+.rank-item { flex: 1; min-width: 110px; border-radius: 10px; padding: 12px 14px; text-align: center; }
+.rank-item .rank-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; margin-bottom: 6px; }
+.rank-item .rank-reward { font-size: 16px; font-weight: 800; }
+.rank-item .rank-note { font-size: 11px; margin-top: 3px; opacity: .75; }
+.rank-gold { background: #FFFDE7; border: 1.5px solid #F9A825; }
+.rank-gold .rank-label { color: #F57F17; }
+.rank-gold .rank-reward { color: #E65100; }
+.rank-silver { background: #F5F5F5; border: 1.5px solid #9E9E9E; }
+.rank-silver .rank-label { color: #424242; }
+.rank-silver .rank-reward { color: #212121; }
+.rank-bronze { background: #FBE9E7; border: 1.5px solid #FFAB91; }
+.rank-bronze .rank-label { color: #BF360C; }
+.rank-bronze .rank-reward { color: #870000; }
+
+/* 规则明细 */
+.rule-list { margin: 10px 0; }
+.rule-list li { display: flex; gap: 8px; margin-bottom: 6px; font-size: 13px; color: #444; line-height: 1.7; list-style: none; }
+.rule-list li::before { content: '—'; color: #FFB74D; font-weight: 700; flex-shrink: 0; }
+.rule-list li strong { color: #111; }
+
+/* 三组适配 */
+.group-table td:first-child { font-weight: 600; white-space: nowrap; }
+
+/* 总览对比 */
+.overview-card { border-radius: 12px; border: 1.5px solid #E8E8E8; padding: 18px 20px; background: #FAFAFA; }
+.overview-card .ov-title { font-size: 13px; font-weight: 700; color: #FF6B00; margin-bottom: 10px; }
+
+p { margin: 8px 0; font-size: 13px; color: #444; line-height: 1.8; }
+ul, ol { padding-left: 20px; margin: 8px 0; }
+ul li, ol li { font-size: 13px; color: #444; margin-bottom: 4px; line-height: 1.7; }
+li strong { color: #111; }
+.divider { border: none; border-top: 1.5px solid #F0F0F0; margin: 36px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- 封面 -->
+<div class="cover">
+  <div class="eyebrow">MoonX · Agent Campaign · 合约→预测导流专项</div>
+  <h1>合约用户导入预测市场活动方案</h1>
+  <div class="sub">苍苍组 · Sally 组 · Michael 组｜6 套可选活动｜代理按用户群自由选用</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">版本</div><div class="value">V1.0</div></div>
+    <div class="meta-item"><div class="label">日期</div><div class="value">2026-03-17</div></div>
+    <div class="meta-item"><div class="label">目标用户</div><div class="value">BYDFi 合约存量用户</div></div>
+    <div class="meta-item"><div class="label">活动数量</div><div class="value">6 套</div></div>
+  </div>
+</div>
+
+<!-- 背景 -->
+<h2 class="sec">1. 设计背景</h2>
+<p>三个代理组现有约 3,000 名欧美合约交易用户，均为 BYDFi 存量用户。MoonX 预测市场是新产品，用户认知为零。强推预测市场会让代理和用户都感到陌生，转化难。</p>
+<p>核心思路：<strong>不是让合约用户放弃合约去用预测，而是让他们用已有的市场判断，多一种下注方式。</strong>六套活动各有侧重，代理根据自己用户群特点选用，不强制全部执行。</p>
+
+<div class="three-col" style="margin-top:16px;">
+  <div class="card orange">
+    <h4>活动一、二</h4>
+    <p style="margin-top:6px;">免费体验型<br>降低第一次参与预测的门槛</p>
+  </div>
+  <div class="card blue">
+    <h4>活动三、四</h4>
+    <p style="margin-top:6px;">行为联动型<br>把合约习惯延伸到预测市场</p>
+  </div>
+  <div class="card green">
+    <h4>活动五、六</h4>
+    <p style="margin-top:6px;">交易量激励型<br>合约越活跃，预测额度越多</p>
+  </div>
+</div>
+
+<!-- 活动总览 -->
+<h2 class="sec">2. 六套活动总览</h2>
+<table>
+  <thead>
+    <tr>
+      <th>编号</th>
+      <th>活动名称</th>
+      <th>核心机制</th>
+      <th>代理执行难度</th>
+      <th>适合场景</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-orange">活动一</span></td>
+      <td><strong>老用户预测免费体验包</strong></td>
+      <td>代理一键发放 3 笔免费预测额度，无需充值</td>
+      <td>低（后台一键操作）</td>
+      <td>冷启动期，大批量激活</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-orange">活动二</span></td>
+      <td><strong>老用户专属预测邀请码</strong></td>
+      <td>一对一发码，凭码享前 30 天零手续费</td>
+      <td>低（私信发码）</td>
+      <td>沉睡用户定向召回</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-blue">活动三</span></td>
+      <td><strong>预测方向与合约仓位联动</strong></td>
+      <td>预测方向 = 合约仓位方向，双边正确 ×1.5 加成</td>
+      <td>低（系统自动识别）</td>
+      <td>合约重度用户，已有仓位</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-blue">活动四</span></td>
+      <td><strong>合约平仓后推送</strong></td>
+      <td>平仓后 3 分钟内推送预测市场邀请</td>
+      <td>低（平台自动触发）</td>
+      <td>任何有合约交易的用户</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-green">活动五</span></td>
+      <td><strong>合约交易量阶梯送预测包</strong></td>
+      <td>月度交易量达 $5K/$20K/$50K → 3/8/15 笔免费预测</td>
+      <td>低（自动发放）</td>
+      <td>合约活跃用户持续激励</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-green">活动六</span></td>
+      <td><strong>合约周度交易量赛</strong></td>
+      <td>周度交易量 Top 50，奖励免费预测额度包</td>
+      <td>中（需维护排行榜氛围）</td>
+      <td>竞争氛围强的群组</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- 活动详情 -->
+<h2 class="sec">3. 活动详细规则</h2>
+
+<!-- 活动一 -->
+<div class="act-card">
+  <div class="act-header">
+    <div class="act-num">1</div>
+    <div class="act-title-wrap">
+      <div class="act-title">老用户预测免费体验包</div>
+      <div class="act-desc">代理一键发放，老用户零门槛完成第一次预测体验</div>
+      <div class="act-tags">
+        <span class="tag tag-orange">免费体验型</span>
+        <span class="tag tag-gray">三组通用</span>
+        <span class="tag tag-gray">冷启动期推荐</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">目标用户</h4>
+        <ul class="rule-list">
+          <li>BYDFi 已注册用户</li>
+          <li>从未参与过 MoonX 预测市场</li>
+          <li>不限活跃度，沉睡用户同样适用</li>
+        </ul>
+        <h4 class="sub2">奖励内容</h4>
+        <ul class="rule-list">
+          <li><strong>3 笔免费预测额度，每笔面值 $5，合计 $15</strong></li>
+          <li>预测正确的奖励可直接提现</li>
+          <li>3 笔用完后，用户需自行充值继续参与</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">参与流程</h4>
+        <div class="steps">
+          <div class="step"><div class="step-dot">1</div><div class="step-content">代理在后台选择用户名单，一键批量发放</div></div>
+          <div class="step"><div class="step-dot">2</div><div class="step-content">用户 App 内收到通知「你有 3 笔免费预测额度」</div></div>
+          <div class="step"><div class="step-dot">3</div><div class="step-content">用户点击进入预测市场，直接使用额度参与</div></div>
+          <div class="step"><div class="step-dot">4</div><div class="step-content">预测结算，正确则奖励到账可提现</div></div>
+        </div>
+      </div>
+    </div>
+    <h4 class="sub2">规则与限制</h4>
+    <ul class="rule-list">
+      <li>每个用户<strong>只能领取一次</strong>，重复发放无效</li>
+      <li>领取后 <strong>14 天内</strong>使用，过期失效</li>
+      <li>代理每月可发放名额由平台按代理等级分配</li>
+      <li>不可与「老用户专属邀请码」叠加使用（同一用户只能选其一）</li>
+    </ul>
+    <div class="tip">代理执行建议：上线日批量发放给所有未体验预测市场的用户，话术：「平台送了你 3 次免费预测机会，不需要充值，猜对了直接有奖励，去试试」</div>
+  </div>
+</div>
+
+<!-- 活动二 -->
+<div class="act-card blue">
+  <div class="act-header">
+    <div class="act-num">2</div>
+    <div class="act-title-wrap">
+      <div class="act-title">老用户专属预测邀请码</div>
+      <div class="act-desc">一对一私信触达，专属感提升打开率，召回沉睡用户</div>
+      <div class="act-tags">
+        <span class="tag tag-blue">免费体验型</span>
+        <span class="tag tag-gray">沉睡用户专项</span>
+        <span class="tag tag-gray">私信触达</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">目标用户</h4>
+        <ul class="rule-list">
+          <li>BYDFi 注册超 30 天</li>
+          <li>近 30 天无任何登录记录的沉睡用户</li>
+          <li>优先触达历史有过合约交易记录的用户</li>
+        </ul>
+        <h4 class="sub2">权益内容</h4>
+        <ul class="rule-list">
+          <li>激活后<strong>前 30 天预测市场全免手续费</strong></li>
+          <li>30 天后恢复正常手续费率</li>
+        </ul>
+        <h4 class="sub2">代理激励</h4>
+        <ul class="rule-list">
+          <li>每成功激活 1 名老用户：代理额外获得 <strong>$5 奖励</strong></li>
+          <li>激活定义：用户完成邀请码激活 + 至少参与 1 笔预测</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">参与流程</h4>
+        <div class="steps">
+          <div class="step"><div class="step-dot blue">1</div><div class="step-content">代理从后台导出沉睡用户名单及对应专属邀请码</div></div>
+          <div class="step"><div class="step-dot blue">2</div><div class="step-content">代理通过 Telegram / 私信向用户一对一发送邀请码</div></div>
+          <div class="step"><div class="step-dot blue">3</div><div class="step-content">用户登录 App，在预测市场入口输入邀请码</div></div>
+          <div class="step"><div class="step-dot blue">4</div><div class="step-content">权益激活，30 天内所有预测交易免手续费</div></div>
+        </div>
+      </div>
+    </div>
+    <h4 class="sub2">规则与限制</h4>
+    <ul class="rule-list">
+      <li>每个邀请码绑定唯一用户，<strong>不可转让</strong></li>
+      <li>发出后 <strong>7 天内未激活</strong>，邀请码自动失效</li>
+      <li>同一用户不可同时使用免费体验包和邀请码，选择其一</li>
+    </ul>
+    <div class="note"><strong>推荐话术（中文）：</strong>「[用户名]，平台给你开了专属的预测市场邀请权限，用这个码激活之后头 30 天不收手续费，你的专属码是：XXXXXX，7 天内有效」</div>
+  </div>
+</div>
+
+<!-- 活动三 -->
+<div class="act-card purple">
+  <div class="act-header">
+    <div class="act-num">3</div>
+    <div class="act-title-wrap">
+      <div class="act-title">预测方向与合约仓位联动</div>
+      <div class="act-desc">同一判断，两种下注方式，双边正确额外 ×1.5 奖励加成</div>
+      <div class="act-tags">
+        <span class="tag tag-purple">行为联动型</span>
+        <span class="tag tag-orange">苍苍组推荐</span>
+        <span class="tag tag-gray">合约重度用户</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">联动逻辑</h4>
+        <ul class="rule-list">
+          <li>用户在预测市场发起预测时，系统自动检测当前合约持仓</li>
+          <li>预测标的与合约标的<strong>相同</strong>（如 BTC）</li>
+          <li>预测方向与合约仓位方向<strong>一致</strong>（预测涨 + 合约多仓 / 预测跌 + 合约空仓）</li>
+          <li>以上条件同时满足 → 标记为「联动状态」，显示联动标识</li>
+        </ul>
+        <h4 class="sub2">奖励规则</h4>
+        <ul class="rule-list">
+          <li>预测正确 → 预测奖励 <strong>×1.5 倍加成</strong></li>
+          <li>加成仅作用于预测奖励，不影响合约盈亏</li>
+          <li>预测发起时持有仓位即可，结算时无需仍持仓</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">典型场景示例</h4>
+        <div class="card orange" style="margin-bottom:12px;">
+          <h4>场景 A：方向一致，双边正确</h4>
+          <p style="margin-top:6px;">用户持有 BTC 合约多仓，在预测市场预测「BTC 本周涨」，最终 BTC 上涨。合约盈利 $200，预测奖励 $50 × 1.5 = <strong>$75</strong></p>
+        </div>
+        <div class="card" style="margin-bottom:12px;">
+          <h4>场景 B：联动状态，预测错误</h4>
+          <p style="margin-top:6px;">用户持有 BTC 合约多仓，预测「BTC 本周涨」，最终 BTC 下跌。预测亏损 $5（正常结算），合约亏损另算，<strong>加成不触发</strong></p>
+        </div>
+      </div>
+    </div>
+    <h4 class="sub2">规则与限制</h4>
+    <ul class="rule-list">
+      <li>系统<strong>自动识别</strong>，代理无需额外操作，用户也无需手动标记</li>
+      <li>仅支持 MoonX 预测市场与 BYDFi 合约之间的联动，不支持跨平台</li>
+      <li>每笔预测独立判断是否触发联动，同一用户可同时有多笔联动预测</li>
+    </ul>
+    <div class="tip">代理话术：「你做多 BTC 的时候，顺手在预测市场选个本周涨，如果两边都对，预测奖励直接变 1.5 倍，跟多开了一个仓位一样」</div>
+  </div>
+</div>
+
+<!-- 活动四 -->
+<div class="act-card teal">
+  <div class="act-header">
+    <div class="act-num">4</div>
+    <div class="act-title-wrap">
+      <div class="act-title">合约平仓后推送</div>
+      <div class="act-desc">平仓后 3 分钟内精准触达，时机最优，转化率最高</div>
+      <div class="act-tags">
+        <span class="tag tag-teal">行为联动型</span>
+        <span class="tag tag-gray">三组通用</span>
+        <span class="tag tag-gray">平台自动触发</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">触发条件</h4>
+        <ul class="rule-list">
+          <li>用户任意合约仓位完成平仓</li>
+          <li>不限盈亏金额，盈利和亏损均触发</li>
+          <li>平仓后 <strong>3 分钟内</strong>推送</li>
+        </ul>
+        <h4 class="sub2">推送渠道</h4>
+        <ul class="rule-list">
+          <li>App 内 push 通知（优先）</li>
+          <li>Telegram 机器人（用户已绑定代理频道的情况下）</li>
+        </ul>
+        <h4 class="sub2">频率控制</h4>
+        <ul class="rule-list">
+          <li>同一用户每天<strong>最多推送 2 次</strong></li>
+          <li>用户可在设置中关闭此类推送</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">推送内容模板</h4>
+        <div class="card" style="margin-bottom:10px;">
+          <h4>盈利平仓版本</h4>
+          <p style="margin-top:6px; font-style:italic;">「刚赚到了 $XX，顺手来预测下一波走向？今日热门题目：[题目名称]，$5 起参与 →」</p>
+        </div>
+        <div class="card" style="margin-bottom:10px;">
+          <h4>亏损平仓版本</h4>
+          <p style="margin-top:6px; font-style:italic;">「刚平仓了，换个玩法？在预测市场猜对方向也能赚，今日热门：[题目名称]，$5 起 →」</p>
+        </div>
+        <div class="card">
+          <h4>包含一键跳转</h4>
+          <p style="margin-top:6px;">推送末尾附直达预测市场当日最活跃题目的跳转链接</p>
+        </div>
+      </div>
+    </div>
+    <h4 class="sub2">代理端数据</h4>
+    <ul class="rule-list">
+      <li>代理后台可查看下游用户的推送触达率、点击率、点击后参与预测转化率</li>
+      <li>数据每日更新，代理可据此判断哪些用户需要额外私信跟进</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 活动五 -->
+<div class="act-card green">
+  <div class="act-header">
+    <div class="act-num">5</div>
+    <div class="act-title-wrap">
+      <div class="act-title">合约交易量阶梯送预测包</div>
+      <div class="act-desc">合约越活跃，免费预测额度越多，自动发放零摩擦</div>
+      <div class="act-tags">
+        <span class="tag tag-green">交易量激励型</span>
+        <span class="tag tag-orange">苍苍组推荐</span>
+        <span class="tag tag-blue">Michael 组推荐</span>
+        <span class="tag tag-gray">月度持续</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+    <h4 class="sub2">阶梯规则</h4>
+    <div class="tier-row">
+      <div class="tier t1">
+        <div class="tier-cond">月交易量 ≥ $5,000</div>
+        <div class="tier-reward">3 笔</div>
+        <div class="tier-note">免费预测额度<br>每笔面值 $5</div>
+      </div>
+      <div class="tier t2">
+        <div class="tier-cond">月交易量 ≥ $20,000</div>
+        <div class="tier-reward">8 笔</div>
+        <div class="tier-note">免费预测额度<br>每笔面值 $5</div>
+      </div>
+      <div class="tier t3">
+        <div class="tier-cond">月交易量 ≥ $50,000</div>
+        <div class="tier-reward">15 笔</div>
+        <div class="tier-note">免费预测额度<br>每笔面值 $5</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">发放规则</h4>
+        <ul class="rule-list">
+          <li><strong>达标即时发放</strong>，不等月末结算</li>
+          <li>升档时自动<strong>补发差额</strong>：达到 $20K 档时已发 3 笔，再补发 5 笔</li>
+          <li>按最高达标档结算，不重复发放</li>
+          <li>每月 1 日 00:00 重置，下月重新计算</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">额度使用</h4>
+        <ul class="rule-list">
+          <li>发放后 <strong>30 天内</strong>使用，过期失效</li>
+          <li>每笔面值 $5，预测正确可提现</li>
+          <li>代理后台实时可见各用户当月交易量进度及所在档位</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip">代理话术：「这个月合约交易量到 $5,000 就自动给你发 3 次免费预测机会，到 $20,000 就 8 次，你上个月的量已经到 XX 了，这个月继续就能拿到」</div>
+  </div>
+</div>
+
+<!-- 活动六 -->
+<div class="act-card">
+  <div class="act-header">
+    <div class="act-num" style="background:#1D4ED8;">6</div>
+    <div class="act-title-wrap">
+      <div class="act-title">合约周度交易量赛（奖励预测额度包）</div>
+      <div class="act-desc">周度竞赛制造竞争氛围，奖励直接导流预测市场</div>
+      <div class="act-tags">
+        <span class="tag tag-blue">交易量激励型</span>
+        <span class="tag tag-purple">Sally 组推荐</span>
+        <span class="tag tag-gray">周度持续</span>
+        <span class="tag tag-gray">竞争氛围群组适用</span>
+      </div>
+    </div>
+  </div>
+  <div class="act-body">
+    <h4 class="sub2">参与条件与周期</h4>
+    <ul class="rule-list">
+      <li>统计周期：<strong>周一 00:00 — 周日 23:59</strong>，次周一结算</li>
+      <li>参与门槛：当周合约交易量 <strong>≥$1,000</strong> 方可进入排名，过滤低质量参与</li>
+      <li>排行榜实时更新，代理端和用户端均可见本组排名</li>
+    </ul>
+    <h4 class="sub2">奖励结构</h4>
+    <div class="rank-row">
+      <div class="rank-item rank-gold">
+        <div class="rank-label">TOP 1–5</div>
+        <div class="rank-reward">20 笔</div>
+        <div class="rank-note">免费预测额度<br>每笔 $5</div>
+      </div>
+      <div class="rank-item rank-silver">
+        <div class="rank-label">TOP 6–20</div>
+        <div class="rank-reward">10 笔</div>
+        <div class="rank-note">免费预测额度<br>每笔 $5</div>
+      </div>
+      <div class="rank-item rank-bronze">
+        <div class="rank-label">TOP 21–50</div>
+        <div class="rank-reward">5 笔</div>
+        <div class="rank-note">免费预测额度<br>每笔 $5</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 class="sub2">发放与使用</h4>
+        <ul class="rule-list">
+          <li>周赛结束后 <strong>24 小时内</strong>发放到账</li>
+          <li>额度有效期 <strong>14 天</strong></li>
+          <li>每笔面值 $5，预测正确可提现</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub2">代理带队联动</h4>
+        <ul class="rule-list">
+          <li>代理下游用户进入 Top 50 的人数，计入代理月度带队竞赛评分</li>
+          <li>代理可在群内每日公布本组当前排名截图，维持竞争氛围</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note"><strong>运营建议：</strong>每周一公布上周获奖名单 + 本周排行榜开启，周五下午发一次「距离周日截止还有 48 小时，当前排名」截图，制造冲榜热潮。Sally 组提供韩语版排行榜模板。</div>
+  </div>
+</div>
+
+<!-- 三组执行建议 -->
+<h2 class="sec">4. 三组执行建议</h2>
+<table class="group-table">
+  <thead>
+    <tr>
+      <th>代理组</th>
+      <th>用户特点</th>
+      <th>推荐优先使用</th>
+      <th>执行重点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>苍苍组</td>
+      <td>欧美合约重度用户，KOL 驱动，中文社群</td>
+      <td>
+        <span class="tag tag-orange">活动五</span>
+        <span class="tag tag-purple">活动三</span>
+        <span class="tag tag-orange">活动一</span>
+      </td>
+      <td>主推交易量阶梯（合约用户本来就在交易，额度自动到账）；KOL 公开晒联动状态截图带动跟随</td>
+    </tr>
+    <tr>
+      <td>Sally 组</td>
+      <td>欧美+韩国，排行榜文化强，裂变意愿高</td>
+      <td>
+        <span class="tag tag-blue">活动六</span>
+        <span class="tag tag-blue">活动二</span>
+        <span class="tag tag-teal">活动四</span>
+      </td>
+      <td>主推周度交易量赛（每天发排行榜截图，韩语版模板）；专属邀请码适合私信沉睡韩国用户</td>
+    </tr>
+    <tr>
+      <td>Michael 组</td>
+      <td>媒体+代理双线，需要活动有传播价值</td>
+      <td>
+        <span class="tag tag-green">活动五</span>
+        <span class="tag tag-teal">活动四</span>
+        <span class="tag tag-orange">活动一</span>
+      </td>
+      <td>交易量阶梯数据作为媒体稿件素材；平仓推送数据（点击率/转化率）作为产品增长数据对外披露</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- 成本预估 -->
+<h2 class="sec">5. 成本预估</h2>
+<table>
+  <thead>
+    <tr><th>活动</th><th>成本结构</th><th>月度预估</th><th>备注</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>活动一：免费体验包</td>
+      <td>3 笔 × $5 × 参与人数</td>
+      <td>~$2,250</td>
+      <td>预计 150 人领取，正确率约 50%，实际兑付约 50%</td>
+    </tr>
+    <tr>
+      <td>活动二：专属邀请码</td>
+      <td>手续费豁免 + 代理激励 $5/人</td>
+      <td>~$750</td>
+      <td>预计 100 人激活，手续费豁免成本由交易量覆盖</td>
+    </tr>
+    <tr>
+      <td>活动三：仓位联动</td>
+      <td>预测奖励加成 × 0.5</td>
+      <td>~$500</td>
+      <td>加成部分成本，联动激活率预估 20%</td>
+    </tr>
+    <tr>
+      <td>活动四：平仓推送</td>
+      <td>平台开发+推送成本</td>
+      <td>固定成本</td>
+      <td>无直接奖励支出，边际成本接近零</td>
+    </tr>
+    <tr>
+      <td>活动五：交易量阶梯</td>
+      <td>免费预测额度 × 发放笔数</td>
+      <td>~$1,500</td>
+      <td>按实际达标人数浮动，正确率约 50% 实际兑付</td>
+    </tr>
+    <tr>
+      <td>活动六：周度交易量赛</td>
+      <td>每周奖励预测额度包</td>
+      <td>~$2,000</td>
+      <td>每周发放约 $500 面值额度包 × 4 周</td>
+    </tr>
+    <tr style="background:#FFF3E0;">
+      <td colspan="2"><strong>月度合计</strong></td>
+      <td><strong>~$7,000</strong></td>
+      <td>实际支出随参与人数浮动，免费额度以实际兑付为准</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>成本说明：</strong>免费预测额度的实际成本 = 用户预测正确时的奖励支出，正确率约 50% 情况下实际成本为面值的 50%。各活动可按代理组独立开启，不需要全部同时运行。
+</div>
+
+<hr class="divider">
+<p style="text-align:center; color:#aaa; font-size:12px;">MoonX 合约用户导入预测市场活动方案 V1.0 · 2026-03-17 · 内部文件</p>
+
+</div>
+</body>
+</html>

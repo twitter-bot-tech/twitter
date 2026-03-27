@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX SEO 预测市场接口需求文档 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.75; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover h1 { font-size: 32px; font-weight: 700; color: #111; margin-bottom: 16px; }
+.cover .subtitle { font-size: 15px; color: #888; }
+.cover .meta { margin-top: 32px; display: inline-flex; gap: 40px; background: #FFF8F0; padding: 16px 32px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item { text-align: left; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+
+h2.sec { font-size: 20px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 16px; font-weight: 600; margin: 32px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+table td:first-child { font-weight: 500; white-space: nowrap; color: #555; }
+
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-p0 { background: #FFEBEE; color: #C62828; }
+.tag-p1 { background: #FFF3E0; color: #E65100; }
+.tag-p2 { background: #F3E5F5; color: #6A1B9A; }
+.tag-ssr { background: #E8F5E9; color: #2E7D32; }
+.tag-csr { background: #E3F2FD; color: #1565C0; }
+.tag-req { background: #FFEBEE; color: #C62828; }
+.tag-opt { background: #F3F4F6; color: #555; }
+
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+.info { background: #E3F2FD; border-left: 4px solid #1976D2; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #0D47A1; }
+
+code { background: #F3F3F3; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", monospace; font-size: 12px; color: #C41A16; }
+pre { background: #1E1E1E; color: #D4D4D4; padding: 16px 20px; border-radius: 6px; font-size: 12px; overflow-x: auto; margin: 12px 0; line-height: 1.6; font-family: "SF Mono", monospace; }
+pre .key { color: #9CDCFE; }
+pre .str { color: #CE9178; }
+pre .num { color: #B5CEA8; }
+pre .bool { color: #569CD6; }
+pre .cmt { color: #6A9955; }
+
+.url { background: #E3F2FD; color: #1565C0; padding: 2px 8px; border-radius: 3px; font-family: monospace; font-size: 12px; }
+.kw { background: #E8F5E9; color: #2E7D32; padding: 2px 8px; border-radius: 3px; font-size: 12px; font-weight: 500; }
+
+.page-header { display: flex; align-items: center; gap: 12px; margin: 36px 0 8px; padding-bottom: 8px; border-bottom: 1px solid #EEE; }
+.badge { color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+.badge-trending { background: #4CAF50; }
+.badge-event { background: #FF6B00; }
+.badge-stock { background: #2196F3; }
+.badge-meme { background: #9C27B0; }
+.badge-sitemap { background: #607D8B; }
+
+.call-spec { background: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 6px; padding: 14px 18px; margin: 12px 0; }
+.call-spec .call-title { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+.call-spec table { margin: 0; }
+.call-spec table th { background: #EFEFEF; font-size: 12px; }
+.call-spec table td { font-size: 12px; }
+.param-val { font-family: monospace; color: #FF6B00; font-weight: 600; }
+.field-used { background: #FFF8F0 !important; }
+
+p { margin: 6px 0; }
+ol, ul { margin: 6px 0 6px 20px; }
+ol li, ul li { margin: 3px 0; }
+hr { border: none; border-top: 1px solid #EEE; margin: 32px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div class="subtitle">前端接口需求文档</div>
+  <h1>MoonX SEO — 预测市场接口调用规格</h1>
+  <div class="subtitle">说明各 SEO 页面如何调用预测市场查询接口，覆盖参数、字段、渲染策略与缓存要求</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">关联 PRD</div><div class="value">MoonX_SEO_PRD_v5</div></div>
+    <div class="meta-item"><div class="label">接口文档</div><div class="value">预测市场查询规则说明-运营版</div></div>
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">V1.0</div></div>
+    <div class="meta-item"><div class="label">日期</div><div class="value">2026-03-20</div></div>
+  </div>
+</div>
+
+<!-- 一、总览 -->
+<h2 class="sec">一、SEO 页面与接口调用总览</h2>
+
+<table>
+  <tr><th width="40">#</th><th width="200">SEO 页面</th><th width="260">页面路径</th><th width="80">优先级</th><th>调用接口的目的</th></tr>
+  <tr>
+    <td>1</td>
+    <td>热门榜单页</td>
+    <td><span class="url">/en/moonx/markets/trending/{category}</span></td>
+    <td><span class="tag tag-p1">P1</span></td>
+    <td>按分类（crypto/politics/sports/stocks）展示活跃预测市场 Top 20，按24h交易量排序</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>事件指南页</td>
+    <td><span class="url">/en/moonx/guide/prediction/{event-slug}</span></td>
+    <td><span class="tag tag-p1">P1</span></td>
+    <td>展示单个预测事件的赔率、成交量、截止日期；以及同主题相关市场</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>美股预测页</td>
+    <td><span class="url">/en/moonx/markets/stocks/{ticker}</span></td>
+    <td><span class="tag tag-p1">P1</span></td>
+    <td>搜索该股票代码相关的所有活跃预测市场，展示赔率列表</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Meme 购买指南页</td>
+    <td><span class="url">/en/moonx/guide/buy/{token-slug}</span></td>
+    <td><span class="tag tag-p1">P1</span></td>
+    <td>搜索该代币相关的预测市场赔率，展示在右侧边栏</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Token 详情页（工具①）</td>
+    <td><span class="url">/en/moonx/solana/token/{contract}</span></td>
+    <td><span class="tag tag-p1">P1</span></td>
+    <td>工具① Polymarket赔率：展示该代币在预测市场的相关市场</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>Sitemap 生成</td>
+    <td><code>sitemap_moonx_markets.xml</code></td>
+    <td><span class="tag tag-p2">P2</span></td>
+    <td>枚举满足准入条件的预测市场，写入 Sitemap</td>
+  </tr>
+</table>
+
+<div class="warn">
+  <strong>接口限制问题（需后端确认）：</strong>当前接口文档标注「网络为必填」，但 SEO 页面的热门榜单需要跨网络聚合展示，不能只看单一网络。请后端确认：<strong>不传 network 参数时是否返回全网络数据？</strong>如果不支持，需要新增该能力。
+</div>
+
+<!-- 二、接口参数快查 -->
+<h2 class="sec">二、接口参数快查（现有接口）</h2>
+
+<table>
+  <tr><th width="120">参数名</th><th width="80">必填</th><th width="180">类型/可选值</th><th>SEO 页面用到的场景</th></tr>
+  <tr><td><code>query</code></td><td><span class="tag tag-opt">可选</span></td><td>字符串，模糊匹配标题</td><td>美股预测页（传股票代码如 <code>TSLA</code>）；Meme页（传代币名如 <code>PEPE</code>）；事件指南页（传事件 slug）</td></tr>
+  <tr><td><code>network</code></td><td><span class="tag tag-opt">可选</span></td><td>eth / bsc / base / tron / solana / polygon</td><td>热门榜单页不传（全网络）；Token详情页传 <code>solana</code></td></tr>
+  <tr><td><code>status</code></td><td><span class="tag tag-opt">可选</span></td><td>1=活跃 / 0=已结束</td><td>所有 SEO 页面默认传 <code>status=1</code>（只展示可参与的活跃市场）</td></tr>
+  <tr><td><code>tag</code></td><td><span class="tag tag-opt">可选</span></td><td>politics / sports / crypto / economics / entertainment / world</td><td>热门榜单页按分类 Tab 传对应 tag</td></tr>
+  <tr><td><code>sortType</code></td><td><span class="tag tag-opt">可选</span></td><td>volume24h / totalVolume / liquidity / new / endingSoon / competitiveness</td><td>各页面默认排序见下文</td></tr>
+  <tr><td><code>page</code></td><td><span class="tag tag-req">必填</span></td><td>整数，从1开始</td><td>SSR 固定传 <code>page=1</code></td></tr>
+  <tr><td><code>rows</code></td><td><span class="tag tag-req">必填</span></td><td>整数</td><td>各页面需求数量不同，见下文</td></tr>
+  <tr><td><code>seriesSlug</code></td><td><span class="tag tag-opt">可选</span></td><td>字符串</td><td>事件指南页「相关市场」模块（同系列事件）</td></tr>
+  <tr><td><code>frequency</code></td><td><span class="tag tag-opt">可选</span></td><td>daily / weekly / monthly</td><td>SEO 页面暂不使用此参数</td></tr>
+</table>
+
+<!-- 三、热门榜单页 -->
+<h2 class="sec">三、热门榜单页</h2>
+
+<div class="page-header">
+  <span class="badge badge-trending">程序化</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">页面路径：/en/moonx/markets/trending/{category}</h4>
+</div>
+
+<p><strong>目标关键词：</strong><span class="kw">top prediction markets today</span> / <span class="kw">trending {category} prediction markets</span></p>
+
+<h3 class="sub">3.1 分类 Tab 与接口参数映射</h3>
+
+<div class="call-spec">
+  <div class="call-title">接口调用参数（按 Tab 切换）</div>
+  <table>
+    <tr><th width="120">Tab 名称</th><th width="120">URL 路径</th><th width="80">tag 参数</th><th width="80">network</th><th width="100">sortType</th><th width="60">status</th><th width="60">page</th><th>rows</th></tr>
+    <tr>
+      <td>All</td>
+      <td><code>/trending</code></td>
+      <td class="param-val">不传</td>
+      <td class="param-val">不传</td>
+      <td class="param-val">volume24h</td>
+      <td class="param-val">1</td>
+      <td class="param-val">1</td>
+      <td class="param-val">20</td>
+    </tr>
+    <tr>
+      <td>Crypto</td>
+      <td><code>/trending/crypto</code></td>
+      <td class="param-val">crypto</td>
+      <td class="param-val">不传</td>
+      <td class="param-val">volume24h</td>
+      <td class="param-val">1</td>
+      <td class="param-val">1</td>
+      <td class="param-val">20</td>
+    </tr>
+    <tr>
+      <td>Politics</td>
+      <td><code>/trending/politics</code></td>
+      <td class="param-val">politics</td>
+      <td class="param-val">不传</td>
+      <td class="param-val">volume24h</td>
+      <td class="param-val">1</td>
+      <td class="param-val">1</td>
+      <td class="param-val">20</td>
+    </tr>
+    <tr>
+      <td>Sports</td>
+      <td><code>/trending/sports</code></td>
+      <td class="param-val">sports</td>
+      <td class="param-val">不传</td>
+      <td class="param-val">volume24h</td>
+      <td class="param-val">1</td>
+      <td class="param-val">1</td>
+      <td class="param-val">20</td>
+    </tr>
+    <tr>
+      <td>Stocks</td>
+      <td><code>/trending/stocks</code></td>
+      <td class="param-val">economics</td>
+      <td class="param-val">不传</td>
+      <td class="param-val">volume24h</td>
+      <td class="param-val">1</td>
+      <td class="param-val">1</td>
+      <td class="param-val">20</td>
+    </tr>
+    <tr>
+      <td>Science</td>
+      <td><code>/trending/science</code></td>
+      <td class="param-val">world</td>
+      <td class="param-val">不传</td>
+      <td class="param-val">volume24h</td>
+      <td class="param-val">1</td>
+      <td class="param-val">1</td>
+      <td class="param-val">20</td>
+    </tr>
+  </table>
+</div>
+
+<h3 class="sub">3.2 渲染策略</h3>
+<table>
+  <tr><th width="160">调用时机</th><th width="100">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr>
+    <td>页面初始加载</td>
+    <td><span class="tag tag-ssr">SSR</span></td>
+    <td>每30分钟重建</td>
+    <td>每个分类 Tab 对应独立 URL，各自 SSR 渲染，Google 可分别抓取</td>
+  </tr>
+  <tr>
+    <td>赔率数据更新</td>
+    <td><span class="tag tag-csr">CSR</span></td>
+    <td>每30分钟</td>
+    <td>不重新拉取列表，仅更新已渲染条目的 YES%/NO%/Volume 字段</td>
+  </tr>
+  <tr>
+    <td>用户切换 Tab</td>
+    <td><span class="tag tag-csr">CSR</span></td>
+    <td>切换时拉取</td>
+    <td>URL 跳转到对应分类页面，走 SSR；若用纯客户端 Tab 切换，须确保每个分类有独立 URL</td>
+  </tr>
+</table>
+
+<h3 class="sub">3.3 响应字段使用规格</h3>
+<table>
+  <tr><th width="40">#</th><th width="200">UI 展示项</th><th width="180">接口字段（待核实）</th><th>格式要求</th></tr>
+  <tr class="field-used"><td>1</td><td>市场标题</td><td><code>list[].title</code></td><td>最多展示2行，超出省略号截断</td></tr>
+  <tr class="field-used"><td>2</td><td>YES% 进度条</td><td><code>list[].markets[0].yesOdds</code> 或同等字段</td><td>百分比进度条，绿色填充；精度：整数（如 68%）</td></tr>
+  <tr class="field-used"><td>3</td><td>24h 交易量</td><td><code>list[].volume_24</code></td><td>格式化：$X.XM / $XXXk</td></tr>
+  <tr class="field-used"><td>4</td><td>截止日期</td><td><code>list[].end_date</code></td><td>格式：<code>Ends Jun 30</code>；距今 &lt;72h 显示红色倒计时</td></tr>
+  <tr class="field-used"><td>5</td><td>来源平台标签</td><td><code>list[].markets[].platform</code> 或 <code>network</code></td><td>Polymarket / Kalshi / Manifold 图标小标签</td></tr>
+  <tr class="field-used"><td>6</td><td>跳转链接</td><td><code>list[].slug</code></td><td>点击卡片跳转 <code>/en/moonx/guide/prediction/{slug}</code>；必须用 <code>&lt;a href&gt;</code> 标签</td></tr>
+  <tr><td>7</td><td>NO% 进度条</td><td><code>list[].markets[0].noOdds</code></td><td>红色填充；= 100% - YES%</td></tr>
+  <tr><td>8</td><td>总流动性</td><td><code>list[].liquidity</code></td><td>展示在卡片次要信息区，格式化同成交量</td></tr>
+</table>
+
+<div class="note">
+  <strong>字段待确认：</strong>赔率字段（YES%/NO%）的具体字段名当前接口文档未明确，需后端补充。以上字段名为推断，请核实。
+</div>
+
+<h3 class="sub">3.4 SEO Meta 生成规格</h3>
+<table>
+  <tr><th width="120">分类 Tab</th><th width="310">Title（≤60字符）</th><th>Meta Description（≤155字符）</th></tr>
+  <tr><td>All</td><td><code>Top Prediction Markets Today | MoonX</code></td><td>用当日 Top 3 市场标题 + 赔率动态填充，如：<code>Discover today's most active prediction markets. #1: Will BTC exceed $100K? YES 68%. Aggregated by MoonX.</code></td></tr>
+  <tr><td>Crypto</td><td><code>Top Crypto Prediction Markets Today | MoonX</code></td><td><code>Track the hottest crypto prediction markets. Real-time Polymarket and Kalshi odds, aggregated by MoonX.</code></td></tr>
+  <tr><td>Politics</td><td><code>Top Political Prediction Markets Today | MoonX</code></td><td><code>See current odds on politics and elections. Compare Polymarket vs Kalshi predictions, aggregated by MoonX.</code></td></tr>
+  <tr><td>Sports</td><td><code>Top Sports Prediction Markets Today | MoonX</code></td><td><code>Follow the latest sports betting odds on prediction markets. Updated every 30 minutes on MoonX.</code></td></tr>
+  <tr><td>Stocks</td><td><code>Top Stock Prediction Markets Today | MoonX</code></td><td><code>See what prediction markets say about stocks. Polymarket and Kalshi odds for equities, aggregated by MoonX.</code></td></tr>
+</table>
+
+<hr>
+
+<!-- 四、事件指南页 -->
+<h2 class="sec">四、事件指南页</h2>
+
+<div class="page-header">
+  <span class="badge badge-event">程序化</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">页面路径：/en/moonx/guide/prediction/{event-slug}</h4>
+</div>
+
+<p><strong>目标关键词：</strong><span class="kw">how to bet on {event}</span> / <span class="kw">{event} prediction market odds</span></p>
+<p><strong>准入条件（PRD 5.2.1）：</strong>Polymarket Volume ≥ $100K 或 Kalshi Volume ≥ $50K 的活跃市场自动生成页面</p>
+
+<h3 class="sub">4.1 接口调用规格</h3>
+
+<p>本页面需调用接口 <strong>2次</strong>，拉取不同数据：</p>
+
+<div class="call-spec">
+  <div class="call-title">调用 1 — 获取事件主体数据（SSR）</div>
+  <table>
+    <tr><th width="120">参数</th><th width="200">传值</th><th>说明</th></tr>
+    <tr><td><code>query</code></td><td class="param-val">{event-slug}（URL参数）</td><td>用事件 slug 精确匹配目标事件，如 <code>will-trump-win-2026-midterms</code></td></tr>
+    <tr><td><code>status</code></td><td class="param-val">不传（活跃+已结束均展示）</td><td>事件结束后页面保留，继续展示历史赔率</td></tr>
+    <tr><td><code>page</code></td><td class="param-val">1</td><td></td></tr>
+    <tr><td><code>rows</code></td><td class="param-val">1</td><td>只需要 1 条精确匹配的事件数据</td></tr>
+  </table>
+</div>
+
+<div class="call-spec">
+  <div class="call-title">调用 2 — 获取相关市场（右侧边栏，SSR）</div>
+  <table>
+    <tr><th width="120">参数</th><th width="200">传值</th><th>说明</th></tr>
+    <tr><td><code>seriesSlug</code></td><td class="param-val">{当前事件的 seriesSlug 字段值}</td><td>拉取同系列所有相关事件，如同属"us-election-2026"系列</td></tr>
+    <tr><td><code>status</code></td><td class="param-val">1</td><td>相关市场只展示活跃的</td></tr>
+    <tr><td><code>sortType</code></td><td class="param-val">volume24h</td><td>按热度排序</td></tr>
+    <tr><td><code>page</code></td><td class="param-val">1</td><td></td></tr>
+    <tr><td><code>rows</code></td><td class="param-val">3</td><td>右侧边栏展示3个相关市场</td></tr>
+  </table>
+</div>
+
+<div class="note">
+  <strong>降级处理：</strong>若当前事件没有 seriesSlug，则用 <code>tag</code>（当前事件的第一个标签）+ <code>sortType=volume24h</code> 拉取同类热门市场3条作为兜底，排除当前事件本身。
+</div>
+
+<h3 class="sub">4.2 渲染策略</h3>
+<table>
+  <tr><th width="200">模块</th><th width="100">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr><td>事件主体（标题、背景、步骤）</td><td><span class="tag tag-ssr">SSR</span></td><td>每日重建</td><td>Meta、H1、FAQ 必须 SSR，Google 爬虫需读取</td></tr>
+  <tr><td>赔率卡片（YES%/NO%/Volume）</td><td><span class="tag tag-ssr">SSR</span> + <span class="tag tag-csr">CSR</span></td><td>每60秒更新</td><td>SSR 生成初始快照保证 Google 爬取；CSR 每60秒刷新显示</td></tr>
+  <tr><td>平台赔率对比表</td><td><span class="tag tag-ssr">SSR</span> + <span class="tag tag-csr">CSR</span></td><td>每30分钟</td><td>同上</td></tr>
+  <tr><td>相关市场（边栏3条）</td><td><span class="tag tag-ssr">SSR</span></td><td>每日重建</td><td>固定内链，不需要实时更新</td></tr>
+</table>
+
+<h3 class="sub">4.3 响应字段使用规格</h3>
+<table>
+  <tr><th width="40">#</th><th width="200">UI 展示项</th><th width="180">接口字段（待核实）</th><th>格式要求</th></tr>
+  <tr class="field-used"><td>1</td><td>事件标题（H1）</td><td><code>list[0].title</code></td><td>作为页面 H1，同时用于生成 Title Tag（≤60字符）</td></tr>
+  <tr class="field-used"><td>2</td><td>YES% 进度条</td><td><code>list[0].markets[].yesOdds</code></td><td>百分比，绿色进度条；Polymarket 和 Kalshi 分别展示</td></tr>
+  <tr class="field-used"><td>3</td><td>NO% 进度条</td><td><code>list[0].markets[].noOdds</code></td><td>红色进度条；= 100% - YES%</td></tr>
+  <tr class="field-used"><td>4</td><td>24h 交易量</td><td><code>list[0].volume_24</code></td><td>格式：<code>$2.1M</code></td></tr>
+  <tr class="field-used"><td>5</td><td>总交易量</td><td><code>list[0].volume</code></td><td>格式同上，展示在赔率卡片次要信息区</td></tr>
+  <tr class="field-used"><td>6</td><td>截止日期</td><td><code>list[0].end_date</code></td><td>格式：<code>Closes Jun 30, 2026</code>；用于 FAQ「截止日期是什么时候」自动填充</td></tr>
+  <tr class="field-used"><td>7</td><td>事件状态</td><td><code>list[0].status</code></td><td>0=已结束：页面顶部加「This market has closed」横幅；同时加 <code>noindex</code>（已结束&gt;30天时）</td></tr>
+  <tr class="field-used"><td>8</td><td>系列标识</td><td><code>list[0].seriesSlug</code></td><td>用于第二次调用「相关市场」</td></tr>
+  <tr class="field-used"><td>9</td><td>标签</td><td><code>list[0].tag[]</code></td><td>用于 seriesSlug 为空时的降级兜底</td></tr>
+  <tr class="field-used"><td>10</td><td>来源平台</td><td><code>list[0].markets[].platform</code></td><td>Polymarket / Kalshi / Manifold，展示平台对比表</td></tr>
+  <tr class="field-used"><td>11</td><td>流动性</td><td><code>list[0].liquidity</code></td><td>展示在平台对比表「流动性」列</td></tr>
+  <tr class="field-used"><td>12</td><td>事件 slug</td><td><code>list[0].slug</code></td><td>用于生成 canonical URL 和 sitemap</td></tr>
+</table>
+
+<h3 class="sub">4.4 SEO Meta 生成规格</h3>
+<table>
+  <tr><th width="120">Meta 项</th><th>生成规则</th><th>示例</th></tr>
+  <tr><td>Title</td><td><code>{事件标题}: Prediction Market Odds | MoonX</code>（超60字符时截断事件标题）</td><td><code>Will Trump Win 2026 Midterms: Prediction Market Odds | MoonX</code></td></tr>
+  <tr><td>Meta Description</td><td><code>Current odds for {事件标题}: Polymarket YES {%}, Kalshi YES {%}. Compare and trade on MoonX.</code></td><td><code>Current odds for Will Trump Win 2026: Polymarket YES 72%, Kalshi YES 70%. Compare and trade on MoonX.</code></td></tr>
+  <tr><td>H1</td><td><code>{事件标题}: Prediction Market Odds &amp; How to Bet</code></td><td></td></tr>
+  <tr><td>Canonical</td><td><code>https://www.bydfi.com/en/moonx/guide/prediction/{slug}</code></td><td></td></tr>
+  <tr><td>noindex 条件</td><td>事件 status=0（已结束）且 end_date 距今 &gt;30天</td><td>自动加 <code>&lt;meta name="robots" content="noindex"&gt;</code></td></tr>
+</table>
+
+<hr>
+
+<!-- 五、美股预测页 -->
+<h2 class="sec">五、美股预测页</h2>
+
+<div class="page-header">
+  <span class="badge badge-stock">程序化</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">页面路径：/en/moonx/markets/stocks/{ticker}</h4>
+</div>
+
+<p><strong>目标关键词：</strong><span class="kw">{TICKER} prediction market odds</span> / <span class="kw">{TICKER} Polymarket</span></p>
+<p><strong>Phase 1 支持股票：</strong>TSLA · GOOGL · AAPL · MSFT · NVDA · META · AMZN · SPY（共8个）</p>
+
+<h3 class="sub">5.1 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用参数</div>
+  <table>
+    <tr><th width="120">参数</th><th width="200">传值</th><th>说明</th></tr>
+    <tr><td><code>query</code></td><td class="param-val">{TICKER}（如 TSLA）</td><td>搜索标题含该股票代码的所有预测市场</td></tr>
+    <tr><td><code>status</code></td><td class="param-val">1</td><td>只展示活跃市场；已结束市场不展示</td></tr>
+    <tr><td><code>sortType</code></td><td class="param-val">volume24h</td><td>按当前热度排序，最相关的在前</td></tr>
+    <tr><td><code>page</code></td><td class="param-val">1</td><td></td></tr>
+    <tr><td><code>rows</code></td><td class="param-val">10</td><td>正文列表最多展示10条；右侧赔率卡片取第1条</td></tr>
+  </table>
+</div>
+
+<h3 class="sub">5.2 渲染策略</h3>
+<table>
+  <tr><th width="200">模块</th><th width="100">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr><td>市场列表（标题、赔率、截止日期）</td><td><span class="tag tag-ssr">SSR</span></td><td>每日重建</td><td>Google 爬取列表内容；每日更新保证数据不过时</td></tr>
+  <tr><td>赔率数值</td><td><span class="tag tag-csr">CSR</span></td><td>每30分钟</td><td>价格/赔率实时更新，不影响 SSR 的 HTML 结构</td></tr>
+</table>
+
+<h3 class="sub">5.3 响应字段使用规格</h3>
+<table>
+  <tr><th width="40">#</th><th width="220">UI 展示项</th><th width="180">接口字段（待核实）</th><th>格式要求</th></tr>
+  <tr class="field-used"><td>1</td><td>市场标题</td><td><code>list[].title</code></td><td>展示原始标题，如「Will TSLA close above $400 by Q2 2026?」</td></tr>
+  <tr class="field-used"><td>2</td><td>YES% 进度条</td><td><code>list[].markets[0].yesOdds</code></td><td>绿色进度条 + 数字，如 <code>YES 45%</code></td></tr>
+  <tr class="field-used"><td>3</td><td>24h 交易量</td><td><code>list[].volume_24</code></td><td>格式：<code>Vol: $890K</code></td></tr>
+  <tr class="field-used"><td>4</td><td>截止日期</td><td><code>list[].end_date</code></td><td>格式：<code>Closes Jun 30</code></td></tr>
+  <tr class="field-used"><td>5</td><td>跳转链接</td><td><code>list[].slug</code></td><td>点击跳转 <code>/en/moonx/guide/prediction/{slug}</code>；<code>&lt;a href&gt;</code> 内链</td></tr>
+  <tr><td>6</td><td>来源平台图标</td><td><code>list[].markets[].platform</code></td><td>Polymarket / Kalshi 图标小标签</td></tr>
+</table>
+
+<h3 class="sub">5.4 空数据处理</h3>
+<p>当接口返回 0 条结果时（该股票暂无预测市场）：</p>
+<ul>
+  <li>不展示市场列表，替换为：「No active prediction markets for {TICKER} right now. <a href="#">Browse all markets →</a>」</li>
+  <li>页面 H1、Meta、Schema 正常渲染（基于股票基本信息），不加 noindex</li>
+  <li>右侧赔率卡片改为展示「MoonX Coming Soon」提示</li>
+</ul>
+
+<hr>
+
+<!-- 六、Meme 购买指南页 & Token 详情页 -->
+<h2 class="sec">六、Meme 购买指南页 &amp; Token 详情页（工具①）</h2>
+
+<div class="page-header">
+  <span class="badge badge-meme">程序化</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">两个页面共用同一个接口调用逻辑</h4>
+</div>
+
+<h3 class="sub">6.1 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用参数（Meme购买页 / Token详情页 工具①）</div>
+  <table>
+    <tr><th width="120">参数</th><th width="200">传值</th><th>说明</th></tr>
+    <tr><td><code>query</code></td><td class="param-val">{TOKEN NAME}（如 PEPE）</td><td>搜索与该代币相关的预测市场</td></tr>
+    <tr><td><code>tag</code></td><td class="param-val">crypto</td><td>限定为加密货币类，减少无关结果</td></tr>
+    <tr><td><code>status</code></td><td class="param-val">1</td><td>只展示活跃市场</td></tr>
+    <tr><td><code>sortType</code></td><td class="param-val">volume24h</td><td>最热门的在前</td></tr>
+    <tr><td><code>page</code></td><td class="param-val">1</td><td></td></tr>
+    <tr><td><code>rows</code></td><td class="param-val">3</td><td>Meme购买页和Token详情页工具①均只展示最多3条</td></tr>
+  </table>
+</div>
+
+<h3 class="sub">6.2 渲染策略</h3>
+<table>
+  <tr><th width="240">页面</th><th width="100">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr><td>Meme 购买指南页（右侧边栏赔率卡）</td><td><span class="tag tag-ssr">SSR</span> + <span class="tag tag-csr">CSR</span></td><td>SSR每日，CSR每60秒</td><td>赔率数字需实时刷新；Meta 中含赔率 SSR 必须</td></tr>
+  <tr><td>Token 详情页 工具① Polymarket赔率</td><td><span class="tag tag-ssr">SSR</span> + <span class="tag tag-csr">CSR</span></td><td>SSR每日，CSR每60秒</td><td>同上</td></tr>
+</table>
+
+<h3 class="sub">6.3 响应字段使用规格</h3>
+<table>
+  <tr><th width="40">#</th><th width="220">UI 展示项</th><th width="180">接口字段（待核实）</th><th>格式要求</th></tr>
+  <tr class="field-used"><td>1</td><td>市场标题</td><td><code>list[0].title</code></td><td>如「Will PEPE reach ATH?」；字数超出两行截断</td></tr>
+  <tr class="field-used"><td>2</td><td>YES% 标签</td><td><code>list[0].markets[0].yesOdds</code></td><td>绿色标签：<code>YES 23%</code></td></tr>
+  <tr class="field-used"><td>3</td><td>NO% 标签</td><td><code>list[0].markets[0].noOdds</code></td><td>红色标签：<code>NO 77%</code></td></tr>
+  <tr class="field-used"><td>4</td><td>交易量</td><td><code>list[0].volume_24</code></td><td>格式：<code>Vol: $890K</code></td></tr>
+  <tr class="field-used"><td>5</td><td>跳转链接</td><td><code>list[0].slug</code></td><td>点击跳转 <code>/en/moonx/guide/prediction/{slug}</code>；CTA 按钮文案：<code>Bet on MoonX →</code></td></tr>
+</table>
+
+<h3 class="sub">6.4 空数据处理</h3>
+<p>当接口返回 0 条结果时（该代币暂无预测市场）：</p>
+<ul>
+  <li>Token 详情页工具①：整个赔率卡片隐藏，显示「No prediction markets yet for {TOKEN}」占位文字</li>
+  <li>Meme 购买指南页：右侧边栏赔率卡隐藏，不影响页面其他内容和 SEO</li>
+</ul>
+
+<hr>
+
+<!-- 七、Sitemap 生成 -->
+<h2 class="sec">七、Sitemap 生成 — 事件指南页准入</h2>
+
+<div class="page-header">
+  <span class="badge badge-sitemap">服务端定时任务</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">输出文件：sitemap_moonx_markets.xml</h4>
+</div>
+
+<h3 class="sub">7.1 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用参数（每日 00:00 UTC 全量拉取）</div>
+  <table>
+    <tr><th width="120">参数</th><th width="200">传值</th><th>说明</th></tr>
+    <tr><td><code>status</code></td><td class="param-val">1</td><td>只收录活跃市场；已结束市场从 Sitemap 移除（但页面 URL 保留）</td></tr>
+    <tr><td><code>sortType</code></td><td class="param-val">totalVolume</td><td>按总交易量排序，高价值市场优先收录</td></tr>
+    <tr><td><code>page</code></td><td class="param-val">1 → N（分页拉取）</td><td>每次取 100 条，循环请求直到 count 全部取完</td></tr>
+    <tr><td><code>rows</code></td><td class="param-val">100</td><td>每页100条，分页拉取全量</td></tr>
+  </table>
+</div>
+
+<h3 class="sub">7.2 准入过滤规则（PRD 5.2.1 定义）</h3>
+<table>
+  <tr><th width="200">筛选条件</th><th width="180">接口字段</th><th width="120">阈值</th><th>说明</th></tr>
+  <tr><td>Polymarket 交易量</td><td><code>volume</code>（来源=Polymarket时）</td><td>≥ $100,000</td><td>OR 关系，满足其一即可</td></tr>
+  <tr><td>Kalshi 交易量</td><td><code>volume</code>（来源=Kalshi时）</td><td>≥ $50,000</td><td>OR 关系，满足其一即可</td></tr>
+  <tr><td>市场状态</td><td><code>status</code></td><td>= 1（活跃）</td><td>已结束市场从 Sitemap 移除</td></tr>
+  <tr><td>截止日期</td><td><code>end_date</code></td><td>＞ 当前日期</td><td>已超过截止日期的不收录</td></tr>
+  <tr><td>slug 存在性</td><td><code>slug</code></td><td>非空字符串</td><td>无 slug 的市场无法生成 URL，跳过</td></tr>
+</table>
+
+<h3 class="sub">7.3 Sitemap 条目格式</h3>
+<pre>
+&lt;url&gt;
+  &lt;loc&gt;https://www.bydfi.com/en/moonx/guide/prediction/{<span class="key">slug</span>}&lt;/loc&gt;
+  &lt;lastmod&gt;<span class="str">2026-03-20</span>&lt;/lastmod&gt;  <span class="cmt">&lt;!-- 每日更新 --&gt;</span>
+  &lt;changefreq&gt;<span class="str">daily</span>&lt;/changefreq&gt;
+  &lt;priority&gt;<span class="num">0.8</span>&lt;/priority&gt;   <span class="cmt">&lt;!-- 高于代币页(0.7)，低于首页(1.0) --&gt;</span>
+&lt;/url&gt;
+</pre>
+
+<hr>
+
+<!-- 八、字段核对表 -->
+<h2 class="sec">八、响应字段核对表 — 待后端确认</h2>
+
+<div class="warn">
+  <strong>⚠️ 当前接口文档（运营版）未说明响应体的字段结构。</strong>以下为 SEO 页面强依赖字段，请后端确认每个字段的实际字段名及是否已返回。
+</div>
+
+<table>
+  <tr><th width="40">#</th><th width="180">SEO 需要的含义</th><th width="180">推断字段名（待核实）</th><th width="120">哪些页面依赖</th><th width="80">是否必须</th><th>缺失影响</th></tr>
+  <tr class="field-used">
+    <td>1</td><td>事件标题</td><td><code>title</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法生成 H1 / Title / Meta，整个 SEO 方案失效</td>
+  </tr>
+  <tr class="field-used">
+    <td>2</td><td>事件唯一标识（用于 URL）</td><td><code>slug</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法生成页面 URL 和 Sitemap，整个 SEO 方案失效</td>
+  </tr>
+  <tr class="field-used">
+    <td>3</td><td>YES 赔率（百分比）</td><td><code>markets[].yesOdds</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>核心展示内容缺失；Meta Description 中的赔率无法填充</td>
+  </tr>
+  <tr class="field-used">
+    <td>4</td><td>NO 赔率（百分比）</td><td><code>markets[].noOdds</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>赔率进度条只能显示单边</td>
+  </tr>
+  <tr class="field-used">
+    <td>5</td><td>24h 交易量</td><td><code>volume_24</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法按热度排序展示；Sitemap 准入无法判断</td>
+  </tr>
+  <tr class="field-used">
+    <td>6</td><td>总交易量</td><td><code>volume</code></td>
+    <td>Sitemap 准入</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法判断市场是否满足 $100K/$50K 准入门槛</td>
+  </tr>
+  <tr class="field-used">
+    <td>7</td><td>截止日期</td><td><code>end_date</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法展示倒计时；无法自动加 noindex</td>
+  </tr>
+  <tr class="field-used">
+    <td>8</td><td>市场状态（活跃/已结束）</td><td><code>status</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法控制 noindex 逻辑</td>
+  </tr>
+  <tr class="field-used">
+    <td>9</td><td>来源平台（Polymarket/Kalshi/Manifold）</td><td><code>markets[].platform</code></td>
+    <td>榜单页、事件指南页</td><td><span class="tag tag-p0">必须</span></td>
+    <td>无法展示平台来源图标和对比表</td>
+  </tr>
+  <tr class="field-used">
+    <td>10</td><td>标签（politics/sports/crypto…）</td><td><code>tag[]</code></td>
+    <td>事件指南页（降级兜底）</td><td><span class="tag tag-p1">重要</span></td>
+    <td>相关市场兜底逻辑无法工作</td>
+  </tr>
+  <tr class="field-used">
+    <td>11</td><td>系列标识</td><td><code>seriesSlug</code></td>
+    <td>事件指南页</td><td><span class="tag tag-p1">重要</span></td>
+    <td>相关市场只能用 tag 降级，相关性变差</td>
+  </tr>
+  <tr>
+    <td>12</td><td>流动性</td><td><code>liquidity</code></td>
+    <td>榜单页、事件指南页</td><td><span class="tag tag-p1">重要</span></td>
+    <td>平台对比表中「流动性」列无法展示</td>
+  </tr>
+  <tr>
+    <td>13</td><td>创建时间</td><td><code>created_at</code></td>
+    <td>事件指南页</td><td><span class="tag tag-p2">次要</span></td>
+    <td>「最后更新时间」无法准确展示</td>
+  </tr>
+  <tr>
+    <td>14</td><td>竞争力分数</td><td><code>markets[].competitive</code></td>
+    <td>暂未使用</td><td><span class="tag tag-p2">暂不需要</span></td>
+    <td>P2 阶段可能用于「最均衡市场」筛选</td>
+  </tr>
+</table>
+
+<div class="note">
+  <strong>请后端确认：</strong>以上14个字段，实际接口 <code>list[]</code> 中返回了哪些？字段名是否与上表一致？<code>yesOdds</code>/<code>noOdds</code> 是在 <code>markets[]</code> 子对象中，还是直接在顶层事件对象上？<strong>这是前端能否启动开发的前提条件。</strong>
+</div>
+
+<hr>
+
+<p style="font-size:12px;color:#999;text-align:center;margin-top:24px">MoonX SEO 预测市场接口需求文档 V1.0 · 2026-03-20 · 如有疑问联系市场负责人 Kelly</p>
+
+</div>
+</body>
+</html>

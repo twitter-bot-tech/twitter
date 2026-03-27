@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX SEO — 流程图 v1.0</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  body { font-family: -apple-system, 'PingFang SC', sans-serif; background: #f9fafb; }
+  .chart-card { background: white; border-radius: 16px; border: 1px solid #e5e7eb; padding: 28px 32px; margin-bottom: 32px; }
+  .chart-title { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .chart-desc { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+  .mermaid { display: flex; justify-content: center; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; margin-right: 6px; margin-bottom: 14px; }
+  .tag-green { background: #dcfce7; color: #15803d; }
+  .tag-orange { background: #fff7ed; color: #c2410c; }
+  .tag-blue { background: #eff6ff; color: #1d4ed8; }
+  .tag-purple { background: #f5f3ff; color: #6d28d9; }
+  h1 { font-size: 26px; font-weight: 800; color: #111827; }
+  .subtitle { font-size: 14px; color: #9ca3af; margin-top: 4px; }
+  .divider { height: 1px; background: #f3f4f6; margin: 8px 0 28px; }
+</style>
+</head>
+<body class="p-8 max-w-5xl mx-auto">
+
+<!-- Header -->
+<div class="mb-8">
+  <div class="flex items-center gap-3 mb-2">
+    <div style="width:32px;height:32px;background:#FF6B00;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+      <span style="color:white;font-weight:900;font-size:14px;">M</span>
+    </div>
+    <h1>MoonX SEO — 流程图</h1>
+  </div>
+  <div class="subtitle">产品需求工作流 Step 5 · v1.1 · 2026-03-25（原型审查后更新）</div>
+  <div class="divider"></div>
+  <div style="font-size:13px;color:#6b7280;line-height:1.8;">
+    包含 4 张核心流程图：用户入口主流程 / Learn 导航树 / Predict 按钮逻辑 / Token 详情页工具渲染条件
+  </div>
+</div>
+
+
+<!-- ===== CHART 1: 用户入口主流程 ===== -->
+<div class="chart-card">
+  <div><span class="tag tag-orange">流程图 ①</span><span class="tag tag-blue">用户旅程</span></div>
+  <div class="chart-title">用户入口主流程</div>
+  <div class="chart-desc">三类核心用户（预测研究者 / Meme 投机者 / 美股交易者）如何通过 SEO 进入 MoonX 各功能页面，以及页面间的跳转关系。新增 Meme 市场详情页节点。</div>
+  <div class="mermaid">
+flowchart TD
+    SEO["🌐 Google 搜索 / 外部流量"]
+
+    SEO -->|"搜索「Polymarket vs Kalshi」" | PA_LIST["📚 Prediction Academy 列表页\n/learn/prediction"]
+    SEO -->|"搜索「PEPE price prediction 2026」"| MEME["📖 Meme Academy 详情页\n/learn/meme/[token]"]
+    SEO -->|"搜索「crypto prediction markets 2026」"| TRENDING["📊 Trending 榜单页\n/markets/trending"]
+    SEO -->|"直接访问 Token 详情"| TD["🪙 Token 详情页\n/token/[symbol]"]
+
+    PA_LIST -->|"点击文章卡片"| PA_DETAIL["📄 Prediction Academy 详情页\n/learn/prediction/[slug]"]
+    PA_DETAIL -->|"文中 CTA 按钮"| TD
+    PA_DETAIL -->|"Related Articles"| PA_LIST
+
+    MEME -->|"侧边栏「See Odds on MoonX」"| MEME_MARKET["🎯 Meme 市场详情页\n/markets/meme/[slug]"]
+    MEME -->|"文中 CTA 按钮"| TD
+
+    TRENDING -->|"Prediction tab 市场卡片"| TD
+    TRENDING -->|"Meme tab 市场卡片"| MEME_MARKET
+    TRENDING -->|"Related Reading 内链"| PA_DETAIL
+
+    MEME_MARKET -->|"Bet on MoonX"| BET["💸 下注页面\n(交易入口)"]
+    MEME_MARKET -->|"查看 Token 详情"| TD
+
+    TD -->|"工具① Polymarket Odds\nBet on MoonX 按钮"| BET
+    TD -->|"工具⑨ DEX Best Quote\nSwap on Jupiter"| SWAP["🔄 DEX 交易"]
+
+    PUMP["⚡ Pump 页\n/pump"] -->|"Predict 按钮（有预测市场）"| TD
+
+    style SEO fill:#fff7ed,stroke:#fed7aa,color:#c2410c
+    style TD fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style MEME_MARKET fill:#fef9c3,stroke:#fde68a,color:#854d0e,stroke-width:2px
+    style BET fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+    style SWAP fill:#eff6ff,stroke:#bfdbfe,color:#1d4ed8
+    style PUMP fill:#f5f3ff,stroke:#ddd6fe,color:#6d28d9
+  </div>
+</div>
+
+
+<!-- ===== CHART 2: Learn 导航树 ===== -->
+<div class="chart-card">
+  <div><span class="tag tag-green">流程图 ②</span><span class="tag tag-orange">5.5.1 需求</span></div>
+  <div class="chart-title">Learn 导航树结构</div>
+  <div class="chart-desc">新增 Learn 导航下拉菜单的完整结构，包含四个内容频道（原型审查后补充 Platform Comparison 入口）、各自的 URL 路径与页面类型</div>
+  <div class="mermaid">
+flowchart LR
+    NAV["🔗 全局导航 Nav\nLearn ▾ 按钮 (NEW)"]
+
+    NAV --> CH1["📚 Prediction Academy\n预测市场学院"]
+    NAV --> CH2["🐸 Meme Academy\nMeme 币学院"]
+    NAV --> CH3["📊 Trending Markets\n热门市场榜单"]
+    NAV --> CH4["🔬 Platform Comparison\n平台对比"]
+
+    CH1 --> CH1_LIST["/learn/prediction\n列表页（分类 Tab）"]
+    CH1 --> CH1_ART["/learn/prediction/[slug]\n文章详情页（含 TOC + FAQ + CTA）"]
+    CH1_LIST -->|"点击文章卡片"| CH1_ART
+
+    CH2 --> CH2_LIST["/learn/meme\n列表页（按 Token 筛选）"]
+    CH2 --> CH2_ART["/learn/meme/[token]\n文章详情页（含 Token Price Snapshot 侧栏）"]
+    CH2_LIST -->|"点击文章卡片"| CH2_ART
+
+    CH3 --> CH3_PAGE["/markets/trending\n榜单页（分类 Tab + 市场卡片）"]
+
+    CH4 --> CH4_PAGE["/platforms\n平台对比页（Polymarket / Kalshi / Manifold）"]
+
+    CH1_ART -->|"内链 CTA"| TOKEN["🪙 Token 详情页"]
+    CH2_ART -->|"侧栏 CTA"| MEME_MKT["🎯 Meme 市场详情页"]
+    CH3_PAGE -->|"Prediction tab Bet on MoonX"| TOKEN
+    CH3_PAGE -->|"Meme tab 市场卡片"| MEME_MKT
+    MEME_MKT -->|"Bet / 查看 Token"| TOKEN
+
+    style NAV fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style CH1 fill:#eff6ff,stroke:#bfdbfe,color:#1d4ed8
+    style CH2 fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+    style CH3 fill:#fef9c3,stroke:#fde68a,color:#854d0e
+    style CH4 fill:#f5f3ff,stroke:#ddd6fe,color:#6d28d9
+    style TOKEN fill:#fff7ed,stroke:#ff6b00,color:#c2410c
+    style MEME_MKT fill:#fef9c3,stroke:#fde68a,color:#854d0e
+  </div>
+</div>
+
+
+<!-- ===== CHART 3: Predict 按钮逻辑 ===== -->
+<div class="chart-card">
+  <div><span class="tag tag-purple">流程图 ③</span><span class="tag tag-orange">5.5.2 需求</span></div>
+  <div class="chart-title">Pump 页 Predict 按钮判断逻辑</div>
+  <div class="chart-desc">针对 Pump 页每个 Token 行，根据「是否存在活跃预测市场」决定按钮样式与行为，共三种状态</div>
+  <div class="mermaid">
+flowchart TD
+    START["每个 Token 行渲染"]
+    CHECK{"是否存在\n活跃预测市场？\n（来源：Polymarket / Kalshi / Manifold）"}
+
+    START --> CHECK
+
+    CHECK -->|"是"| HAS_MARKET{"获取 YES 概率\n（≤2 位数%）"}
+    CHECK -->|"否"| NO_MARKET["渲染：灰色 Predict 按钮\n样式：border-gray-200\n行为：→ Token 详情页（无 odds badge）\n提示：No active prediction market"]
+
+    HAS_MARKET --> ODDS["渲染：橙色 Predict ▶ 按钮\n+ 橙色 Badge 显示 YES%\n样式：border-moonx + predict-pulse\n行为：→ Token 详情页（工具① 自动展开）"]
+
+    ODDS --> INLINE{"是否展示\nInline 预览条？"}
+    INLINE -->|"有活跃市场"| PREVIEW["渲染市场名 + 进度条 + YES%\n呈现在 Token 行底部"]
+    INLINE -->|"否"| SKIP["不渲染预览区域"]
+
+    style CHECK fill:#fff7ed,stroke:#fed7aa,color:#c2410c
+    style ODDS fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style NO_MARKET fill:#f9fafb,stroke:#e5e7eb,color:#6b7280
+    style PREVIEW fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+  </div>
+</div>
+
+
+<!-- ===== CHART 4: Token 详情页工具渲染条件 ===== -->
+<div class="chart-card">
+  <div><span class="tag tag-blue">流程图 ④</span><span class="tag tag-green">Token 详情页</span></div>
+  <div class="chart-title">Token 详情页 — 11 工具渲染条件</div>
+  <div class="chart-desc">Token 详情页各工具模块的数据来源与条件渲染规则，重点标注 ⑪ 社区模块的自动显示/隐藏逻辑</div>
+  <div class="mermaid">
+flowchart TD
+    TOKEN_PAGE["🪙 Token 详情页 进入"]
+
+    TOKEN_PAGE --> T1["① Polymarket Odds\n数据源：Polymarket API\n条件：有活跃市场 → 显示；否则 → 隐藏"]
+    TOKEN_PAGE --> T2["② Safety Score\n数据源：RugCheck\n条件：始终渲染"]
+    TOKEN_PAGE --> T3["③ Token Lifecycle\n数据源：链上数据\n条件：始终渲染"]
+    TOKEN_PAGE --> T4["④ Holder Distribution\n数据源：链上持仓\n条件：始终渲染"]
+    TOKEN_PAGE --> T5["⑤ P&L Calculator\n数据源：当前价格\n条件：始终渲染（纯前端计算）"]
+    TOKEN_PAGE --> T6["⑥ Community Sentiment\n数据源：Twitter / TG 情绪分析\n条件：始终渲染"]
+    TOKEN_PAGE --> T7["⑦ Smart Money Tracker\n数据源：链上大额交易\n条件：始终渲染 LIVE 数据"]
+    TOKEN_PAGE --> T8["⑧ Price Trend\n数据源：行情 API\n条件：始终渲染（24h / 7d 切换）"]
+    TOKEN_PAGE --> T9["⑨ DEX Best Quote\n数据源：Jupiter / Raydium / Orca\n条件：始终渲染（最优价高亮）"]
+    TOKEN_PAGE --> T10["⑩ Similar Meme Comparison\n数据源：同类 Token 排行\n条件：始终渲染（横向对比）"]
+    TOKEN_PAGE --> T11_CHECK{"⑪ Community Scale Tracker\n是否存在官方 Twitter / Telegram 账号？"}
+
+    T11_CHECK -->|"是"| T11_SHOW["✅ 渲染 Community Scale 模块\n显示：粉丝数 / 成员数 / 7d 帖子数 + 增长率"]
+    T11_CHECK -->|"否"| T11_HIDE["🔇 模块自动隐藏\n不渲染空占位\n（避免展示无意义的 0 数据）"]
+
+    style TOKEN_PAGE fill:#fff7ed,stroke:#ff6b00,color:#c2410c,stroke-width:2px
+    style T1 fill:#eff6ff,stroke:#bfdbfe,color:#1d4ed8
+    style T11_CHECK fill:#fff7ed,stroke:#fed7aa,color:#c2410c
+    style T11_SHOW fill:#dcfce7,stroke:#bbf7d0,color:#15803d
+    style T11_HIDE fill:#f9fafb,stroke:#e5e7eb,color:#9ca3af
+  </div>
+</div>
+
+
+<!-- Footer -->
+<div style="font-size:12px;color:#d1d5db;text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid #f3f4f6;">
+  MoonX SEO 产品需求工作流 · Step 5 流程图 v1.1 · 更新于 2026-03-25（① 新增 Meme 市场详情页节点；② 新增 Platform Comparison 入口）
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#fff7ed',
+      primaryBorderColor: '#FF6B00',
+      primaryTextColor: '#111827',
+      lineColor: '#9ca3af',
+      secondaryColor: '#f9fafb',
+      tertiaryColor: '#f5f3ff',
+      fontFamily: '-apple-system, PingFang SC, sans-serif',
+      fontSize: '13px'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 20,
+      nodeSpacing: 40,
+      rankSpacing: 50
+    }
+  });
+</script>
+
+</body>
+</html>

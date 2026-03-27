@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonX SEO 接口需求文档 — getZoneTokens V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; line-height: 1.75; }
+.page { max-width: 1050px; margin: 0 auto; padding: 56px 64px; }
+
+/* Cover */
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 2px solid #FF6B00; margin-bottom: 48px; }
+.cover h1 { font-size: 32px; font-weight: 700; color: #111; margin-bottom: 16px; }
+.cover .subtitle { font-size: 15px; color: #888; }
+.cover .meta { margin-top: 32px; display: inline-flex; gap: 40px; background: #FFF8F0; padding: 16px 32px; border-radius: 8px; border: 1px solid #FFD9B3; }
+.cover .meta-item { text-align: left; }
+.cover .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cover .meta-item .value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+
+/* Section headers */
+h2.sec { font-size: 20px; font-weight: 700; margin: 48px 0 16px; padding: 10px 18px; background: #FFF3E0; border-left: 5px solid #FF6B00; border-radius: 4px; color: #111; }
+h3.sub { font-size: 16px; font-weight: 600; margin: 32px 0 12px; padding: 7px 14px; background: #FAFAFA; border-left: 3px solid #FF9800; border-radius: 3px; color: #222; }
+h4.sub2 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: #333; padding-left: 12px; border-left: 2px solid #FFB74D; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+table th { background: #F5F5F5; border: 1px solid #DDD; padding: 9px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+table td { border: 1px solid #E8E8E8; padding: 9px 12px; vertical-align: top; color: #333; }
+table tr:nth-child(even) td { background: #FAFAFA; }
+table td:first-child { font-weight: 500; white-space: nowrap; color: #555; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag-ssr { background: #E8F5E9; color: #2E7D32; }
+.tag-csr { background: #E3F2FD; color: #1565C0; }
+.tag-both { background: #FFF3E0; color: #E65100; }
+.tag-p0 { background: #FFEBEE; color: #C62828; }
+.tag-p1 { background: #FFF3E0; color: #E65100; }
+.tag-p2 { background: #F3E5F5; color: #6A1B9A; }
+.tag-new { background: #E3F2FD; color: #1565C0; }
+.tag-mod { background: #E8F5E9; color: #2E7D32; }
+
+/* Notes */
+.note { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #5D4037; }
+.note strong { color: #E65100; }
+.warn { background: #FFEBEE; border-left: 4px solid #F44336; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #B71C1C; }
+.info { background: #E3F2FD; border-left: 4px solid #1976D2; padding: 11px 16px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #0D47A1; }
+
+/* Code */
+code { background: #F3F3F3; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", monospace; font-size: 12px; color: #C41A16; }
+pre { background: #1E1E1E; color: #D4D4D4; padding: 16px 20px; border-radius: 6px; font-size: 12px; overflow-x: auto; margin: 12px 0; line-height: 1.6; font-family: "SF Mono", monospace; }
+pre .key { color: #9CDCFE; }
+pre .val { color: #CE9178; }
+pre .num { color: #B5CEA8; }
+pre .bool { color: #569CD6; }
+pre .cmt { color: #6A9955; }
+
+/* URL / keyword */
+.url { background: #E3F2FD; color: #1565C0; padding: 2px 8px; border-radius: 3px; font-family: monospace; font-size: 12px; }
+.kw { background: #E8F5E9; color: #2E7D32; padding: 2px 8px; border-radius: 3px; font-size: 12px; font-weight: 500; }
+
+/* Page header */
+.page-header { display: flex; align-items: center; gap: 12px; margin: 36px 0 8px; padding-bottom: 8px; border-bottom: 1px solid #EEE; }
+.badge { color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+.badge-token { background: #FF6B00; }
+.badge-meme { background: #9C27B0; }
+.badge-sitemap { background: #2196F3; }
+.badge-trending { background: #4CAF50; }
+
+p { margin: 6px 0; }
+ol, ul { margin: 6px 0 6px 20px; }
+ol li, ul li { margin: 3px 0; }
+hr { border: none; border-top: 1px solid #EEE; margin: 32px 0; }
+
+/* Call spec box */
+.call-spec { background: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 6px; padding: 14px 18px; margin: 12px 0; }
+.call-spec .call-title { font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.call-spec .call-line { font-family: monospace; font-size: 13px; color: #333; margin: 4px 0; }
+.call-spec .call-line span { color: #FF6B00; font-weight: 600; }
+
+/* Field table highlight */
+.field-used { background: #FFF8F0 !important; }
+.field-unused { color: #AAA !important; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Cover -->
+<div class="cover">
+  <div class="subtitle">前端接口需求文档</div>
+  <h1>MoonX SEO — getZoneTokens 接口调用规格</h1>
+  <div class="subtitle">说明各 SEO 页面如何调用代币分区接口，覆盖参数、字段、渲染策略与缓存要求</div>
+  <div class="meta">
+    <div class="meta-item"><div class="label">关联 PRD</div><div class="value">MoonX_SEO_PRD_v5</div></div>
+    <div class="meta-item"><div class="label">接口文档</div><div class="value">getZoneTokens 查询规则 v2026-03-19</div></div>
+    <div class="meta-item"><div class="label">文档版本</div><div class="value">V1.0</div></div>
+    <div class="meta-item"><div class="label">日期</div><div class="value">2026-03-19</div></div>
+  </div>
+</div>
+
+<!-- 一、接口概述 -->
+<h2 class="sec">一、接口概述</h2>
+
+<h3 class="sub">1.1 接口功能</h3>
+<p><code>getZoneTokens</code> 返回代币分区榜单数据，支持按分区类型、时间范围、区块链网络筛选，最多返回 500 条。SEO 页面在以下场景需调用此接口：</p>
+<ul>
+  <li>Token 详情页 — 工具⑩「同类 Meme 对比」：获取同类代币做横向对比</li>
+  <li>Meme 购买指南页 — 相关代币推荐</li>
+  <li>Solana 热门代币榜单页 — 展示分区榜单（Trending / New / Up / Down 等）</li>
+  <li>Sitemap 生成器 — 枚举满足准入条件的代币，写入 <code>sitemap_moonx_tokens.xml</code></li>
+</ul>
+
+<h3 class="sub">1.2 接口参数速查</h3>
+<table>
+  <tr><th width="120">参数名</th><th width="100">类型</th><th width="120">是否必填</th><th>说明</th></tr>
+  <tr><td><code>zone</code></td><td>string</td><td>必填</td><td>分区名称，见下表。固定值：<code>trending</code> / <code>new</code> / <code>transaction</code> / <code>up</code> / <code>down</code> / <code>dexscreener</code> / <code>xstocks</code>；或自定义分区名（如 <code>dog</code>、<code>frog</code>）</td></tr>
+  <tr><td><code>time</code></td><td>string</td><td>必填</td><td>统计时间范围：<code>5m</code> / <code>1h</code> / <code>6h</code> / <code>24h</code></td></tr>
+  <tr><td><code>network</code></td><td>string</td><td>可选</td><td>区块链网络：<code>eth</code> / <code>bsc</code> / <code>sol</code>；不传则返回所有网络</td></tr>
+</table>
+
+<h3 class="sub">1.3 分区类型与 SEO 页面对照</h3>
+<table>
+  <tr><th width="160">分区</th><th width="120">zone 参数值</th><th>SEO 页面中的用途</th><th>优先级</th></tr>
+  <tr><td>热门</td><td><code>trending</code></td><td>Sitemap 准入枚举；热门榜单页默认 Tab；同类对比兜底</td><td><span class="tag tag-p0">P0</span></td></tr>
+  <tr><td>新币</td><td><code>new</code></td><td>热门榜单页「New」Tab</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>涨幅</td><td><code>up</code></td><td>热门榜单页「Gainers」Tab</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>跌幅</td><td><code>down</code></td><td>热门榜单页「Losers」Tab</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>交易量</td><td><code>transaction</code></td><td>热门榜单页「Volume」Tab</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>自定义（如 <code>dog</code>）</td><td>Token 的 zone 标签</td><td>工具⑩同类Meme对比；Meme购买指南页相关代币</td><td><span class="tag tag-p1">P1</span></td></tr>
+  <tr><td>DexScreener</td><td><code>dexscreener</code></td><td>热门榜单页推广 Tab（可选）</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+<h3 class="sub">1.4 响应字段全量说明</h3>
+<p>下表列出接口返回的完整字段。各页面使用情况在后续章节标注，<strong style="color:#FF6B00">橙色行</strong>为 SEO 页面强依赖字段。</p>
+<table>
+  <tr><th width="180">字段名</th><th width="100">类型</th><th>含义</th><th width="120">SEO 页面使用情况</th></tr>
+  <tr class="field-used"><td><code>contract</code></td><td>string</td><td>合约地址，用于拼接 Token 详情页 URL：<code>/en/moonx/solana/token/{contract}</code></td><td>全部页面</td></tr>
+  <tr class="field-used"><td><code>name</code></td><td>string</td><td>代币名称，用于 H1 / Meta 生成</td><td>全部页面</td></tr>
+  <tr class="field-used"><td><code>symbol</code></td><td>string</td><td>代币符号（TICKER），用于页面标题</td><td>全部页面</td></tr>
+  <tr class="field-used"><td><code>price</code></td><td>number</td><td>当前价格（USD）</td><td>详情页、Meme购买页、榜单页</td></tr>
+  <tr class="field-used"><td><code>priceChange24h</code></td><td>number</td><td>24h 价格涨跌幅（百分比，如 +12.3 / -5.6）</td><td>同类对比工具；榜单页</td></tr>
+  <tr class="field-used"><td><code>marketCap</code></td><td>number</td><td>市值（USD）</td><td>同类对比工具；Meme购买页</td></tr>
+  <tr class="field-used"><td><code>liquidity</code></td><td>number</td><td>LP 流动性（USD），用于 Sitemap 准入过滤（≥ $5,000）</td><td>Sitemap 生成</td></tr>
+  <tr class="field-used"><td><code>volume24h</code></td><td>number</td><td>24h 交易量（USD），用于 Sitemap 准入过滤（≥ $1,000）</td><td>Sitemap 生成；榜单页</td></tr>
+  <tr class="field-used"><td><code>holders</code></td><td>number</td><td>持有地址数，用于 Sitemap 准入过滤（≥ 100）</td><td>Sitemap 生成</td></tr>
+  <tr class="field-used"><td><code>launchedAt</code></td><td>timestamp</td><td>上市时间，用于 Sitemap 准入过滤（≥ 48h）</td><td>Sitemap 生成</td></tr>
+  <tr class="field-used"><td><code>securityScore</code></td><td>number</td><td>安全评分 0-100，工具⑩同类对比展示</td><td>同类对比工具</td></tr>
+  <tr class="field-used"><td><code>zone</code> / <code>tags</code></td><td>string[]</td><td>代币所属分区标签（如 <code>["dog","meme"]</code>），用于同类代币匹配</td><td>同类对比工具</td></tr>
+  <tr><td><code>hotScore</code></td><td>number</td><td>热度分数，trending 分区排序依据</td><td>榜单页（可选展示）</td></tr>
+  <tr><td><code>logoUrl</code></td><td>string</td><td>代币 Logo 图片 URL</td><td>榜单页、同类对比</td></tr>
+  <tr><td><code>network</code></td><td>string</td><td>所在网络（sol / eth / bsc）</td><td>榜单页（多链展示时使用）</td></tr>
+  <tr><td><code>isRug</code></td><td>boolean</td><td>是否为貔貅币（接口已过滤，前端无需再过滤）</td><td>不需要处理</td></tr>
+</table>
+
+<hr>
+
+<!-- 二、Token 详情页 — 工具⑩ -->
+<h2 class="sec">二、Token 详情页 — 工具⑩「同类 Meme 对比」</h2>
+
+<div class="page-header">
+  <span class="badge badge-token">程序化·改造</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">页面路径：/en/moonx/solana/token/{contract}</h4>
+</div>
+
+<h3 class="sub">2.1 功能说明</h3>
+<p>在 Token 详情页右侧工具区第四排，展示与当前代币<strong>同类</strong>的 3 个代币，做横向对比。对比维度：24h 涨幅 / 市值 / 安全评分 / 当前价格。帮助用户判断当前代币在同类中的相对强弱。</p>
+
+<div class="note">
+  <strong>PRD 原文（5.2.4b 工具⑩）：</strong>根据 Token 标签（dog/frog/cat/ai 等主题）自动匹配同类3个代币，横向对比：价格涨幅 / 市值 / 安全评分 / Smart Money 热度。数据来源：MoonX 内部 TokenSnapshot 表按 tag 相似度匹配。
+</div>
+
+<h3 class="sub">2.2 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用方式</div>
+  <div class="call-line"><span>zone</span> = 当前代币的第一个 zone 标签（如 <span>dog</span> / <span>frog</span> / <span>cat</span> / <span>ai</span>）；若无标签则降级为 <span>trending</span></div>
+  <div class="call-line"><span>time</span> = <span>24h</span>（固定，对比维度需一致）</div>
+  <div class="call-line"><span>network</span> = <span>sol</span>（仅 Solana；当前 Token 详情页只处理 Solana 代币）</div>
+</div>
+
+<table>
+  <tr><th width="140">调用时机</th><th width="120">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr>
+    <td>页面初始加载</td>
+    <td><span class="tag tag-ssr">SSR 快照</span></td>
+    <td>构建时生成</td>
+    <td>Google 爬虫可读取初始同类代币数据，提升页面内容丰富度</td>
+  </tr>
+  <tr>
+    <td>用户浏览时</td>
+    <td><span class="tag tag-csr">CSR 更新</span></td>
+    <td>每 5 分钟</td>
+    <td>实时更新涨跌幅和价格，避免数据过时</td>
+  </tr>
+</table>
+
+<h3 class="sub">2.3 前端处理逻辑</h3>
+
+<h4 class="sub2">同类代币匹配策略（按优先级降级）</h4>
+<table>
+  <tr><th width="60">优先级</th><th width="200">条件</th><th>操作</th></tr>
+  <tr>
+    <td>1</td>
+    <td>当前代币有 zone 标签（如 <code>dog</code>）</td>
+    <td>调用 <code>getZoneTokens(zone="dog", time="24h", network="sol")</code>，从结果中排除当前代币合约，取前 3 条</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>当前代币无 zone 标签，或标签返回结果 &lt; 3 条</td>
+    <td>降级调用 <code>getZoneTokens(zone="trending", time="24h", network="sol")</code>，排除当前代币，取前 3 条</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>trending 结果也不足 3 条</td>
+    <td>隐藏工具⑩整个模块，不展示空状态</td>
+  </tr>
+</table>
+
+<h4 class="sub2">展示字段映射</h4>
+<table>
+  <tr><th width="200">UI 展示项</th><th width="180">接口字段</th><th>格式要求</th></tr>
+  <tr><td>代币 Logo</td><td><code>logoUrl</code></td><td>圆形裁剪，24×24px；加载失败显示 symbol 首字母占位</td></tr>
+  <tr><td>代币名称 + 符号</td><td><code>name</code> + <code>symbol</code></td><td>如「BONK (BONK)」</td></tr>
+  <tr><td>24h 涨跌幅</td><td><code>priceChange24h</code></td><td>正数绿色 ▲，负数红色 ▼，保留1位小数，如 <code>▲ +12.3%</code></td></tr>
+  <tr><td>市值</td><td><code>marketCap</code></td><td>格式化：&lt;1M 显示 $XXXk；&gt;1M 显示 $X.XM；如 <code>$1.2M</code></td></tr>
+  <tr><td>安全评分</td><td><code>securityScore</code></td><td>0-100 数字 + 颜色：≥70 绿色 / 40-69 橙色 / &lt;40 红色</td></tr>
+  <tr><td>跳转链接</td><td><code>contract</code></td><td>点击整行跳转 <code>/en/moonx/solana/token/{contract}</code>，<code>&lt;a href&gt;</code> 内链</td></tr>
+</table>
+
+<div class="warn">
+  <strong>SEO 要求：</strong>同类代币的跳转链接必须使用 <code>&lt;a href="/en/moonx/solana/token/{contract}"&gt;</code> 标签，禁止使用 JS router.push。这样 Google 爬虫可以发现并抓取更多 Token 详情页。
+</div>
+
+<hr>
+
+<!-- 三、Meme 购买指南页 -->
+<h2 class="sec">三、Meme 购买指南页 — 相关代币推荐</h2>
+
+<div class="page-header">
+  <span class="badge badge-meme">程序化</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">页面路径：/en/moonx/guide/buy/{token-slug}</h4>
+</div>
+
+<h3 class="sub">3.1 功能说明</h3>
+<p>在 Meme 购买指南页底部，展示「同类热门代币」推荐，引导用户探索同主题代币，并通过内链传递 PageRank 至更多 Token 详情页。</p>
+
+<h3 class="sub">3.2 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用方式</div>
+  <div class="call-line"><span>zone</span> = 当前代币 zone 标签；无标签则用 <span>trending</span></div>
+  <div class="call-line"><span>time</span> = <span>24h</span></div>
+  <div class="call-line"><span>network</span> = 不传（允许多链，扩大相关代币范围）</div>
+</div>
+
+<table>
+  <tr><th width="140">调用时机</th><th width="120">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr>
+    <td>页面初始加载</td>
+    <td><span class="tag tag-ssr">SSR</span></td>
+    <td>每日重新生成</td>
+    <td>推荐内容随当日热度变化，Google 每次抓取拿到新鲜数据</td>
+  </tr>
+  <tr>
+    <td>用户浏览时</td>
+    <td>无 CSR 更新</td>
+    <td>—</td>
+    <td>此模块为参考性内容，不需实时刷新</td>
+  </tr>
+</table>
+
+<h4 class="sub2">展示规格</h4>
+<table>
+  <tr><th width="200">UI 展示项</th><th width="180">接口字段</th><th>格式要求</th></tr>
+  <tr><td>代币 Logo</td><td><code>logoUrl</code></td><td>32×32px，圆形</td></tr>
+  <tr><td>代币名称</td><td><code>name</code> + <code>symbol</code></td><td>两行展示：name 加粗，symbol 灰色小字</td></tr>
+  <tr><td>当前价格</td><td><code>price</code></td><td>格式：<code>$0.0000123</code>（自动适配小数位数，最多展示6位有效数字）</td></tr>
+  <tr><td>24h 涨跌幅</td><td><code>priceChange24h</code></td><td>同工具⑩规格</td></tr>
+  <tr><td>跳转</td><td><code>contract</code></td><td>卡片点击跳转 <code>/en/moonx/solana/token/{contract}</code>，<code>&lt;a href&gt;</code> 标签</td></tr>
+</table>
+
+<p>展示数量：固定 <strong>4 张卡片</strong>（排除当前页代币），结果不足 4 条时有几张展几张，不显示占位卡。</p>
+
+<hr>
+
+<!-- 四、Solana 热门代币榜单页 -->
+<h2 class="sec">四、Solana 热门代币榜单页</h2>
+
+<div class="page-header">
+  <span class="badge badge-trending">程序化</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">页面路径：/en/moonx/solana/trending（及各分区子页面）</h4>
+</div>
+
+<div class="info">
+  <strong>说明：</strong>PRD 5.2.5「热门榜单页」定位为预测市场聚合（Polymarket/Kalshi 数据），与本接口不直接相关。本章描述的是 <strong>Solana Meme 代币分区榜单</strong>，即 MoonX 平台现有的代币发现功能在 SEO 侧的落地页。此页面将 MoonX App 内的分区榜单数据通过 SSR 对外暴露，形成可被 Google 索引的独立页面。
+</div>
+
+<h3 class="sub">4.1 页面 Tab 与接口映射</h3>
+<table>
+  <tr><th width="120">Tab 名称</th><th width="150">zone 参数</th><th width="100">time 参数</th><th width="100">network</th><th>SEO 目标关键词</th></tr>
+  <tr><td>🔥 Trending</td><td><code>trending</code></td><td><code>24h</code></td><td><code>sol</code></td><td><span class="kw">trending solana tokens</span> / <span class="kw">hot solana meme coins today</span></td></tr>
+  <tr><td>🆕 New</td><td><code>new</code></td><td><code>24h</code></td><td><code>sol</code></td><td><span class="kw">new solana tokens 2026</span> / <span class="kw">new meme coins solana</span></td></tr>
+  <tr><td>⬆ Gainers</td><td><code>up</code></td><td><code>24h</code></td><td><code>sol</code></td><td><span class="kw">solana tokens biggest gainers</span></td></tr>
+  <tr><td>⬇ Losers</td><td><code>down</code></td><td><code>24h</code></td><td><code>sol</code></td><td><span class="kw">solana tokens biggest losers</span></td></tr>
+  <tr><td>💰 Volume</td><td><code>transaction</code></td><td><code>24h</code></td><td><code>sol</code></td><td><span class="kw">most traded solana tokens</span></td></tr>
+</table>
+
+<div class="note">
+  <strong>URL 设计：</strong>每个 Tab 对应独立 URL，作为独立 SEO 页面。默认 Tab（Trending）路径为 <code>/en/moonx/solana/trending</code>；其余分区路径为 <code>/en/moonx/solana/trending/new</code>、<code>/en/moonx/solana/trending/gainers</code> 等。每个 URL 有独立的 Title / H1 / Meta Description。
+</div>
+
+<h3 class="sub">4.2 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用参数（以 Trending Tab 为例，其余 Tab 只改 zone 值）</div>
+  <div class="call-line"><span>zone</span> = <span>trending</span> / <span>new</span> / <span>up</span> / <span>down</span> / <span>transaction</span>（按当前 Tab 传值）</div>
+  <div class="call-line"><span>time</span> = <span>24h</span>（固定，榜单页统一使用24h维度）</div>
+  <div class="call-line"><span>network</span> = <span>sol</span>（Solana 榜单页固定）</div>
+  <div class="call-line">返回条数：接口不传 limit，取全量（最多 500 条）；<strong>SSR 取前 100 条渲染</strong>；CSR 加载更多时每次追加 50 条，最多展示至 200 条</div>
+</div>
+
+<table>
+  <tr><th width="140">调用时机</th><th width="120">渲染方式</th><th width="120">刷新频率</th><th>说明</th></tr>
+  <tr>
+    <td>页面初始加载（首屏）</td>
+    <td><span class="tag tag-ssr">SSR</span></td>
+    <td>每30分钟重新构建</td>
+    <td>取接口返回前 100 条做 SSR 渲染，保证 Google 爬取到足够数量的代币内链</td>
+  </tr>
+  <tr>
+    <td>Tab 切换</td>
+    <td><span class="tag tag-csr">CSR</span></td>
+    <td>切换时实时拉取</td>
+    <td>仅影响客户端交互，不影响 SEO</td>
+  </tr>
+  <tr>
+    <td>价格/涨跌幅更新</td>
+    <td><span class="tag tag-csr">CSR 更新</span></td>
+    <td>每5分钟</td>
+    <td>保持价格数据新鲜，无需重新拉取全量，只更新已渲染条目的价格字段</td>
+  </tr>
+</table>
+
+<h3 class="sub">4.3 展示规格</h3>
+
+<h4 class="sub2">榜单卡片字段映射（每行一个代币）</h4>
+<table>
+  <tr><th width="60">#</th><th width="200">UI 展示项</th><th width="180">接口字段</th><th>格式要求</th></tr>
+  <tr><td>1</td><td>排名</td><td>列表序号（前端自动编号）</td><td>1~N，粗体，灰色</td></tr>
+  <tr><td>2</td><td>Logo + 名称 + 符号</td><td><code>logoUrl</code> + <code>name</code> + <code>symbol</code></td><td>Logo 32px 圆形；name 加粗；symbol 灰色小字</td></tr>
+  <tr><td>3</td><td>价格</td><td><code>price</code></td><td>自动适配精度；&lt;$0.001 时显示科学计数或小数点后6位</td></tr>
+  <tr><td>4</td><td>24h 涨跌幅</td><td><code>priceChange24h</code></td><td>绿色 ▲ / 红色 ▼，保留1位小数</td></tr>
+  <tr><td>5</td><td>市值</td><td><code>marketCap</code></td><td>格式化为 $XM / $Xk</td></tr>
+  <tr><td>6</td><td>24h 交易量</td><td><code>volume24h</code></td><td>格式化为 $XM / $Xk</td></tr>
+  <tr><td>7</td><td>流动性</td><td><code>liquidity</code></td><td>格式化为 $XM / $Xk</td></tr>
+  <tr><td>8</td><td>跳转</td><td><code>contract</code></td><td>整行 <code>&lt;a href="/en/moonx/solana/token/{contract}"&gt;</code> 包裹</td></tr>
+</table>
+
+<h4 class="sub2">展示数量限制</h4>
+<table>
+  <tr><th width="160">场景</th><th width="120">API 请求条数</th><th width="120">前端展示条数</th><th>说明</th></tr>
+  <tr><td>SSR 初始渲染</td><td>全量（≤500条）</td><td>前 100 条</td><td>接口全量返回，服务端取前 100 条注入 HTML；平衡页面体积与 SEO 内链密度</td></tr>
+  <tr><td>CSR 加载更多</td><td>不再重新请求</td><td>每次追加 50 条</td><td>从 SSR 已返回的全量数据中按需切片，无需重复调接口</td></tr>
+  <tr><td>最大展示上限</td><td>—</td><td>200 条</td><td>超过后不再显示「加载更多」，引导用户使用筛选器缩小范围</td></tr>
+</table>
+
+<h3 class="sub">4.4 SEO Meta 生成规格</h3>
+<table>
+  <tr><th width="100">Tab</th><th width="300">Title（≤60字符）</th><th>Meta Description（≤155字符）</th></tr>
+  <tr><td>Trending</td><td><code>Trending Solana Tokens Today | MoonX</code></td><td><code>Discover the hottest Solana meme coins right now. Real-time price, market cap and smart money data, aggregated by MoonX.</code></td></tr>
+  <tr><td>New</td><td><code>New Solana Tokens — Latest Launches | MoonX</code></td><td><code>Explore the newest Solana tokens just launched. Filter by liquidity, holders and security score on MoonX.</code></td></tr>
+  <tr><td>Gainers</td><td><code>Top Solana Gainers Today | MoonX</code></td><td><code>See which Solana meme coins are up the most in the last 24 hours. Updated every 30 minutes on MoonX.</code></td></tr>
+  <tr><td>Losers</td><td><code>Biggest Solana Losers Today | MoonX</code></td><td><code>Track the biggest Solana token drops in 24 hours. Price, volume and security data powered by MoonX.</code></td></tr>
+  <tr><td>Volume</td><td><code>Most Traded Solana Tokens Today | MoonX</code></td><td><code>Find the highest volume Solana tokens in the last 24 hours. Live trading data aggregated by MoonX.</code></td></tr>
+</table>
+
+<div class="note">
+  <strong>新鲜度信号：</strong>H1 下方展示「Updated {时间戳} UTC · refreshes every 30 minutes」，格式如 <code>Updated Mar 19, 2026, 14:30 UTC</code>。此文字作为正文内容 SSR 渲染，提升 Google 对页面时效性的判断。
+</div>
+
+<hr>
+
+<!-- 五、Sitemap 生成 -->
+<h2 class="sec">五、Sitemap 生成 — Token 准入筛选</h2>
+
+<div class="page-header">
+  <span class="badge badge-sitemap">服务端定时任务</span>
+  <h4 class="sub2" style="margin:0;border:none;padding:0">输出文件：sitemap_moonx_tokens.xml</h4>
+</div>
+
+<h3 class="sub">5.1 功能说明</h3>
+<p>每日凌晨 00:00 UTC 运行一次，调用接口枚举全量代币，筛选出满足 SEO 准入条件的代币，写入 Sitemap，使 Google 发现并抓取对应的 Token 详情页。</p>
+
+<h3 class="sub">5.2 接口调用规格</h3>
+
+<div class="call-spec">
+  <div class="call-title">调用参数</div>
+  <div class="call-line"><span>zone</span> = <span>trending</span>（覆盖最广的热门分区）</div>
+  <div class="call-line"><span>time</span> = <span>24h</span></div>
+  <div class="call-line"><span>network</span> = <span>sol</span>（仅处理 Solana，与现有 Token 详情页路径一致）</div>
+  <div class="call-line" style="background:#FFF3E0;padding:4px 8px;border-radius:4px;margin-top:6px"><strong>返回条数：需要 ≥ 2,000 条</strong>。Sitemap 目标 M3: 500+ URL / M6: 5,000+ URL，准入过滤后有效 Token 约为全量的 30~40%，因此原始数据需 ≥ 2,000 条才能支撑目标规模。后端需扩展接口上限（当前 100 条不够用）。</div>
+</div>
+
+<div class="warn">
+  <strong>后端接口扩容需求：</strong>当前 <code>api/web3/public/zone_tokens</code> 返回上限为 100 条，无法满足 Sitemap 生成需求。需要后端将接口上限扩展至 <strong>≥ 2,000 条</strong>（建议支持 limit 参数，Sitemap 任务传 <code>limit=5000</code>，榜单页传 <code>limit=200</code>，避免无谓的大数据量传输）。
+</div>
+
+<h3 class="sub">5.3 准入过滤规则（PRD 5.2.4 定义）</h3>
+<p>接口返回最多 500 条，前端（服务端任务）需对结果做以下过滤，只有<strong>全部通过</strong>的代币才写入 Sitemap：</p>
+
+<table>
+  <tr><th width="160">筛选条件</th><th width="180">接口字段</th><th>阈值</th><th>说明</th></tr>
+  <tr><td>LP 流动性</td><td><code>liquidity</code></td><td>≥ $5,000</td><td>流动性过低的代币页面价值不高</td></tr>
+  <tr><td>持有地址数</td><td><code>holders</code></td><td>≥ 100</td><td>持有人太少说明社区未形成</td></tr>
+  <tr><td>上线时间</td><td><code>launchedAt</code></td><td>≥ 48小时前</td><td>过新的代币数据不稳定，rug 风险高</td></tr>
+  <tr><td>24h 交易量</td><td><code>volume24h</code></td><td>≥ $1,000</td><td>无交易活动的代币无 SEO 价值</td></tr>
+</table>
+
+<h3 class="sub">5.4 Sitemap 条目生成规格</h3>
+<p>每个通过准入的代币生成一条 Sitemap 记录：</p>
+
+<pre>
+&lt;url&gt;
+  &lt;loc&gt;https://www.bydfi.com/en/moonx/solana/token/{<span class="key">contract</span>}&lt;/loc&gt;
+  &lt;lastmod&gt;<span class="val">2026-03-19</span>&lt;/lastmod&gt;  <span class="cmt">&lt;!-- 每日更新日期 --&gt;</span>
+  &lt;changefreq&gt;<span class="val">daily</span>&lt;/changefreq&gt;
+  &lt;priority&gt;<span class="num">0.7</span>&lt;/priority&gt;   <span class="cmt">&lt;!-- 低于首页(1.0)和学院文章(0.8) --&gt;</span>
+&lt;/url&gt;
+</pre>
+
+<h3 class="sub">5.5 缓存与增量更新策略</h3>
+<table>
+  <tr><th width="160">场景</th><th>处理方式</th></tr>
+  <tr><td>代币首次满足准入条件</td><td>加入 Sitemap，同时触发 IndexNow API 推送给 Google/Bing，加速收录</td></tr>
+  <tr><td>代币跌出准入条件（如流动性降至 &lt;$5K）</td><td>从 Sitemap 移除；对应 Token 详情页加 <code>noindex</code>，但 URL 保留（不删除）</td></tr>
+  <tr><td>代币已 rug 或停止交易 &gt;30天</td><td>强制加 <code>noindex</code>，从 Sitemap 移除</td></tr>
+  <tr><td>Sitemap 最大 URL 数限制</td><td>单个 Sitemap 文件最多 50,000 条；超过则分片为 <code>sitemap_moonx_tokens_1.xml</code>、<code>sitemap_moonx_tokens_2.xml</code></td></tr>
+</table>
+
+<hr>
+
+<!-- 六、通用规范 -->
+<h2 class="sec">六、通用规范</h2>
+
+<h3 class="sub">6.1 缓存策略汇总</h3>
+<table>
+  <tr><th width="220">页面 / 场景</th><th width="120">渲染方式</th><th width="120">推荐缓存</th><th>说明</th></tr>
+  <tr><td>Token 详情页 — 工具⑩ SSR 快照</td><td><span class="tag tag-ssr">SSR</span></td><td>5 分钟</td><td>同类代币排名变化较快，缓存不宜过长</td></tr>
+  <tr><td>Token 详情页 — 工具⑩ CSR 更新</td><td><span class="tag tag-csr">CSR</span></td><td>5 分钟</td><td>客户端轮询间隔</td></tr>
+  <tr><td>Meme 购买指南页 — SSR</td><td><span class="tag tag-ssr">SSR</span></td><td>24 小时</td><td>推荐代币每日更新一次即可</td></tr>
+  <tr><td>榜单页 — SSR 快照</td><td><span class="tag tag-ssr">SSR</span></td><td>30 分钟</td><td>PRD 要求 30 分钟更新频率，与 SSR 重建周期一致</td></tr>
+  <tr><td>榜单页 — CSR 价格更新</td><td><span class="tag tag-csr">CSR</span></td><td>5 分钟</td><td>价格数据需保持新鲜</td></tr>
+  <tr><td>Sitemap 生成</td><td>服务端任务</td><td>24 小时</td><td>每日凌晨 00:00 UTC 全量重跑</td></tr>
+</table>
+
+<h3 class="sub">6.2 错误处理规范</h3>
+<table>
+  <tr><th width="200">错误情况</th><th>处理方式</th></tr>
+  <tr><td>接口返回空数组（结果为0）</td><td>工具⑩/推荐模块：隐藏整个模块，不展示空状态；榜单页：显示「暂无数据，请稍后刷新」</td></tr>
+  <tr><td>接口超时（&gt;3s）</td><td>SSR：返回空数组，页面正常渲染，相关模块降级隐藏；CSR：保留上次数据，toast 提示「数据更新中」</td></tr>
+  <tr><td>接口返回 5xx 错误</td><td>使用上次成功的缓存数据；同时上报错误监控，不影响页面整体加载</td></tr>
+  <tr><td>字段缺失（如 securityScore 为 null）</td><td>安全评分展示「—」占位，不影响其他字段展示</td></tr>
+</table>
+
+<h3 class="sub">6.3 SEO 强制要求</h3>
+<div class="warn">
+  以下为 SEO 强制要求，验收时逐条检查：
+  <ol style="margin-top:8px">
+    <li>所有通过 <code>getZoneTokens</code> 生成的代币跳转链接，必须使用 <code>&lt;a href&gt;</code> 标签，禁止使用 JS 跳转（onClick router.push）</li>
+    <li>SSR 快照数据必须包含在 HTML 的 <code>&lt;body&gt;</code> 中，不能仅通过 JSON 注入后再客户端渲染</li>
+    <li>榜单页每个分区（Trending/New/Gainers 等）必须是独立 URL + 独立 SSR 页面，不能共用一个 URL 做客户端 Tab 切换</li>
+    <li>Sitemap 中的所有 URL 必须与实际可访问页面一一对应，不能出现 404</li>
+  </ol>
+</div>
+
+<h3 class="sub">6.4 验收 Checklist</h3>
+<table>
+  <tr><th width="40">#</th><th width="240">验收项</th><th width="120">验收方式</th><th>负责人</th></tr>
+  <tr><td>1</td><td>工具⑩：同类代币标签匹配逻辑正确（有标签用标签，无标签降级 trending）</td><td>手动测试3个代币</td><td>前端</td></tr>
+  <tr><td>2</td><td>工具⑩：SSR HTML 中包含同类代币数据（View Source 验证）</td><td>Chrome 查看网页源代码</td><td>前端+SEO</td></tr>
+  <tr><td>3</td><td>榜单页：5个分区各有独立 URL 且 SSR 正常</td><td>curl 各 URL 检查 HTML</td><td>前端</td></tr>
+  <tr><td>4</td><td>榜单页：所有代币链接为 <code>&lt;a href&gt;</code> 标签</td><td>grep HTML 源码</td><td>前端</td></tr>
+  <tr><td>5</td><td>Sitemap：准入过滤逻辑正确（LP/holders/时间/volume 四项）</td><td>抽查 10 个 Token 手动对比数据</td><td>后端+SEO</td></tr>
+  <tr><td>6</td><td>Sitemap：每日自动更新，IndexNow 推送正常</td><td>检查 IndexNow API 响应日志</td><td>后端</td></tr>
+  <tr><td>7</td><td>缓存：榜单页 SSR 30分钟更新一次（不超时、不缓存过长）</td><td>对比两次 curl 时间戳</td><td>前端+运维</td></tr>
+  <tr><td>8</td><td>错误处理：接口 500 时页面不崩溃</td><td>Mock 接口返回 500</td><td>前端</td></tr>
+</table>
+
+<hr>
+
+<!-- 七、字段核对表（待后端确认） -->
+<h2 class="sec">七、字段核对表 — 待后端确认</h2>
+
+<div class="warn">
+  <strong>⚠️ 当前状态：</strong>以下字段为 SEO 页面强依赖，需后端（Owen）确认 <code>api/web3/public/zone_tokens</code> 接口是否已返回。字段名称以实际接口为准，如命名不同请对照含义映射。
+</div>
+
+<table>
+  <tr><th width="40">#</th><th width="180">SEO 需要的字段含义</th><th width="180">文档中字段名（待核实）</th><th width="100">用于哪些页面</th><th width="100">是否必填</th><th>若缺失的影响</th></tr>
+  <tr>
+    <td>1</td><td>合约地址</td><td><code>contract</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必填</span></td>
+    <td>无法拼接 Token 详情页 URL，整个 SEO 方案失效</td>
+  </tr>
+  <tr>
+    <td>2</td><td>代币名称</td><td><code>name</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必填</span></td>
+    <td>无法生成 H1 / Title / Meta</td>
+  </tr>
+  <tr>
+    <td>3</td><td>代币符号（TICKER）</td><td><code>symbol</code></td>
+    <td>全部</td><td><span class="tag tag-p0">必填</span></td>
+    <td>无法生成页面标题</td>
+  </tr>
+  <tr>
+    <td>4</td><td>当前价格（USD）</td><td><code>price</code></td>
+    <td>榜单页、Meme购买页</td><td><span class="tag tag-p0">必填</span></td>
+    <td>价格快照无法渲染，Meta Description 缺少价格数据</td>
+  </tr>
+  <tr>
+    <td>5</td><td>24h 涨跌幅（%）</td><td><code>priceChange24h</code></td>
+    <td>榜单页、同类对比</td><td><span class="tag tag-p0">必填</span></td>
+    <td>涨幅/跌幅榜无法排序展示</td>
+  </tr>
+  <tr>
+    <td>6</td><td>市值（USD）</td><td><code>marketCap</code></td>
+    <td>榜单页、同类对比</td><td><span class="tag tag-p0">必填</span></td>
+    <td>同类对比维度缺失</td>
+  </tr>
+  <tr>
+    <td>7</td><td>LP 流动性（USD）</td><td><code>liquidity</code></td>
+    <td>Sitemap 准入过滤</td><td><span class="tag tag-p0">必填</span></td>
+    <td>无法过滤低质量 Token，Sitemap 会收录大量无价值页面</td>
+  </tr>
+  <tr>
+    <td>8</td><td>24h 交易量（USD）</td><td><code>volume24h</code></td>
+    <td>榜单页、Sitemap</td><td><span class="tag tag-p0">必填</span></td>
+    <td>交易量榜无法排序；Sitemap 过滤条件缺失</td>
+  </tr>
+  <tr>
+    <td>9</td><td>持有地址数</td><td><code>holders</code></td>
+    <td>Sitemap 准入过滤</td><td><span class="tag tag-p0">必填</span></td>
+    <td>Sitemap 无法过滤持有人不足的代币</td>
+  </tr>
+  <tr>
+    <td>10</td><td>上市时间（timestamp）</td><td><code>launchedAt</code></td>
+    <td>Sitemap 准入过滤、新币榜</td><td><span class="tag tag-p0">必填</span></td>
+    <td>无法过滤过新代币；新币榜无法按上市时间排序</td>
+  </tr>
+  <tr>
+    <td>11</td><td>安全评分（0-100）</td><td><code>securityScore</code></td>
+    <td>Token 详情页同类对比</td><td><span class="tag tag-p1">重要</span></td>
+    <td>同类对比缺少安全维度，降级为不展示该列</td>
+  </tr>
+  <tr>
+    <td>12</td><td>代币分区标签（如 dog/frog/ai）</td><td><code>zone</code> 或 <code>tags</code></td>
+    <td>Token 详情页同类对比</td><td><span class="tag tag-p1">重要</span></td>
+    <td>同类匹配失效，只能降级用 trending 分区兜底</td>
+  </tr>
+  <tr>
+    <td>13</td><td>代币 Logo 图片 URL</td><td><code>logoUrl</code></td>
+    <td>榜单页、同类对比</td><td><span class="tag tag-p2">次要</span></td>
+    <td>展示 symbol 首字母占位，不影响 SEO，影响视觉</td>
+  </tr>
+  <tr>
+    <td>14</td><td>所在网络（sol/eth/bsc）</td><td><code>network</code></td>
+    <td>多链榜单页</td><td><span class="tag tag-p2">次要</span></td>
+    <td>P1 阶段仅做 Solana，暂时影响不大</td>
+  </tr>
+</table>
+
+<div class="note">
+  <strong>请后端 Owen 核对：</strong>以上14个字段，当前 <code>api/web3/public/zone_tokens</code> 实际返回了哪些？字段名是否与上表一致？缺失的字段是否有计划补充？请在此文档或群内回复确认，产品侧才能继续细化前端实现方案。
+</div>
+
+<p style="font-size:12px;color:#999;text-align:center;margin-top:24px">MoonX SEO 接口需求文档 V1.0 · 2026-03-19 · 如有疑问联系市场负责人 Kelly</p>
+
+</div>
+</body>
+</html>
