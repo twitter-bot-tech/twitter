@@ -2819,7 +2819,7 @@ def crm_kols():
         subs   = _subs(k.get("subscribers"))
         last   = _days_ago(k.get("last_activity"))
         kid    = k["id"]
-        rows_html.append(f"""<tr data-id="{kid}" data-status="{status}" data-platform="{plat}" onclick="openDrawer({kid})" style="cursor:pointer">
+        rows_html.append(f"""<tr data-id="{kid}" data-status="{status}" data-platform="{plat}" data-name="{name.lower()}" onclick="openDrawer({kid})" style="cursor:pointer">
   <td><div style="display:flex;align-items:center;gap:10px">
     <div style="width:32px;height:32px;border-radius:50%;background:{av};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;flex-shrink:0">{name[:2].upper()}</div>
     <div>
@@ -2934,7 +2934,7 @@ function filterTable() {{
   const rows   = document.querySelectorAll('#kolTable tbody tr');
   let visible  = 0;
   rows.forEach(tr => {{
-    const name = (tr.querySelector('td div div')?.textContent || '').toLowerCase();
+    const name = (tr.dataset.name || tr.querySelector('td div div + div div')?.textContent || '').toLowerCase();
     const s    = tr.dataset.status;
     const p    = tr.dataset.platform;
     const show = (!q || name.includes(q)) && (!status || s === status) && (!plat || p === plat);
